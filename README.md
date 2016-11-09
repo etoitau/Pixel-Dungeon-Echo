@@ -16,3 +16,22 @@ To setup Pixel Dungeon:
 Note that the PD-classes library is included as a submodule in the 'game-engine' directory. 
 If you want to make changes to that library, you'll need to fork the PD-classes library
 found here: https://github.com/mdsimmo/PD-classes
+
+## What's different?
+
+Primarilly, this repo has all the gradle build files included so you can easilly start using
+the project with an IDE.
+
+This project also fixes several small compile issues and several oddities in the code.
+
+## Common prolems
+
+### Opening the project in Android Studio results in "Configuration with name 'default' not found"
+That's probably because you cloned the repo without the '--recursive' part. To fix it, run the 
+following from the projects root directory:
+```
+git submodule init
+git submodule update
+cd game-engine
+git checkout master
+```
