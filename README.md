@@ -8,7 +8,7 @@ can easilly build off.
 To setup Pixel Dungeon:
 
 1. Fork this repo
-2. Clone the forked repo: `git clone --recursive https://github.com/your-name/pixel-dungeon`
+2. Clone the forked repo (note the "--recursive" part): `git clone --recursive https://github.com/your-name/pixel-dungeon`
 3. Start Intellij/Android Studio
 4. Go to File->Open and select the cloned repo
 5. You're done :)
