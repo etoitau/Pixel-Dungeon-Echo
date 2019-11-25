@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -66,7 +71,8 @@ public class StartScene extends PixelScene {
 	private static final String TXT_WARNING	= "Your current game progress will be erased.";
 	private static final String TXT_YES		= "Yes, start new game";
 	private static final String TXT_NO		= "No, return to main menu";
-	
+
+	// todo is this used?
 	private static final String TXT_UNLOCK	= "To unlock this character class, slay the 3rd boss with any other class";
 	
 	private static final String TXT_WIN_THE_GAME = 
@@ -267,7 +273,12 @@ public class StartScene extends PixelScene {
 
     private void chooseDifficulty()
     {
-        StartScene.this.add( new WndOptions( "Game Difficulty", "Cannot be changed in game!", Difficulties.EASY.title(), Difficulties.NORMAL.title(), Difficulties.HELL.title() ) {
+        StartScene.this.add( new WndOptions( "Game Difficulty",
+				"Cannot be changed in game!",
+				Difficulties.SUPEREASY.title(),
+				Difficulties.EASY.title(),
+				Difficulties.NORMAL.title(),
+				Difficulties.HARD.title() ) {
             @Override
             protected void onSelect( int index ) {
                 chooseDifficultyFinal(index);
@@ -307,6 +318,7 @@ public class StartScene extends PixelScene {
 	
 	private void updateClass( HeroClass cl ) {
 
+		// Hatsune is on second screen in same position as warrior
         if(cl == HeroClass.HATSUNE)
             cl = HeroClass.WARRIOR;
 
@@ -367,6 +379,7 @@ public class StartScene extends PixelScene {
         Dungeon.currentDifficulty.reset();
 		InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
 		MissionScene.scenePause = false;
+		// only show IntroScene once
 		if (PixelDungeon.intro()) {
 			PixelDungeon.intro( false );
 			Game.switchScene( IntroScene.class );

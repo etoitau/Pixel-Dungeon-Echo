@@ -149,12 +149,14 @@ public class Dungeon {
         hero.difficulty = difficulty;
 		hero.live();
 
+		// reset local badges, load global
 		Badges.reset();
 
 		StartScene.curClass.initHero( hero );
 
 	}
 
+	// todo this is for hatsune scenarios, I think. Should remove
     public static void initLegend() {
 
         challenges = PixelDungeon.challenges();
@@ -320,6 +322,7 @@ public class Dungeon {
 	@SuppressWarnings("deprecation")
 	public static void switchLevel( final Level level, int pos ) {
 
+		// todo remove nightmode?
 		nightMode = new Date().getHours() < 7;
 
         try
@@ -336,13 +339,13 @@ public class Dungeon {
 		Dungeon.level = level;
 		Actor.init();
 
-
 		Actor respawner = level.respawner();
 		if (respawner != null) {
 			Actor.add( level.respawner() );
 		}
 
-       if(hero.hiredMerc != null)
+		// todo merc to remove
+        if(hero.hiredMerc != null)
             hero.checkMerc = true;
         if(depth != ColdGirl.FROST_DEPTH && depth != 0) {
             Actor mercRespawn = level.mercRespawner();

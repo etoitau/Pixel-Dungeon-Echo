@@ -1,7 +1,28 @@
+/*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
+ * Skillful Pixel Dungeon by BilbolDev
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ */
+
 package com.etoitau.pixeldungeon;
 
 
-import com.etoitau.pixeldungeon.actors.buffs.Champ;
 import com.etoitau.pixeldungeon.items.food.Food;
 import com.etoitau.pixeldungeon.items.potions.PotionOfHealing;
 import com.etoitau.pixeldungeon.items.weapon.missiles.SoulCrystal;
@@ -16,8 +37,6 @@ public enum Difficulties {
 
     private int difficulty;
 
-    public static boolean canDisableChampions = false;
-
     private int championOffset = 0;
     public float hpOffset = 0;
     public float attOffset = 0;
@@ -25,11 +44,12 @@ public enum Difficulties {
     public float defenceOffset = 0;
 
     public enum isNightOverwrite {DEFAULT, ALWAYS_DAY, ALWAYS_NIGHT}
-    public isNightOverwrite isNight = isNightOverwrite.DEFAULT;
+    // set always day by default
+    public isNightOverwrite isNight = isNightOverwrite.ALWAYS_DAY;
 
     private ArrayList<Integer> disabledChampions = new ArrayList<>();
 
-    private Difficulties( int difficulty ) {
+    Difficulties( int difficulty ) {
         this.difficulty = difficulty;
         championOffset = 0;
         hpOffset = 0;
@@ -138,6 +158,7 @@ public enum Difficulties {
         return "";
     }
 
+    // todo remove this?
     public String mobPrefix() {
 
         switch (this) {
@@ -403,6 +424,7 @@ public enum Difficulties {
 
     public boolean noSecrets(){
        switch (this){
+           case SUPEREASY:
            case EASY:
                return true;
        }
@@ -453,25 +475,6 @@ public enum Difficulties {
             attOffset = 0;
         if(damageModifier() > 2f)
             attOffset = 2f - naturalDamageModifier();
-    }
-
-    public boolean disableChampion(int champType)
-    {
-        return disabledChampions.contains(champType);
-    }
-
-    public boolean disableChampion(int champType, boolean disable)
-    {
-        if(disable && disabledChampions.size() == 3)
-            return false;
-
-        if(disable && disableChampion(champType) == false)
-            disabledChampions.add(champType);
-
-        if(!disable && disableChampion(champType))
-            disabledChampions.remove((Object) champType);
-
-        return true;
     }
 
     public void ToggleNight()
@@ -528,21 +531,23 @@ public enum Difficulties {
         }
         return "error";
     }
+
+    // can input a sensible order of difficulty and get the code number used internally here
+    // NORMAL( 0 ), EASY( 1 ), HARD( 2 ), HELL( 3 ), SUICIDE( 4 ) , JUSTKILLME( 5 ), SUPEREASY( 6 )
     public static int getNormalizedDifficulty(int diff)
     {
-        if(diff == 0){
-            return 1; // Easy
+        switch (diff){
+            case 0:
+                return 6;
+            case 1:
+                return 1;
+            case 2:
+                return 0;
+            case 3:
+                return 2;
+            default:
+                return 0;
         }
-
-        if(diff == 1){
-            return 0; // Normal
-        }
-
-        if(diff == 2){
-            return  3;
-        }
-
-        return 0; // Should not happen, default to normal
     }
 
     static  String join (String delim, String ... data) {

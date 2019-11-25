@@ -15,8 +15,10 @@ import com.etoitau.pixeldungeon.levels.MovieLevel;
 import com.etoitau.pixeldungeon.scenes.MissionScene;
 import com.watabau.utils.Bundle;
 
+// this is for hatsune todo remove
 /**
  * Created by Moussa on 04-Feb-17.
+ *
  */
 public class Legend extends Hero {
 

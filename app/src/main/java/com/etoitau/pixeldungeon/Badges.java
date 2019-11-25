@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -142,8 +147,7 @@ public class Badges {
 		GAMES_PLAYED_3( "500 games played", 62, true ),
 		GAMES_PLAYED_4( "2000 games played", 63, true ),
 		HAPPY_END( "Happy end", 38 ),
-		CHAMPION( "Challenge won", 39, true ),
-		SUPPORTER( "Thanks for your support!", 31, true );
+		CHAMPION( "Challenge won", 39, true );
 		
 		public boolean meta;
 		
@@ -816,14 +820,6 @@ public class Badges {
 			local.add( badge );
 			displayBadge( badge );
 		}
-	}
-	
-	public static void validateSupporter() {
-
-		global.add( Badge.SUPPORTER );
-		saveNeeded = true;
-		
-		PixelScene.showBadge( Badge.SUPPORTER );
 	}
 	
 	public static void validateGamesPlayed() {

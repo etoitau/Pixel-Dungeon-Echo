@@ -56,9 +56,9 @@ public class InterlevelScene extends PixelScene {
 	private static final String ERR_FILE_NOT_FOUND	= "File not found. For some reason.";
 	private static final String ERR_GENERIC			= "Something went wrong..."	;	
 	
-	public static enum Mode {
+	public enum Mode {
 		DESCEND, ASCEND, CONTINUE, RESURRECT, RETURN, FALL, NONE, TELEPORT, TELEPORT_BACK, MOVIE, MOVIE_OUT, MISSION
-	};
+	}
 	public static Mode mode;
 	
 	public static int returnDepth;
@@ -85,38 +85,38 @@ public class InterlevelScene extends PixelScene {
 		
 		String text = "";
 		switch (mode) {
-		case DESCEND:
-			text = TXT_DESCENDING;
-			break;
-		case ASCEND:
-			text = TXT_ASCENDING;
-			break;
-		case CONTINUE:
-			text = TXT_LOADING;
-			break;
-		case RESURRECT:
-			text = TXT_RESURRECTING;
-			break;
-		case RETURN:
-			text = TXT_RETURNING;
-			break;
-		case FALL:
-			text = TXT_FALLING;
-			break;
-        case TELEPORT:
-        case TELEPORT_BACK:
-            text = TXT_TELEPORTING;
-            break;
-        case MOVIE:
-            text = "10 years ago...";
-            break;
-        case MOVIE_OUT:
-            text = "The true story has yet to begin";
-            break;
-        case MISSION:
-             text = "10 years ago...";
-             break;
-		default:
+			case DESCEND:
+				text = TXT_DESCENDING;
+				break;
+			case ASCEND:
+				text = TXT_ASCENDING;
+				break;
+			case CONTINUE:
+				text = TXT_LOADING;
+				break;
+			case RESURRECT:
+				text = TXT_RESURRECTING;
+				break;
+			case RETURN:
+				text = TXT_RETURNING;
+				break;
+			case FALL:
+				text = TXT_FALLING;
+				break;
+			case TELEPORT:
+			case TELEPORT_BACK:
+				text = TXT_TELEPORTING;
+				break;
+			case MOVIE:
+				text = "10 years ago...";
+				break;
+			case MOVIE_OUT:
+				text = "The true story has yet to begin";
+				break;
+			case MISSION:
+				 text = "10 years ago...";
+				 break;
+			default:
 		}
 		
 		message = PixelScene.createText( text, 9 );
@@ -140,40 +140,40 @@ public class InterlevelScene extends PixelScene {
 					Generator.reset();
 					
 					switch (mode) {
-                    case MISSION:
-                        runMission();
-                         break;
-                    case MOVIE:
-                        runMovie();
-                        break;
-                    case MOVIE_OUT:
-                       endMovie();
-                        break;
-					case DESCEND:
-						descend();
-						break;
-					case ASCEND:
-						ascend();
-						break;
-					case CONTINUE:
-						restore();
-						break;
-					case RESURRECT:
-						resurrect();
-						break;
-					case RETURN:
-						returnTo();
-						break;
-					case FALL:
-						fall();
-						break;
-                    case TELEPORT:
-                        teleport();
-                     break;
-                    case TELEPORT_BACK:
-                        teleport_back();
-                         break;
-					default:
+						case MISSION:
+							runMission();
+							break;
+						case MOVIE:
+							runMovie();
+							break;
+						case MOVIE_OUT:
+						   endMovie();
+							break;
+						case DESCEND:
+							descend();
+							break;
+						case ASCEND:
+							ascend();
+							break;
+						case CONTINUE:
+							restore();
+							break;
+						case RESURRECT:
+							resurrect();
+							break;
+						case RETURN:
+							returnTo();
+							break;
+						case FALL:
+							fall();
+							break;
+						case TELEPORT:
+							teleport();
+							break;
+						case TELEPORT_BACK:
+							teleport_back();
+							break;
+						default:
 					}
 
 					if ((Dungeon.depth % 5) == 0) {

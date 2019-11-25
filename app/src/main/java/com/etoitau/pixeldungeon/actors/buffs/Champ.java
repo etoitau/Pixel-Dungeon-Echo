@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -57,18 +62,13 @@ public class Champ extends Buff {
     @Override
     public boolean act() {
 
-        if(bonusApplied == false)
+        if(!bonusApplied)
         {
 
             bonusApplied = true;
             haloApplied = true;
-            do
-            {
-                type = Random.Int(1, 5);
-                if(type == 5)
-                    type = 4;
-            }
-            while(Dungeon.currentDifficulty.disableChampion(type) == true);
+
+            type = Random.Int(1, 5);
 
             this.target.champ = type;
 
