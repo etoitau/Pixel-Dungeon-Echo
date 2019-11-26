@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -35,19 +40,21 @@ public class WndSettings extends Window {
     private static final String TXT_ZOOM_OUT = "-";
     private static final String TXT_ZOOM_DEFAULT = "Default Zoom";
 
-    private static final String TXT_SCALE_UP = "Scale up UI";
-    private static final String TXT_IMMERSIVE = "Immersive mode";
+    private static final String TXT_SCALE_UP = "Scale Up UI";
+    private static final String TXT_IMMERSIVE = "Immersive Mode";
 
     private static final String TXT_MUSIC = "Music";
 
     private static final String TXT_SOUND = "Sound FX";
 
+    private static final String TXT_DEGREDATION = "No Degradation";
+
     private static final String TXT_BRIGHTNESS = "Brightness";
 
-    private static final String TXT_QUICKSLOT = "Second quickslot";
+    private static final String TXT_QUICKSLOT = "Second Quickslot";
 
-    private static final String TXT_SWITCH_PORT = "Switch to portrait";
-    private static final String TXT_SWITCH_LAND = "Switch to landscape";
+    private static final String TXT_SWITCH_PORT = "Switch to Portrait";
+    private static final String TXT_SWITCH_LAND = "Switch to Landscape";
 
     private static final int WIDTH = 112;
     private static final int BTN_HEIGHT = 20;
@@ -139,21 +146,22 @@ public class WndSettings extends Window {
         btnSound.checked(PixelDungeon.soundFx());
         add(btnSound);
 
+        // todo remove legend
         if (Dungeon.hero == null || !(Dungeon.hero instanceof Legend)) {
             if (inGame) {
 
-                CheckBox btnDeg = new CheckBox("No Degradation") {
+                CheckBox btnDeg = new CheckBox(TXT_DEGREDATION) {
                     @Override
                     protected void onClick() {
                         super.onClick();
                         PixelDungeon.itemDeg(checked());
-                        //Sample.INSTANCE.play( Assets.SND_CLICK );
                     }
                 };
                 btnDeg.setRect(0, btnSound.bottom() + GAP, WIDTH, BTN_HEIGHT);
                 btnDeg.checked(PixelDungeon.itemDeg());
                 add(btnDeg);
 
+                // Brightness
                 CheckBox btnBrightness = new CheckBox(TXT_BRIGHTNESS) {
                     @Override
                     protected void onClick() {
@@ -165,15 +173,17 @@ public class WndSettings extends Window {
                 btnBrightness.checked(PixelDungeon.brightness());
                 add(btnBrightness);
 
+                // Second Quickslot
                 CheckBox btnQuickslot = new CheckBox(TXT_QUICKSLOT) {
                     @Override
                     protected void onClick() {
                         super.onClick();
                         Toolbar.secondQuickslot(checked());
+                        PixelDungeon.secondQuickslot(checked());
                     }
                 };
                 btnQuickslot.setRect(0, btnBrightness.bottom() + GAP, WIDTH, BTN_HEIGHT);
-                btnQuickslot.checked(Toolbar.secondQuickslot());
+                btnQuickslot.checked(PixelDungeon.secondQuickslot());
                 add(btnQuickslot);
 
                 resize(WIDTH, (int) btnQuickslot.bottom());

@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -17,6 +22,7 @@
  */
 package com.etoitau.pixeldungeon.ui;
 
+import com.etoitau.pixeldungeon.PixelDungeon;
 import com.watabau.noosa.Game;
 import com.watabau.noosa.Gizmo;
 import com.watabau.noosa.Image;
@@ -89,14 +95,11 @@ public class Toolbar extends Component {
                 Dungeon.hero.rest(false);
             }
 
-            ;
-
             protected boolean onLongClick() {
                 Dungeon.hero.rest(true);
                 return true;
             }
 
-            ;
         });
 
         add(btnSkill = new Tool(20, 7, 20, 25) {
@@ -105,14 +108,11 @@ public class Toolbar extends Component {
                 GameScene.show(new WndSkills(null, null));
             }
 
-            ;
-
             protected boolean onLongClick() {
                 GameScene.show(new WndSkills(null, null));
                 return true;
             }
 
-            ;
         });
 
 
@@ -122,16 +122,14 @@ public class Toolbar extends Component {
                 Dungeon.hero.heroSkills.showLastUsed();
             }
 
-            ;
-
             protected boolean onLongClick() {
                 Dungeon.hero.heroSkills.showLastUsed();
                 return true;
             }
 
-            ;
         });
 
+        // todo merc to remove
         add(btnMerc = new Tool(252, 7, 20, 25) {
             @Override
             protected void onClick() {
@@ -144,8 +142,6 @@ public class Toolbar extends Component {
 
             }
 
-            ;
-
             protected boolean onLongClick() {
                 if (Dungeon.hero.hiredMerc == null)
                     GameScene.show(new WndSkill(null, CurrentSkills.mercMenu));
@@ -154,7 +150,6 @@ public class Toolbar extends Component {
                 return true;
             }
 
-            ;
         });
 
 
@@ -199,8 +194,6 @@ public class Toolbar extends Component {
                 return true;
             }
 
-            ;
-
             @Override
             protected void createChildren() {
                 super.createChildren();
@@ -208,20 +201,17 @@ public class Toolbar extends Component {
                 add(gold);
             }
 
-            ;
-
             @Override
             protected void layout() {
                 super.layout();
                 gold.fill(this);
             }
 
-            ;
         });
 
         add(btnQuick1 = new QuickslotTool(83, 7, 22, 25, true));
         add(btnQuick2 = new QuickslotTool(83, 7, 22, 25, false));
-        btnQuick2.visible = (QuickSlot.secondaryValue != null);
+        btnQuick2.visible = PixelDungeon.secondQuickslot();
 
         add(pickedUp = new PickedUpItem());
     }

@@ -301,7 +301,7 @@ public class PixelDungeon extends Game {
     }
 
     public static boolean music() {
-        return Preferences.INSTANCE.getBoolean(Preferences.KEY_MUSIC, true);
+        return Preferences.INSTANCE.getBoolean(Preferences.KEY_MUSIC, false);
     }
 
     public static void soundFx(boolean value) {
@@ -310,15 +310,32 @@ public class PixelDungeon extends Game {
     }
 
     public static boolean soundFx() {
-        return Preferences.INSTANCE.getBoolean(Preferences.KEY_SOUND_FX, true);
+        return Preferences.INSTANCE.getBoolean(Preferences.KEY_SOUND_FX, false);
     }
 
     public static void itemDeg(boolean value) {
         Preferences.INSTANCE.put(Preferences.KEY_DEGRADATION, value);
     }
 
+    // "No Degredation" so true default means no deg
     public static boolean itemDeg() {
         return Preferences.INSTANCE.getBoolean(Preferences.KEY_DEGRADATION, true);
+    }
+
+    public static void secondQuickslot(boolean value) {
+        Preferences.INSTANCE.put(Preferences.KEY_SECOND_QUICKSLOT, value);
+    }
+
+    public static boolean secondQuickslot() {
+        return Preferences.INSTANCE.getBoolean(Preferences.KEY_SECOND_QUICKSLOT, true);
+    }
+
+    public static void permadeath(boolean value) {
+        Preferences.INSTANCE.put(Preferences.KEY_PERMADEATH, value);
+    }
+
+    public static boolean permadeath() {
+        return Preferences.INSTANCE.getBoolean(Preferences.KEY_PERMADEATH, true);
     }
 
     public static void brightness(boolean value) {
