@@ -48,6 +48,7 @@ public enum Difficulties {
     // set always day by default
     public isNightOverwrite isNight = isNightOverwrite.ALWAYS_DAY;
 
+    // todo remove?
     private ArrayList<Integer> disabledChampions = new ArrayList<>();
 
     Difficulties(int difficulty) {
@@ -298,6 +299,20 @@ public enum Difficulties {
 
     }
 
+    // factor to apply to secret detection ability, factor it modifies ranges from 0.1 to 0.48
+    // and secret is detected if greater than rand 0-1
+    public float searchModifier() {
+        switch (this) {
+            case SUPEREASY:
+                return 2f;
+            case EASY:
+                return 1.5f;
+            default:
+                return 1f;
+        }
+    }
+
+
     public int healingPotionLimit() {
 
         switch (this) {
@@ -410,15 +425,6 @@ public enum Difficulties {
         }
     }
 
-    public boolean noSecrets() {
-        switch (this) {
-            case SUPEREASY:
-            case EASY:
-                return true;
-        }
-
-        return false;
-    }
 
     public void reset() {
         championOffset = 0;

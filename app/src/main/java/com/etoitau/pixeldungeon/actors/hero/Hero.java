@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -105,7 +110,6 @@ import com.etoitau.pixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.etoitau.pixeldungeon.items.weapon.missiles.Arrow;
 import com.etoitau.pixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.etoitau.pixeldungeon.levels.Level;
-import com.etoitau.pixeldungeon.levels.MovieLevel;
 import com.etoitau.pixeldungeon.levels.Terrain;
 import com.etoitau.pixeldungeon.levels.features.AlchemyPot;
 import com.etoitau.pixeldungeon.levels.features.Chasm;
@@ -133,9 +137,8 @@ public class Hero extends Char {
     private static final String TXT_LEAVE = "One does not simply leave Pixel Dungeon.";
 
     private static final String TXT_LEVEL_UP = "level up!";
-    private static final String TXT_NEW_LEVEL =
-            "Welcome to level %d! Now you are healthier and more focused. " +
-                    "It's easier for you to hit enemies and dodge their attacks.";
+    private static final String TXT_NEW_LEVEL = "Welcome to level %d! Now you are healthier and " +
+            "more focused. It's easier for you to hit enemies and dodge their attacks.";
 
     public static final String TXT_YOU_NOW_HAVE = "You now have %s";
 
@@ -224,6 +227,7 @@ public class Hero extends Char {
     private static final String VERSION_SAVE = "verisionofsave";
     private static final String SKILLS_AVAILABLE = "availableskills";
 
+    // todo merc to remove
     private static final String MERC_TYPE = "merctype";
     private static final String MERC_HEALTH = "merchealth";
     private static final String MERC_SKILL = "mercskill";
@@ -255,6 +259,7 @@ public class Hero extends Char {
 
         bundle.put(VERSION_SAVE, Game.versionBuild);
 
+        // todo merc to remove
         if (hiredMerc != null) {
             bundle.put(MERC_TYPE, hiredMerc.mercType);
             bundle.put(MERC_HEALTH, hiredMerc.HP);
@@ -1059,7 +1064,8 @@ public class Hero extends Char {
             }
         }
 
-        if (!(Bestiary.isBoss(enemy)) && rangedWeapon != null && rangedWeapon instanceof Arrow && enemy instanceof Mob && !(enemy instanceof NPC) && heroSkills.passiveB2.goToSleep()) //  <--- Warrior KnockBack if present and active
+        if (!(Bestiary.isBoss(enemy)) && rangedWeapon != null && rangedWeapon instanceof Arrow
+                && enemy instanceof Mob && !(enemy instanceof NPC) && heroSkills.passiveB2.goToSleep()) //  <--- Warrior KnockBack if present and active
         {
             Buff.affect(enemy, Sleep.class);
             return -1;
@@ -1283,6 +1289,7 @@ public class Hero extends Char {
             sprite.showStatus(CharSprite.POSITIVE, TXT_LEVEL_UP);
             Sample.INSTANCE.play(Assets.SND_LEVELUP);
 
+            // todo merc
             if (hiredMerc != null) {
                 hiredMerc.level();
             }
@@ -1306,6 +1313,8 @@ public class Hero extends Char {
         return 5 + lvl * 5;
     }
 
+    // awareness is 0.1 to .2775
+    // 1 - 0.9^((1+min(9, lvl)/2)
     void updateAwareness() {
         awareness = (float) (1 - Math.pow(
                 (heroClass == HeroClass.ROGUE ? 0.85 : 0.90),
@@ -1381,6 +1390,7 @@ public class Hero extends Char {
         return stealth;
     }
 
+    // todo add check for permadeath and prompt continue or quit
     @Override
     public void die(Object cause) {
 
@@ -1578,7 +1588,12 @@ public class Hero extends Char {
         }
         int distance = 1 + positive + negative;
 
+        // detection ability
+        // awareness is 0.1 to 0.2775
+        // level is 0.1 to 0.478
         float level = intentional ? (2 * awareness - awareness * awareness) : awareness;
+
+        // if lots of debuffs such that distance is negative
         if (distance <= 0) {
             level /= 2 - distance;
             distance = 1;
@@ -1612,8 +1627,9 @@ public class Hero extends Char {
                         sprite.parent.addToBack(new CheckedCell(p));
                     }
 
-                    if (Level.secret[p] && ((intentional || Random.Float() < level)
-                            || Dungeon.currentDifficulty.noSecrets())) {
+                    // discover secret in level
+                    if (Level.secret[p] && (intentional ||
+                            Random.Float() < level * Dungeon.currentDifficulty.searchModifier())) {
 
                         int oldValue = Dungeon.level.map[p];
 
