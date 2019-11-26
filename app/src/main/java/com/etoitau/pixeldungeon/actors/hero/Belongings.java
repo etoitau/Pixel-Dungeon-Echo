@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -193,7 +198,9 @@ public class Belongings implements Iterable<Item> {
         return Random.element(backpack.items);
     }
 
-    public void resurrect(int depth) {
+    public void resurrect(int depth, boolean withAnkh) {
+
+        // empties backpack
         for (Item item : backpack.items.toArray(new Item[0])) {
             if (item instanceof Key) {
                 if (((Key) item).depth == depth) {
@@ -201,11 +208,13 @@ public class Belongings implements Iterable<Item> {
                 }
             } else if (item.unique) {
                 // Keep unique items
-            } else if (!item.isEquipped(owner)) {
+            } else if (!item.isEquipped(owner) && withAnkh) {
+                // if via ankh, lose your loot
                 item.detachAll(backpack);
             }
         }
 
+        // remove curses from equipped items
         if (weapon != null) {
             weapon.cursed = false;
             weapon.activate(owner);

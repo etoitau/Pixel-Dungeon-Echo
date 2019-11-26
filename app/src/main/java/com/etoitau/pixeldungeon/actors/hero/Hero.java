@@ -1676,13 +1676,18 @@ public class Hero extends Char {
         return smthFound;
     }
 
-    public void resurrect(int resetLevel) {
-
+    public void resurrect(int resetLevel, boolean withAnkh) {
+        // full health
         HP = HT;
-        Dungeon.gold = 0;
-        exp = 0;
+        if (withAnkh) {
+            // no gold
+            Dungeon.gold = 0;
+            // no experience progress
+            exp = 0;
+        }
 
-        belongings.resurrect(resetLevel);
+        // empty backpack and keys and remove curses on equipped items
+        belongings.resurrect(resetLevel, withAnkh);
 
         live();
     }

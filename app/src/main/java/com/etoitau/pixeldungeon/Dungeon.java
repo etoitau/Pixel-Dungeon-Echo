@@ -301,9 +301,13 @@ public class Dungeon {
 
         Actor.clear();
 
+        // reset field of view
         Arrays.fill(visible, false);
 
+        // new mobs
         level.reset();
+
+        // goto entrance
         switchLevel(level, level.entrance);
     }
 

@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -57,7 +62,7 @@ public class InterlevelScene extends PixelScene {
     private static final String ERR_GENERIC = "Something went wrong...";
 
     public enum Mode {
-        DESCEND, ASCEND, CONTINUE, RESURRECT, RETURN, FALL, NONE, TELEPORT, TELEPORT_BACK, MOVIE, MOVIE_OUT, MISSION
+        DESCEND, ASCEND, CONTINUE, RESURRECT, RESURRECT_ANKH, RETURN, FALL, NONE, TELEPORT, TELEPORT_BACK, MOVIE, MOVIE_OUT, MISSION
     }
 
     public static Mode mode;
@@ -98,6 +103,7 @@ public class InterlevelScene extends PixelScene {
                 text = TXT_LOADING;
                 break;
             case RESURRECT:
+            case RESURRECT_ANKH:
                 text = TXT_RESURRECTING;
                 break;
             case RETURN:
@@ -110,6 +116,7 @@ public class InterlevelScene extends PixelScene {
             case TELEPORT_BACK:
                 text = TXT_TELEPORTING;
                 break;
+            // todo remove these hatsune messages
             case MOVIE:
                 text = "10 years ago...";
                 break;
@@ -162,8 +169,10 @@ public class InterlevelScene extends PixelScene {
                             restore();
                             break;
                         case RESURRECT:
-                            resurrect();
+                            resurrect(false);
                             break;
+                        case RESURRECT_ANKH:
+                            resurrect(true);
                         case RETURN:
                             returnTo();
                             break;
@@ -272,6 +281,7 @@ public class InterlevelScene extends PixelScene {
         }
     }
 
+    // todo remove
     private void runMission() throws Exception {
 
         try {
@@ -291,6 +301,7 @@ public class InterlevelScene extends PixelScene {
         Dungeon.switchLevel(level, level.randomRespawnCell());
     }
 
+    // todo remove
     private void runMovie() throws Exception {
 
         try {
@@ -310,6 +321,7 @@ public class InterlevelScene extends PixelScene {
         Dungeon.switchLevel(level, level.randomRespawnCell());
     }
 
+    // todo remove
     private void endMovie() throws Exception {
 
         //Actor.fixTime();
@@ -409,17 +421,23 @@ public class InterlevelScene extends PixelScene {
         }
     }
 
-    private void resurrect() throws Exception {
+    private void resurrect(boolean withAnkh) throws Exception {
 
         Actor.fixTime();
 
         if (Dungeon.bossLevel()) {
-            Dungeon.hero.resurrect(Dungeon.depth);
+            // pass current depth to flush correct keys
+            Dungeon.hero.resurrect(Dungeon.depth, withAnkh);
+            // then kick up to prev level
             Dungeon.depth--;
+            // recreate fresh boss level
             Level level = Dungeon.newLevel();
+            // go to entrance of fresh boss level
             Dungeon.switchLevel(level, level.entrance);
         } else {
-            Dungeon.hero.resurrect(-1);
+            // pass -1 so keys aren't reset
+            Dungeon.hero.resurrect(-1, withAnkh);
+            // refresh mobs, go to entrance
             Dungeon.resetLevel();
         }
     }
