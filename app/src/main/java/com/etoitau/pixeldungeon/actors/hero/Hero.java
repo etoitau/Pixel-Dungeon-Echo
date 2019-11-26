@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
+import com.etoitau.pixeldungeon.PixelDungeon;
 import com.watabau.noosa.Camera;
 import com.watabau.noosa.Game;
 import com.watabau.noosa.audio.Sample;
@@ -1390,7 +1391,6 @@ public class Hero extends Char {
         return stealth;
     }
 
-    // todo add check for permadeath and prompt continue or quit
     @Override
     public void die(Object cause) {
 
@@ -1404,17 +1404,12 @@ public class Hero extends Char {
 
         Actor.fixTime();
 
-
         super.die(cause);
 
-
         Ankh ankh = (Ankh) belongings.getItem(Ankh.class);
-        if (ankh == null) {
 
-            reallyDie(cause);
-
-        } else {
-
+        if (ankh != null) {
+            // use ankh if player has one
             if (Dungeon.depth == ColdGirl.FROST_DEPTH) {
                 GLog.n("The girl saps away the power of your Ankh... no coming back");
                 reallyDie(cause);
@@ -1422,8 +1417,13 @@ public class Hero extends Char {
                 Dungeon.deleteGame(Dungeon.hero.heroClass, false);
                 GameScene.show(new WndResurrect(ankh, cause));
             }
-
+        } else if (!PixelDungeon.permadeath()) {
+            // if not in permadeath mode, give option to continue
+            GameScene.show(new WndResurrect(ankh, cause));
+        } else {
+            reallyDie(cause);
         }
+
     }
 
     public static void reallyDie(Object cause) {

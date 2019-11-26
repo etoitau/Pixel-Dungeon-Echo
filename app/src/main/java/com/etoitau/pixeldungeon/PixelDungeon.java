@@ -330,7 +330,7 @@ public class PixelDungeon extends Game {
         return Preferences.INSTANCE.getBoolean(Preferences.KEY_SECOND_QUICKSLOT, true);
     }
 
-    // roguelike? or allow to continue
+    // true means roguelike with permadeath. false means you can continue at will
     public static void permadeath(boolean value) {
         Preferences.INSTANCE.put(Preferences.KEY_PERMADEATH, value);
     }

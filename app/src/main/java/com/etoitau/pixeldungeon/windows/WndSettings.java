@@ -49,6 +49,8 @@ public class WndSettings extends Window {
 
     private static final String TXT_DEGREDATION = "No Degradation";
 
+    private static final String TXT_PERMADEATH = "Permadeath";
+
     private static final String TXT_BRIGHTNESS = "Brightness";
 
     private static final String TXT_QUICKSLOT = "Second Quickslot";
@@ -146,10 +148,22 @@ public class WndSettings extends Window {
         btnSound.checked(PixelDungeon.soundFx());
         add(btnSound);
 
-        // todo remove legend
+        // todo remove legend, simplify and remove outer if statement
         if (Dungeon.hero == null || !(Dungeon.hero instanceof Legend)) {
             if (inGame) {
+                // permadeath
+                CheckBox btnPermadeath = new CheckBox(TXT_PERMADEATH) {
+                    @Override
+                    protected void onClick() {
+                        super.onClick();
+                        PixelDungeon.permadeath(checked());
+                    }
+                };
+                btnPermadeath.setRect(0, btnSound.bottom() + GAP, WIDTH, BTN_HEIGHT);
+                btnPermadeath.checked(PixelDungeon.permadeath());
+                add(btnPermadeath);
 
+                // item degredation
                 CheckBox btnDeg = new CheckBox(TXT_DEGREDATION) {
                     @Override
                     protected void onClick() {
@@ -157,7 +171,7 @@ public class WndSettings extends Window {
                         PixelDungeon.itemDeg(checked());
                     }
                 };
-                btnDeg.setRect(0, btnSound.bottom() + GAP, WIDTH, BTN_HEIGHT);
+                btnDeg.setRect(0, btnPermadeath.bottom() + GAP, WIDTH, BTN_HEIGHT);
                 btnDeg.checked(PixelDungeon.itemDeg());
                 add(btnDeg);
 

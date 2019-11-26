@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -17,6 +22,7 @@
  */
 package com.etoitau.pixeldungeon.windows;
 
+import com.etoitau.pixeldungeon.sprites.ItemSpriteSheet;
 import com.watabau.noosa.BitmapTextMultiline;
 import com.watabau.noosa.Game;
 import com.etoitau.pixeldungeon.Rankings;
@@ -31,7 +37,11 @@ import com.etoitau.pixeldungeon.ui.Window;
 
 public class WndResurrect extends Window {
 
-    private static final String TXT_MESSAGE = "You died, but you were given another chance to win this dungeon. Will you take it?";
+    private static final String TXT_CONTINUE_TITLE = "Continue?";
+    private static final String TXT_ANKH_MESSAGE = "You died, but you were given another chance " +
+            "to win this dungeon. Will you take it?";
+    private static final String TXT_CONTINUE_MESSAGE = "You died, but your quest isn't over yet. " +
+            "Will you continue?";
     private static final String TXT_YES = "Yes, I will fight!";
     private static final String TXT_NO = "No, I give up";
 
@@ -42,20 +52,29 @@ public class WndResurrect extends Window {
     public static WndResurrect instance;
     public static Object causeOfDeath;
 
+    // if not resurrected by ankh (i.e. permadeath turned off) ankh will be null
     public WndResurrect(final Ankh ankh, Object causeOfDeath) {
-
         super();
 
         instance = this;
         WndResurrect.causeOfDeath = causeOfDeath;
 
+        // set up titlebar
         IconTitle titlebar = new IconTitle();
-        titlebar.icon(new ItemSprite(ankh.image(), null));
-        titlebar.label(ankh.name());
+        if (ankh == null) {
+            titlebar.icon(new ItemSprite(ItemSpriteSheet.BONES, null));
+            titlebar.label(TXT_CONTINUE_TITLE);
+        } else {
+            titlebar.icon(new ItemSprite(ankh.image(), null));
+            titlebar.label(ankh.name());
+        }
         titlebar.setRect(0, 0, WIDTH, 0);
         add(titlebar);
 
-        BitmapTextMultiline message = PixelScene.createMultiline(TXT_MESSAGE, 6);
+        BitmapTextMultiline message = (ankh == null) ?
+                PixelScene.createMultiline(TXT_CONTINUE_MESSAGE, 6):
+                PixelScene.createMultiline(TXT_ANKH_MESSAGE, 6);
+
         message.maxWidth = WIDTH;
         message.measure();
         message.y = titlebar.bottom() + GAP;
