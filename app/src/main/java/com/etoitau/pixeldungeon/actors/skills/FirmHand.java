@@ -5,7 +5,7 @@ import com.etoitau.pixeldungeon.Dungeon;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class FirmHand extends PassiveSkillB1{
+public class FirmHand extends PassiveSkillB1 {
 
 
     {
@@ -15,21 +15,18 @@ public class FirmHand extends PassiveSkillB1{
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return true;
     }
 
 
     @Override
-    public int toHitBonus()
-    {
-        return  level * 2;
+    public int toHitBonus() {
+        return level * 2;
     }
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "Increased chance of hitting target when using melee weapons.\n"
                 + costUpgradeInfo();
     }

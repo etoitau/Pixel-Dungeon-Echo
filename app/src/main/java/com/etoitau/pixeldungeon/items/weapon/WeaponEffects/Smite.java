@@ -14,9 +14,8 @@ public class Smite extends WeaponEffect {
     }
 
     @Override
-    public float Effect(Char source, Char target)
-    {
-        if(Random.Int(100) < 20 ) {
+    public float Effect(Char source, Char target) {
+        if (Random.Int(100) < 20) {
             YellText(source);
             return 1.2f;
         }

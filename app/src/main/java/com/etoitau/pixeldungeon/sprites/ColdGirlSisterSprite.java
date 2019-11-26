@@ -31,28 +31,26 @@ public class ColdGirlSisterSprite extends ColdGirlSprite {
     public ColdGirlSisterSprite() {
 
 
+        texture(Assets.COLD_GIRL_SISTER);
 
 
-        texture( Assets.COLD_GIRL_SISTER);
+        TextureFilm frames = new TextureFilm(texture, FRAME_WIDTH, FRAME_HEIGHT);
 
 
-        TextureFilm frames = new TextureFilm( texture, FRAME_WIDTH, FRAME_HEIGHT );
+        idle = new Animation(1, true);
+        idle.frames(frames, 0, 0, 0, 1, 0, 0, 1, 1);
 
+        run = new Animation(RUN_FRAMERATE, true);
+        run.frames(frames, 2, 3, 4, 5, 6, 7);
 
-        idle = new Animation( 1, true );
-        idle.frames( frames, 0, 0, 0, 1, 0, 0, 1, 1 );
+        die = new Animation(20, false);
+        die.frames(frames, 8, 9, 10, 11, 12, 11);
 
-        run = new Animation( RUN_FRAMERATE, true );
-        run.frames( frames, 2, 3, 4, 5, 6, 7 );
-
-        die = new Animation( 20, false );
-        die.frames( frames, 8, 9, 10, 11, 12, 11 );
-
-        attack = new Animation( 15, false );
-        attack.frames( frames, 13, 14, 15, 0 );
+        attack = new Animation(15, false);
+        attack.frames(frames, 13, 14, 15, 0);
 
         zap = attack.clone();
 
-        play( idle );
+        play(idle);
     }
 }

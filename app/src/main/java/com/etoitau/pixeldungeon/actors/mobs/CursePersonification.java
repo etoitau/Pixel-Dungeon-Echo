@@ -34,95 +34,96 @@ import com.watabau.utils.Random;
 
 public class CursePersonification extends Mob {
 
-	{
-		name = "curse personification";
-		spriteClass = CursePersonificationSprite.class;
-		
-		HP = HT = 10 + Dungeon.depth * 3;
-		defenseSkill = 10 + Dungeon.depth;
-		
-		EXP = 3;
-		maxLvl = 5;	
-		
-		state = HUNTING;
-		baseSpeed = 0.5f;
-		flying = true;
-	}
-	
-	@Override
-	public int damageRoll() {
-		return Random.NormalIntRange( 3, 5 );
-	}
-	
-	@Override
-	public int attackSkill( Char target ) {
-		return 10 + Dungeon.depth;
-	}
-	
-	@Override
-	public int dr() {
-		return 1;
-	}
-	
-	@Override
-	public int attackProc(Char enemy, int damage) {
+    {
+        name = "curse personification";
+        spriteClass = CursePersonificationSprite.class;
 
-		for (int i=0; i < Level.NEIGHBOURS8.length; i++) {
-			int ofs = Level.NEIGHBOURS8[i];
-			if (enemy.pos - pos == ofs) {
-				int newPos = enemy.pos + ofs;
-				if ((Level.passable[newPos] || Level.avoid[newPos]) && Actor.findChar( newPos ) == null) {
-					
-					Actor.addDelayed( new Pushing( enemy, enemy.pos, newPos ), -1 );
-					
-					enemy.pos = newPos;
-					// FIXME
-					if (enemy instanceof Mob) {
-						Dungeon.level.mobPress( (Mob)enemy );
-					} else {
-						Dungeon.level.press( newPos, enemy );
-					}
-					
-				}
-				break;
-			}
-		}
-		
-		return super.attackProc( enemy, damage );
-	}
-	
-	@Override
-	protected boolean act() {
-		if (HP > 0 && HP < HT) {
-			HP++;
-		}
-		return super.act();
-	}
-	
-	@Override
-	public void die( Object cause ) {
-		Ghost ghost = new Ghost();
-		ghost.state = ghost.PASSIVE;
-		Ghost.replace( this, ghost );
-	}
-	
-	@Override
-	public String description() {
-		return
-			"This creature resembles the sad ghost, but it swirls with darkness. " +
-			"Its face bears an expression of despair.";
-	}
-	
-	private static final HashSet<Class<?>> IMMUNITIES = new HashSet<Class<?>>();
-	static {
-		IMMUNITIES.add( Death.class );
-		IMMUNITIES.add( Terror.class );
-		IMMUNITIES.add( Paralysis.class );
-		IMMUNITIES.add( Roots.class );
-	}
-	
-	@Override
-	public HashSet<Class<?>> immunities() {
-		return IMMUNITIES;
-	}
+        HP = HT = 10 + Dungeon.depth * 3;
+        defenseSkill = 10 + Dungeon.depth;
+
+        EXP = 3;
+        maxLvl = 5;
+
+        state = HUNTING;
+        baseSpeed = 0.5f;
+        flying = true;
+    }
+
+    @Override
+    public int damageRoll() {
+        return Random.NormalIntRange(3, 5);
+    }
+
+    @Override
+    public int attackSkill(Char target) {
+        return 10 + Dungeon.depth;
+    }
+
+    @Override
+    public int dr() {
+        return 1;
+    }
+
+    @Override
+    public int attackProc(Char enemy, int damage) {
+
+        for (int i = 0; i < Level.NEIGHBOURS8.length; i++) {
+            int ofs = Level.NEIGHBOURS8[i];
+            if (enemy.pos - pos == ofs) {
+                int newPos = enemy.pos + ofs;
+                if ((Level.passable[newPos] || Level.avoid[newPos]) && Actor.findChar(newPos) == null) {
+
+                    Actor.addDelayed(new Pushing(enemy, enemy.pos, newPos), -1);
+
+                    enemy.pos = newPos;
+                    // FIXME
+                    if (enemy instanceof Mob) {
+                        Dungeon.level.mobPress((Mob) enemy);
+                    } else {
+                        Dungeon.level.press(newPos, enemy);
+                    }
+
+                }
+                break;
+            }
+        }
+
+        return super.attackProc(enemy, damage);
+    }
+
+    @Override
+    protected boolean act() {
+        if (HP > 0 && HP < HT) {
+            HP++;
+        }
+        return super.act();
+    }
+
+    @Override
+    public void die(Object cause) {
+        Ghost ghost = new Ghost();
+        ghost.state = ghost.PASSIVE;
+        Ghost.replace(this, ghost);
+    }
+
+    @Override
+    public String description() {
+        return
+                "This creature resembles the sad ghost, but it swirls with darkness. " +
+                        "Its face bears an expression of despair.";
+    }
+
+    private static final HashSet<Class<?>> IMMUNITIES = new HashSet<Class<?>>();
+
+    static {
+        IMMUNITIES.add(Death.class);
+        IMMUNITIES.add(Terror.class);
+        IMMUNITIES.add(Paralysis.class);
+        IMMUNITIES.add(Roots.class);
+    }
+
+    @Override
+    public HashSet<Class<?>> immunities() {
+        return IMMUNITIES;
+    }
 }

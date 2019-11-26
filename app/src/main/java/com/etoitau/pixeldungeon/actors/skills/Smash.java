@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class Smash extends ActiveSkill1{
+public class Smash extends ActiveSkill1 {
 
 
     {
@@ -22,10 +22,9 @@ public class Smash extends ActiveSkill1{
     }
 
     @Override
-    public void execute( Hero hero, String action ) {
+    public void execute(Hero hero, String action) {
         super.execute(hero, action);
-        if(action == Skill.AC_ACTIVATE)
-        {
+        if (action == Skill.AC_ACTIVATE) {
             hero.heroSkills.active2.active = false; // Disable Knockback
             hero.heroSkills.active3.active = false; // Disable Rampage
         }
@@ -33,25 +32,21 @@ public class Smash extends ActiveSkill1{
 
 
     @Override
-    public int getManaCost()
-    {
-        return (int)Math.ceil(mana * (1 + 0.55 * level));
+    public int getManaCost() {
+        return (int) Math.ceil(mana * (1 + 0.55 * level));
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return true;
     }
 
 
     @Override
-    public float damageModifier()
-    {
-        if(active == false || Dungeon.hero.MP < getManaCost())
+    public float damageModifier() {
+        if (active == false || Dungeon.hero.MP < getManaCost())
             return 1f;
-        else
-        {
+        else {
             castTextYell();
             Dungeon.hero.MP -= getManaCost();
             StatusPane.manaDropping += getManaCost();
@@ -60,8 +55,7 @@ public class Smash extends ActiveSkill1{
     }
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "Hits target for more damage.\n"
                 + costUpgradeInfo();
     }

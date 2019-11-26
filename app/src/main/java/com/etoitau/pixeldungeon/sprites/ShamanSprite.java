@@ -23,40 +23,40 @@ import com.etoitau.pixeldungeon.actors.mobs.Shaman;
 import com.etoitau.pixeldungeon.effects.Lightning;
 
 public class ShamanSprite extends MobSprite {
-	
-	private int[] points = new int[2];
-	
-	public ShamanSprite() {
-		super();
-		
-		texture( Assets.SHAMAN );
-		
-		TextureFilm frames = new TextureFilm( texture, 12, 15 );
-		
-		idle = new Animation( 2, true );
-		idle.frames( frames, 0, 0, 0, 1, 0, 0, 1, 1 );
-		
-		run = new Animation( 12, true );
-		run.frames( frames, 4, 5, 6, 7 );
-		
-		attack = new Animation( 12, false );
-		attack.frames( frames, 2, 3, 0 );
-		
-		zap = attack.clone();
-		
-		die = new Animation( 12, false );
-		die.frames( frames, 8, 9, 10 );
-		
-		play( idle );
-	}
-	
-	public void zap( int pos ) {
-		
-		points[0] = ch.pos;
-		points[1] = pos;
-		parent.add( new Lightning( points, 2, (Shaman)ch ) );
-		
-		turnTo( ch.pos, pos );
-		play( zap );
-	}
+
+    private int[] points = new int[2];
+
+    public ShamanSprite() {
+        super();
+
+        texture(Assets.SHAMAN);
+
+        TextureFilm frames = new TextureFilm(texture, 12, 15);
+
+        idle = new Animation(2, true);
+        idle.frames(frames, 0, 0, 0, 1, 0, 0, 1, 1);
+
+        run = new Animation(12, true);
+        run.frames(frames, 4, 5, 6, 7);
+
+        attack = new Animation(12, false);
+        attack.frames(frames, 2, 3, 0);
+
+        zap = attack.clone();
+
+        die = new Animation(12, false);
+        die.frames(frames, 8, 9, 10);
+
+        play(idle);
+    }
+
+    public void zap(int pos) {
+
+        points[0] = ch.pos;
+        points[1] = pos;
+        parent.add(new Lightning(points, 2, (Shaman) ch));
+
+        turnTo(ch.pos, pos);
+        play(zap);
+    }
 }

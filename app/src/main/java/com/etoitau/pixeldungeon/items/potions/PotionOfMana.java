@@ -23,29 +23,28 @@ import com.etoitau.pixeldungeon.utils.GLog;
 
 public class PotionOfMana extends Potion {
 
-	{
-		name = "Potion of Mana";
-	}
-	
-	@Override
-	protected void apply( Hero hero ) {
-		setKnown();
+    {
+        name = "Potion of Mana";
+    }
 
-        GLog.p( "You feel your spiritual energy being replenished." );
+    @Override
+    protected void apply(Hero hero) {
+        setKnown();
+
+        GLog.p("You feel your spiritual energy being replenished.");
         hero.MP = hero.MMP;
         StatusPane.manaDropping = 0;
-	}
-	
+    }
 
-	
-	@Override
-	public String desc() {
-		return
-			"An elixir that will instantly replenish your spiritual energy.";
-	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 30 * quantity : super.price();
-	}
+
+    @Override
+    public String desc() {
+        return
+                "An elixir that will instantly replenish your spiritual energy.";
+    }
+
+    @Override
+    public int price() {
+        return isKnown() ? 30 * quantity : super.price();
+    }
 }

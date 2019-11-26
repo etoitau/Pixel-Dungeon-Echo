@@ -23,50 +23,50 @@ import com.etoitau.pixeldungeon.items.Item;
 
 public class RingOfHaggler extends Ring {
 
-	{
-		name = "Ring of Haggler";
-	}
-	
-	@Override
-	protected RingBuff buff( ) {
-		return new Haggling();
-	}
-	
-	@Override
-	public Item random() {
-		level( +1 );
-		return this;
-	}
-	
-	@Override
-	public boolean doPickUp( Hero hero ) {
-		identify();
-		Badges.validateRingOfHaggler();
-		Badges.validateItemLevelAquired( this );
-		return super.doPickUp(hero);
-	}
-	
-	@Override
-	public boolean isUpgradable() {
-		return false;
-	}
-	
-	@Override
-	public void use() {
-		// Do nothing (it can't degrade)
-	}
-	
-	@Override
-	public String desc() {
-		return isKnown() ?
-			"In fact this ring doesn't provide any magic effect, but it demonstrates " +
-			"to shopkeepers and vendors, that the owner of the ring is a member of " +
-			"The Thieves' Guild. Usually they are glad to give a discount in exchange " +
-			"for temporary immunity guarantee. Upgrading this ring won't give any additional " +
-			"bonuses." :
-			super.desc();
-	}
-	
-	public class Haggling extends RingBuff {	
-	}
+    {
+        name = "Ring of Haggler";
+    }
+
+    @Override
+    protected RingBuff buff() {
+        return new Haggling();
+    }
+
+    @Override
+    public Item random() {
+        level(+1);
+        return this;
+    }
+
+    @Override
+    public boolean doPickUp(Hero hero) {
+        identify();
+        Badges.validateRingOfHaggler();
+        Badges.validateItemLevelAquired(this);
+        return super.doPickUp(hero);
+    }
+
+    @Override
+    public boolean isUpgradable() {
+        return false;
+    }
+
+    @Override
+    public void use() {
+        // Do nothing (it can't degrade)
+    }
+
+    @Override
+    public String desc() {
+        return isKnown() ?
+                "In fact this ring doesn't provide any magic effect, but it demonstrates " +
+                        "to shopkeepers and vendors, that the owner of the ring is a member of " +
+                        "The Thieves' Guild. Usually they are glad to give a discount in exchange " +
+                        "for temporary immunity guarantee. Upgrading this ring won't give any additional " +
+                        "bonuses." :
+                super.desc();
+    }
+
+    public class Haggling extends RingBuff {
+    }
 }

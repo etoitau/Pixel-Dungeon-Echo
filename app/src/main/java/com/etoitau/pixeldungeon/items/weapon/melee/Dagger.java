@@ -20,18 +20,18 @@ package com.etoitau.pixeldungeon.items.weapon.melee;
 import com.etoitau.pixeldungeon.sprites.ItemSpriteSheet;
 
 public class Dagger extends MeleeWeapon {
-	
-	{
-		name = "dagger";
-		image = ItemSpriteSheet.DAGGER;
-	}
-	
-	public Dagger() {
-		super( 1, 1.2f, 1f );
-	}
-	
-	@Override
-	public String desc() {
-		return "A simple iron dagger with a well worn wooden handle.";
-	}
+
+    {
+        name = "dagger";
+        image = ItemSpriteSheet.DAGGER;
+    }
+
+    public Dagger() {
+        super(1, 1.2f, 1f);
+    }
+
+    @Override
+    public String desc() {
+        return "A simple iron dagger with a well worn wooden handle.";
+    }
 }

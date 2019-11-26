@@ -22,23 +22,21 @@ public class MercWizardSkillA extends SummonRat {
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return false;
     }
 
     @Override
-    public ArrayList<String> actions( Hero hero ) {
+    public ArrayList<String> actions(Hero hero) {
         ArrayList<String> actions = new ArrayList<String>();
         return actions;
     }
 
 
     @Override
-    public void mercSummon()
-    {
+    public void mercSummon() {
         boolean spawned = false;
-        for (int nu = 0; nu < 1 ; nu++) {
+        for (int nu = 0; nu < 1; nu++) {
             int newPos = Dungeon.hero.hiredMerc.pos;
             if (Actor.findChar(newPos) != null) {
                 ArrayList<Integer> candidates = new ArrayList<Integer>();
@@ -64,22 +62,20 @@ public class MercWizardSkillA extends SummonRat {
             }
         }
 
-        if(spawned == true) {
+        if (spawned == true) {
             castTextYell();
         }
     }
 
     @Override
-    public void castTextYell()
-    {
-        if(castText != "")
+    public void castTextYell() {
+        if (castText != "")
             Dungeon.hero.hiredMerc.sprite.showStatus(CharSprite.NEUTRAL, castText);
     }
 
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "Summons rats for your service.\n";
     }
 }

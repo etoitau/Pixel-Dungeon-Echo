@@ -25,54 +25,53 @@ import com.watabau.utils.Random;
 
 public class Rat extends Mob {
 
-	{
-		name = "marsupial rat";
-		spriteClass = RatSprite.class;
-		
-		HP = HT = 8;
-		defenseSkill = 3;
-		
-		maxLvl = 5;
+    {
+        name = "marsupial rat";
+        spriteClass = RatSprite.class;
 
-        name = Dungeon.currentDifficulty.mobPrefix() + name;
+        HP = HT = 8;
+        defenseSkill = 3;
+
+        maxLvl = 5;
+
         HT *= Dungeon.currentDifficulty.mobHPModifier();
         HP = HT;
 
         range = 2;
-	}
-	
-	@Override
-	public int damageRoll() {
-		return Random.NormalIntRange( 1, 5 );
-	}
-	
-	@Override
-	public int attackSkill( Char target ) {
-		return 8;
-	}
-	
-	@Override
-	public int dr() {
-		return 1;
-	}
-	
-	@Override
-	public void die( Object cause ) {
-		Ghost.Quest.processSewersKill( pos );
-		
-		super.die( cause );
-	}
+    }
 
     @Override
-    public int attackProc( Char enemy, int damage ) {
+    public int damageRoll() {
+        return Random.NormalIntRange(1, 5);
+    }
+
+    @Override
+    public int attackSkill(Char target) {
+        return 8;
+    }
+
+    @Override
+    public int dr() {
+        return 1;
+    }
+
+    @Override
+    public void die(Object cause) {
+        Ghost.Quest.processSewersKill(pos);
+
+        super.die(cause);
+    }
+
+    @Override
+    public int attackProc(Char enemy, int damage) {
         champEffect(enemy, damage);
         return damage;
     }
 
-	@Override
-	public String description() {
-		return
-			"Marsupial rats are aggressive, but rather weak denizens " +
-			"of the sewers. They can be dangerous only in big numbers.";
-	}
+    @Override
+    public String description() {
+        return
+                "Marsupial rats are aggressive, but rather weak denizens " +
+                        "of the sewers. They can be dangerous only in big numbers.";
+    }
 }

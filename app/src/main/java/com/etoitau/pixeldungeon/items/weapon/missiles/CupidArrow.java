@@ -42,21 +42,21 @@ import java.util.ArrayList;
 
 public class CupidArrow extends Arrow {
 
-	{
-		name = "cupid arrow";
-		image = ItemSpriteSheet.CupidArrow;
+    {
+        name = "cupid arrow";
+        image = ItemSpriteSheet.CupidArrow;
 
         stackable = true;
-	}
+    }
 
-	public CupidArrow() {
-		this( 1 );
-	}
+    public CupidArrow() {
+        this(1);
+    }
 
-	public CupidArrow(int number) {
-		super();
-		quantity = number;
-	}
+    public CupidArrow(int number) {
+        super();
+        quantity = number;
+    }
 
     @Override
     public Item random() {
@@ -65,36 +65,34 @@ public class CupidArrow extends Arrow {
     }
 
     @Override
-    public void arrowEffect(Char attacker, Char defender)
-    {
-        if(Bestiary.isBoss(defender))
+    public void arrowEffect(Char attacker, Char defender) {
+        if (Bestiary.isBoss(defender))
             return;
-        int duration = Random.IntRange( 5, 10 );
-        Buff.affect( defender, Charm.class, Charm.durationFactor( defender ) * duration ).object = attacker.id();
-        defender.sprite.centerEmitter().start( Speck.factory(Speck.HEART), 0.2f, 5 );
+        int duration = Random.IntRange(5, 10);
+        Buff.affect(defender, Charm.class, Charm.durationFactor(defender) * duration).object = attacker.id();
+        defender.sprite.centerEmitter().start(Speck.factory(Speck.HEART), 0.2f, 5);
     }
 
-	@Override
-	public String desc() {
-		return 
-			"An arrow believed to belong to cupid. Careful who you aim at.";
-	}
-	
+    @Override
+    public String desc() {
+        return
+                "An arrow believed to belong to cupid. Careful who you aim at.";
+    }
 
-	@Override
-	public int price() {
-		return quantity * 15;
-	}
 
     @Override
-    public ArrayList<String> actions( Hero hero ) {
-        ArrayList<String> actions = super.actions( hero );
-        if(Dungeon.hero.belongings.bow != null) {
-            if(actions.contains(AC_THROW) == false)
-            actions.add(AC_THROW);
-        }
-        else
-            actions.remove( AC_THROW );
+    public int price() {
+        return quantity * 15;
+    }
+
+    @Override
+    public ArrayList<String> actions(Hero hero) {
+        ArrayList<String> actions = super.actions(hero);
+        if (Dungeon.hero.belongings.bow != null) {
+            if (actions.contains(AC_THROW) == false)
+                actions.add(AC_THROW);
+        } else
+            actions.remove(AC_THROW);
         actions.remove(AC_EQUIP);
 
         return actions;

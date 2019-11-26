@@ -5,7 +5,7 @@ import com.watabau.utils.Random;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class KneeShot extends PassiveSkillB2{
+public class KneeShot extends PassiveSkillB2 {
 
 
     {
@@ -16,10 +16,8 @@ public class KneeShot extends PassiveSkillB2{
     }
 
     @Override
-    public boolean cripple()
-    {
-        if(Random.Int(100) < 10 * level)
-        {
+    public boolean cripple() {
+        if (Random.Int(100) < 10 * level) {
             castTextYell();
             return true;
         }
@@ -27,15 +25,13 @@ public class KneeShot extends PassiveSkillB2{
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return true;
     }
 
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "Aims for weak spots crippling targets.\n"
                 + costUpgradeInfo();
     }

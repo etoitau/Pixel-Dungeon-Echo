@@ -49,21 +49,18 @@ import com.watabau.utils.Random;
 
 public class WandOfMagicCasting extends Wand {
 
-	{
-		name = "Wand of Hax";
-	}
-
-    public void castSpell(CAST_TYPES casting)
     {
+        name = "Wand of Hax";
+    }
+
+    public void castSpell(CAST_TYPES casting) {
         this.casting = casting;
         MissionScene.selectCell(zapper);
     }
 
 
-    public void castSpellCost()
-    {
-        switch (casting)
-        {
+    public void castSpellCost() {
+        switch (casting) {
             case DARK_BOLT:
                 Dungeon.hero.MP -= Dungeon.hero.heroSkills.passiveB2.getManaCost();
                 Dungeon.hero.heroSkills.passiveB2.castTextYell();
@@ -87,13 +84,15 @@ public class WandOfMagicCasting extends Wand {
         }
     }
 
-    public enum CAST_TYPES  {DARK_BOLT, DOMINANCE, SOUL_SPARK, SPARK, NINJA_BOMB};
+    public enum CAST_TYPES {DARK_BOLT, DOMINANCE, SOUL_SPARK, SPARK, NINJA_BOMB}
+
+    ;
     public CAST_TYPES casting = CAST_TYPES.DARK_BOLT;
 
-    protected static CellSelector.Listener zapper = new  CellSelector.Listener() {
+    protected static CellSelector.Listener zapper = new CellSelector.Listener() {
 
         @Override
-        public void onSelect( Integer target ) {
+        public void onSelect(Integer target) {
 
             if (target != null) {
 
@@ -102,10 +101,9 @@ public class WandOfMagicCasting extends Wand {
                 curUser.sprite.zap(cell);
 
 
-
                 final Wand curWand = Legend.haxWand;
 
-                ((WandOfMagicCasting)curWand).castSpellCost();
+                ((WandOfMagicCasting) curWand).castSpellCost();
                 curUser.busy();
 
                 curWand.fx(cell, new Callback() {
@@ -128,14 +126,14 @@ public class WandOfMagicCasting extends Wand {
         }
     };
 
-	@Override
-	protected void onZap( int cell ) {
-		Char ch = Actor.findChar( cell );
-		if (ch != null) {
-            if(ch instanceof NPC && casting != CAST_TYPES.SOUL_SPARK)
+    @Override
+    protected void onZap(int cell) {
+        Char ch = Actor.findChar(cell);
+        if (ch != null) {
+            if (ch instanceof NPC && casting != CAST_TYPES.SOUL_SPARK)
                 return;
 
-            if(casting == CAST_TYPES.DARK_BOLT) {
+            if (casting == CAST_TYPES.DARK_BOLT) {
                 ch.sprite.emitter().burst(ShadowParticle.CURSE, 6);
                 Sample.INSTANCE.play(Assets.SND_CURSED);
                 SummonedPet minion = new SummonedPet(WraithSprite.class);
@@ -150,9 +148,7 @@ public class WandOfMagicCasting extends Wand {
                 minion.sprite.parent.add(new AlphaTweener(minion.sprite, 1, 0.15f));
 
                 ch.die(null);
-            }
-            else  if(casting == CAST_TYPES.DOMINANCE)
-            {
+            } else if (casting == CAST_TYPES.DOMINANCE) {
                 ch.sprite.emitter().burst(ShadowParticle.CURSE, 6);
                 Sample.INSTANCE.play(Assets.SND_CURSED);
                 SummonedPet minion = new SummonedPet(ch.sprite.getClass());
@@ -167,57 +163,52 @@ public class WandOfMagicCasting extends Wand {
                 minion.sprite.parent.add(new AlphaTweener(minion.sprite, 1, 0.15f));
                 ch.sprite.visible = false;
                 ch.die(null);
-            }
-            else  if(casting == CAST_TYPES.SOUL_SPARK)
-            {
+            } else if (casting == CAST_TYPES.SOUL_SPARK) {
                 ch.HP = ch.HT;
                 ch.sprite.emitter().start(Speck.factory(Speck.HEALING), 0.4f, 4);
-            }
-            else  if(casting == CAST_TYPES.SPARK)
-            {
-                ch.damage(Random.Int(Dungeon.hero.heroSkills.active2.level + Dungeon.hero.lvl / (6 -   Dungeon.hero.heroSkills.active2.level),Dungeon.hero.heroSkills.active2.level * 3 + Dungeon.hero.lvl / (5 -   Dungeon.hero.heroSkills.active2.level)), Dungeon.hero);
-                if(Random.Int(Dungeon.hero.heroSkills.active2.level) > 1)
-                {
-                    Buff.prolong( ch, Blindness.class, Random.Int( 1, 2 ) );
-                    ch.sprite.emitter().burst( Speck.factory( Speck.LIGHT ), 4 );
+            } else if (casting == CAST_TYPES.SPARK) {
+                ch.damage(Random.Int(Dungeon.hero.heroSkills.active2.level + Dungeon.hero.lvl / (6 - Dungeon.hero.heroSkills.active2.level), Dungeon.hero.heroSkills.active2.level * 3 + Dungeon.hero.lvl / (5 - Dungeon.hero.heroSkills.active2.level)), Dungeon.hero);
+                if (Random.Int(Dungeon.hero.heroSkills.active2.level) > 1) {
+                    Buff.prolong(ch, Blindness.class, Random.Int(1, 2));
+                    ch.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 4);
                     ch.sprite.showStatus(CharSprite.WARNING, "Blinded!");
                 }
             }
-			
-		} else {
-			
-			GLog.i( "nothing happened" );
-			
-		}
-	}
-	
-	protected void fx( int cell, Callback callback ) {
-        if(casting == CAST_TYPES.DARK_BOLT)
-		    MagicMissile.shadow( curUser.sprite.parent, curUser.pos, cell, callback, 1 );
-        else if(casting == CAST_TYPES.DOMINANCE)
+
+        } else {
+
+            GLog.i("nothing happened");
+
+        }
+    }
+
+    protected void fx(int cell, Callback callback) {
+        if (casting == CAST_TYPES.DARK_BOLT)
+            MagicMissile.shadow(curUser.sprite.parent, curUser.pos, cell, callback, 1);
+        else if (casting == CAST_TYPES.DOMINANCE)
             MagicMissile.shadow(curUser.sprite.parent, curUser.pos, cell, callback, 3);
-        else if(casting == CAST_TYPES.SOUL_SPARK)
+        else if (casting == CAST_TYPES.SOUL_SPARK)
             MagicMissile.whiteLight(curUser.sprite.parent, curUser.pos, cell, callback);
-        else if(casting == CAST_TYPES.SPARK)
+        else if (casting == CAST_TYPES.SPARK)
             MagicMissile.blueLight(curUser.sprite.parent, curUser.pos, cell, callback);
 
-        if(casting != CAST_TYPES.NINJA_BOMB){
-            Sample.INSTANCE.play( Assets.SND_ZAP );
+        if (casting != CAST_TYPES.NINJA_BOMB) {
+            Sample.INSTANCE.play(Assets.SND_ZAP);
         }
 
-        if(casting == CAST_TYPES.NINJA_BOMB){
+        if (casting == CAST_TYPES.NINJA_BOMB) {
             NinjaBomb nb = new NinjaBomb();
             nb.strength = Dungeon.hero.heroSkills.active2.level;
             nb.cast(curUser, cell);
         }
-	}
-	
-	@Override
-	public String desc() {
-		return
-			"The vile blast of this twisted bit of wood will imbue its target " +
-			"with a deadly venom. A creature that is poisoned will suffer periodic " +
-			"damage until the effect ends. The duration of the effect increases " +
-			"with the level of the staff.";
-	}
+    }
+
+    @Override
+    public String desc() {
+        return
+                "The vile blast of this twisted bit of wood will imbue its target " +
+                        "with a deadly venom. A creature that is poisoned will suffer periodic " +
+                        "damage until the effect ends. The duration of the effect increases " +
+                        "with the level of the staff.";
+    }
 }

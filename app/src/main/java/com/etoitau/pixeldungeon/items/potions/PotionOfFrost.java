@@ -27,44 +27,44 @@ import com.etoitau.pixeldungeon.utils.BArray;
 import com.watabau.utils.PathFinder;
 
 public class PotionOfFrost extends Potion {
-	
-	private static final int DISTANCE	= 2;
-	
-	{
-		name = "Potion of Frost";
-	}
-	
-	@Override
-	public void shatter( int cell ) {
-		
-		PathFinder.buildDistanceMap( cell, BArray.not( Level.losBlocking, null ), DISTANCE );
-		
-		Fire fire = (Fire)Dungeon.level.blobs.get( Fire.class );
-		
-		boolean visible = false;
-		for (int i=0; i < Level.LENGTH; i++) {
-			if (PathFinder.distance[i] < Integer.MAX_VALUE) {
-				visible = Freezing.affect( i, fire ) || visible;
-			}
-		}
-		
-		if (visible) {
-			splash( cell );
-			Sample.INSTANCE.play( Assets.SND_SHATTER );
-			
-			setKnown();
-		}
-	}
-	
-	@Override
-	public String desc() {
-		return 
-			"Upon exposure to open air, this chemical will evaporate into a freezing cloud, causing " +
-			"any creature that contacts it to be frozen in place, unable to act and move.";
-	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 50 * quantity : super.price();
-	}
+
+    private static final int DISTANCE = 2;
+
+    {
+        name = "Potion of Frost";
+    }
+
+    @Override
+    public void shatter(int cell) {
+
+        PathFinder.buildDistanceMap(cell, BArray.not(Level.losBlocking, null), DISTANCE);
+
+        Fire fire = (Fire) Dungeon.level.blobs.get(Fire.class);
+
+        boolean visible = false;
+        for (int i = 0; i < Level.LENGTH; i++) {
+            if (PathFinder.distance[i] < Integer.MAX_VALUE) {
+                visible = Freezing.affect(i, fire) || visible;
+            }
+        }
+
+        if (visible) {
+            splash(cell);
+            Sample.INSTANCE.play(Assets.SND_SHATTER);
+
+            setKnown();
+        }
+    }
+
+    @Override
+    public String desc() {
+        return
+                "Upon exposure to open air, this chemical will evaporate into a freezing cloud, causing " +
+                        "any creature that contacts it to be frozen in place, unable to act and move.";
+    }
+
+    @Override
+    public int price() {
+        return isKnown() ? 50 * quantity : super.price();
+    }
 }

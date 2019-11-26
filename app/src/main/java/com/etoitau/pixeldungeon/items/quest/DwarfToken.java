@@ -21,34 +21,34 @@ import com.etoitau.pixeldungeon.items.Item;
 import com.etoitau.pixeldungeon.sprites.ItemSpriteSheet;
 
 public class DwarfToken extends Item {
-	
-	{
-		name = "dwarf token";
-		image = ItemSpriteSheet.TOKEN;
-		
-		stackable = true;
-		unique = true;
-	}
-	
-	@Override
-	public boolean isUpgradable() {
-		return false;
-	}
-	
-	@Override
-	public boolean isIdentified() {
-		return true;
-	}
-	
-	@Override
-	public String info() {
-		return
-			"Many dwarves and some of their larger creations carry these small pieces of metal of unknown purpose. " +
-			"Maybe they are jewelry or maybe some kind of ID. Dwarves are strange folk.";
-	}
-	
-	@Override
-	public int price() {
-		return quantity * 100;
-	}
+
+    {
+        name = "dwarf token";
+        image = ItemSpriteSheet.TOKEN;
+
+        stackable = true;
+        unique = true;
+    }
+
+    @Override
+    public boolean isUpgradable() {
+        return false;
+    }
+
+    @Override
+    public boolean isIdentified() {
+        return true;
+    }
+
+    @Override
+    public String info() {
+        return
+                "Many dwarves and some of their larger creations carry these small pieces of metal of unknown purpose. " +
+                        "Maybe they are jewelry or maybe some kind of ID. Dwarves are strange folk.";
+    }
+
+    @Override
+    public int price() {
+        return quantity * 100;
+    }
 }

@@ -30,33 +30,33 @@ import com.watabau.utils.Callback;
 
 public class WandOfSlowness extends Wand {
 
-	{
-		name = "Wand of Slowness";
-	}
+    {
+        name = "Wand of Slowness";
+    }
 
-	@Override
-	protected void onZap( int cell ) {
-		Char ch = Actor.findChar( cell );
-		if (ch != null) {
-			
-			Buff.affect( ch, Slow.class, Slow.duration( ch ) / 3 + power() *  Dungeon.hero.heroSkills.passiveB2.wandDamageBonus() );
+    @Override
+    protected void onZap(int cell) {
+        Char ch = Actor.findChar(cell);
+        if (ch != null) {
 
-		} else {
-			
-			GLog.i( "nothing happened" );
-			
-		}
-	}
-	
-	protected void fx( int cell, Callback callback ) {
-		MagicMissile.slowness( curUser.sprite.parent, curUser.pos, cell, callback );
-		Sample.INSTANCE.play( Assets.SND_ZAP );
-	}
-	
-	@Override
-	public String desc() {
-		return 
-			"This wand will cause a creature to move and attack " +
-			"at half its ordinary speed until the effect ends";
-	}
+            Buff.affect(ch, Slow.class, Slow.duration(ch) / 3 + power() * Dungeon.hero.heroSkills.passiveB2.wandDamageBonus());
+
+        } else {
+
+            GLog.i("nothing happened");
+
+        }
+    }
+
+    protected void fx(int cell, Callback callback) {
+        MagicMissile.slowness(curUser.sprite.parent, curUser.pos, cell, callback);
+        Sample.INSTANCE.play(Assets.SND_ZAP);
+    }
+
+    @Override
+    public String desc() {
+        return
+                "This wand will cause a creature to move and attack " +
+                        "at half its ordinary speed until the effect ends";
+    }
 }

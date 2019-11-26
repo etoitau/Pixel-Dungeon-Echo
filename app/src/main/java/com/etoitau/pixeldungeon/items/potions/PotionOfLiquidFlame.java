@@ -26,32 +26,32 @@ import com.etoitau.pixeldungeon.scenes.GameScene;
 
 public class PotionOfLiquidFlame extends Potion {
 
-	{
-		name = "Potion of Liquid Flame";
-	}
-	
-	@Override
-	public void shatter( int cell ) {
-		
-		if (Dungeon.visible[cell]) {
-			setKnown();
-			
-			splash( cell );
-			Sample.INSTANCE.play( Assets.SND_SHATTER );
-		}
-		
-		GameScene.add( Blob.seed( cell, 2, Fire.class ) );
-	}
-	
-	@Override
-	public String desc() {
-		return
-			"This flask contains an unstable compound which will burst " +
-			"violently into flame upon exposure to open air.";
-	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 40 * quantity : super.price();
-	}
+    {
+        name = "Potion of Liquid Flame";
+    }
+
+    @Override
+    public void shatter(int cell) {
+
+        if (Dungeon.visible[cell]) {
+            setKnown();
+
+            splash(cell);
+            Sample.INSTANCE.play(Assets.SND_SHATTER);
+        }
+
+        GameScene.add(Blob.seed(cell, 2, Fire.class));
+    }
+
+    @Override
+    public String desc() {
+        return
+                "This flask contains an unstable compound which will burst " +
+                        "violently into flame upon exposure to open air.";
+    }
+
+    @Override
+    public int price() {
+        return isKnown() ? 40 * quantity : super.price();
+    }
 }

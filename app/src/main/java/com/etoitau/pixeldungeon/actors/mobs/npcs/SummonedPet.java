@@ -24,74 +24,81 @@ import java.util.HashSet;
  */
 public class SummonedPet extends NPC {
 
-    public static enum PET_TYPES
-    {
+    public static enum PET_TYPES {
         RAT("Rat"), CRAB("Crab"), SKELETON("Skeleton"), SKELETON_ARCHER("Skeleton Archer"), SPECIAL("Special");
         public String type = "Rat";
-        PET_TYPES(String type) {this.type = type;}
 
-        public String getName()
-        {
+        PET_TYPES(String type) {
+            this.type = type;
+        }
+
+        public String getName() {
             return "Summoned " + type;
         }
 
-        public int getHealth(int level)
-        {
-            switch (this)
-            {
-                case RAT: return 7 + level;
-                case CRAB: return 10 + 2 * level;
+        public int getHealth(int level) {
+            switch (this) {
+                case RAT:
+                    return 7 + level;
+                case CRAB:
+                    return 10 + 2 * level;
                 case SKELETON_ARCHER:
-                case SKELETON: return 15 + 3 * level;
+                case SKELETON:
+                    return 15 + 3 * level;
             }
 
             return 1;
         }
 
-        public int getDamage(int level)
-        {
-            switch (this)
-            {
-                case RAT: return Random.NormalIntRange(1, 5) + level;
-                case CRAB: return Random.NormalIntRange(2, 7) + level;
+        public int getDamage(int level) {
+            switch (this) {
+                case RAT:
+                    return Random.NormalIntRange(1, 5) + level;
+                case CRAB:
+                    return Random.NormalIntRange(2, 7) + level;
                 case SKELETON_ARCHER:
-                case SKELETON: return Random.NormalIntRange(3, 10) + level;
+                case SKELETON:
+                    return Random.NormalIntRange(3, 10) + level;
             }
             return 1;
         }
 
-        public int getDefence(int level)
-        {
-            switch (this)
-            {
-                case RAT: return level;
-                case CRAB: return 2 * level;
+        public int getDefence(int level) {
+            switch (this) {
+                case RAT:
+                    return level;
+                case CRAB:
+                    return 2 * level;
                 case SKELETON_ARCHER:
-                case SKELETON: return 3 * level;
+                case SKELETON:
+                    return 3 * level;
             }
             return 1;
         }
 
-        public String getDescription()
-        {
-            switch (this)
-            {
-                case RAT: return "Summoned rats will protect their master mage.";
-                case CRAB: return "Summoned crabs will protect their master mage.";
-                case SKELETON_ARCHER: return "Summoned skeleton archers will protect their master mage.";
-                case SKELETON: return "Summoned skeletons will protect their master mage.";
+        public String getDescription() {
+            switch (this) {
+                case RAT:
+                    return "Summoned rats will protect their master mage.";
+                case CRAB:
+                    return "Summoned crabs will protect their master mage.";
+                case SKELETON_ARCHER:
+                    return "Summoned skeleton archers will protect their master mage.";
+                case SKELETON:
+                    return "Summoned skeletons will protect their master mage.";
             }
             return "";
         }
 
-        public Class<? extends CharSprite> getSprite()
-        {
-            switch (this)
-            {
-                case RAT: return RatSprite.class;
-                case CRAB: return CrabSprite.class;
+        public Class<? extends CharSprite> getSprite() {
+            switch (this) {
+                case RAT:
+                    return RatSprite.class;
+                case CRAB:
+                    return CrabSprite.class;
                 case SKELETON_ARCHER:
-                case SKELETON: return SkeletonSprite.class;
+                case SKELETON:
+                    return SkeletonSprite.class;
             }
             return RatSprite.class;
         }
@@ -132,92 +139,86 @@ public class SummonedPet extends NPC {
 
     private int level;
 
-    private static final String LEVEL	= "level";
+    private static final String LEVEL = "level";
 
     public void setLevel(int level) {
         this.level = level;
     }
 
-    public SummonedPet()
-    {
+    public SummonedPet() {
         super();
     }
 
-    public SummonedPet(PET_TYPES pet)
-    {
+    public SummonedPet(PET_TYPES pet) {
         this.petType = pet;
         summonedPets++;
     }
 
-    public SummonedPet(Class<? extends CharSprite> spriteClass)
-    {
+    public SummonedPet(Class<? extends CharSprite> spriteClass) {
         this.petType = PET_TYPES.SPECIAL;
         this.spriteClass = spriteClass;
         level = 1;
 
-        if(spriteClass == EyeSprite.class)
-        {
+        if (spriteClass == EyeSprite.class) {
             range = 10;
         }
     }
 
     @Override
-    public void storeInBundle( Bundle bundle ) {
-        super.storeInBundle( bundle );
-        bundle.put( LEVEL, level );
-        bundle.put( PET_TYPE, petType );
-        bundle.put( NAME, name );
-        bundle.put( SKILL, defenseSkill );
-        bundle.put( HEALTH, HP );
-        bundle.put( MAX_HEALTH, HT );
-        bundle.put( RANGE, range );
-        bundle.put( SPRITE, spriteClass.toString().replace("class ","" ) );
+    public void storeInBundle(Bundle bundle) {
+        super.storeInBundle(bundle);
+        bundle.put(LEVEL, level);
+        bundle.put(PET_TYPE, petType);
+        bundle.put(NAME, name);
+        bundle.put(SKILL, defenseSkill);
+        bundle.put(HEALTH, HP);
+        bundle.put(MAX_HEALTH, HT);
+        bundle.put(RANGE, range);
+        bundle.put(SPRITE, spriteClass.toString().replace("class ", ""));
         summonedPets = 0; // Game is saving, set summoned pets to 0
     }
 
     @Override
-    public void restoreFromBundle( Bundle bundle ) {
-        super.restoreFromBundle( bundle );
-        petType = PET_TYPES.valueOf(bundle.getString( PET_TYPE ));
-        level = bundle.getInt( LEVEL );
-        name = bundle.getString( NAME );
+    public void restoreFromBundle(Bundle bundle) {
+        super.restoreFromBundle(bundle);
+        petType = PET_TYPES.valueOf(bundle.getString(PET_TYPE));
+        level = bundle.getInt(LEVEL);
+        name = bundle.getString(NAME);
 
 
         try {
-            spriteClass = (Class<? extends CharSprite>)Class.forName(bundle.getString(SPRITE));
-        }
-        catch (Exception ex)
-        {
+            spriteClass = (Class<? extends CharSprite>) Class.forName(bundle.getString(SPRITE));
+        } catch (Exception ex) {
             spriteClass = RatSprite.class;
         }
-        if(petType != PET_TYPES.SPECIAL)
+        if (petType != PET_TYPES.SPECIAL)
             summonedPets++; // Recover limit
 
         spawn(level);
 
         defenseSkill = bundle.getInt(SKILL);
-        HP = bundle.getInt( HEALTH );
-        HT =  bundle.getInt( MAX_HEALTH );
-        range =   bundle.getInt( RANGE);
+        HP = bundle.getInt(HEALTH);
+        HT = bundle.getInt(MAX_HEALTH);
+        range = bundle.getInt(RANGE);
     }
 
-    public void spawn( int level ) {
+    public void spawn(int level) {
         this.level = level;
 
         HT = petType.getHealth(level);
         HP = HT;
         defenseSkill = petType.getDefence(level);
 
-        if(petType != PET_TYPES.SPECIAL) {
+        if (petType != PET_TYPES.SPECIAL) {
             spriteClass = petType.getSprite();
             name = petType.getName();
         }
 
-        if(petType == PET_TYPES.SKELETON_ARCHER)
+        if (petType == PET_TYPES.SKELETON_ARCHER)
             range = 4;
     }
 
-    public void spawn( int level, int maintainHP) {
+    public void spawn(int level, int maintainHP) {
         this.level = level;
 
         HT = petType.getHealth(level);
@@ -230,48 +231,47 @@ public class SummonedPet extends NPC {
     }
 
     @Override
-    public int attackSkill( Char target ) {
+    public int attackSkill(Char target) {
         return defenseSkill;
     }
 
     @Override
     public int damageRoll() {
-        if(petType != PET_TYPES.SPECIAL)
+        if (petType != PET_TYPES.SPECIAL)
             return petType.getDamage(level);
         else
             return Random.Int(defenseSkill / 3, defenseSkill);
     }
 
     @Override
-    public int attackProc( Char enemy, int damage ) {
+    public int attackProc(Char enemy, int damage) {
         if (enemy instanceof Mob) {
-            if(Level.distance(pos, enemy.pos) < 2)
-            ((Mob)enemy).aggro( this );
+            if (Level.distance(pos, enemy.pos) < 2)
+                ((Mob) enemy).aggro(this);
         }
         return damage;
     }
 
     @Override
-    protected boolean canAttack( Char enemy ) {
+    protected boolean canAttack(Char enemy) {
 
-        if(Level.distance(pos, enemy.pos) > range)
+        if (Level.distance(pos, enemy.pos) > range)
             return super.canAttack(enemy);
 
-        return Ballistica.cast( pos, enemy.pos, false, true ) == enemy.pos;
+        return Ballistica.cast(pos, enemy.pos, false, true) == enemy.pos;
     }
 
     @Override
     protected boolean act() {
 
-        if(MissionScene.scenePause == true)
-        {
+        if (MissionScene.scenePause == true) {
             spend(1f);
             next();
             return false;
         }
 
         degradeCounter++;
-        if(petType != PET_TYPES.SPECIAL) {
+        if (petType != PET_TYPES.SPECIAL) {
             if (degradeCounter % DEGRADE_RATE == 0)
                 HP--;
 
@@ -280,7 +280,7 @@ public class SummonedPet extends NPC {
         }
 
         if (HP <= 0) {
-            die( null );
+            die(null);
             return true;
         } else {
             return super.act();
@@ -292,13 +292,13 @@ public class SummonedPet extends NPC {
 
         if (enemy == null || !enemy.isAlive()) {
             HashSet<Mob> enemies = new HashSet<Mob>();
-            for (Mob mob:Dungeon.level.mobs) {
+            for (Mob mob : Dungeon.level.mobs) {
                 if (mob.hostile && Level.fieldOfView[mob.pos]) {
-                    enemies.add( mob );
+                    enemies.add(mob);
                 }
             }
 
-            return enemies.size() > 0 ? Random.element( enemies ) : null;
+            return enemies.size() > 0 ? Random.element(enemies) : null;
 
         } else {
 
@@ -314,8 +314,9 @@ public class SummonedPet extends NPC {
     }
 
     private static final HashSet<Class<?>> IMMUNITIES = new HashSet<Class<?>>();
+
     static {
-        IMMUNITIES.add( Poison.class );
+        IMMUNITIES.add(Poison.class);
     }
 
     @Override
@@ -327,7 +328,7 @@ public class SummonedPet extends NPC {
     private class Wandering implements AiState {
 
         @Override
-        public boolean act( boolean enemyInFOV, boolean justAlerted ) {
+        public boolean act(boolean enemyInFOV, boolean justAlerted) {
             if (enemyInFOV) {
 
                 enemySeen = true;
@@ -341,11 +342,11 @@ public class SummonedPet extends NPC {
                 enemySeen = false;
 
                 int oldPos = pos;
-                if (getCloser( Dungeon.hero.pos )) {
-                    spend( 1 / speed() );
-                    return moveSprite( oldPos, pos );
+                if (getCloser(Dungeon.hero.pos)) {
+                    spend(1 / speed());
+                    return moveSprite(oldPos, pos);
                 } else {
-                    spend( TICK );
+                    spend(TICK);
                 }
 
             }
@@ -363,13 +364,13 @@ public class SummonedPet extends NPC {
 
         int curPos = pos;
 
-        moveSprite( pos, Dungeon.hero.pos );
-        move( Dungeon.hero.pos );
+        moveSprite(pos, Dungeon.hero.pos);
+        move(Dungeon.hero.pos);
 
-        Dungeon.hero.sprite.move( Dungeon.hero.pos, curPos );
-        Dungeon.hero.move( curPos );
+        Dungeon.hero.sprite.move(Dungeon.hero.pos, curPos);
+        Dungeon.hero.move(curPos);
 
-        Dungeon.hero.spend( 1 / Dungeon.hero.speed() );
+        Dungeon.hero.spend(1 / Dungeon.hero.speed());
         Dungeon.hero.busy();
     }
 }

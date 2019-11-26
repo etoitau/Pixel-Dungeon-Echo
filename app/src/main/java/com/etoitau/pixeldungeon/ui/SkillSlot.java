@@ -25,81 +25,78 @@ import com.etoitau.pixeldungeon.sprites.SkillSprite;
 
 public class SkillSlot extends Button {
 
-	public static final int DEGRADED	= 0xFF4444;
-	public static final int UPGRADED	= 0x44FF44;
-	public static final int WARNING		= 0xFF8800;
+    public static final int DEGRADED = 0xFF4444;
+    public static final int UPGRADED = 0x44FF44;
+    public static final int WARNING = 0xFF8800;
 
-	private static final float ENABLED	= 1.0f;
-	private static final float DISABLED	= 0.3f;
+    private static final float ENABLED = 1.0f;
+    private static final float DISABLED = 0.3f;
 
-	protected SkillSprite icon;
-	protected BitmapText activeText;
-
-
+    protected SkillSprite icon;
+    protected BitmapText activeText;
 
 
-	public SkillSlot() {
-		super();
-	}
+    public SkillSlot() {
+        super();
+    }
 
-	public SkillSlot(Skill skill) {
-		this();
+    public SkillSlot(Skill skill) {
+        this();
         if (skill == null) {
 
             active = false;
-            icon.visible  = false;
+            icon.visible = false;
 
-        }
-        else {
+        } else {
             active = true;
-            icon.visible  = true;
+            icon.visible = true;
 
             icon.view(skill.image());
 
             float alpha = skill.getAlpha();
-            icon.alpha( alpha );
+            icon.alpha(alpha);
         }
 
-        if(skill.active) {
+        if (skill.active) {
             activeText = new BitmapText(PixelScene.font1x);
             activeText.text("Active");
-            activeText.hardlight( Window.TITLE_COLOR );
+            activeText.hardlight(Window.TITLE_COLOR);
             add(activeText);
         }
 
         layout();
-	}
-		
-	@Override
-	protected void createChildren() {
-		
-		super.createChildren();
-		
-		icon = new SkillSprite();
-		add( icon );
+    }
+
+    @Override
+    protected void createChildren() {
+
+        super.createChildren();
+
+        icon = new SkillSprite();
+        add(icon);
 
 
-	}
-	
-	@Override
-	protected void layout() {
-		super.layout();
-		
-		icon.x = x + (width - icon.width) / 2;
-		icon.y = y + (height - icon.height) / 2;
-		
-		if (activeText != null) {
+    }
+
+    @Override
+    protected void layout() {
+        super.layout();
+
+        icon.x = x + (width - icon.width) / 2;
+        icon.y = y + (height - icon.height) / 2;
+
+        if (activeText != null) {
             activeText.x = x + 3;
             activeText.y = y + 11;
-		}
-	}
+        }
+    }
 
-	
-	public void enable( boolean value ) {
-		
-		active = value;
-		
-		float alpha = value ? ENABLED : DISABLED;
-		icon.alpha( alpha );
-	}
+
+    public void enable(boolean value) {
+
+        active = value;
+
+        float alpha = value ? ENABLED : DISABLED;
+        icon.alpha(alpha);
+    }
 }

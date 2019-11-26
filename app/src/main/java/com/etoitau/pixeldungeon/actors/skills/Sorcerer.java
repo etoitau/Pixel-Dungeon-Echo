@@ -5,7 +5,7 @@ import com.etoitau.pixeldungeon.Dungeon;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class Sorcerer extends PassiveSkillB2{
+public class Sorcerer extends PassiveSkillB2 {
 
 
     {
@@ -15,21 +15,18 @@ public class Sorcerer extends PassiveSkillB2{
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return true;
     }
 
 
     @Override
-    public float wandDamageBonus()
-    {
+    public float wandDamageBonus() {
         return 1f + 0.1f * level;
     }
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "Wands do more damage.\n"
                 + costUpgradeInfo();
     }

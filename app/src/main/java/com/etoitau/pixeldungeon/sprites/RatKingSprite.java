@@ -21,26 +21,26 @@ import com.watabau.noosa.TextureFilm;
 import com.etoitau.pixeldungeon.Assets;
 
 public class RatKingSprite extends MobSprite {
-	
-	public RatKingSprite() {
-		super();
-		
-		texture( Assets.RATKING );
-		
-		TextureFilm frames = new TextureFilm( texture, 16, 16 );
-		
-		idle = new Animation( 2, true );
-		idle.frames( frames, 0, 0, 0, 1 );
-		
-		run = new Animation( 10, true );
-		run.frames( frames, 2, 3, 4, 5, 6 );
-		
-		attack = new Animation( 15, false );
-		attack.frames( frames, 0 );
-		
-		die = new Animation( 10, false );
-		die.frames( frames, 0 );
-		
-		play( idle );
-	}
+
+    public RatKingSprite() {
+        super();
+
+        texture(Assets.RATKING);
+
+        TextureFilm frames = new TextureFilm(texture, 16, 16);
+
+        idle = new Animation(2, true);
+        idle.frames(frames, 0, 0, 0, 1);
+
+        run = new Animation(10, true);
+        run.frames(frames, 2, 3, 4, 5, 6);
+
+        attack = new Animation(15, false);
+        attack.frames(frames, 0);
+
+        die = new Animation(10, false);
+        die.frames(frames, 0);
+
+        play(idle);
+    }
 }

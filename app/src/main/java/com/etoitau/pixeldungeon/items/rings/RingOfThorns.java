@@ -23,48 +23,48 @@ import com.etoitau.pixeldungeon.items.Item;
 
 public class RingOfThorns extends Ring {
 
-	{
-		name = "Ring of Thorns";
-	}
-	
-	@Override
-	protected RingBuff buff( ) {
-		return new Thorns();
-	}
-	
-	@Override
-	public Item random() {
-		level( +1 );
-		return this;
-	}
-	
-	@Override
-	public boolean doPickUp( Hero hero ) {
-		identify();
-		Badges.validateRingOfThorns();
-		Badges.validateItemLevelAquired( this );
-		return super.doPickUp(hero);
-	}
-	
-	@Override
-	public boolean isUpgradable() {
-		return false;
-	}
-	
-	@Override
-	public void use() {
-		// Do nothing (it can't degrade)
-	}
-	
-	@Override
-	public String desc() {
-		return isKnown() ?
-			"Though this ring doesn't provide real thorns, an enemy that attacks you " +
-			"will itself be wounded by a fraction of the damage that it inflicts. " +
-			"Upgrading this ring won't give any additional bonuses." :
-			super.desc();
-	}
-	
-	public class Thorns extends RingBuff {	
-	}
+    {
+        name = "Ring of Thorns";
+    }
+
+    @Override
+    protected RingBuff buff() {
+        return new Thorns();
+    }
+
+    @Override
+    public Item random() {
+        level(+1);
+        return this;
+    }
+
+    @Override
+    public boolean doPickUp(Hero hero) {
+        identify();
+        Badges.validateRingOfThorns();
+        Badges.validateItemLevelAquired(this);
+        return super.doPickUp(hero);
+    }
+
+    @Override
+    public boolean isUpgradable() {
+        return false;
+    }
+
+    @Override
+    public void use() {
+        // Do nothing (it can't degrade)
+    }
+
+    @Override
+    public String desc() {
+        return isKnown() ?
+                "Though this ring doesn't provide real thorns, an enemy that attacks you " +
+                        "will itself be wounded by a fraction of the damage that it inflicts. " +
+                        "Upgrading this ring won't give any additional bonuses." :
+                super.desc();
+    }
+
+    public class Thorns extends RingBuff {
+    }
 }

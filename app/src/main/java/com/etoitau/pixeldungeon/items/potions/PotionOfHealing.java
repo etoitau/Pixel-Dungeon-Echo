@@ -30,51 +30,51 @@ import com.etoitau.pixeldungeon.utils.GLog;
 
 public class PotionOfHealing extends Potion {
 
-	{
-		name = "Potion of Healing";
-	}
-	
-	@Override
-	protected void apply( Hero hero ) {
-		setKnown();
-		heal( Dungeon.hero, Dungeon.currentDifficulty.healingPotionLimit() );
-		GLog.p( Dungeon.currentDifficulty.healingPotionMessage() );
-        StatusPane.takingDamage = 0;
-	}
-	
-	public static void heal( Hero hero ) {
-		
-		hero.HP = hero.HT;
-		Buff.detach( hero, Poison.class );
-		Buff.detach( hero, Cripple.class );
-		Buff.detach( hero, Weakness.class );
-		Buff.detach( hero, Bleeding.class );
-		hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 4 );
-	}
+    {
+        name = "Potion of Healing";
+    }
 
-    public static void heal( Hero hero, int limit ) {
+    @Override
+    protected void apply(Hero hero) {
+        setKnown();
+        heal(Dungeon.hero, Dungeon.currentDifficulty.healingPotionLimit());
+        GLog.p(Dungeon.currentDifficulty.healingPotionMessage());
+        StatusPane.takingDamage = 0;
+    }
+
+    public static void heal(Hero hero) {
+
+        hero.HP = hero.HT;
+        Buff.detach(hero, Poison.class);
+        Buff.detach(hero, Cripple.class);
+        Buff.detach(hero, Weakness.class);
+        Buff.detach(hero, Bleeding.class);
+        hero.sprite.emitter().start(Speck.factory(Speck.HEALING), 0.4f, 4);
+    }
+
+    public static void heal(Hero hero, int limit) {
 
         hero.HP += hero.HT * limit / 100;
 
-        if(hero.HP > hero.HT)
+        if (hero.HP > hero.HT)
             hero.HP = hero.HT;
 
-        Buff.detach( hero, Poison.class );
-        Buff.detach( hero, Cripple.class );
-        Buff.detach( hero, Weakness.class );
-        Buff.detach( hero, Bleeding.class );
+        Buff.detach(hero, Poison.class);
+        Buff.detach(hero, Cripple.class);
+        Buff.detach(hero, Weakness.class);
+        Buff.detach(hero, Bleeding.class);
 
-        hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 4 );
+        hero.sprite.emitter().start(Speck.factory(Speck.HEALING), 0.4f, 4);
     }
-	
-	@Override
-	public String desc() {
-		return
-			"An elixir that will instantly return you to full health and cure poison.";
-	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 30 * quantity : super.price();
-	}
+
+    @Override
+    public String desc() {
+        return
+                "An elixir that will instantly return you to full health and cure poison.";
+    }
+
+    @Override
+    public int price() {
+        return isKnown() ? 30 * quantity : super.price();
+    }
 }

@@ -21,31 +21,31 @@ import com.etoitau.pixeldungeon.items.Item;
 import com.etoitau.pixeldungeon.sprites.ItemSpriteSheet;
 
 public class CorpseDust extends Item {
-	
-	{
-		name = "corpse dust";
-		image = ItemSpriteSheet.DUST;
-		
-		cursed = true;
-		cursedKnown = true;
-		
-		unique = true;
-	}
-	
-	@Override
-	public boolean isUpgradable() {
-		return false;
-	}
-	
-	@Override
-	public boolean isIdentified() {
-		return true;
-	}
-	
-	@Override
-	public String info() {
-		return
-			"The ball of corpse dust doesn't differ outwardly from a regular dust ball. However, " +
-			"you know somehow that it's better to get rid of it as soon as possible.";
-	}
+
+    {
+        name = "corpse dust";
+        image = ItemSpriteSheet.DUST;
+
+        cursed = true;
+        cursedKnown = true;
+
+        unique = true;
+    }
+
+    @Override
+    public boolean isUpgradable() {
+        return false;
+    }
+
+    @Override
+    public boolean isIdentified() {
+        return true;
+    }
+
+    @Override
+    public String info() {
+        return
+                "The ball of corpse dust doesn't differ outwardly from a regular dust ball. However, " +
+                        "you know somehow that it's better to get rid of it as soon as possible.";
+    }
 }

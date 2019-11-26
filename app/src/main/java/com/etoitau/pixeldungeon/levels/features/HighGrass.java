@@ -36,39 +36,39 @@ import com.watabau.utils.Random;
 
 public class HighGrass {
 
-	public static void trample( Level level, int pos, Char ch ) {
-		
-		Level.set( pos, Terrain.GRASS );
-		GameScene.updateMap( pos );
-		
-		if (!Dungeon.isChallenged( Challenges.NO_HERBALISM )) {
-			int herbalismLevel = 0;
-			if (ch != null) {
-				Herbalism herbalism = ch.buff( Herbalism.class );
-				if (herbalism != null) {
-					herbalismLevel = herbalism.level;
-				}
-			}
-			// Seed
-			if (herbalismLevel >= 0 && Random.Int( 18 ) <= Random.Int( herbalismLevel + 1 )) {
-				level.drop( Generator.random( Generator.Category.SEED ), pos ).sprite.drop();
-			}
-			
-			// Dew
-			if (herbalismLevel >= 0 && Random.Int( 6 ) <= Random.Int( herbalismLevel + 1 )) {
-				level.drop( new Dewdrop(), pos ).sprite.drop();
-			}
-		}
-		
-		int leaves = 4;
-		
-		// Warlock's barkskin
-		if (ch instanceof Hero && ((Hero)ch).subClass == HeroSubClass.WARDEN) {
-			Buff.affect( ch, Barkskin.class ).level( ch.HT / 3 );
-			leaves = 8;
-		}
-		
-		CellEmitter.get( pos ).burst( LeafParticle.LEVEL_SPECIFIC, leaves );
-		Dungeon.observe();
-	}
+    public static void trample(Level level, int pos, Char ch) {
+
+        Level.set(pos, Terrain.GRASS);
+        GameScene.updateMap(pos);
+
+        if (!Dungeon.isChallenged(Challenges.NO_HERBALISM)) {
+            int herbalismLevel = 0;
+            if (ch != null) {
+                Herbalism herbalism = ch.buff(Herbalism.class);
+                if (herbalism != null) {
+                    herbalismLevel = herbalism.level;
+                }
+            }
+            // Seed
+            if (herbalismLevel >= 0 && Random.Int(18) <= Random.Int(herbalismLevel + 1)) {
+                level.drop(Generator.random(Generator.Category.SEED), pos).sprite.drop();
+            }
+
+            // Dew
+            if (herbalismLevel >= 0 && Random.Int(6) <= Random.Int(herbalismLevel + 1)) {
+                level.drop(new Dewdrop(), pos).sprite.drop();
+            }
+        }
+
+        int leaves = 4;
+
+        // Warlock's barkskin
+        if (ch instanceof Hero && ((Hero) ch).subClass == HeroSubClass.WARDEN) {
+            Buff.affect(ch, Barkskin.class).level(ch.HT / 3);
+            leaves = 8;
+        }
+
+        CellEmitter.get(pos).burst(LeafParticle.LEVEL_SPECIFIC, leaves);
+        Dungeon.observe();
+    }
 }

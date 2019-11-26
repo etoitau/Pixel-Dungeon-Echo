@@ -30,43 +30,43 @@ import com.watabau.utils.Random;
 
 public class ScrollOfPsionicBlast extends Scroll {
 
-	{
-		name = "Scroll of Psionic Blast";
-	}
-	
-	@Override
-	protected void doRead() {
-		
-		GameScene.flash( 0xFFFFFF );
-		
-		Sample.INSTANCE.play( Assets.SND_BLAST );
-		Invisibility.dispel();
-		
-		for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
-			if (Level.fieldOfView[mob.pos]) {
-				Buff.prolong( mob, Blindness.class, Random.Int( 3, 6 ) );
-				mob.damage( Random.IntRange( 1, mob.HT * 2 / 3 ), this );
-			}
-		}
-		
-		Buff.prolong( curUser, Blindness.class, Random.Int( 3, 6 ) );
-		Dungeon.observe();
-		
-		setKnown();
-		
-		readAnimation();
-	}
-	
-	@Override
-	public String desc() {
-		return
-			"This scroll contains destructive energy, that can be psionically channeled to inflict a " +
-			"massive damage to all creatures within a field of view. An accompanying flash of light will " +
-			"temporarily blind everybody in the area of effect including the reader of the scroll.";
-	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 80 * quantity : super.price();
-	}
+    {
+        name = "Scroll of Psionic Blast";
+    }
+
+    @Override
+    protected void doRead() {
+
+        GameScene.flash(0xFFFFFF);
+
+        Sample.INSTANCE.play(Assets.SND_BLAST);
+        Invisibility.dispel();
+
+        for (Mob mob : Dungeon.level.mobs.toArray(new Mob[0])) {
+            if (Level.fieldOfView[mob.pos]) {
+                Buff.prolong(mob, Blindness.class, Random.Int(3, 6));
+                mob.damage(Random.IntRange(1, mob.HT * 2 / 3), this);
+            }
+        }
+
+        Buff.prolong(curUser, Blindness.class, Random.Int(3, 6));
+        Dungeon.observe();
+
+        setKnown();
+
+        readAnimation();
+    }
+
+    @Override
+    public String desc() {
+        return
+                "This scroll contains destructive energy, that can be psionically channeled to inflict a " +
+                        "massive damage to all creatures within a field of view. An accompanying flash of light will " +
+                        "temporarily blind everybody in the area of effect including the reader of the scroll.";
+    }
+
+    @Override
+    public int price() {
+        return isKnown() ? 80 * quantity : super.price();
+    }
 }

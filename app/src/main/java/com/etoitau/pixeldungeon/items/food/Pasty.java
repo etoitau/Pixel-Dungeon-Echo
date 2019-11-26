@@ -22,19 +22,19 @@ import com.etoitau.pixeldungeon.sprites.ItemSpriteSheet;
 
 public class Pasty extends Food {
 
-	{
-		name = "pasty";
-		image = ItemSpriteSheet.PASTY;
-		energy = Hunger.STARVING;
-	}
-	
-	@Override
-	public String info() {
-		return "This is authentic Cornish pasty with traditional filling of beef and potato.";
-	}
-	
-	@Override
-	public int price() {
-		return 20 * quantity;
-	}
+    {
+        name = "pasty";
+        image = ItemSpriteSheet.PASTY;
+        energy = Hunger.STARVING;
+    }
+
+    @Override
+    public String info() {
+        return "This is authentic Cornish pasty with traditional filling of beef and potato.";
+    }
+
+    @Override
+    public int price() {
+        return 20 * quantity;
+    }
 }

@@ -1,8 +1,6 @@
 package com.etoitau.pixeldungeon.actors.skills;
 
 
-
-
 import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.actors.hero.Hero;
 import com.etoitau.pixeldungeon.scenes.GameScene;
@@ -10,9 +8,9 @@ import com.etoitau.pixeldungeon.windows.WndSkill;
 import com.watabau.utils.Bundle;
 
 
-public enum CurrentSkills{
+public enum CurrentSkills {
 
-    WARRIOR("warrior"), MAGE("mage"), ROGUE("rogue"), HUNTRESS("huntress") , HATSUNE("hatsune");
+    WARRIOR("warrior"), MAGE("mage"), ROGUE("rogue"), HUNTRESS("huntress"), HATSUNE("hatsune");
 
 
     public enum BRANCHES {PASSIVEA, PASSIVEB, ACTIVE}
@@ -47,13 +45,11 @@ public enum CurrentSkills{
         this.type = type;
     }
 
-    public void init()
-    {
+    public void init() {
         init(Dungeon.hero);
     }
 
-    public void init(Hero hero)
-    {
+    public void init(Hero hero) {
         hero.heroSkills = this;
         lastUsed = null;
         switch (this) {
@@ -114,7 +110,7 @@ public enum CurrentSkills{
                 passiveB2 = new KneeShot();
                 passiveB3 = new IronTip();
                 branchA = new HuntressActive();
-                active1 =  new AimedShot(); //new SpiritArrow();
+                active1 = new AimedShot(); //new SpiritArrow();
                 active2 = new DoubleShot();
                 active3 = new Bombvoyage();
                 break;
@@ -146,63 +142,77 @@ public enum CurrentSkills{
         }
     }
 
-    public int totalSpent(BRANCHES branch)
-    {
-        switch(branch)
-        {
-            case PASSIVEA: return passiveA1.level * passiveA1.upgradeCost() + passiveA2.level * passiveA2.upgradeCost() + passiveA3.level * passiveA3.upgradeCost();
-            case PASSIVEB: return passiveB1.level * passiveB1.upgradeCost() + passiveB2.level * passiveB2.upgradeCost() + passiveB3.level * passiveB3.upgradeCost();
-            case ACTIVE: return active1.level * active1.upgradeCost() + active2.level * active2.upgradeCost() + active3.level * active3.upgradeCost();
+    public int totalSpent(BRANCHES branch) {
+        switch (branch) {
+            case PASSIVEA:
+                return passiveA1.level * passiveA1.upgradeCost() + passiveA2.level * passiveA2.upgradeCost() + passiveA3.level * passiveA3.upgradeCost();
+            case PASSIVEB:
+                return passiveB1.level * passiveB1.upgradeCost() + passiveB2.level * passiveB2.upgradeCost() + passiveB3.level * passiveB3.upgradeCost();
+            case ACTIVE:
+                return active1.level * active1.upgradeCost() + active2.level * active2.upgradeCost() + active3.level * active3.upgradeCost();
         }
         return 0;
     }
 
-    public boolean canUpgrade(BRANCHES branch)
-    {
-        switch(branch)
-        {
-            case PASSIVEA: return passiveA3.level < Skill.MAX_LEVEL;
-            case PASSIVEB: return passiveB3.level < Skill.MAX_LEVEL;
-            case ACTIVE: return active3.level < Skill.MAX_LEVEL;
+    public boolean canUpgrade(BRANCHES branch) {
+        switch (branch) {
+            case PASSIVEA:
+                return passiveA3.level < Skill.MAX_LEVEL;
+            case PASSIVEB:
+                return passiveB3.level < Skill.MAX_LEVEL;
+            case ACTIVE:
+                return active3.level < Skill.MAX_LEVEL;
         }
         return false;
     }
 
-    public int nextUpgradeCost(BRANCHES branch)
-    {
-        switch(branch)
-        {
-            case PASSIVEA: return (passiveA1.level < Skill.MAX_LEVEL ? passiveA1.upgradeCost() : (passiveA2.level < Skill.MAX_LEVEL ? passiveA2.upgradeCost() : passiveA3.upgradeCost()));
-            case PASSIVEB: return (passiveB1.level < Skill.MAX_LEVEL ? passiveB1.upgradeCost() : (passiveB2.level < Skill.MAX_LEVEL ? passiveB2.upgradeCost() : passiveB3.upgradeCost()));
-            case ACTIVE: return (active1.level < Skill.MAX_LEVEL ? active1.upgradeCost() : (active2.level < Skill.MAX_LEVEL ? active2.upgradeCost() : active3.upgradeCost()));
+    public int nextUpgradeCost(BRANCHES branch) {
+        switch (branch) {
+            case PASSIVEA:
+                return (passiveA1.level < Skill.MAX_LEVEL ? passiveA1.upgradeCost() : (passiveA2.level < Skill.MAX_LEVEL ? passiveA2.upgradeCost() : passiveA3.upgradeCost()));
+            case PASSIVEB:
+                return (passiveB1.level < Skill.MAX_LEVEL ? passiveB1.upgradeCost() : (passiveB2.level < Skill.MAX_LEVEL ? passiveB2.upgradeCost() : passiveB3.upgradeCost()));
+            case ACTIVE:
+                return (active1.level < Skill.MAX_LEVEL ? active1.upgradeCost() : (active2.level < Skill.MAX_LEVEL ? active2.upgradeCost() : active3.upgradeCost()));
         }
         return 0;
     }
 
-    public void advance(BRANCHES branch)
-    {
-        switch(branch)
-        {
-            case PASSIVEA: if(passiveA1.level < Skill.MAX_LEVEL) { passiveA1.requestUpgrade();} else if (passiveA2.level < Skill.MAX_LEVEL) { passiveA2.requestUpgrade();} else passiveA3.requestUpgrade();
+    public void advance(BRANCHES branch) {
+        switch (branch) {
+            case PASSIVEA:
+                if (passiveA1.level < Skill.MAX_LEVEL) {
+                    passiveA1.requestUpgrade();
+                } else if (passiveA2.level < Skill.MAX_LEVEL) {
+                    passiveA2.requestUpgrade();
+                } else passiveA3.requestUpgrade();
                 break;
-            case PASSIVEB:if(passiveB1.level < Skill.MAX_LEVEL) { passiveB1.requestUpgrade();} else if (passiveB2.level < Skill.MAX_LEVEL) { passiveB2.requestUpgrade();} else passiveB3.requestUpgrade();
+            case PASSIVEB:
+                if (passiveB1.level < Skill.MAX_LEVEL) {
+                    passiveB1.requestUpgrade();
+                } else if (passiveB2.level < Skill.MAX_LEVEL) {
+                    passiveB2.requestUpgrade();
+                } else passiveB3.requestUpgrade();
                 break;
-            case ACTIVE: if(active1.level < Skill.MAX_LEVEL) { active1.requestUpgrade();} else if (active2.level < Skill.MAX_LEVEL) { active2.requestUpgrade();} else active3.requestUpgrade();
+            case ACTIVE:
+                if (active1.level < Skill.MAX_LEVEL) {
+                    active1.requestUpgrade();
+                } else if (active2.level < Skill.MAX_LEVEL) {
+                    active2.requestUpgrade();
+                } else active3.requestUpgrade();
                 break;
         }
     }
 
 
-    public void showLastUsed()
-    {
-        if(lastUsed != null)
+    public void showLastUsed() {
+        if (lastUsed != null)
             GameScene.show(new WndSkill(null, lastUsed));
 
     }
 
-    public void storeInBundle( Bundle bundle )
-    {
-        bundle.put( TYPE, toString() );
+    public void storeInBundle(Bundle bundle) {
+        bundle.put(TYPE, toString());
         bundle.put(UNLOCKED, skillUnlocked);
         passiveA1.storeInBundle(bundle);
         passiveA2.storeInBundle(bundle);
@@ -215,16 +225,16 @@ public enum CurrentSkills{
         active3.storeInBundle(bundle);
     }
 
-    public static CurrentSkills restoreFromBundle( Bundle bundle) {
-        String value = bundle.getString( TYPE );
+    public static CurrentSkills restoreFromBundle(Bundle bundle) {
+        String value = bundle.getString(TYPE);
         try {
-            return valueOf( value );
+            return valueOf(value);
         } catch (Exception e) {
             return WARRIOR;
         }
     }
 
-    public void restoreSkillsFromBundle( Bundle bundle ) {
+    public void restoreSkillsFromBundle(Bundle bundle) {
         passiveA1.restoreInBundle(bundle);
         passiveA2.restoreInBundle(bundle);
         passiveA3.restoreInBundle(bundle);
@@ -235,12 +245,11 @@ public enum CurrentSkills{
         active2.restoreInBundle(bundle);
         active3.restoreInBundle(bundle);
         skillUnlocked = bundle.getBoolean(UNLOCKED);
-        if(skillUnlocked)
+        if (skillUnlocked)
             unlockSkill();
     }
 
-    public void unlockSkill()
-    {
+    public void unlockSkill() {
         skillUnlocked = true;
         int preserveLevel = 0;
         switch (this) {
@@ -266,11 +275,10 @@ public enum CurrentSkills{
         }
     }
 
-    public String unlockableSkillName()
-    {
+    public String unlockableSkillName() {
         switch (this) {
             case WARRIOR:
-               return "Smite";
+                return "Smite";
             case MAGE:
                 return "Summon Skeleton Archer";
             case ROGUE:

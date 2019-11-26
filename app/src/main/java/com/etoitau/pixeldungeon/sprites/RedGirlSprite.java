@@ -27,10 +27,10 @@ import com.watabau.utils.Callback;
 
 public class RedGirlSprite extends MobSprite {
 
-    protected static final int FRAME_WIDTH	= 12;
-    protected static final int FRAME_HEIGHT	= 15;
+    protected static final int FRAME_WIDTH = 12;
+    protected static final int FRAME_HEIGHT = 15;
 
-    protected static final int RUN_FRAMERATE	= 20;
+    protected static final int RUN_FRAMERATE = 20;
 
     public ArcherMaidenHalo halo = null;
     public boolean hasHalo = false;
@@ -38,46 +38,44 @@ public class RedGirlSprite extends MobSprite {
 
     int cellToAttack = 0;
 
-	public RedGirlSprite() {
-		super();
+    public RedGirlSprite() {
+        super();
 
 
+        texture(Assets.RED_GIRL);
 
-		 texture( Assets.RED_GIRL);
-		
-		TextureFilm frames = new TextureFilm( texture, FRAME_WIDTH, FRAME_HEIGHT );
+        TextureFilm frames = new TextureFilm(texture, FRAME_WIDTH, FRAME_HEIGHT);
 
 
-        idle = new Animation( 1, true );
-        idle.frames( frames, 0, 0, 0, 1, 0, 0, 1, 1 );
+        idle = new Animation(1, true);
+        idle.frames(frames, 0, 0, 0, 1, 0, 0, 1, 1);
 
-        run = new Animation( RUN_FRAMERATE, true );
-        run.frames( frames, 2, 3, 4, 5, 6, 7 );
+        run = new Animation(RUN_FRAMERATE, true);
+        run.frames(frames, 2, 3, 4, 5, 6, 7);
 
-        die = new Animation( 20, false );
-        die.frames( frames, 8, 9, 10, 11, 12, 11 );
+        die = new Animation(20, false);
+        die.frames(frames, 8, 9, 10, 11, 12, 11);
 
-        attack = new Animation( 15, false );
-        attack.frames( frames, 13, 14, 15, 0 );
+        attack = new Animation(15, false);
+        attack.frames(frames, 13, 14, 15, 0);
 
         zap = attack.clone();
-		
-		play( idle );
-	}
+
+        play(idle);
+    }
 
     @Override
-    public void attack( int cell ) {
+    public void attack(int cell) {
 
-            cellToAttack = cell;
-            turnTo( ch.pos , cell );
-            play( zap );
+        cellToAttack = cell;
+        turnTo(ch.pos, cell);
+        play(zap);
 
 
     }
 
-    public void haloUp()
-    {
-        if(hasHalo)
+    public void haloUp() {
+        if (hasHalo)
             return;
 
         hasHalo = true;
@@ -86,20 +84,20 @@ public class RedGirlSprite extends MobSprite {
     }
 
     @Override
-    public void onComplete( Animation anim ) {
+    public void onComplete(Animation anim) {
 
         if (anim == zap) {
             idle();
 
-            ((MissileSprite)parent.recycle( MissileSprite.class )).
-                    reset( ch.pos, cellToAttack, new Arrow(), new Callback() {
+            ((MissileSprite) parent.recycle(MissileSprite.class)).
+                    reset(ch.pos, cellToAttack, new Arrow(), new Callback() {
                         @Override
                         public void call() {
                             ch.onAttackComplete();
                         }
-                    } );
+                    });
         } else {
-            super.onComplete( anim );
+            super.onComplete(anim);
         }
     }
 }

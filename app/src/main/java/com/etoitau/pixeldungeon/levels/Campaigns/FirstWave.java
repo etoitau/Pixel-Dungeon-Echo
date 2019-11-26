@@ -64,152 +64,147 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class FirstWave extends Level {
-	
-	{
-		color1 = 0x534f3e;
-		color2 = 0xb9d661;
-		
-		viewDistance = 8;
+
+    {
+        color1 = 0x534f3e;
+        color2 = 0xb9d661;
+
+        viewDistance = 8;
 
         Arrays.fill(fieldOfView, true);
-	}
+    }
 
     public Maestro maestro;
     public EnemyAI enemyAI;
 
-	private static final int ROOM_LEFT		= WIDTH / 2 - 2;
-	private static final int ROOM_RIGHT		= WIDTH / 2 + 2;
-	private static final int ROOM_TOP		= HEIGHT / 2 - 2;
-	private static final int ROOM_BOTTOM	= HEIGHT / 2 + 2;
-	
-	private int arenaDoor;
-	private boolean enteredArena = false;
-	private boolean keyDropped = false;
-	
-	@Override
-	public String tilesTex() {
-		return Assets.TILES_CITY;
-	}
-	
-	@Override
-	public String waterTex() {
-		return Assets.WATER_CAVES;
-	}
-	
-	private static final String DOOR	= "door";
-	private static final String ENTERED	= "entered";
-	private static final String DROPPED	= "droppped";
-	
-	@Override
-	public void storeInBundle( Bundle bundle ) {
+    private static final int ROOM_LEFT = WIDTH / 2 - 2;
+    private static final int ROOM_RIGHT = WIDTH / 2 + 2;
+    private static final int ROOM_TOP = HEIGHT / 2 - 2;
+    private static final int ROOM_BOTTOM = HEIGHT / 2 + 2;
 
-	}
-	
-	@Override
-	public void restoreFromBundle( Bundle bundle ) {
+    private int arenaDoor;
+    private boolean enteredArena = false;
+    private boolean keyDropped = false;
 
-	}
-	
-	@Override
-	protected boolean build() {
-		
-		int topMost = Integer.MAX_VALUE;
-		
+    @Override
+    public String tilesTex() {
+        return Assets.TILES_CITY;
+    }
 
-			int left, right, top, bottom;
+    @Override
+    public String waterTex() {
+        return Assets.WATER_CAVES;
+    }
 
-				left = 5;
-				right = WIDTH - 5;
+    private static final String DOOR = "door";
+    private static final String ENTERED = "entered";
+    private static final String DROPPED = "droppped";
+
+    @Override
+    public void storeInBundle(Bundle bundle) {
+
+    }
+
+    @Override
+    public void restoreFromBundle(Bundle bundle) {
+
+    }
+
+    @Override
+    protected boolean build() {
+
+        int topMost = Integer.MAX_VALUE;
 
 
-				top = 5;
-				bottom = HEIGHT - 5;
+        int left, right, top, bottom;
 
-			
-			Painter.fill( this, left, top, right - left + 1, bottom - top + 1, Terrain.EMPTY );
+        left = 5;
+        right = WIDTH - 5;
+
+
+        top = 5;
+        bottom = HEIGHT - 5;
+
+
+        Painter.fill(this, left, top, right - left + 1, bottom - top + 1, Terrain.EMPTY);
 
         exit = 0;
 
 
-        Painter.fill( this, left, top, right - left + 1,  5, Terrain.WALL );
-        Painter.fill( this, WIDTH * 5 + WIDTH / 2 - 2, 0, 5,  5, Terrain.EMPTY_SP );
-        Painter.fill( this, right / 2 + 1, bottom / 3, 5,  1, Terrain.BARRICADE );
-        Painter.fill( this, right / 2 + 3, top - 1, 1,  1, Terrain.DOOR );
+        Painter.fill(this, left, top, right - left + 1, 5, Terrain.WALL);
+        Painter.fill(this, WIDTH * 5 + WIDTH / 2 - 2, 0, 5, 5, Terrain.EMPTY_SP);
+        Painter.fill(this, right / 2 + 1, bottom / 3, 5, 1, Terrain.BARRICADE);
+        Painter.fill(this, right / 2 + 3, top - 1, 1, 1, Terrain.DOOR);
 
-		Painter.fill( this, ROOM_LEFT, ROOM_TOP + 1, 
-			ROOM_RIGHT - ROOM_LEFT + 1, ROOM_BOTTOM - ROOM_TOP, Terrain.EMPTY );
-
-
-        Painter.fill( this, 6,  bottom / 3 + 2, 6,  10, Terrain.WATER );
-        Painter.fill( this, 7,  bottom / 3 + 3, 4,  8, Terrain.GRASS );
-        Painter.fill( this, 6,  bottom / 3 + 6, 6,  2, Terrain.WATER );
+        Painter.fill(this, ROOM_LEFT, ROOM_TOP + 1,
+                ROOM_RIGHT - ROOM_LEFT + 1, ROOM_BOTTOM - ROOM_TOP, Terrain.EMPTY);
 
 
-        Painter.fill( this, 21,  bottom / 3 + 2, 6,  10, Terrain.WATER );
-        Painter.fill( this, 22,  bottom / 3 + 3, 4,  8, Terrain.GRASS );
-        Painter.fill( this, 21,  bottom / 3 + 6, 6,  2, Terrain.WATER );
+        Painter.fill(this, 6, bottom / 3 + 2, 6, 10, Terrain.WATER);
+        Painter.fill(this, 7, bottom / 3 + 3, 4, 8, Terrain.GRASS);
+        Painter.fill(this, 6, bottom / 3 + 6, 6, 2, Terrain.WATER);
 
 
+        Painter.fill(this, 21, bottom / 3 + 2, 6, 10, Terrain.WATER);
+        Painter.fill(this, 22, bottom / 3 + 3, 4, 8, Terrain.GRASS);
+        Painter.fill(this, 21, bottom / 3 + 6, 6, 2, Terrain.WATER);
 
 
-
-		
-		return true;
-	}
+        return true;
+    }
 
     @Override
-    public boolean[] updateFieldOfView( Char c ) {
+    public boolean[] updateFieldOfView(Char c) {
         return fieldOfView;
     }
 
-	@Override
-	protected void decorate() {	
-		
-		for (int i=WIDTH + 1; i < LENGTH - WIDTH; i++) {
-			if (map[i] == Terrain.EMPTY) {
-				int n = 0;
-				if (map[i+1] == Terrain.WALL) {
-					n++;
-				}
-				if (map[i-1] == Terrain.WALL) {
-					n++;
-				}
-				if (map[i+WIDTH] == Terrain.WALL) {
-					n++;
-				}
-				if (map[i-WIDTH] == Terrain.WALL) {
-					n++;
-				}
-				if (Random.Int( 8 ) <= n) {
-					map[i] = Terrain.EMPTY_DECO;
-				}
-			}
-		}
+    @Override
+    protected void decorate() {
+
+        for (int i = WIDTH + 1; i < LENGTH - WIDTH; i++) {
+            if (map[i] == Terrain.EMPTY) {
+                int n = 0;
+                if (map[i + 1] == Terrain.WALL) {
+                    n++;
+                }
+                if (map[i - 1] == Terrain.WALL) {
+                    n++;
+                }
+                if (map[i + WIDTH] == Terrain.WALL) {
+                    n++;
+                }
+                if (map[i - WIDTH] == Terrain.WALL) {
+                    n++;
+                }
+                if (Random.Int(8) <= n) {
+                    map[i] = Terrain.EMPTY_DECO;
+                }
+            }
+        }
 
 
-		for (int i=0; i < LENGTH; i++) {
-			if (map[i] == Terrain.WALL && Random.Int( 8 ) == 0) {
-				map[i] = Terrain.WALL_DECO;
-			}
-		}
+        for (int i = 0; i < LENGTH; i++) {
+            if (map[i] == Terrain.WALL && Random.Int(8) == 0) {
+                map[i] = Terrain.WALL_DECO;
+            }
+        }
 
-        for(int i = WIDTH * 10; i < WIDTH * 24; i += 2 * WIDTH)
-        {
+        for (int i = WIDTH * 10; i < WIDTH * 24; i += 2 * WIDTH) {
             map[i + WIDTH / 3 + 3] = Terrain.STATUE;
             map[i + 2 * WIDTH / 3 - 2] = Terrain.STATUE;
         }
 
-        for(int i = WIDTH * 22 + 5; i < WIDTH * 22 + WIDTH / 3 + 4; i += 2)
+        for (int i = WIDTH * 22 + 5; i < WIDTH * 22 + WIDTH / 3 + 4; i += 2)
             map[i] = Terrain.STATUE;
 
-        for(int i = WIDTH * 22 + 2 * WIDTH / 3 - 2; i < WIDTH * 23 - 4; i += 2)
+        for (int i = WIDTH * 22 + 2 * WIDTH / 3 - 2; i < WIDTH * 23 - 4; i += 2)
             map[i] = Terrain.STATUE;
 
 
-	}
-	
-	@Override
-	protected void createMobs() {
+    }
+
+    @Override
+    protected void createMobs() {
 
         maestro = new Maestro();
         maestro.pos = 0;
@@ -218,81 +213,77 @@ public class FirstWave extends Level {
         enemyAI = new EnemyAI();
         enemyAI.pos = 0;
         mobs.add(enemyAI);
-	}
-	
-	public Actor respawner() {
-		return null;
-	}
-	
-	@Override
-	protected void createItems() {
+    }
 
-	}
-	
-	@Override
-	public int randomRespawnCell() {
-		return (HEIGHT + 1) * WIDTH / 2;
-	}
+    public Actor respawner() {
+        return null;
+    }
 
     @Override
-    public void mobPress(Mob mob)
-    {
+    protected void createItems() {
+
+    }
+
+    @Override
+    public int randomRespawnCell() {
+        return (HEIGHT + 1) * WIDTH / 2;
+    }
+
+    @Override
+    public void mobPress(Mob mob) {
         super.mobPress(mob);
     }
 
-	@Override
-	public void press( int cell, Char hero ) {
+    @Override
+    public void press(int cell, Char hero) {
         super.press(cell, hero);
-	}
-	
-	@Override
-	public Heap drop( Item item, int cell ) {
-		
+    }
 
-		
-		return super.drop( item, cell );
-	}
-	
+    @Override
+    public Heap drop(Item item, int cell) {
 
-	@Override
-	public String tileName( int tile ) {
-		switch (tile) {
-		case Terrain.GRASS:
-			return "Fluorescent moss";
-		case Terrain.HIGH_GRASS:
-			return "Fluorescent mushrooms";
-		case Terrain.WATER:
-			return "Freezing cold water.";
-		default:
-			return super.tileName( tile );
-		}
-	}
-	
-	@Override
-	public String tileDesc( int tile ) {
-		switch (tile) {
-		case Terrain.ENTRANCE:
-			return "The ladder leads up to the upper depth.";
-		case Terrain.EXIT:
-			return "The ladder leads down to the lower depth.";
-		case Terrain.HIGH_GRASS:
-			return "Huge mushrooms block the view.";
-		case Terrain.WALL_DECO:
-			return "A vein of some ore is visible on the wall. Gold?";
-		default:
-			return super.tileDesc( tile );
-		}
-	}
 
-	
-	@Override
-	public void addVisuals( Scene scene )
-    {
+        return super.drop(item, cell);
+    }
 
-	}
 
-    public class MovieGirl extends Mob
-    {
+    @Override
+    public String tileName(int tile) {
+        switch (tile) {
+            case Terrain.GRASS:
+                return "Fluorescent moss";
+            case Terrain.HIGH_GRASS:
+                return "Fluorescent mushrooms";
+            case Terrain.WATER:
+                return "Freezing cold water.";
+            default:
+                return super.tileName(tile);
+        }
+    }
+
+    @Override
+    public String tileDesc(int tile) {
+        switch (tile) {
+            case Terrain.ENTRANCE:
+                return "The ladder leads up to the upper depth.";
+            case Terrain.EXIT:
+                return "The ladder leads down to the lower depth.";
+            case Terrain.HIGH_GRASS:
+                return "Huge mushrooms block the view.";
+            case Terrain.WALL_DECO:
+                return "A vein of some ore is visible on the wall. Gold?";
+            default:
+                return super.tileDesc(tile);
+        }
+    }
+
+
+    @Override
+    public void addVisuals(Scene scene) {
+
+    }
+
+    public class MovieGirl extends Mob {
 
 
         {
@@ -303,13 +294,12 @@ public class FirstWave extends Level {
         }
 
         @Override
-        public boolean attack( Char enemy ) {
+        public boolean attack(Char enemy) {
             return true;
         }
 
         @Override
-        public boolean act()
-        {
+        public boolean act() {
 
             spend(1f);
 
@@ -319,8 +309,7 @@ public class FirstWave extends Level {
         }
     }
 
-    public class MovieMaiden extends Mob
-    {
+    public class MovieMaiden extends Mob {
 
 
         {
@@ -331,23 +320,22 @@ public class FirstWave extends Level {
         }
 
         public Char tmp = null;
+
         @Override
-        public void onAttackComplete()
-        {
-            if(tmp != null)
+        public void onAttackComplete() {
+            if (tmp != null)
                 tmp.die(null);
-            Sample.INSTANCE.play( Assets.SND_HIT, 1, 1, Random.Float( 0.8f, 1.25f ) );
+            Sample.INSTANCE.play(Assets.SND_HIT, 1, 1, Random.Float(0.8f, 1.25f));
         }
 
         @Override
-        public boolean attack( Char enemy ) {
+        public boolean attack(Char enemy) {
             tmp = enemy;
             return true;
         }
 
         @Override
-        public boolean act()
-        {
+        public boolean act() {
             spend(1f);
 
 
@@ -356,8 +344,7 @@ public class FirstWave extends Level {
         }
     }
 
-    public class VanguardWarrior extends Mob
-    {
+    public class VanguardWarrior extends Mob {
 
 
         {
@@ -370,13 +357,12 @@ public class FirstWave extends Level {
 
 
         @Override
-        public boolean attack( Char enemy ) {
+        public boolean attack(Char enemy) {
             return true;
         }
 
         @Override
-        public boolean act()
-        {
+        public boolean act() {
             spend(1f);
 
 
@@ -385,8 +371,7 @@ public class FirstWave extends Level {
         }
     }
 
-    public class SoldierWarrior extends Mob
-    {
+    public class SoldierWarrior extends Mob {
 
 
         {
@@ -399,13 +384,12 @@ public class FirstWave extends Level {
 
 
         @Override
-        public boolean attack( Char enemy ) {
+        public boolean attack(Char enemy) {
             return true;
         }
 
         @Override
-        public boolean act()
-        {
+        public boolean act() {
             spend(1f);
 
 
@@ -414,8 +398,7 @@ public class FirstWave extends Level {
         }
     }
 
-    public class SkelEnemy extends Mob
-    {
+    public class SkelEnemy extends Mob {
 
 
         {
@@ -428,13 +411,12 @@ public class FirstWave extends Level {
 
 
         @Override
-        public boolean attack( Char enemy ) {
+        public boolean attack(Char enemy) {
             return true;
         }
 
         @Override
-        public boolean act()
-        {
+        public boolean act() {
             spend(1f);
 
 
@@ -443,8 +425,7 @@ public class FirstWave extends Level {
         }
     }
 
-    public class WraithEnemy extends Mob
-    {
+    public class WraithEnemy extends Mob {
 
 
         {
@@ -457,13 +438,12 @@ public class FirstWave extends Level {
 
 
         @Override
-        public boolean attack( Char enemy ) {
+        public boolean attack(Char enemy) {
             return true;
         }
 
         @Override
-        public boolean act()
-        {
+        public boolean act() {
             spend(1f);
 
 
@@ -473,8 +453,7 @@ public class FirstWave extends Level {
     }
 
 
-    public class HostileSkeleton extends Skeleton
-    {
+    public class HostileSkeleton extends Skeleton {
         {
             EXP = 0;
             state = WANDERING;
@@ -482,10 +461,8 @@ public class FirstWave extends Level {
         }
 
         @Override
-        public boolean act()
-        {
-            if(MissionScene.scenePause == true)
-            {
+        public boolean act() {
+            if (MissionScene.scenePause == true) {
                 spend(1f);
                 next();
                 return false;
@@ -494,30 +471,26 @@ public class FirstWave extends Level {
         }
 
         @Override
-        public void die(Object reason)
-        {
+        public void die(Object reason) {
             super.die(reason);
             FirstWave.this.enemyAI.enemyCount--;
             FirstWave.this.enemyAI.enemyKilled++;
             dropLoot();
-            if(FirstWave.this.enemyAI.enemyCount < 1 &&   FirstWave.this.enemyAI.spawnEnemies == false)
-            {
+            if (FirstWave.this.enemyAI.enemyCount < 1 && FirstWave.this.enemyAI.spawnEnemies == false) {
                 FirstWave.this.maestro.endScenario();
             }
         }
 
         @Override
-        protected void dropLoot()
-        {
+        protected void dropLoot() {
             Gold tmp = new Gold();
-            tmp = (Gold)tmp.random();
+            tmp = (Gold) tmp.random();
             Dungeon.hero.sprite.showStatus(CharSprite.NEUTRAL, "+" + tmp.quantity() + " Gold!");
             Dungeon.gold += tmp.quantity();
         }
     }
 
-    public class EnemyAI extends Mob
-    {
+    public class EnemyAI extends Mob {
 
         public int enemyCount = 0;
         public int enemyKilled = 0;
@@ -537,11 +510,9 @@ public class FirstWave extends Level {
 
         public boolean spawnEnemies = true;
 
-        public void finalWave()
-        {
+        public void finalWave() {
             spawnEnemies = false;
-            for(int i = 0; i < 20; i++)
-            {
+            for (int i = 0; i < 20; i++) {
                 HostileSkeleton tmp = new HostileSkeleton();
                 tmp.pos = getSpawnLocation();
                 MissionScene.add(tmp);
@@ -551,20 +522,15 @@ public class FirstWave extends Level {
         }
 
         @Override
-        public boolean act()
-        {
-            if(internalClock == 0)
-            {
+        public boolean act() {
+            if (internalClock == 0) {
                 sprite.visible = false;
             }
 
-            if(internalClock > Maestro.END_MOVIE + 50 && MissionScene.scenePause == false)
-            {
-                if(internalClock - lastAction > INTER_ACTION_TIME)
-                {
+            if (internalClock > Maestro.END_MOVIE + 50 && MissionScene.scenePause == false) {
+                if (internalClock - lastAction > INTER_ACTION_TIME) {
                     lastAction = internalClock;
-                    if(enemyCount < ENEMY_COUNT_LIMIT && spawnEnemies == true)
-                    {
+                    if (enemyCount < ENEMY_COUNT_LIMIT && spawnEnemies == true) {
                         enemyCount++;
                         HostileSkeleton tmp = new HostileSkeleton();
                         tmp.pos = getSpawnLocation();
@@ -597,11 +563,10 @@ public class FirstWave extends Level {
                     }
                 }
 
-                if(enemyKilled > 15 && temariAdded == false)
-                {
-                    for (Mob mob : (Iterable<Mob>)Dungeon.level.mobs.clone()) {
+                if (enemyKilled > 15 && temariAdded == false) {
+                    for (Mob mob : (Iterable<Mob>) Dungeon.level.mobs.clone()) {
                         if (mob.hostile == true || mob instanceof SummonedPet) {
-                            mob.die( null );
+                            mob.die(null);
                             continue;
                         }
                     }
@@ -610,11 +575,10 @@ public class FirstWave extends Level {
                     FirstWave.this.maestro.nextPhase();
                 }
 
-                if(enemyKilled > 30 && generalAdded == false)
-                {
-                    for (Mob mob : (Iterable<Mob>)Dungeon.level.mobs.clone()) {
+                if (enemyKilled > 30 && generalAdded == false) {
+                    for (Mob mob : (Iterable<Mob>) Dungeon.level.mobs.clone()) {
                         if (mob.hostile == true || mob instanceof SummonedPet) {
-                            mob.die( null );
+                            mob.die(null);
                             continue;
                         }
                     }
@@ -631,33 +595,29 @@ public class FirstWave extends Level {
             return true;
         }
 
-        int getSpawnLocation()
-        {
-            int tmp = (HEIGHT * WIDTH) - 5 * WIDTH + WIDTH / 3 +  Random.Int(WIDTH / 3);
+        int getSpawnLocation() {
+            int tmp = (HEIGHT * WIDTH) - 5 * WIDTH + WIDTH / 3 + Random.Int(WIDTH / 3);
             int safety = 0;
-            while(Actor.findChar(tmp) != null && safety < 5)
-            {
-                tmp = (HEIGHT * WIDTH) - 5 * WIDTH + WIDTH / 3 +  Random.Int(WIDTH / 3);
+            while (Actor.findChar(tmp) != null && safety < 5) {
+                tmp = (HEIGHT * WIDTH) - 5 * WIDTH + WIDTH / 3 + Random.Int(WIDTH / 3);
                 safety++; // Final wave will overlap
             }
             return tmp;
         }
 
         @Override
-        public boolean attack( Char enemy ) {
+        public boolean attack(Char enemy) {
             return true;
         }
     }
 
-    public class CitySoldier extends HiredMerc
-    {
+    public class CitySoldier extends HiredMerc {
         {
             mercType = MERC_TYPES.Brute;
             spriteClass = SoldierWarriorSprite.class;
             hackFix = true;
             screams = false;
         }
-
 
 
         @Override
@@ -668,10 +628,8 @@ public class FirstWave extends Level {
         }
 
         @Override
-        public boolean act()
-        {
-            if(MissionScene.scenePause == true)
-            {
+        public boolean act() {
+            if (MissionScene.scenePause == true) {
                 spend(1f);
                 next();
                 return false;
@@ -680,8 +638,7 @@ public class FirstWave extends Level {
             return super.act();
         }
 
-        public void initStats()
-        {
+        public void initStats() {
             HP = HT = 40;
             level = 10;
             mercType.setSkills(this);
@@ -691,15 +648,12 @@ public class FirstWave extends Level {
         }
 
 
-
         @Override
-        public void die(Object cause)
-        {
+        public void die(Object cause) {
             super.die(cause);
         }
 
-        public void speak(String say)
-        {
+        public void speak(String say) {
             sprite.showStatus(CharSprite.NEUTRAL, say);
         }
 
@@ -710,8 +664,7 @@ public class FirstWave extends Level {
         }
     }
 
-    public class General extends HiredMerc
-    {
+    public class General extends HiredMerc {
         {
             mercType = MERC_TYPES.Brute;
             spriteClass = VanguardWarriorSprite.class;
@@ -719,7 +672,7 @@ public class FirstWave extends Level {
             screams = false;
         }
 
-        public  boolean hasHalo = false;
+        public boolean hasHalo = false;
 
         @Override
         public CharSprite sprite() {
@@ -729,10 +682,8 @@ public class FirstWave extends Level {
         }
 
         @Override
-        public boolean act()
-        {
-            if(MissionScene.scenePause == true)
-            {
+        public boolean act() {
+            if (MissionScene.scenePause == true) {
                 spend(1f);
                 next();
                 return false;
@@ -741,8 +692,7 @@ public class FirstWave extends Level {
             return super.act();
         }
 
-        public void initStats()
-        {
+        public void initStats() {
             HP = HT = 100;
             level = 100;
             mercType.setSkills(this);
@@ -751,10 +701,9 @@ public class FirstWave extends Level {
             defenseSkill = 50;
         }
 
-        public void haloUp()
-        {
+        public void haloUp() {
 
-            if(hasHalo)
+            if (hasHalo)
                 return;
             hasHalo = true;
             sprite.add(CharSprite.State.ARCHERMAIDEN);
@@ -762,14 +711,12 @@ public class FirstWave extends Level {
         }
 
         @Override
-        public void die(Object cause)
-        {
+        public void die(Object cause) {
             HP = 1;
             speak("I cannot fail");
         }
 
-        public void speak(String say)
-        {
+        public void speak(String say) {
             sprite.showStatus(CharSprite.NEUTRAL, say);
         }
 
@@ -780,20 +727,17 @@ public class FirstWave extends Level {
         }
     }
 
-    public class Temari extends HiredMerc
-    {
+    public class Temari extends HiredMerc {
         {
             mercType = MERC_TYPES.ArcherMaiden;
             screams = false;
         }
 
-        public  boolean hasHalo = false;
+        public boolean hasHalo = false;
 
         @Override
-        public boolean act()
-        {
-            if(MissionScene.scenePause == true)
-            {
+        public boolean act() {
+            if (MissionScene.scenePause == true) {
                 spend(1f);
                 next();
                 return false;
@@ -802,8 +746,7 @@ public class FirstWave extends Level {
             return super.act();
         }
 
-        public void initStats()
-        {
+        public void initStats() {
             HP = HT = 100;
             level = 100;
             mercType.setSkills(this);
@@ -811,9 +754,8 @@ public class FirstWave extends Level {
             defenseSkill = 30;
         }
 
-        public void haloUp()
-        {
-            if(hasHalo)
+        public void haloUp() {
+            if (hasHalo)
                 return;
             hasHalo = true;
             sprite.add(CharSprite.State.ARCHERMAIDEN);
@@ -821,26 +763,23 @@ public class FirstWave extends Level {
         }
 
         @Override
-        public void die(Object cause)
-        {
+        public void die(Object cause) {
             HP = 1;
             speak("You enjoying this Hatsune?");
         }
 
-        public void speak(String say)
-        {
+        public void speak(String say) {
             sprite.showStatus(CharSprite.NEUTRAL, say);
         }
 
         @Override
         public String description() {
             return
-                   "The only mercenary to earn Hatsune's trust.";
+                    "The only mercenary to earn Hatsune's trust.";
         }
     }
 
-    public class Maestro extends ColdGirl
-    {
+    public class Maestro extends ColdGirl {
         int phase = 0;
         static final int END_MOVIE = 720;
         int counter = 0;
@@ -862,17 +801,15 @@ public class FirstWave extends Level {
 
         ArrayList<WraithEnemy> listWraiths = new ArrayList<>();
 
-        public void setCenterOfAttention(Char who)
-        {
+        public void setCenterOfAttention(Char who) {
             centerOfAttention = who;
         }
 
-        public void endScenario()
-        {
+        public void endScenario() {
             MissionScene.scenePause = true;
-            for (Mob mob : (Iterable<Mob>)Dungeon.level.mobs.clone()) {
+            for (Mob mob : (Iterable<Mob>) Dungeon.level.mobs.clone()) {
                 if (mob.hostile == true || mob instanceof SummonedPet) {
-                    mob.die( null );
+                    mob.die(null);
                     continue;
                 }
                 mob.sprite.idle();
@@ -880,14 +817,12 @@ public class FirstWave extends Level {
             }
 
 
-
             nextPhase();
         }
 
         @Override
-        public boolean act()
-        {
-            if(phase == 0) {
+        public boolean act() {
+            if (phase == 0) {
                 if (counter == 0) {
                 /*
                 actress = new MovieGirl();
@@ -896,17 +831,17 @@ public class FirstWave extends Level {
 
                 */
 
-                    Dungeon.level.plant( new Sungrass.Seed(), WIDTH * 13 + 8);
-                    Dungeon.level.plant( new Sungrass.Seed(), WIDTH * 13 + 9);
+                    Dungeon.level.plant(new Sungrass.Seed(), WIDTH * 13 + 8);
+                    Dungeon.level.plant(new Sungrass.Seed(), WIDTH * 13 + 9);
 
-                    Dungeon.level.plant( new Sungrass.Seed(), WIDTH * 18 + 8);
-                    Dungeon.level.plant( new Sungrass.Seed(), WIDTH * 18 + 9);
+                    Dungeon.level.plant(new Sungrass.Seed(), WIDTH * 18 + 8);
+                    Dungeon.level.plant(new Sungrass.Seed(), WIDTH * 18 + 9);
 
-                    Dungeon.level.plant( new Sungrass.Seed(), WIDTH * 13 + 23);
-                    Dungeon.level.plant( new Sungrass.Seed(), WIDTH * 13 + 24);
+                    Dungeon.level.plant(new Sungrass.Seed(), WIDTH * 13 + 23);
+                    Dungeon.level.plant(new Sungrass.Seed(), WIDTH * 13 + 24);
 
-                    Dungeon.level.plant( new Sungrass.Seed(), WIDTH * 18 + 23);
-                    Dungeon.level.plant( new Sungrass.Seed(), WIDTH * 18 + 24);
+                    Dungeon.level.plant(new Sungrass.Seed(), WIDTH * 18 + 23);
+                    Dungeon.level.plant(new Sungrass.Seed(), WIDTH * 18 + 24);
 
 
                     actress2 = new MovieMaiden();
@@ -939,9 +874,9 @@ public class FirstWave extends Level {
                     soldier5.pos = (HEIGHT + 1) * WIDTH / 2 + 2 - WIDTH;
                     MissionScene.add(soldier5);
 
-                  //  skeleton1 = new SkelEnemy();
-                  //  skeleton1.pos = (HEIGHT + 1) * WIDTH / 2 - 3 + 3 * WIDTH;
-                  //  MissionScene.add(skeleton1);
+                    //  skeleton1 = new SkelEnemy();
+                    //  skeleton1.pos = (HEIGHT + 1) * WIDTH / 2 - 3 + 3 * WIDTH;
+                    //  MissionScene.add(skeleton1);
 
                     skeleton2 = new SkelEnemy();
                     skeleton2.pos = (HEIGHT + 1) * WIDTH / 2 - 2 + 2 * WIDTH;
@@ -963,32 +898,32 @@ public class FirstWave extends Level {
                     skeleton6.pos = (HEIGHT + 1) * WIDTH / 2 + 2 + 2 * WIDTH;
                     MissionScene.add(skeleton6);
 
-                  //  skeleton7 = new SkelEnemy();
-                  //  skeleton7.pos = (HEIGHT + 1) * WIDTH / 2 + 3 + 3 * WIDTH;
-                  //  MissionScene.add(skeleton7);
+                    //  skeleton7 = new SkelEnemy();
+                    //  skeleton7.pos = (HEIGHT + 1) * WIDTH / 2 + 3 + 3 * WIDTH;
+                    //  MissionScene.add(skeleton7);
 
                     sprite.visible = false;
                     Dungeon.hero.sprite.visible = false;
                     centerOfAttention = vanguard;
                 } else if (MissionScene.scenePause == true) {
-                    Camera.main.target  = centerOfAttention.sprite;
+                    Camera.main.target = centerOfAttention.sprite;
                 }
 
 
                 if (counter == 100) {
                     soldier1.sprite.showStatus(CharSprite.NEUTRAL, "Too many!");
                     soldier5.sprite.showStatus(CharSprite.NEUTRAL, "Mommy...");
-                   // skeleton1.sprite.move(skeleton1.pos, skeleton1.pos - WIDTH);
+                    // skeleton1.sprite.move(skeleton1.pos, skeleton1.pos - WIDTH);
                     skeleton3.sprite.move(skeleton3.pos, skeleton3.pos - WIDTH);
                     skeleton5.sprite.move(skeleton5.pos, skeleton5.pos - WIDTH);
-                   // skeleton7.sprite.move(skeleton7.pos, skeleton7.pos - WIDTH);
+                    // skeleton7.sprite.move(skeleton7.pos, skeleton7.pos - WIDTH);
 
                     actress2.tmp = skeleton4;
                     actress2.sprite.attack(skeleton4.pos);
                 }
                 if (counter == 140) {
                     vanguard.sprite.showStatus(CharSprite.NEUTRAL, "Hold the line!");
-                   // skeleton1.sprite.move(skeleton1.pos, skeleton1.pos - 2 * WIDTH);
+                    // skeleton1.sprite.move(skeleton1.pos, skeleton1.pos - 2 * WIDTH);
                     skeleton3.sprite.move(skeleton3.pos, skeleton3.pos - 2 * WIDTH);
                     skeleton5.sprite.move(skeleton5.pos, skeleton5.pos - 2 * WIDTH);
                     skeleton2.sprite.move(skeleton2.pos, skeleton2.pos - WIDTH);
@@ -1004,11 +939,11 @@ public class FirstWave extends Level {
                     skeleton5.sprite.move(skeleton5.pos, skeleton5.pos - 3 * WIDTH);
                     skeleton2.sprite.move(skeleton2.pos, skeleton2.pos - 2 * WIDTH);
                     skeleton6.sprite.move(skeleton6.pos, skeleton6.pos - 2 * WIDTH);
-                   // skeleton7.sprite.move(skeleton7.pos, skeleton7.pos - 3 * WIDTH);
+                    // skeleton7.sprite.move(skeleton7.pos, skeleton7.pos - 3 * WIDTH);
                 }
                 if (counter == 180) {
-                  //  skeleton1.pos = skeleton1.pos - 3 * WIDTH;
-                   // skeleton1.sprite.attack(skeleton1.pos - WIDTH);
+                    //  skeleton1.pos = skeleton1.pos - 3 * WIDTH;
+                    // skeleton1.sprite.attack(skeleton1.pos - WIDTH);
                     soldier1.die(null);
                     soldier1.sprite.bloodBurstA(sprite.center(), 10);
                     Sample.INSTANCE.play(Assets.SND_HIT, 1, 1, Random.Float(0.8f, 1.25f));
@@ -1018,8 +953,8 @@ public class FirstWave extends Level {
 
                 }
                 if (counter == 200) {
-                   // skeleton1.sprite.move(skeleton1.pos, skeleton1.pos - WIDTH + 1);
-                   // skeleton1.pos = skeleton1.pos - WIDTH + 1;
+                    // skeleton1.sprite.move(skeleton1.pos, skeleton1.pos - WIDTH + 1);
+                    // skeleton1.pos = skeleton1.pos - WIDTH + 1;
                     vanguard.sprite.move(vanguard.pos, vanguard.pos - 2 + WIDTH);
                     vanguard.pos = vanguard.pos - 2 + WIDTH;
                 }
@@ -1027,8 +962,8 @@ public class FirstWave extends Level {
                     //skeleton1.sprite.die();
                     //Actor.addDelayed(new Pushing(skeleton1, skeleton1.pos, skeleton1.pos + WIDTH - 1), -1);
                     Sample.INSTANCE.play(Assets.SND_HIT, 1, 1, Random.Float(0.8f, 1.25f));
-                  //  skeleton7.pos = skeleton7.pos - 3 * WIDTH;
-                  //  skeleton7.sprite.attack(soldier5.pos);
+                    //  skeleton7.pos = skeleton7.pos - 3 * WIDTH;
+                    //  skeleton7.sprite.attack(soldier5.pos);
                     skeleton6.pos = skeleton6.pos - 2 * WIDTH;
                     soldier5.sprite.attack(skeleton6.pos);
                     skeleton6.die(null);
@@ -1038,8 +973,8 @@ public class FirstWave extends Level {
                     Sample.INSTANCE.play(Assets.SND_HIT, 1, 1, Random.Float(0.8f, 1.25f));
                 }
                 if (counter == 240) {
-                   // actress2.sprite.attack(skeleton7.pos);
-                   // actress2.tmp = skeleton7;
+                    // actress2.sprite.attack(skeleton7.pos);
+                    // actress2.tmp = skeleton7;
                     vanguard.sprite.idle();
                     vanguard.sprite.showStatus(CharSprite.NEUTRAL, "Do not fail!");
                     skeleton2.pos = skeleton2.pos - 2 * WIDTH;
@@ -1121,7 +1056,7 @@ public class FirstWave extends Level {
                     ((LegendSprite) Dungeon.hero.sprite).haloUp();
                     for (int i = 0; i < listWraiths.size(); i++)
                         listWraiths.get(i).die(null);
-                   // skeleton7.die(null);
+                    // skeleton7.die(null);
                 }
                 if (counter == 600) {
                     Dungeon.hero.sprite.showStatus(CharSprite.NEUTRAL, "Fall back to the city");
@@ -1163,85 +1098,69 @@ public class FirstWave extends Level {
                     spend(2f);
                 else
                     spend(1f);
-            }
-            else if(phase == 1)
-            {
-                if(counter == 40)
-                {
+            } else if (phase == 1) {
+                if (counter == 40) {
                     temari.speak("Ka-Ching!");
                 }
 
-                if(counter == 80)
-                {
+                if (counter == 80) {
                     Dungeon.hero.sprite.showStatus(CharSprite.NEUTRAL, "I am broke.. go away");
                 }
-                if(counter == 150)
-                {
+                if (counter == 150) {
                     temari.speak("Liar!");
                 }
-                if(counter == 200)
-                {
+                if (counter == 200) {
                     Dungeon.hero.sprite.showStatus(CharSprite.NEUTRAL, "Fine.. just you");
                 }
-                if(counter == 250)
-                {
+                if (counter == 250) {
                     temari.speak("Hah.. why anyone else?");
                     MissionScene.scenePause = false;
                 }
 
                 counter++;
                 spend(1f);
-            }
-            else if(phase == 2)
-            {
-                if(counter == 10)
-                {
+            } else if (phase == 2) {
+                if (counter == 10) {
                     general.speak("I brought volunteers");
                     centerOfAttention = general;
-                    Camera.main.target  = centerOfAttention.sprite;
+                    Camera.main.target = centerOfAttention.sprite;
                 }
 
-                if(counter == 30)
-                {
+                if (counter == 30) {
                     Dungeon.hero.sprite.showStatus(CharSprite.NEUTRAL, "I said fall back to the city...");
                     centerOfAttention = Dungeon.hero;
-                    Camera.main.target  = centerOfAttention.sprite;
+                    Camera.main.target = centerOfAttention.sprite;
                 }
 
-                if(counter == 60)
-                {
+                if (counter == 60) {
                     general.speak("This is our fight too");
                     centerOfAttention = general;
-                    Camera.main.target  = centerOfAttention.sprite;
+                    Camera.main.target = centerOfAttention.sprite;
                 }
 
-                if(counter == 90)
-                {
+                if (counter == 90) {
                     Dungeon.hero.sprite.showStatus(CharSprite.NEUTRAL, "Can they even fight?");
                     centerOfAttention = Dungeon.hero;
-                    Camera.main.target  = centerOfAttention.sprite;
+                    Camera.main.target = centerOfAttention.sprite;
                 }
 
-                if(counter == 120)
-                {
+                if (counter == 120) {
                     temari.speak("Ouch...");
                     centerOfAttention = temari;
-                    Camera.main.target  = centerOfAttention.sprite;
+                    Camera.main.target = centerOfAttention.sprite;
                 }
 
 
-                if(counter == 150)
-                {
+                if (counter == 150) {
                     general.speak("...");
                     centerOfAttention = general;
-                    Camera.main.target  = centerOfAttention.sprite;
+                    Camera.main.target = centerOfAttention.sprite;
                 }
 
-                if(counter == 180)
-                {
+                if (counter == 180) {
                     general.speak("Move out!");
                     centerOfAttention = general;
-                    Camera.main.target  = centerOfAttention.sprite;
+                    Camera.main.target = centerOfAttention.sprite;
                     MissionScene.scenePause = false;
                     FirstWave.this.enemyAI.finalWave();
                 }
@@ -1249,61 +1168,51 @@ public class FirstWave extends Level {
                 counter++;
                 spend(1f);
 
-            }
-            else if(phase == 3)
-            {
-                if(counter == 10)
-                {
+            } else if (phase == 3) {
+                if (counter == 10) {
                     general.speak("Not bad eh?");
                     centerOfAttention = general;
-                    Camera.main.target  = centerOfAttention.sprite;
+                    Camera.main.target = centerOfAttention.sprite;
                 }
 
-                if(counter == 30)
-                {
+                if (counter == 30) {
                     Dungeon.hero.sprite.showStatus(CharSprite.NEUTRAL, "If you say so");
                     centerOfAttention = Dungeon.hero;
-                    Camera.main.target  = centerOfAttention.sprite;
+                    Camera.main.target = centerOfAttention.sprite;
                 }
 
-                if(counter == 60)
-                {
+                if (counter == 60) {
                     general.speak("Some fell... show respect Hatsune");
                     centerOfAttention = general;
-                    Camera.main.target  = centerOfAttention.sprite;
+                    Camera.main.target = centerOfAttention.sprite;
                 }
 
-                if(counter == 90)
-                {
+                if (counter == 90) {
                     Dungeon.hero.sprite.showStatus(CharSprite.NEUTRAL, "Because you brought them!");
                     centerOfAttention = Dungeon.hero;
-                    Camera.main.target  = centerOfAttention.sprite;
+                    Camera.main.target = centerOfAttention.sprite;
                 }
 
-                if(counter == 120)
-                {
+                if (counter == 120) {
                     temari.speak("Down girl");
                     centerOfAttention = temari;
-                    Camera.main.target  = centerOfAttention.sprite;
+                    Camera.main.target = centerOfAttention.sprite;
                 }
 
 
-                if(counter == 150)
-                {
+                if (counter == 150) {
                     general.speak("The council will discuss this");
                     centerOfAttention = general;
-                    Camera.main.target  = centerOfAttention.sprite;
+                    Camera.main.target = centerOfAttention.sprite;
                 }
 
-                if(counter == 180)
-                {
+                if (counter == 180) {
                     Dungeon.hero.sprite.showStatus(CharSprite.NEUTRAL, "I'll be with my daughters if needed");
-                    centerOfAttention =  Dungeon.hero;
-                    Camera.main.target  = centerOfAttention.sprite;
+                    centerOfAttention = Dungeon.hero;
+                    Camera.main.target = centerOfAttention.sprite;
                 }
 
-                if(counter == 230)
-                {
+                if (counter == 230) {
                     GameScene.show(new PersistentWndOptions("Victory!", "The first wave has been repelled!", "Exit Scenario") {
                         @Override
                         protected void onSelect(int index) {
@@ -1317,51 +1226,46 @@ public class FirstWave extends Level {
                 counter++;
                 spend(1f);
 
-            }
-            else
+            } else
                 spend(1f);
 
-            if(MissionScene.scenePause == true)
-                Camera.main.target  = centerOfAttention.sprite;
+            if (MissionScene.scenePause == true)
+                Camera.main.target = centerOfAttention.sprite;
             next();
             return true;
         }
 
-        public void nextPhase()
-        {
-            if(phase == 0)
-            {
+        public void nextPhase() {
+            if (phase == 0) {
 
                 temari = new Temari();
                 temari.pos = Dungeon.hero.pos + 1;
                 temari.initStats();
-                MissionScene.add( temari);
+                MissionScene.add(temari);
                 temari.haloUp();
-                setCenterOfAttention( temari);
-                Camera.main.target  = centerOfAttention.sprite;
+                setCenterOfAttention(temari);
+                Camera.main.target = centerOfAttention.sprite;
                 MissionScene.scenePause = true;
             }
 
-            if(phase == 1)
-            {
+            if (phase == 1) {
                 general = new General();
                 general.pos = WIDTH * 8 + WIDTH / 2;
                 general.initStats();
-                MissionScene.add( general);
+                MissionScene.add(general);
                 general.haloUp();
 
-                for(int i = 0; i < 10; i++)
-                {
+                for (int i = 0; i < 10; i++) {
                     CitySoldier tmp = new CitySoldier();
                     tmp.pos = WIDTH * 7 + WIDTH / 2 + 2 - (i + 1) % 5 - (i > 4 ? 0 : 1) * WIDTH;
                     tmp.initStats();
-                    MissionScene.add( tmp);
+                    MissionScene.add(tmp);
                 }
 
-                GameScene.add( Blob.seed(WIDTH * 9 + WIDTH / 2, 2, Fire.class) );
+                GameScene.add(Blob.seed(WIDTH * 9 + WIDTH / 2, 2, Fire.class));
 
-                setCenterOfAttention( general);
-                Camera.main.target  = centerOfAttention.sprite;
+                setCenterOfAttention(general);
+                Camera.main.target = centerOfAttention.sprite;
 
                 MissionScene.scenePause = true;
             }
@@ -1371,7 +1275,7 @@ public class FirstWave extends Level {
         }
 
         @Override
-        public boolean attack( Char enemy ) {
+        public boolean attack(Char enemy) {
             return true;
         }
     }

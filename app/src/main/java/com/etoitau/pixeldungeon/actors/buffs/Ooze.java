@@ -25,34 +25,34 @@ import com.etoitau.pixeldungeon.utils.GLog;
 import com.etoitau.pixeldungeon.utils.Utils;
 
 public class Ooze extends Buff {
-	
-	private static final String TXT_HERO_KILLED = "%s killed you...";
-	
-	public int damage	= 1;
-	
-	@Override
-	public int icon() {
-		return BuffIndicator.OOZE;
-	}
-	
-	@Override
-	public String toString() {
-		return "Caustic ooze";
-	}
-	
-	@Override
-	public boolean act() {
-		if (target.isAlive()) {
-			target.damage( damage, this );
-			if (!target.isAlive() && target == Dungeon.hero) {
-				Dungeon.fail( Utils.format( ResultDescriptions.OOZE, Dungeon.depth ) );
-				GLog.n( TXT_HERO_KILLED, toString() );
-			}
-			spend( TICK );
-		}
-		if (Level.water[target.pos]) {
-			detach();
-		}
-		return true;
-	}
+
+    private static final String TXT_HERO_KILLED = "%s killed you...";
+
+    public int damage = 1;
+
+    @Override
+    public int icon() {
+        return BuffIndicator.OOZE;
+    }
+
+    @Override
+    public String toString() {
+        return "Caustic ooze";
+    }
+
+    @Override
+    public boolean act() {
+        if (target.isAlive()) {
+            target.damage(damage, this);
+            if (!target.isAlive() && target == Dungeon.hero) {
+                Dungeon.fail(Utils.format(ResultDescriptions.OOZE, Dungeon.depth));
+                GLog.n(TXT_HERO_KILLED, toString());
+            }
+            spend(TICK);
+        }
+        if (Level.water[target.pos]) {
+            detach();
+        }
+        return true;
+    }
 }

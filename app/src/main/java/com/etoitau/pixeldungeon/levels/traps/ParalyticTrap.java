@@ -25,11 +25,11 @@ import com.etoitau.pixeldungeon.scenes.GameScene;
 
 public class ParalyticTrap {
 
-	// 0xCCCC55
-	
-	public static void trigger( int pos, Char ch ) {
-		
-		GameScene.add( Blob.seed( pos, 80 + 5 * Dungeon.depth, ParalyticGas.class ) );
-		
-	}
+    // 0xCCCC55
+
+    public static void trigger(int pos, Char ch) {
+
+        GameScene.add(Blob.seed(pos, 80 + 5 * Dungeon.depth, ParalyticGas.class));
+
+    }
 }

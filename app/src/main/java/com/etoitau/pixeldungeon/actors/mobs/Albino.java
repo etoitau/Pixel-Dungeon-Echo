@@ -27,30 +27,29 @@ import com.watabau.utils.Random;
 
 public class Albino extends Rat {
 
-	{
-		name = "albino rat";
-		spriteClass = AlbinoSprite.class;
-		
-		HP = HT = 15;
+    {
+        name = "albino rat";
+        spriteClass = AlbinoSprite.class;
 
-        name = Dungeon.currentDifficulty.mobPrefix() + name;
+        HP = HT = 15;
+
         HT *= Dungeon.currentDifficulty.mobHPModifier();
         HP = HT;
-	}
-	
-	@Override
-	public void die( Object cause ) {
-		super.die( cause );
-		Badges.validateRare( this );
-	}
-	
-	@Override
-	public int attackProc( Char enemy, int damage ) {
-		if (Random.Int( 2 ) == 0) {
-			Buff.affect( enemy, Bleeding.class ).set( damage );
-		}
+    }
+
+    @Override
+    public void die(Object cause) {
+        super.die(cause);
+        Badges.validateRare(this);
+    }
+
+    @Override
+    public int attackProc(Char enemy, int damage) {
+        if (Random.Int(2) == 0) {
+            Buff.affect(enemy, Bleeding.class).set(damage);
+        }
 
         champEffect(enemy, damage);
-		return damage;
-	}
+        return damage;
+    }
 }

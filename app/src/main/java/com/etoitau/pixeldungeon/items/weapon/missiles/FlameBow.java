@@ -29,60 +29,53 @@ import com.watabau.utils.Random;
 
 public class FlameBow extends Bow {
 
-	{
-		name = "flame bow";
-		image = ItemSpriteSheet.FlameBow;
+    {
+        name = "flame bow";
+        image = ItemSpriteSheet.FlameBow;
 
 
         stackable = false;
-	}
+    }
 
 
+    public FlameBow() {
+        this(1);
+    }
 
-	public FlameBow() {
-		this( 1 );
-	}
-
-	public FlameBow(int number) {
-		super();
-		quantity = number;
-	}
-
-
-	@Override
-	public String desc() {
-		return 
-			"A magically imbued bow that has a chance to set targets on fire.";
-	}
-	
-	@Override
-	public Item random() {
-		quantity = 1;
-		return this;
-	}
-	
-	@Override
-	public int price() {
-		return quantity * 55;
-	}
-
+    public FlameBow(int number) {
+        super();
+        quantity = number;
+    }
 
 
     @Override
-    public void bowSpecial(Char target)
-    {
-        try
-        {
-            if (Random.Int(2) == 1)
-            {
+    public String desc() {
+        return
+                "A magically imbued bow that has a chance to set targets on fire.";
+    }
+
+    @Override
+    public Item random() {
+        quantity = 1;
+        return this;
+    }
+
+    @Override
+    public int price() {
+        return quantity * 55;
+    }
+
+
+    @Override
+    public void bowSpecial(Char target) {
+        try {
+            if (Random.Int(2) == 1) {
                 Buff.affect(target, Burning.class).reignite(target);
                 GLog.p("Target catches fire!");
 
-                target.sprite.showStatus( CharSprite.NEUTRAL, "Hot!" );
+                target.sprite.showStatus(CharSprite.NEUTRAL, "Hot!");
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
 
         }
     }

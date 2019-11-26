@@ -22,25 +22,24 @@ import com.etoitau.pixeldungeon.utils.GLog;
 
 public class ScrollOfReadiness extends Scroll {
 
-	{
-		name = "Scroll of Readiness";
-	}
-	
-	@Override
-	protected void doRead() {
+    {
+        name = "Scroll of Readiness";
+    }
+
+    @Override
+    protected void doRead() {
 
 
-
-        GLog.w( "Inspiring words that boost moral and remove fatigue!" );
+        GLog.w("Inspiring words that boost moral and remove fatigue!");
         GLog.p("Your active skills are ready!");
-		setKnown();
+        setKnown();
 
-		curUser.spendAndNext( TIME_TO_READ );
-	}
-	
-	@Override
-	public String desc() {
-		return 
-			"When read, words of inspiration will make your ready for combat.";
-	}
+        curUser.spendAndNext(TIME_TO_READ);
+    }
+
+    @Override
+    public String desc() {
+        return
+                "When read, words of inspiration will make your ready for combat.";
+    }
 }

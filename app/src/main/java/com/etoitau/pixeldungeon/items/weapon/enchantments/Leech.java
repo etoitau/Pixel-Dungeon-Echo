@@ -29,45 +29,45 @@ import com.watabau.utils.Random;
 
 public class Leech extends Weapon.Enchantment {
 
-	private static final String TXT_VAMPIRIC	= "vampiric %s";
-	
-	private static ItemSprite.Glowing RED = new ItemSprite.Glowing( 0x660022 );
-	
-	@Override
-	public boolean proc( Weapon weapon, Char attacker, Char defender, int damage ) {
-		
-		int level = Math.max( 0, weapon.effectiveLevel() );
-		
-		// lvl 0 - 33%
-		// lvl 1 - 43%
-		// lvl 2 - 50%
-		int maxValue = damage * (level + 2) / (level + 6);
-		int effValue = Math.min( Random.IntRange( 0, maxValue ), attacker.HT - attacker.HP );
-		
-		if (effValue > 0) {
-		
-			attacker.HP += effValue;
-			attacker.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );
-			attacker.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( effValue ) );
+    private static final String TXT_VAMPIRIC = "vampiric %s";
 
-            if(attacker instanceof Hero)
+    private static ItemSprite.Glowing RED = new ItemSprite.Glowing(0x660022);
+
+    @Override
+    public boolean proc(Weapon weapon, Char attacker, Char defender, int damage) {
+
+        int level = Math.max(0, weapon.effectiveLevel());
+
+        // lvl 0 - 33%
+        // lvl 1 - 43%
+        // lvl 2 - 50%
+        int maxValue = damage * (level + 2) / (level + 6);
+        int effValue = Math.min(Random.IntRange(0, maxValue), attacker.HT - attacker.HP);
+
+        if (effValue > 0) {
+
+            attacker.HP += effValue;
+            attacker.sprite.emitter().start(Speck.factory(Speck.HEALING), 0.4f, 1);
+            attacker.sprite.showStatus(CharSprite.POSITIVE, Integer.toString(effValue));
+
+            if (attacker instanceof Hero)
                 StatusPane.takingDamage = 0;
 
-			return true;
-			
-		} else {
-			return false;
-		}
-	}
-	
-	@Override
-	public Glowing glowing() {
-		return RED;
-	}
-	
-	@Override
-	public String name( String weaponName ) {
-		return String.format( TXT_VAMPIRIC, weaponName );
-	}
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public Glowing glowing() {
+        return RED;
+    }
+
+    @Override
+    public String name(String weaponName) {
+        return String.format(TXT_VAMPIRIC, weaponName);
+    }
 
 }

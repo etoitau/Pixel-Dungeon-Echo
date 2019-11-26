@@ -32,93 +32,93 @@ import com.etoitau.pixeldungeon.utils.GLog;
 import com.etoitau.pixeldungeon.windows.WndBag;
 
 public class ArmorKit extends Item {
-	
-	private static final String TXT_SELECT_ARMOR	= "Select an armor to upgrade";
-	private static final String TXT_UPGRADED		= "you applied the armor kit to upgrade your %s";
-	
-	private static final float TIME_TO_UPGRADE = 2;
-	
-	private static final String AC_APPLY = "APPLY";
-	
-	{
-		name = "armor kit";
-		image = ItemSpriteSheet.KIT;
-		
-		unique = true;
-	}
-	
-	@Override
-	public ArrayList<String> actions( Hero hero ) {
-		ArrayList<String> actions = super.actions( hero );
-		actions.add( AC_APPLY );
-		return actions;
-	}
-	
-	@Override
-	public void execute( Hero hero, String action ) {
-		if (action == AC_APPLY) {
 
-			curUser = hero;
-			GameScene.selectItem( itemSelector, WndBag.Mode.ARMOR, TXT_SELECT_ARMOR );
-			
-		} else {
-			
-			super.execute( hero, action );
-			
-		}
-	}
-	
-	@Override
-	public boolean isUpgradable() {
-		return false;
-	}
-	
-	@Override
-	public boolean isIdentified() {
-		return true;
-	}
-	
-	private void upgrade( Armor armor ) {
-		
-		detach( curUser.belongings.backpack );
-		
-		curUser.sprite.centerEmitter().start( Speck.factory( Speck.KIT ), 0.05f, 10 );
-		curUser.spend( TIME_TO_UPGRADE );
-		curUser.busy();
-		
-		GLog.w( TXT_UPGRADED, armor.name() );
-		
-		ClassArmor classArmor = ClassArmor.upgrade( curUser, armor );
-		if (curUser.belongings.armor == armor) {
-			
-			curUser.belongings.armor = classArmor;
-			((HeroSprite)curUser.sprite).updateArmor();
-			
-		} else {
-			
-			armor.detach( curUser.belongings.backpack );
-			classArmor.collect( curUser.belongings.backpack );
-			
-		}
-		
-		curUser.sprite.operate( curUser.pos );
-		Sample.INSTANCE.play( Assets.SND_EVOKE );
-	}
-	
-	@Override
-	public String info() {
-		return
-			"Using this kit of small tools and materials anybody can transform any armor into an \"epic armor\", " +
-			"which will keep all properties of the original armor, but will also provide its wearer a special ability " +
-			"depending on his class. No skills in tailoring, leatherworking or blacksmithing are required.";
-	}
-	
-	private final WndBag.Listener itemSelector = new WndBag.Listener() {
-		@Override
-		public void onSelect( Item item ) {
-			if (item != null) {
-				ArmorKit.this.upgrade( (Armor)item );
-			}
-		}
-	};
+    private static final String TXT_SELECT_ARMOR = "Select an armor to upgrade";
+    private static final String TXT_UPGRADED = "you applied the armor kit to upgrade your %s";
+
+    private static final float TIME_TO_UPGRADE = 2;
+
+    private static final String AC_APPLY = "APPLY";
+
+    {
+        name = "armor kit";
+        image = ItemSpriteSheet.KIT;
+
+        unique = true;
+    }
+
+    @Override
+    public ArrayList<String> actions(Hero hero) {
+        ArrayList<String> actions = super.actions(hero);
+        actions.add(AC_APPLY);
+        return actions;
+    }
+
+    @Override
+    public void execute(Hero hero, String action) {
+        if (action == AC_APPLY) {
+
+            curUser = hero;
+            GameScene.selectItem(itemSelector, WndBag.Mode.ARMOR, TXT_SELECT_ARMOR);
+
+        } else {
+
+            super.execute(hero, action);
+
+        }
+    }
+
+    @Override
+    public boolean isUpgradable() {
+        return false;
+    }
+
+    @Override
+    public boolean isIdentified() {
+        return true;
+    }
+
+    private void upgrade(Armor armor) {
+
+        detach(curUser.belongings.backpack);
+
+        curUser.sprite.centerEmitter().start(Speck.factory(Speck.KIT), 0.05f, 10);
+        curUser.spend(TIME_TO_UPGRADE);
+        curUser.busy();
+
+        GLog.w(TXT_UPGRADED, armor.name());
+
+        ClassArmor classArmor = ClassArmor.upgrade(curUser, armor);
+        if (curUser.belongings.armor == armor) {
+
+            curUser.belongings.armor = classArmor;
+            ((HeroSprite) curUser.sprite).updateArmor();
+
+        } else {
+
+            armor.detach(curUser.belongings.backpack);
+            classArmor.collect(curUser.belongings.backpack);
+
+        }
+
+        curUser.sprite.operate(curUser.pos);
+        Sample.INSTANCE.play(Assets.SND_EVOKE);
+    }
+
+    @Override
+    public String info() {
+        return
+                "Using this kit of small tools and materials anybody can transform any armor into an \"epic armor\", " +
+                        "which will keep all properties of the original armor, but will also provide its wearer a special ability " +
+                        "depending on his class. No skills in tailoring, leatherworking or blacksmithing are required.";
+    }
+
+    private final WndBag.Listener itemSelector = new WndBag.Listener() {
+        @Override
+        public void onSelect(Item item) {
+            if (item != null) {
+                ArmorKit.this.upgrade((Armor) item);
+            }
+        }
+    };
 }

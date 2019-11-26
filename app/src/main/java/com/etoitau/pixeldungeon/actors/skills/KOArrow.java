@@ -8,7 +8,7 @@ import com.watabau.utils.Random;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class KOArrow extends PassiveSkillB2{
+public class KOArrow extends PassiveSkillB2 {
 
 
     {
@@ -19,11 +19,9 @@ public class KOArrow extends PassiveSkillB2{
     }
 
     @Override
-    public boolean goToSleep()
-    {
+    public boolean goToSleep() {
 
-        if(Random.Int(100) < 10 * level)
-        {
+        if (Random.Int(100) < 10 * level) {
             castTextYell();
             return true;
         }
@@ -32,15 +30,13 @@ public class KOArrow extends PassiveSkillB2{
 
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return true;
     }
 
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "A chance to knock out a target with a arrow attacks.\n"
                 + costUpgradeInfo();
     }

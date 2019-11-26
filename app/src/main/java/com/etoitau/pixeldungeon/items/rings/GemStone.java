@@ -30,120 +30,112 @@ import java.util.ArrayList;
 
 public class GemStone extends Ring {
 
-	{
-		name = "Gemstone";
-	}
-	
-
-	public int charge = 0;
-
-    public void ChargeUp()
     {
+        name = "Gemstone";
+    }
+
+
+    public int charge = 0;
+
+    public void ChargeUp() {
         charge++;
-        if(charge == 20)
-        {
+        if (charge == 20) {
             image = ItemSpriteSheet.GemStonePart;
             GLog.p("Gem stone partially charged!");
         }
-        if(charge == 40)
-        {
+        if (charge == 40) {
             image = ItemSpriteSheet.GemStoneFull;
             GLog.p("Gem stone fully charged!");
         }
     }
 
     @Override
-    public void execute( Hero hero, String action ) {
-        if (action.equals( "Activate" )) {
+    public void execute(Hero hero, String action) {
+        if (action.equals("Activate")) {
             image = ItemSpriteSheet.GemStone;
             Dungeon.hero.HP += charge;
-            if(Dungeon.hero.HP > Dungeon.hero.HT)
+            if (Dungeon.hero.HP > Dungeon.hero.HT)
                 Dungeon.hero.HP = Dungeon.hero.HT;
             CellEmitter.center(hero.pos).burst(Speck.factory(Speck.HEALING), 1);
-            if(charge == 40)
-            {
+            if (charge == 40) {
                 GLog.p("Gemstone fully healed you!");
                 Dungeon.hero.HP = Dungeon.hero.HT;
-            }
-            else
+            } else
                 GLog.p("Gemstone heals for " + charge + "HP!");
             charge = 0;
-        }
-        else
-        {
+        } else {
 
-            super.execute( hero, action );
+            super.execute(hero, action);
 
         }
     }
+
     @Override
-    public void storeInBundle( Bundle bundle ) {
-        super.storeInBundle( bundle );
-        bundle.put( "charge", charge );
+    public void storeInBundle(Bundle bundle) {
+        super.storeInBundle(bundle);
+        bundle.put("charge", charge);
     }
 
     @Override
-    public void restoreFromBundle( Bundle bundle ) {
-        super.restoreFromBundle( bundle );
-        charge = bundle.getInt( "charge" );
-        if(charge > 19)
-        {
+    public void restoreFromBundle(Bundle bundle) {
+        super.restoreFromBundle(bundle);
+        charge = bundle.getInt("charge");
+        if (charge > 19) {
             image = ItemSpriteSheet.GemStonePart;
         }
-        if(charge == 40)
-        {
+        if (charge == 40) {
             image = ItemSpriteSheet.GemStoneFull;
         }
     }
 
-	@Override
-	public Item random() {
-		level = +1;
-		return this;
-	}
+    @Override
+    public Item random() {
+        level = +1;
+        return this;
+    }
 
     @Override
-    protected RingBuff buff( ) {
+    protected RingBuff buff() {
         return new GemStoneBuff();
     }
 
-	@Override
-	public boolean doPickUp( Hero hero ) {
-		identify();
-		return super.doPickUp(hero);
-	}
-	
-	@Override
-	public boolean isUpgradable() {
-		return false;
-	}
-	
-	@Override
-	public void use() {
-		// Do nothing (it can't degrade)
-	}
-	
-	@Override
-	public String desc() {
-		return isKnown() ?
-			"The Gemstone is a unique artifact capable of storing life energy for later use." +
-                    " Although it does not damage the wearer, it drains away any rejuvenation his body possesses." +
-                    " That is until it fully charges and becomes a life savior in times of need.\n" +
-                    " The Gemstone's current charge is " +  charge + "/40":
-			super.desc();
-	}
+    @Override
+    public boolean doPickUp(Hero hero) {
+        identify();
+        return super.doPickUp(hero);
+    }
 
     @Override
-    public ArrayList<String> actions( Hero hero ) {
-        ArrayList<String> actions = super.actions( hero );
-        if(charge > 19)
-            actions.add( "Activate" );
+    public boolean isUpgradable() {
+        return false;
+    }
+
+    @Override
+    public void use() {
+        // Do nothing (it can't degrade)
+    }
+
+    @Override
+    public String desc() {
+        return isKnown() ?
+                "The Gemstone is a unique artifact capable of storing life energy for later use." +
+                        " Although it does not damage the wearer, it drains away any rejuvenation his body possesses." +
+                        " That is until it fully charges and becomes a life savior in times of need.\n" +
+                        " The Gemstone's current charge is " + charge + "/40" :
+                super.desc();
+    }
+
+    @Override
+    public ArrayList<String> actions(Hero hero) {
+        ArrayList<String> actions = super.actions(hero);
+        if (charge > 19)
+            actions.add("Activate");
         return actions;
     }
 
     @Override
     public String info() {
-        if (isEquipped( Dungeon.hero )) {
+        if (isEquipped(Dungeon.hero)) {
 
             return desc();
 
@@ -157,6 +149,7 @@ public class GemStone extends Ring {
 
         }
     }
+
     public class GemStoneBuff extends RingBuff {
     }
 }

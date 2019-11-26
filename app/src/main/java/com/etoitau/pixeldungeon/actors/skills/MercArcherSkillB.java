@@ -9,15 +9,13 @@ public class MercArcherSkillB extends KeenEye {
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return false;
     }
 
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "Arrows pass through friendly units without harming them.\n";
     }
 }

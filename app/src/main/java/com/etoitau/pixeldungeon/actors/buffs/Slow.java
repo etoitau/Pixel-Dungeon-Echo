@@ -23,20 +23,20 @@ import com.etoitau.pixeldungeon.ui.BuffIndicator;
 
 public class Slow extends FlavourBuff {
 
-	private static final float DURATION = 10f;
+    private static final float DURATION = 10f;
 
-	@Override
-	public int icon() {
-		return BuffIndicator.SLOW;
-	}
-	
-	@Override
-	public String toString() {
-		return "Slowed";
-	}
+    @Override
+    public int icon() {
+        return BuffIndicator.SLOW;
+    }
 
-	public static float duration( Char ch ) {
-		Resistance r = ch.buff( Resistance.class );
-		return r != null ? r.durationFactor() * DURATION : DURATION;
-	}
+    @Override
+    public String toString() {
+        return "Slowed";
+    }
+
+    public static float duration(Char ch) {
+        Resistance r = ch.buff(Resistance.class);
+        return r != null ? r.durationFactor() * DURATION : DURATION;
+    }
 }

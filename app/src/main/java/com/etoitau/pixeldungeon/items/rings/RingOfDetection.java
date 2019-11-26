@@ -22,34 +22,34 @@ import com.etoitau.pixeldungeon.actors.hero.Hero;
 
 public class RingOfDetection extends Ring {
 
-	{
-		name = "Ring of Detection";
-	}
-	
-	@Override
-	public boolean doEquip( Hero hero ) {
-		if (super.doEquip( hero )) {
-			Dungeon.hero.search( false );
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	@Override
-	protected RingBuff buff( ) {
-		return new Detection();
-	}
-	
-	@Override
-	public String desc() {
-		return isKnown() ?
-			"Wearing this ring will allow the wearer to notice hidden secrets - " +
-			"traps and secret doors - without taking time to search. Degraded rings of detection " +
-			"will dull your senses, making it harder to notice secrets even when actively searching for them." :
-			super.desc();
-	}
-	
-	public class Detection extends RingBuff {
-	}
+    {
+        name = "Ring of Detection";
+    }
+
+    @Override
+    public boolean doEquip(Hero hero) {
+        if (super.doEquip(hero)) {
+            Dungeon.hero.search(false);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    protected RingBuff buff() {
+        return new Detection();
+    }
+
+    @Override
+    public String desc() {
+        return isKnown() ?
+                "Wearing this ring will allow the wearer to notice hidden secrets - " +
+                        "traps and secret doors - without taking time to search. Degraded rings of detection " +
+                        "will dull your senses, making it harder to notice secrets even when actively searching for them." :
+                super.desc();
+    }
+
+    public class Detection extends RingBuff {
+    }
 }

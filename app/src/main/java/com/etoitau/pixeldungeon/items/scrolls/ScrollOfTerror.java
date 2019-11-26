@@ -30,52 +30,52 @@ import com.etoitau.pixeldungeon.utils.GLog;
 
 public class ScrollOfTerror extends Scroll {
 
-	{
-		name = "Scroll of Terror";
-	}
-	
-	@Override
-	protected void doRead() {
-		
-		new Flare( 5, 32 ).color( 0xFF0000, true ).show( curUser.sprite, 2f );
-		Sample.INSTANCE.play( Assets.SND_READ );
-		Invisibility.dispel();
-		
-		int count = 0;
-		Mob affected = null;
-		for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
-			if (Level.fieldOfView[mob.pos]) {
-				Buff.affect( mob, Terror.class, Terror.DURATION ).object = curUser.id();
-				
-				count++;
-				affected = mob;
-			}
-		}
-		
-		switch (count) {
-		case 0:
-			GLog.i( "The scroll emits a brilliant flash of red light" );
-			break;
-		case 1:
-			GLog.i( "The scroll emits a brilliant flash of red light and the " + affected.name + " flees!" );
-			break;
-		default:
-			GLog.i( "The scroll emits a brilliant flash of red light and the monsters flee!" );
-		}
-		setKnown();
-		
-		readAnimation();
-	}
-	
-	@Override
-	public String desc() {
-		return
-			"A flash of red light will overwhelm all creatures in your field of view with terror, " +
-			"and they will turn and flee. Attacking a fleeing enemy will dispel the effect.";
-	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 50 * quantity : super.price();
-	}
+    {
+        name = "Scroll of Terror";
+    }
+
+    @Override
+    protected void doRead() {
+
+        new Flare(5, 32).color(0xFF0000, true).show(curUser.sprite, 2f);
+        Sample.INSTANCE.play(Assets.SND_READ);
+        Invisibility.dispel();
+
+        int count = 0;
+        Mob affected = null;
+        for (Mob mob : Dungeon.level.mobs.toArray(new Mob[0])) {
+            if (Level.fieldOfView[mob.pos]) {
+                Buff.affect(mob, Terror.class, Terror.DURATION).object = curUser.id();
+
+                count++;
+                affected = mob;
+            }
+        }
+
+        switch (count) {
+            case 0:
+                GLog.i("The scroll emits a brilliant flash of red light");
+                break;
+            case 1:
+                GLog.i("The scroll emits a brilliant flash of red light and the " + affected.name + " flees!");
+                break;
+            default:
+                GLog.i("The scroll emits a brilliant flash of red light and the monsters flee!");
+        }
+        setKnown();
+
+        readAnimation();
+    }
+
+    @Override
+    public String desc() {
+        return
+                "A flash of red light will overwhelm all creatures in your field of view with terror, " +
+                        "and they will turn and flee. Attacking a fleeing enemy will dispel the effect.";
+    }
+
+    @Override
+    public int price() {
+        return isKnown() ? 50 * quantity : super.price();
+    }
 }

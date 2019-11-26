@@ -29,72 +29,73 @@ import com.watabau.utils.Callback;
 public class SkeletonSprite extends MobSprite {
 
     private int cellToAttack = 0;
-	public SkeletonSprite() {
-		super();
-		
-		texture( Assets.SKELETON );
-		
-		TextureFilm frames = new TextureFilm( texture, 12, 15 );
-		
-		idle = new Animation( 12, true );
-		idle.frames( frames, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3 );
-		
-		run = new Animation( 15, true );
-		run.frames( frames, 4, 5, 6, 7, 8, 9 );
-		
-		attack = new Animation( 15, false );
-		attack.frames( frames, 14, 15, 16 );
+
+    public SkeletonSprite() {
+        super();
+
+        texture(Assets.SKELETON);
+
+        TextureFilm frames = new TextureFilm(texture, 12, 15);
+
+        idle = new Animation(12, true);
+        idle.frames(frames, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3);
+
+        run = new Animation(15, true);
+        run.frames(frames, 4, 5, 6, 7, 8, 9);
+
+        attack = new Animation(15, false);
+        attack.frames(frames, 14, 15, 16);
 
         zap = attack.clone();
 
-		die = new Animation( 12, false );
-		die.frames( frames, 10, 11, 12, 13 );
-		
-		play( idle );
-	}
-	
-	@Override
-	public void die() {
-		super.die();
-		if (Dungeon.visible[ch.pos]) {
-			emitter().burst( Speck.factory( Speck.BONE ), 6 );
-		}
-	}
+        die = new Animation(12, false);
+        die.frames(frames, 10, 11, 12, 13);
+
+        play(idle);
+    }
 
     @Override
-    public void attack( int cell ) {
+    public void die() {
+        super.die();
+        if (Dungeon.visible[ch.pos]) {
+            emitter().burst(Speck.factory(Speck.BONE), 6);
+        }
+    }
+
+    @Override
+    public void attack(int cell) {
         if (!Level.adjacent(cell, ch.pos)) {
 
             cellToAttack = cell;
-            turnTo( ch.pos , cell );
-            play( zap );
+            turnTo(ch.pos, cell);
+            play(zap);
 
         } else {
 
-            super.attack( cell );
+            super.attack(cell);
 
         }
     }
 
     @Override
-    public void onComplete( Animation anim ) {
+    public void onComplete(Animation anim) {
         if (anim == zap) {
             idle();
 
-            ((MissileSprite)parent.recycle( MissileSprite.class )).
-                    reset( ch.pos, cellToAttack, new Arrow(), new Callback() {
+            ((MissileSprite) parent.recycle(MissileSprite.class)).
+                    reset(ch.pos, cellToAttack, new Arrow(), new Callback() {
                         @Override
                         public void call() {
                             ch.onAttackComplete();
                         }
-                    } );
+                    });
         } else {
-            super.onComplete( anim );
+            super.onComplete(anim);
         }
     }
 
-	@Override
-	public int blood() {
-		return 0xFFcccccc;
-	}
+    @Override
+    public int blood() {
+        return 0xFFcccccc;
+    }
 }

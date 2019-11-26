@@ -13,22 +13,19 @@ public class MercArcherSkillA extends KneeShot {
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return false;
     }
 
     @Override
-    public void castTextYell()
-    {
-        if(castText != "")
+    public void castTextYell() {
+        if (castText != "")
             Dungeon.hero.hiredMerc.sprite.showStatus(CharSprite.NEUTRAL, castText);
     }
 
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "Aims for weak spots crippling targets.\n";
     }
 }

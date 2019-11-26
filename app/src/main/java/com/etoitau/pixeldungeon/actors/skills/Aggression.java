@@ -5,7 +5,7 @@ import com.etoitau.pixeldungeon.Dungeon;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class Aggression extends PassiveSkillB2{
+public class Aggression extends PassiveSkillB2 {
 
 
     {
@@ -15,20 +15,17 @@ public class Aggression extends PassiveSkillB2{
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return true;
     }
 
     @Override
-    public float damageModifier()
-    {
+    public float damageModifier() {
         return 1f + 0.1f * level;
     }
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "Do more damage while using melee weapons.\n"
                 + costUpgradeInfo();
     }

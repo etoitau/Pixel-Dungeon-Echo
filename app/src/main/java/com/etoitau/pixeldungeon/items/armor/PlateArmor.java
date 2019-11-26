@@ -22,19 +22,19 @@ import com.etoitau.pixeldungeon.sprites.ItemSpriteSheet;
 
 public class PlateArmor extends Armor {
 
-	{
-		name = "plate armor";
-		image = ItemSpriteSheet.ARMOR_PLATE;
-	}
-	
-	public PlateArmor() {
-		super( 5 );
-	}
-	
-	@Override
-	public String desc() {
-		return 
-			"Enormous plates of metal are joined together into a suit that provides " +
-			"unmatched protection to any adventurer strong enough to bear its staggering weight.";
-	}
+    {
+        name = "plate armor";
+        image = ItemSpriteSheet.ARMOR_PLATE;
+    }
+
+    public PlateArmor() {
+        super(5);
+    }
+
+    @Override
+    public String desc() {
+        return
+                "Enormous plates of metal are joined together into a suit that provides " +
+                        "unmatched protection to any adventurer strong enough to bear its staggering weight.";
+    }
 }

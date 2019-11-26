@@ -5,7 +5,7 @@ import com.watabau.utils.Random;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class Awareness extends PassiveSkillA2{
+public class Awareness extends PassiveSkillA2 {
 
 
     {
@@ -15,10 +15,8 @@ public class Awareness extends PassiveSkillA2{
     }
 
     @Override
-    public boolean dodgeChance()
-    {
-        if(Random.Int(100) < 25 * level)
-        {
+    public boolean dodgeChance() {
+        if (Random.Int(100) < 25 * level) {
             castText = "Too easy..";
             castTextYell();
             return true;
@@ -29,15 +27,13 @@ public class Awareness extends PassiveSkillA2{
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return true;
     }
 
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "25% chance per level to dodge a hostile ranged attack.\n"
                 + costUpgradeInfo();
     }

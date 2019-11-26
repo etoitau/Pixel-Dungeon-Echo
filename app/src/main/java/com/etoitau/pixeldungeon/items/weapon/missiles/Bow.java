@@ -28,32 +28,30 @@ import java.util.ArrayList;
 
 public class Bow extends MissileWeapon {
 
-	{
-		name = "bow";
-		image = ItemSpriteSheet.Bow;
+    {
+        name = "bow";
+        image = ItemSpriteSheet.Bow;
 
 
         stackable = false;
-	}
+    }
 
     @Override
-    public boolean doEquip( final Hero hero ) {
+    public boolean doEquip(final Hero hero) {
 
-        if (hero.belongings.bow == null ) {
+        if (hero.belongings.bow == null) {
 
             hero.belongings.bow = this;
             hero.spendAndNext(TIME_TO_EQUIP);
-            detach( hero.belongings.backpack );
+            detach(hero.belongings.backpack);
             updateQuickslot();
             return true;
-        }
-        else
-        {
+        } else {
 
-            if (hero.belongings.bow.doUnequip( hero, true, false )) {
-                doEquip( hero );
+            if (hero.belongings.bow.doUnequip(hero, true, false)) {
+                doEquip(hero);
             } else {
-                collect( hero.belongings.backpack );
+                collect(hero.belongings.backpack);
             }
 
             updateQuickslot();
@@ -64,10 +62,10 @@ public class Bow extends MissileWeapon {
     }
 
     @Override
-    public boolean doUnequip( Hero hero, boolean collect, boolean single ) {
+    public boolean doUnequip(Hero hero, boolean collect, boolean single) {
 
 
-        if ( collect( hero.belongings.backpack )) {
+        if (collect(hero.belongings.backpack)) {
             hero.belongings.bow = null;
             updateQuickslot();
             return true;
@@ -77,57 +75,55 @@ public class Bow extends MissileWeapon {
         }
     }
 
-	public Bow() {
-		this( 1 );
-	}
+    public Bow() {
+        this(1);
+    }
 
-	public Bow(int number) {
-		super();
-		quantity = number;
-	}
+    public Bow(int number) {
+        super();
+        quantity = number;
+    }
 
-
-	@Override
-	public String desc() {
-		return 
-			"A basic bow used to fire arrows and bomb arrows.";
-	}
-	
-	@Override
-	public Item random() {
-		quantity = 1;
-		return this;
-	}
-	
-	@Override
-	public int price() {
-		return quantity * 15;
-	}
 
     @Override
-    public void doDrop( Hero hero ) {
-        if(hero.belongings.bow == this)
+    public String desc() {
+        return
+                "A basic bow used to fire arrows and bomb arrows.";
+    }
+
+    @Override
+    public Item random() {
+        quantity = 1;
+        return this;
+    }
+
+    @Override
+    public int price() {
+        return quantity * 15;
+    }
+
+    @Override
+    public void doDrop(Hero hero) {
+        if (hero.belongings.bow == this)
             hero.belongings.bow = null;
         super.doDrop(hero);
     }
 
     @Override
-    public boolean isEquipped( Hero hero ) {
+    public boolean isEquipped(Hero hero) {
         return hero.belongings.bow == this;
     }
 
     @Override
-    public ArrayList<String> actions( Hero hero ) {
-        ArrayList<String> actions = super.actions( hero );
-        actions.remove( AC_THROW );
-        actions.remove( AC_EQUIP );
-        if(Dungeon.hero.belongings.bow != this) {
-            if(actions.contains(AC_EQUIP) == false)
+    public ArrayList<String> actions(Hero hero) {
+        ArrayList<String> actions = super.actions(hero);
+        actions.remove(AC_THROW);
+        actions.remove(AC_EQUIP);
+        if (Dungeon.hero.belongings.bow != this) {
+            if (actions.contains(AC_EQUIP) == false)
                 actions.add(AC_EQUIP);
-        }
-        else
-        {
-            if(actions.contains(AC_UNEQUIP) == false)
+        } else {
+            if (actions.contains(AC_UNEQUIP) == false)
                 actions.add(AC_UNEQUIP);
         }
 
@@ -135,28 +131,30 @@ public class Bow extends MissileWeapon {
     }
 
     @Override
-    public Bow enchant()
-    {
+    public Bow enchant() {
         return Random.Int(10) < 8 ? new FrostBow() : new FlameBow();
     }
 
     @Override
-    public int min(){return 0;}
+    public int min() {
+        return 0;
+    }
 
     @Override
-    public int max(){return 0;}
+    public int max() {
+        return 0;
+    }
 
     @Override
     public String info() {
 
-        StringBuilder info = new StringBuilder( desc() );
+        StringBuilder info = new StringBuilder(desc());
 
 
         return info.toString();
     }
 
-    public void bowSpecial(Char target)
-    {
+    public void bowSpecial(Char target) {
 
     }
 }

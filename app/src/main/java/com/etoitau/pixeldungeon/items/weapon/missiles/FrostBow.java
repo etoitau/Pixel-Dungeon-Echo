@@ -32,48 +32,45 @@ import java.util.ArrayList;
 
 public class FrostBow extends Bow {
 
-	{
-		name = "frost bow";
-		image = ItemSpriteSheet.ForstBow;
+    {
+        name = "frost bow";
+        image = ItemSpriteSheet.ForstBow;
 
 
         stackable = false;
-	}
+    }
 
 
+    public FrostBow() {
+        this(1);
+    }
 
-	public FrostBow() {
-		this( 1 );
-	}
-
-	public FrostBow(int number) {
-		super();
-		quantity = number;
-	}
-
-
-	@Override
-	public String desc() {
-		return 
-			"A magically imbued bow that has a chance to freeze targets.";
-	}
-	
-	@Override
-	public Item random() {
-		quantity = 1;
-		return this;
-	}
-	
-	@Override
-	public int price() {
-		return quantity * 55;
-	}
-
+    public FrostBow(int number) {
+        super();
+        quantity = number;
+    }
 
 
     @Override
-    public void bowSpecial(Char target)
-    {
+    public String desc() {
+        return
+                "A magically imbued bow that has a chance to freeze targets.";
+    }
+
+    @Override
+    public Item random() {
+        quantity = 1;
+        return this;
+    }
+
+    @Override
+    public int price() {
+        return quantity * 55;
+    }
+
+
+    @Override
+    public void bowSpecial(Char target) {
         try {
             if (Random.Int(5) == 1) {
                 Buff.prolong(target, Frost.class, Frost.duration(target) * Random.Float(1f, 2f));
@@ -82,9 +79,7 @@ public class FrostBow extends Bow {
                 target.sprite.showStatus(CharSprite.NEUTRAL, "Brrrr...");
             } else
                 Buff.affect(target, Frost.class);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
 
         }
     }

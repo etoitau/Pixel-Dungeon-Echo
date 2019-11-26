@@ -23,49 +23,49 @@ import com.watabau.utils.Random;
 
 public class Shuriken extends MissileWeapon {
 
-	{
-		name = "shuriken";
-		image = ItemSpriteSheet.SHURIKEN;
-		
-		STR = 13;
-		
-		DLY = 0.5f;
-	}
-	
-	public Shuriken() {
-		this( 1 );
-	}
-	
-	public Shuriken( int number ) {
-		super();
-		quantity = number;
-	}
-	
-	@Override
-	public int min() {
-		return 2;
-	}
-	
-	@Override
-	public int max() {
-		return 6;
-	}
-	
-	@Override
-	public String desc() {
-		return 
-			"Star-shaped pieces of metal with razor-sharp blades do significant damage " +
-			"when they hit a target. They can be thrown at very high rate.";
-	}
-	
-	@Override
-	public Item random() {
-		quantity = Random.Int( 5, 15 );
-		return this;
-	}
-	
-	@Override
-	public int price() {
-		return 15 * quantity;
-	}
+    {
+        name = "shuriken";
+        image = ItemSpriteSheet.SHURIKEN;
+
+        STR = 13;
+
+        DLY = 0.5f;
+    }
+
+    public Shuriken() {
+        this(1);
+    }
+
+    public Shuriken(int number) {
+        super();
+        quantity = number;
+    }
+
+    @Override
+    public int min() {
+        return 2;
+    }
+
+    @Override
+    public int max() {
+        return 6;
+    }
+
+    @Override
+    public String desc() {
+        return
+                "Star-shaped pieces of metal with razor-sharp blades do significant damage " +
+                        "when they hit a target. They can be thrown at very high rate.";
+    }
+
+    @Override
+    public Item random() {
+        quantity = Random.Int(5, 15);
+        return this;
+    }
+
+    @Override
+    public int price() {
+        return 15 * quantity;
+    }
 }

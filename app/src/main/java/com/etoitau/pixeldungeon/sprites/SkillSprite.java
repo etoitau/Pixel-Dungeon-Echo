@@ -26,49 +26,43 @@ import com.etoitau.pixeldungeon.Dungeon;
 
 public class SkillSprite extends MovieClip {
 
-	public static final int SIZE	= 16;
+    public static final int SIZE = 16;
 
 
-
-	protected static TextureFilm film;
-
+    protected static TextureFilm film;
 
 
-	public SkillSprite() {
-		this( ItemSpriteSheet.SMTH );
-	}
+    public SkillSprite() {
+        this(ItemSpriteSheet.SMTH);
+    }
 
 
-
-	public SkillSprite(int image) {
-		super( Assets.HERO_SKILL );
+    public SkillSprite(int image) {
+        super(Assets.HERO_SKILL);
 
         if (film == null) {
-            film = new TextureFilm( texture, SIZE, SIZE );
+            film = new TextureFilm(texture, SIZE, SIZE);
         }
 
-		view( image );
-	}
-	
-	public void originToCenter() {
-		origin.set(SIZE / 2 );
-	}
-	
+        view(image);
+    }
 
-	
-	public SkillSprite view( int image ) {
-		frame( film.get( image ) );
-		return this;
-	}
-	
-	@Override
-	public void update() {
-		super.update();
+    public void originToCenter() {
+        origin.set(SIZE / 2);
+    }
 
 
+    public SkillSprite view(int image) {
+        frame(film.get(image));
+        return this;
+    }
 
-	}
-	
+    @Override
+    public void update() {
+        super.update();
+
+
+    }
 
 
 }

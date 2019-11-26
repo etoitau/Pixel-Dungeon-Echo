@@ -39,71 +39,73 @@ import com.etoitau.pixeldungeon.windows.WndOptions;
 import com.watabau.utils.Random;
 
 public class Chasm {
-	
-	private static final String TXT_CHASM	= "Chasm";
-	private static final String TXT_YES		= "Yes, I know what I'm doing";
-	private static final String TXT_NO		= "No, I changed my mind";
-	private static final String TXT_JUMP 	= 
-		"Do you really want to jump into the chasm? You can probably die.";
-	
-	public static boolean jumpConfirmed = false;
-	
-	public static void heroJump( final Hero hero ) {
-		GameScene.show( 
-			new WndOptions( TXT_CHASM, TXT_JUMP, TXT_YES, TXT_NO ) {
-				@Override
-				protected void onSelect( int index ) {
-					if (index == 0) {
-						jumpConfirmed = true;
-						hero.resume();
-					}
-				};
-			}
-		);
-	}
-	
-	public static void heroFall( int pos ) {
-		
-		jumpConfirmed = false;
-				
-		Sample.INSTANCE.play( Assets.SND_FALLING );
-		
-		if (Dungeon.hero.isAlive()) {
-			Dungeon.hero.interrupt();
-			InterlevelScene.mode = InterlevelScene.Mode.FALL;
-			if (Dungeon.level instanceof RegularLevel) {
-				Room room = ((RegularLevel)Dungeon.level).room( pos );
-				InterlevelScene.fallIntoPit = room != null && room.type == Room.Type.WEAK_FLOOR;
-			} else {
-				InterlevelScene.fallIntoPit = false;
-			}
-			Game.switchScene( InterlevelScene.class );
-		} else {
-			Dungeon.hero.sprite.visible = false;
-		}
-	}
-	
-	public static void heroLand() {
-		
-		Hero hero = Dungeon.hero;
-		
-		hero.sprite.burst( hero.sprite.blood(), 10 );
-		Camera.main.shake( 4, 0.2f );
-		
-		Buff.prolong( hero, Cripple.class, Cripple.DURATION );
-		hero.damage( Random.IntRange( hero.HT / 3, hero.HT / 2 ), new Hero.Doom() {
-			@Override
-			public void onDeath() {
-				Badges.validateDeathFromFalling();
-				
-				Dungeon.fail( Utils.format( ResultDescriptions.FALL, Dungeon.depth ) );
-				GLog.n( "You fell to death..." );
-			}
-		} );
-	}
 
-	public static void mobFall( Mob mob ) {
-		mob.destroy();
-		((MobSprite)mob.sprite).fall();
-	}
+    private static final String TXT_CHASM = "Chasm";
+    private static final String TXT_YES = "Yes, I know what I'm doing";
+    private static final String TXT_NO = "No, I changed my mind";
+    private static final String TXT_JUMP =
+            "Do you really want to jump into the chasm? You can probably die.";
+
+    public static boolean jumpConfirmed = false;
+
+    public static void heroJump(final Hero hero) {
+        GameScene.show(
+                new WndOptions(TXT_CHASM, TXT_JUMP, TXT_YES, TXT_NO) {
+                    @Override
+                    protected void onSelect(int index) {
+                        if (index == 0) {
+                            jumpConfirmed = true;
+                            hero.resume();
+                        }
+                    }
+
+                    ;
+                }
+        );
+    }
+
+    public static void heroFall(int pos) {
+
+        jumpConfirmed = false;
+
+        Sample.INSTANCE.play(Assets.SND_FALLING);
+
+        if (Dungeon.hero.isAlive()) {
+            Dungeon.hero.interrupt();
+            InterlevelScene.mode = InterlevelScene.Mode.FALL;
+            if (Dungeon.level instanceof RegularLevel) {
+                Room room = ((RegularLevel) Dungeon.level).room(pos);
+                InterlevelScene.fallIntoPit = room != null && room.type == Room.Type.WEAK_FLOOR;
+            } else {
+                InterlevelScene.fallIntoPit = false;
+            }
+            Game.switchScene(InterlevelScene.class);
+        } else {
+            Dungeon.hero.sprite.visible = false;
+        }
+    }
+
+    public static void heroLand() {
+
+        Hero hero = Dungeon.hero;
+
+        hero.sprite.burst(hero.sprite.blood(), 10);
+        Camera.main.shake(4, 0.2f);
+
+        Buff.prolong(hero, Cripple.class, Cripple.DURATION);
+        hero.damage(Random.IntRange(hero.HT / 3, hero.HT / 2), new Hero.Doom() {
+            @Override
+            public void onDeath() {
+                Badges.validateDeathFromFalling();
+
+                Dungeon.fail(Utils.format(ResultDescriptions.FALL, Dungeon.depth));
+                GLog.n("You fell to death...");
+            }
+        });
+    }
+
+    public static void mobFall(Mob mob) {
+        mob.destroy();
+        ((MobSprite) mob.sprite).fall();
+    }
 }

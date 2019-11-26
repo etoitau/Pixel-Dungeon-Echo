@@ -9,15 +9,13 @@ public class MercBruteSkillA extends Toughness {
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return false;
     }
 
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "Take less damage from enemy attacks.\n";
     }
 }

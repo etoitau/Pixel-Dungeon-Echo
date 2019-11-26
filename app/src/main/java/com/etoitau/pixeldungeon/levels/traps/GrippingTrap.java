@@ -26,17 +26,17 @@ import com.etoitau.pixeldungeon.effects.Wound;
 import com.watabau.utils.Random;
 
 public class GrippingTrap {
-	
-	public static void trigger( int pos, Char c ) {
-		
-		if (c != null) {
-			int damage = Math.max( 0,  (Dungeon.depth + 3) - Random.IntRange( 0, c.dr() / 2 ) );
-			Buff.affect( c, Bleeding.class ).set( damage );
-			Buff.prolong( c, Cripple.class, Cripple.DURATION );
-			Wound.hit( c );
-		} else {
-			Wound.hit( pos );
-		}
-		
-	}
+
+    public static void trigger(int pos, Char c) {
+
+        if (c != null) {
+            int damage = Math.max(0, (Dungeon.depth + 3) - Random.IntRange(0, c.dr() / 2));
+            Buff.affect(c, Bleeding.class).set(damage);
+            Buff.prolong(c, Cripple.class, Cripple.DURATION);
+            Wound.hit(c);
+        } else {
+            Wound.hit(pos);
+        }
+
+    }
 }

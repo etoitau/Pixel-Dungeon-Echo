@@ -8,8 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class LegendPassiveA extends BranchSkill{
-
+public class LegendPassiveA extends BranchSkill {
 
 
     {
@@ -19,8 +18,7 @@ public class LegendPassiveA extends BranchSkill{
     }
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "Hatsune as with her ancestors overflow with spiritual energy.";
     }
 }

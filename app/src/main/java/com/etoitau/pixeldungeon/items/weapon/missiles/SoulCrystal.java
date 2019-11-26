@@ -40,41 +40,41 @@ import com.watabau.utils.Random;
 
 public class SoulCrystal extends MissileWeapon {
 
-	{
-		name = "soul crystal";
-		image = ItemSpriteSheet.CRYSTAL_EMPTY;
+    {
+        name = "soul crystal";
+        image = ItemSpriteSheet.CRYSTAL_EMPTY;
         stackable = true;
-	}
+    }
 
-	public SoulCrystal() {
-		this( 1 );
-	}
+    public SoulCrystal() {
+        this(1);
+    }
 
-	public SoulCrystal(int number) {
-		super();
-		quantity = number;
-	}
-	
-	@Override
-	public int min() {
-		return 1;
-	}
-	
-	@Override
-	public int max() {
-		return 4;
-	}
-	
-	@Override
-	public String desc() {
-		return 
-			"A magical crystal capable of capturing soul essence. Throw this at a weak or weakened foe and capture his spirit.";
-	}
+    public SoulCrystal(int number) {
+        super();
+        quantity = number;
+    }
+
+    @Override
+    public int min() {
+        return 1;
+    }
+
+    @Override
+    public int max() {
+        return 4;
+    }
+
+    @Override
+    public String desc() {
+        return
+                "A magical crystal capable of capturing soul essence. Throw this at a weak or weakened foe and capture his spirit.";
+    }
 
     @Override
     public String info() {
 
-        StringBuilder info = new StringBuilder( desc() );
+        StringBuilder info = new StringBuilder(desc());
 
 
         return info.toString();
@@ -82,27 +82,25 @@ public class SoulCrystal extends MissileWeapon {
 
 
     @Override
-    protected void onThrow( int cell ) {
-        if(Actor.findChar(cell) != null && Actor.findChar(cell) instanceof Mob && (!(Actor.findChar(cell) instanceof NPC) || Actor.findChar(cell) instanceof SummonedPet) && Actor.findChar(cell).champ == -1 && !Bestiary.isBoss(Actor.findChar(cell)) && (Random.Int(10, 20) > Actor.findChar(cell).HP || Actor.findChar(cell) instanceof SummonedPet))
-        {
+    protected void onThrow(int cell) {
+        if (Actor.findChar(cell) != null && Actor.findChar(cell) instanceof Mob && (!(Actor.findChar(cell) instanceof NPC) || Actor.findChar(cell) instanceof SummonedPet) && Actor.findChar(cell).champ == -1 && !Bestiary.isBoss(Actor.findChar(cell)) && (Random.Int(10, 20) > Actor.findChar(cell).HP || Actor.findChar(cell) instanceof SummonedPet)) {
             Actor.findChar(cell).sprite.emitter().burst(ShadowParticle.CURSE, 6);
-            Sample.INSTANCE.play( Assets.SND_CURSED );
+            Sample.INSTANCE.play(Assets.SND_CURSED);
             GLog.p("Captured " + Actor.findChar(cell).name + "!");
-            SoulCrystalFilled crystal = new SoulCrystalFilled(((Mob) Actor.findChar(cell)).spriteClass,  Actor.findChar(cell).HT, ((Mob) Actor.findChar(cell)).defenseSkill, Actor.findChar(cell).name);
-            Dungeon.level.drop( crystal, cell ).sprite.drop();
+            SoulCrystalFilled crystal = new SoulCrystalFilled(((Mob) Actor.findChar(cell)).spriteClass, Actor.findChar(cell).HT, ((Mob) Actor.findChar(cell)).defenseSkill, Actor.findChar(cell).name);
+            Dungeon.level.drop(crystal, cell).sprite.drop();
             Actor.findChar(cell).damage(Actor.findChar(cell).HP, Dungeon.hero);
 
+        } else if (Dungeon.visible[cell]) {
+            GLog.i("The " + name + " shatters");
+            Sample.INSTANCE.play(Assets.SND_SHATTER);
+            Splash.at(cell, Color.parseColor("#50FFFFFF"), 5);
         }
-        else if (Dungeon.visible[cell]) {
-                GLog.i("The " + name + " shatters");
-                Sample.INSTANCE.play( Assets.SND_SHATTER );
-                Splash.at(cell, Color.parseColor("#50FFFFFF"), 5);
-            }
 
     }
 
-	@Override
-	public int price() {
-		return quantity * 12;
-	}
+    @Override
+    public int price() {
+        return quantity * 12;
+    }
 }

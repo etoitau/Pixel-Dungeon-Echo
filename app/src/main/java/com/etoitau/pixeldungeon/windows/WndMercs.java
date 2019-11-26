@@ -77,24 +77,24 @@ import java.util.ArrayList;
 
 public class WndMercs extends WndTabbed {
 
-	public static enum Mode {
-		ALL,
-		BRUTE,
-		WIZARD,
-		THIEF,
-		ARCHER,
-		ARCHERMAIDEN
-	}
+    public static enum Mode {
+        ALL,
+        BRUTE,
+        WIZARD,
+        THIEF,
+        ARCHER,
+        ARCHERMAIDEN
+    }
 
     float pos = 5;
     float GAP = 2;
 
-    private static final int WIDTH_P	= 120;
-    private static final int WIDTH_L	= 144;
+    private static final int WIDTH_P = 120;
+    private static final int WIDTH_L = 144;
 
-    protected static final int TAB_WIDTH	= 25;
+    protected static final int TAB_WIDTH = 25;
 
-    private static final String TXT_TITLE =  "Hire A Mercenary";
+    private static final String TXT_TITLE = "Hire A Mercenary";
 
     private static final String TXT_MERCENARIES_DETAIL = "Mercenaries will fight for you in exchange for a fee.\n \n"
             + "There are five mercenary classes each with strengths and weaknesses. \n"
@@ -106,18 +106,16 @@ public class WndMercs extends WndTabbed {
             + "You cannot hire the mercenary equivalent of your class.";
 
 
-
     private static final String TXT_NO_GOLD = "Insufficient Gold";
 
     public static int maxHeight = 0;
 
-    public WndMercs(final Mode mode)
-    {
+    public WndMercs(final Mode mode) {
         super();
 
         int width = PixelDungeon.landscape() ? WIDTH_L : WIDTH_P;
 
-        if(mode == Mode.ALL) {
+        if (mode == Mode.ALL) {
             Component titlebar = new IconTitle(new SkillSprite(96), TXT_TITLE);
             titlebar.setRect(0, 0, width, 0);
             add(titlebar);
@@ -138,14 +136,12 @@ public class WndMercs extends WndTabbed {
 
             pos = (int) info.y + (int) info.height() + GAP * 2;
 
-            if(maxHeight < pos)
-                maxHeight = (int)pos;
+            if (maxHeight < pos)
+                maxHeight = (int) pos;
 
-            resize(width,  maxHeight);
-        }
-        else
-        {
-            Component titlebar = new IconTitle(new SkillSprite(getImage(mode)), "Hire " + (mode == Mode.ARCHER || mode == Mode.ARCHERMAIDEN ? "An " : "A ") +   getName(mode));
+            resize(width, maxHeight);
+        } else {
+            Component titlebar = new IconTitle(new SkillSprite(getImage(mode)), "Hire " + (mode == Mode.ARCHER || mode == Mode.ARCHERMAIDEN ? "An " : "A ") + getName(mode));
             titlebar.setRect(0, 0, width, 0);
             add(titlebar);
 
@@ -165,10 +161,10 @@ public class WndMercs extends WndTabbed {
 
             pos = (int) info.y + (int) info.height() + GAP * 2;
 
-            BitmapText stats = PixelScene.createText( Utils.capitalize(getName(mode) + " Stats" ), 9 );
-            stats.hardlight( TITLE_COLOR );
+            BitmapText stats = PixelScene.createText(Utils.capitalize(getName(mode) + " Stats"), 9);
+            stats.hardlight(TITLE_COLOR);
             stats.measure();
-            add( stats );
+            add(stats);
 
             stats.y = pos;
 
@@ -184,17 +180,17 @@ public class WndMercs extends WndTabbed {
 
             pos = infoStats.y + infoStats.height() + 2 * GAP;
 
-            BitmapText equipment = PixelScene.createText( Utils.capitalize("Standard Layout" ), 9 );
-            equipment.hardlight( TITLE_COLOR );
+            BitmapText equipment = PixelScene.createText(Utils.capitalize("Standard Layout"), 9);
+            equipment.hardlight(TITLE_COLOR);
             equipment.measure();
-            add( equipment );
+            add(equipment);
 
             equipment.y = pos;
 
             pos = equipment.y + equipment.height() + GAP;
 
 
-            if(mode == Mode.BRUTE) {
+            if (mode == Mode.BRUTE) {
                 final Image imageWeapon = new ItemSprite(new Mace());
                 add(imageWeapon);
 
@@ -261,9 +257,7 @@ public class WndMercs extends WndTabbed {
                 add(hotArea_imageSkill);
 
                 pos = image.y + image.height() + GAP * 3;
-            }
-            else if(mode == Mode.WIZARD)
-            {
+            } else if (mode == Mode.WIZARD) {
                 final Image imageWeapon = new ItemSprite(new Knuckles());
                 add(imageWeapon);
 
@@ -330,9 +324,7 @@ public class WndMercs extends WndTabbed {
                 add(hotArea_imageSkill);
 
                 pos = image.y + image.height() + GAP * 3;
-            }
-            else if(mode == Mode.THIEF)
-            {
+            } else if (mode == Mode.THIEF) {
                 final Image imageWeapon = new ItemSprite(new Dagger());
                 add(imageWeapon);
 
@@ -399,9 +391,7 @@ public class WndMercs extends WndTabbed {
                 add(hotArea_imageSkill);
 
                 pos = image.y + image.height() + GAP * 3;
-            }
-            else if(mode == Mode.ARCHER)
-            {
+            } else if (mode == Mode.ARCHER) {
                 final Image imageWeapon = new ItemSprite(new Bow());
                 add(imageWeapon);
 
@@ -468,9 +458,7 @@ public class WndMercs extends WndTabbed {
                 add(hotArea_imageSkill);
 
                 pos = image.y + image.height() + GAP * 3;
-            }
-            else if(mode == Mode.ARCHERMAIDEN)
-            {
+            } else if (mode == Mode.ARCHERMAIDEN) {
                 final Image imageWeapon = new ItemSprite(new FrostBow());
                 add(imageWeapon);
 
@@ -486,8 +474,6 @@ public class WndMercs extends WndTabbed {
                     }
                 };
                 add(hotArea_imageWeapon);
-
-
 
 
                 final Image image = new ItemSprite(new PotionOfHealing());
@@ -541,7 +527,7 @@ public class WndMercs extends WndTabbed {
                 pos = image.y + image.height() + GAP * 3;
             }
 
-            if(mode != Mode.ARCHERMAIDEN || HiredMerc.archerMaidenUnlocked == true) {
+            if (mode != Mode.ARCHERMAIDEN || HiredMerc.archerMaidenUnlocked == true) {
                 RedButton btnHire = new RedButton("Hire " + getName(mode) + " For " + getGoldCost(mode) + " gold") {
                     @Override
                     protected void onClick() {
@@ -551,24 +537,24 @@ public class WndMercs extends WndTabbed {
 
                             //Dungeon.hero.checkMerc = true;
                             ArrayList<Integer> respawnPoints = new ArrayList<Integer>();
-                            for (int i=0; i < Level.NEIGHBOURS8.length; i++) {
+                            for (int i = 0; i < Level.NEIGHBOURS8.length; i++) {
                                 int p = Dungeon.hero.pos + Level.NEIGHBOURS8[i];
                                 if (Actor.findChar(p) == null && (Level.passable[p] || Level.avoid[p])) {
-                                    respawnPoints.add( p );
+                                    respawnPoints.add(p);
                                 }
                             }
-                            if(respawnPoints.size() > 0) {
+                            if (respawnPoints.size() > 0) {
                                 Dungeon.gold -= getGoldCost(mode);
                                 Dungeon.hero.hiredMerc = new HiredMerc(getMercType(mode));
                                 Dungeon.hero.hiredMerc.spawn(Dungeon.hero.lvl);
                                 Dungeon.hero.hiredMerc.HP = Dungeon.hero.hiredMerc.mercType.getHealth(Dungeon.hero.lvl);
                                 Dungeon.hero.hiredMerc.mercType.setEquipment(Dungeon.hero.hiredMerc);
                                 Dungeon.hero.hiredMerc.pos = respawnPoints.get(0);
-                                GameScene.add( Dungeon.hero.hiredMerc );
+                                GameScene.add(Dungeon.hero.hiredMerc);
                                 ((MercSprite) Dungeon.hero.hiredMerc.sprite).updateArmor();
                                 WandOfBlink.appear(Dungeon.hero.hiredMerc, respawnPoints.get(0));
 
-                                Dungeon.hero.spend( 1 / Dungeon.hero.speed() );
+                                Dungeon.hero.spend(1 / Dungeon.hero.speed());
                             }
                             hide();
                             //WndStory.showStory("Your mercenary will arrive shortly");
@@ -582,13 +568,11 @@ public class WndMercs extends WndTabbed {
                 add(btnHire);
 
                 pos = btnHire.bottom() + GAP;
-            }
-            else
-            {
+            } else {
                 RedButton btnHire = new RedButton("Unlock") {
                     @Override
                     protected void onClick() {
-                        Image tmp = new  SkillSprite(104);
+                        Image tmp = new SkillSprite(104);
                         parent.add(new previewInformation(tmp, "Archer Maiden", HiredMerc.MAIDEN_UNLOCK_BY));
                     }
                 };
@@ -600,10 +584,10 @@ public class WndMercs extends WndTabbed {
                 pos = btnHire.bottom() + GAP;
             }
 
-            if(maxHeight < pos)
-                maxHeight = (int)pos;
+            if (maxHeight < pos)
+                maxHeight = (int) pos;
 
-            resize(width,  maxHeight);
+            resize(width, maxHeight);
         }
 
         MercenaryTab tabAll = new MercenaryTab(Mode.ALL);
@@ -611,32 +595,32 @@ public class WndMercs extends WndTabbed {
         add(tabAll);
         tabAll.select(mode == Mode.ALL);
 
-        if(Dungeon.hero.heroClass != HeroClass.WARRIOR) {
+        if (Dungeon.hero.heroClass != HeroClass.WARRIOR) {
             MercenaryTab tabBrute = new MercenaryTab(Mode.BRUTE);
             tabBrute.setSize(TAB_WIDTH, tabHeight());
             add(tabBrute);
             tabBrute.select(mode == Mode.BRUTE);
         }
 
-        if(Dungeon.hero.heroClass != HeroClass.MAGE) {
-        MercenaryTab tabWizard = new MercenaryTab(Mode.WIZARD);
-        tabWizard.setSize(TAB_WIDTH, tabHeight());
-        add(tabWizard);
-        tabWizard.select(mode == Mode.WIZARD);
+        if (Dungeon.hero.heroClass != HeroClass.MAGE) {
+            MercenaryTab tabWizard = new MercenaryTab(Mode.WIZARD);
+            tabWizard.setSize(TAB_WIDTH, tabHeight());
+            add(tabWizard);
+            tabWizard.select(mode == Mode.WIZARD);
         }
 
-        if(Dungeon.hero.heroClass != HeroClass.ROGUE) {
-        MercenaryTab tabThief = new MercenaryTab(Mode.THIEF);
-        tabThief.setSize(TAB_WIDTH, tabHeight());
-        add(tabThief);
-        tabThief.select(mode == Mode.THIEF);
+        if (Dungeon.hero.heroClass != HeroClass.ROGUE) {
+            MercenaryTab tabThief = new MercenaryTab(Mode.THIEF);
+            tabThief.setSize(TAB_WIDTH, tabHeight());
+            add(tabThief);
+            tabThief.select(mode == Mode.THIEF);
         }
 
-        if(Dungeon.hero.heroClass != HeroClass.HUNTRESS) {
-        MercenaryTab tabArcher = new MercenaryTab(Mode.ARCHER);
-        tabArcher.setSize(TAB_WIDTH, tabHeight());
-        add(tabArcher);
-        tabArcher.select(mode == Mode.ARCHER);
+        if (Dungeon.hero.heroClass != HeroClass.HUNTRESS) {
+            MercenaryTab tabArcher = new MercenaryTab(Mode.ARCHER);
+            tabArcher.setSize(TAB_WIDTH, tabHeight());
+            add(tabArcher);
+            tabArcher.select(mode == Mode.ARCHER);
         }
 
         MercenaryTab tabMaiden = new MercenaryTab(Mode.ARCHERMAIDEN);
@@ -646,55 +630,61 @@ public class WndMercs extends WndTabbed {
 
     }
 
-    private String getMercDetails(Mode mode)
-    {
-        switch(mode)
-        {
-            case BRUTE: return "Brutes are strong mercenaries who rely in physical fitness.\n \n";
-            case WIZARD: return "Wizards choose the path of magic. They are physically weak so they rely on summoned units.\n \n";
-            case THIEF: return "Thieves rely on stealth and poison in combat. Each strike has a small chance of poisoning enemies.\n \n";
-            case ARCHER: return "Archers are physically weak so they strike from a distance. Chance of crippling enemies.\n \n";
-            case ARCHERMAIDEN: return "Archer Maidens are elite Archers. Only the select few reach this rank.\n \n";
+    private String getMercDetails(Mode mode) {
+        switch (mode) {
+            case BRUTE:
+                return "Brutes are strong mercenaries who rely in physical fitness.\n \n";
+            case WIZARD:
+                return "Wizards choose the path of magic. They are physically weak so they rely on summoned units.\n \n";
+            case THIEF:
+                return "Thieves rely on stealth and poison in combat. Each strike has a small chance of poisoning enemies.\n \n";
+            case ARCHER:
+                return "Archers are physically weak so they strike from a distance. Chance of crippling enemies.\n \n";
+            case ARCHERMAIDEN:
+                return "Archer Maidens are elite Archers. Only the select few reach this rank.\n \n";
         }
 
         return "Brutes are strong mercenaries who rely in physical fitness.\n \n";
     }
 
-    private String getMercStats(Mode mode)
-    {
-        switch(mode)
-        {
-            case BRUTE: return "- Health: 20 + level x 3\n"
-                    + "- Strength: 13 + level x 0.33\n"
-                    + "- Speed: Slow\n"
-                    + "- Skill: Endurance\n"
-                    + "- Special: Can equip any item in carry slot.\n"
-                    + "- Cost: 100 gold + 25 gold per level.\n";
+    private String getMercStats(Mode mode) {
+        switch (mode) {
+            case BRUTE:
+                return "- Health: 20 + level x 3\n"
+                        + "- Strength: 13 + level x 0.33\n"
+                        + "- Speed: Slow\n"
+                        + "- Skill: Endurance\n"
+                        + "- Special: Can equip any item in carry slot.\n"
+                        + "- Cost: 100 gold + 25 gold per level.\n";
 
-            case WIZARD: return "- Health: 10 + level\n"
-                    + "- Strength: 10 + level x 0.2\n"
-                    + "- Speed: Normal\n"
-                    + "- Skill: Summon Rat\n"
-                    + "- Special: Summons minions.\n"
-                    + "- Cost: 80 gold + 20 gold per level.\n";
-            case THIEF:  return "- Health: 15 + level x 2\n"
-                    + "- Strength: 13 + level x 0.25\n"
-                    + "- Speed: Very Fast\n"
-                    + "- Skill: Venom\n"
-                    + "- Special: Poisons enemies with his skill.\n"
-                    + "- Cost: 70 gold + 15 gold per level.\n";
-            case ARCHER:  return "- Health: 15 + level x 2\n"
-                    + "- Strength: 11 + level x 0.25\n"
-                    + "- Speed: Fast\n"
-                    + "- Skill: Knee Shot\n"
-                    + "- Special: Attacks from a distance.\n"
-                    + "- Cost: 90 gold + 20 gold per level.\n";
-            case ARCHERMAIDEN:  return "- Health: 17 + level x 2\n"
-                    + "- Strength: 12 + level x 0.25\n"
-                    + "- Speed: Fast\n"
-                    + "- Skills: Knee Shot and Keen Eye\n"
-                    + "- Special: Exclusive access to the Keen Eye skill.\n"
-                    + "- Cost: 90 gold + 25 gold per level.\n";
+            case WIZARD:
+                return "- Health: 10 + level\n"
+                        + "- Strength: 10 + level x 0.2\n"
+                        + "- Speed: Normal\n"
+                        + "- Skill: Summon Rat\n"
+                        + "- Special: Summons minions.\n"
+                        + "- Cost: 80 gold + 20 gold per level.\n";
+            case THIEF:
+                return "- Health: 15 + level x 2\n"
+                        + "- Strength: 13 + level x 0.25\n"
+                        + "- Speed: Very Fast\n"
+                        + "- Skill: Venom\n"
+                        + "- Special: Poisons enemies with his skill.\n"
+                        + "- Cost: 70 gold + 15 gold per level.\n";
+            case ARCHER:
+                return "- Health: 15 + level x 2\n"
+                        + "- Strength: 11 + level x 0.25\n"
+                        + "- Speed: Fast\n"
+                        + "- Skill: Knee Shot\n"
+                        + "- Special: Attacks from a distance.\n"
+                        + "- Cost: 90 gold + 20 gold per level.\n";
+            case ARCHERMAIDEN:
+                return "- Health: 17 + level x 2\n"
+                        + "- Strength: 12 + level x 0.25\n"
+                        + "- Speed: Fast\n"
+                        + "- Skills: Knee Shot and Keen Eye\n"
+                        + "- Special: Exclusive access to the Keen Eye skill.\n"
+                        + "- Cost: 90 gold + 25 gold per level.\n";
         }
 
         return "- Health: 20 + level x 3\n"
@@ -704,66 +694,79 @@ public class WndMercs extends WndTabbed {
                 + "- Special: Can equip any item in carry slot.\n"
                 + "- Cost: 100 gold + 25 gold per level.\n";
     }
-    private int getImage(Mode mode)
-    {
-        switch (mode)
-        {
-            case BRUTE: return 0;
-            case WIZARD: return 24;
-            case THIEF: return 48;
-            case ARCHER: return 72;
-            case ARCHERMAIDEN: return 104;
+
+    private int getImage(Mode mode) {
+        switch (mode) {
+            case BRUTE:
+                return 0;
+            case WIZARD:
+                return 24;
+            case THIEF:
+                return 48;
+            case ARCHER:
+                return 72;
+            case ARCHERMAIDEN:
+                return 104;
         }
 
         return 0;
     }
 
-    private String getName(Mode mode)
-    {
-        switch (mode)
-        {
-            case BRUTE: return "Brute";
-            case WIZARD: return "Wizard";
-            case THIEF: return "Thief";
-            case ARCHER: return "Archer";
-            case ARCHERMAIDEN: return "ArcherMaiden";
+    private String getName(Mode mode) {
+        switch (mode) {
+            case BRUTE:
+                return "Brute";
+            case WIZARD:
+                return "Wizard";
+            case THIEF:
+                return "Thief";
+            case ARCHER:
+                return "Archer";
+            case ARCHERMAIDEN:
+                return "ArcherMaiden";
         }
 
         return "Brute";
     }
 
-    private HiredMerc.MERC_TYPES getMercType(Mode mode)
-    {
-        switch (mode)
-        {
-            case BRUTE: return HiredMerc.MERC_TYPES.Brute;
-            case WIZARD: return HiredMerc.MERC_TYPES.Wizard;
-            case THIEF: return HiredMerc.MERC_TYPES.Thief;
-            case ARCHER: return HiredMerc.MERC_TYPES.Archer;
-            case ARCHERMAIDEN: return HiredMerc.MERC_TYPES.ArcherMaiden;
+    private HiredMerc.MERC_TYPES getMercType(Mode mode) {
+        switch (mode) {
+            case BRUTE:
+                return HiredMerc.MERC_TYPES.Brute;
+            case WIZARD:
+                return HiredMerc.MERC_TYPES.Wizard;
+            case THIEF:
+                return HiredMerc.MERC_TYPES.Thief;
+            case ARCHER:
+                return HiredMerc.MERC_TYPES.Archer;
+            case ARCHERMAIDEN:
+                return HiredMerc.MERC_TYPES.ArcherMaiden;
         }
 
         return HiredMerc.MERC_TYPES.Brute;
     }
 
-    private int getGoldCost(Mode mode)
-    {
-        switch (mode)
-        {
-            case BRUTE: return 100 + Dungeon.hero.lvl * 25;
-            case WIZARD: return 80 + Dungeon.hero.lvl * 20;
-            case THIEF: return 75 + Dungeon.hero.lvl * 15;
-            case ARCHER: return 90 + Dungeon.hero.lvl * 20;
-            case ARCHERMAIDEN: return 90 + Dungeon.hero.lvl * 25;
+    private int getGoldCost(Mode mode) {
+        switch (mode) {
+            case BRUTE:
+                return 100 + Dungeon.hero.lvl * 25;
+            case WIZARD:
+                return 80 + Dungeon.hero.lvl * 20;
+            case THIEF:
+                return 75 + Dungeon.hero.lvl * 15;
+            case ARCHER:
+                return 90 + Dungeon.hero.lvl * 20;
+            case ARCHERMAIDEN:
+                return 90 + Dungeon.hero.lvl * 25;
         }
 
         return 0;
     }
 
     @Override
-    protected void onClick( Tab tab ) {
+    protected void onClick(Tab tab) {
 
-        parent.add(new WndMercs(((MercenaryTab)tab).mode));
+        parent.add(new WndMercs(((MercenaryTab) tab).mode));
         hide();
     }
 
@@ -773,28 +776,39 @@ public class WndMercs extends WndTabbed {
 
         Mode mode = Mode.BRUTE;
 
-        public MercenaryTab(Mode mode  ) {
+        public MercenaryTab(Mode mode) {
             super();
 
             this.mode = mode;
 
-            switch (mode)
-            {
-                case ALL:  icon = Icons.get( Icons.ALL_MERCS ); break;
-                case ARCHER:  icon = Icons.get( Icons.ARCHER ); break;
-                case BRUTE: icon = Icons.get( Icons.BRUTE ); break;
-                case WIZARD: icon = Icons.get( Icons.WIZARD ); break;
-                case THIEF: icon = Icons.get( Icons.THIEF ); break;
-                case ARCHERMAIDEN: icon = Icons.get( Icons.ARCHER_MAIDEN ); break;
+            switch (mode) {
+                case ALL:
+                    icon = Icons.get(Icons.ALL_MERCS);
+                    break;
+                case ARCHER:
+                    icon = Icons.get(Icons.ARCHER);
+                    break;
+                case BRUTE:
+                    icon = Icons.get(Icons.BRUTE);
+                    break;
+                case WIZARD:
+                    icon = Icons.get(Icons.WIZARD);
+                    break;
+                case THIEF:
+                    icon = Icons.get(Icons.THIEF);
+                    break;
+                case ARCHERMAIDEN:
+                    icon = Icons.get(Icons.ARCHER_MAIDEN);
+                    break;
 
             }
 
-            add( icon );
+            add(icon);
         }
 
         @Override
-        protected void select( boolean value ) {
-            super.select( value );
+        protected void select(boolean value) {
+            super.select(value);
             icon.am = selected ? 1.0f : 0.6f;
         }
 
@@ -802,13 +816,13 @@ public class WndMercs extends WndTabbed {
         protected void layout() {
             super.layout();
 
-            icon.copy( icon );
+            icon.copy(icon);
             icon.x = x + (width - icon.width) / 2;
             icon.y = y + (height - icon.height) / 2 - 2 - (selected ? 0 : 1);
             if (!selected && icon.y < y + CUT) {
                 RectF frame = icon.frame();
                 frame.top += (y - icon.y) / icon.texture.height;
-                icon.frame( frame );
+                icon.frame(frame);
                 icon.y = y;
             }
         }
@@ -816,7 +830,7 @@ public class WndMercs extends WndTabbed {
 
     private static class MercenaryTitle extends Component {
 
-        private static final int GAP	= 2;
+        private static final int GAP = 2;
 
         private SkillSprite image;
         private BitmapText title;
@@ -825,14 +839,13 @@ public class WndMercs extends WndTabbed {
         public MercenaryTitle(int image, String name) {
 
 
-
             this.image = new SkillSprite(image);
 
 
-            title = PixelScene.createText( Utils.capitalize(name ), 9 );
-            title.hardlight( TITLE_COLOR );
+            title = PixelScene.createText(Utils.capitalize(name), 9);
+            title.hardlight(TITLE_COLOR);
             title.measure();
-            add( title );
+            add(title);
             add(this.image);
 
         }
@@ -841,36 +854,33 @@ public class WndMercs extends WndTabbed {
         protected void layout() {
 
             image.x = 0;
-            image.y = Math.max( 0, title.height() + GAP - image.height );
+            image.y = Math.max(0, title.height() + GAP - image.height);
 
             title.x = image.width + GAP;
             title.y = image.height - GAP - title.baseLine();
-
 
 
             height = image.y + image.height();
         }
     }
 
-    private class previewInformation extends Window
-    {
-        public previewInformation(Image image, String title, String description)
-        {
+    private class previewInformation extends Window {
+        public previewInformation(Image image, String title, String description) {
 
             IconTitle titlebar = new IconTitle();
-            titlebar.icon( image);
-            titlebar.label( Utils.capitalize( title ), TITLE_COLOR );
-            titlebar.setRect( 0, 0, 100, 0 );
-            add( titlebar );
+            titlebar.icon(image);
+            titlebar.label(Utils.capitalize(title), TITLE_COLOR);
+            titlebar.setRect(0, 0, 100, 0);
+            add(titlebar);
 
-            BitmapTextMultiline txtInfo = PixelScene.createMultiline( description, 6 );
+            BitmapTextMultiline txtInfo = PixelScene.createMultiline(description, 6);
             txtInfo.maxWidth = 100;
             txtInfo.measure();
             txtInfo.x = titlebar.left();
             txtInfo.y = titlebar.bottom() + GAP;
-            add( txtInfo );
+            add(txtInfo);
 
-            resize( 100, (int) txtInfo.y + (int) txtInfo.height() + (int)GAP);
+            resize(100, (int) txtInfo.y + (int) txtInfo.height() + (int) GAP);
         }
     }
 

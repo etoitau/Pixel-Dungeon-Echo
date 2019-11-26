@@ -26,39 +26,39 @@ import com.etoitau.pixeldungeon.scenes.PixelScene;
 import com.etoitau.pixeldungeon.ui.Window;
 
 public class WndBadge extends Window {
-	
-	private static final int WIDTH = 120;
-	private static final int MARGIN = 4;
-	
-	public WndBadge( Badges.Badge badge ) {
-		
-		super();
-		
-		Image icon = BadgeBanner.image( badge.image );
-		icon.scale.set( 2 );
-		add( icon );
-		
-		BitmapTextMultiline info = PixelScene.createMultiline( badge.description, 8 );
-		info.maxWidth = WIDTH - MARGIN * 2;
-		info.measure();
-		
-		float w = Math.max( icon.width(), info.width() ) + MARGIN * 2;
-		
-		icon.x = (w - icon.width()) / 2;
-		icon.y = MARGIN;
-		
-		float pos = icon.y + icon.height() + MARGIN;
-		for (BitmapText line : info.new LineSplitter().split()) {
-			line.measure();
-			line.x = PixelScene.align( (w - line.width()) / 2 );
-			line.y = PixelScene.align( pos );
-			add( line );
-			
-			pos += line.height(); 
-		}
 
-		resize( (int)w, (int)(pos + MARGIN) );
-		
-		BadgeBanner.highlight( icon, badge.image );
-	}
+    private static final int WIDTH = 120;
+    private static final int MARGIN = 4;
+
+    public WndBadge(Badges.Badge badge) {
+
+        super();
+
+        Image icon = BadgeBanner.image(badge.image);
+        icon.scale.set(2);
+        add(icon);
+
+        BitmapTextMultiline info = PixelScene.createMultiline(badge.description, 8);
+        info.maxWidth = WIDTH - MARGIN * 2;
+        info.measure();
+
+        float w = Math.max(icon.width(), info.width()) + MARGIN * 2;
+
+        icon.x = (w - icon.width()) / 2;
+        icon.y = MARGIN;
+
+        float pos = icon.y + icon.height() + MARGIN;
+        for (BitmapText line : info.new LineSplitter().split()) {
+            line.measure();
+            line.x = PixelScene.align((w - line.width()) / 2);
+            line.y = PixelScene.align(pos);
+            add(line);
+
+            pos += line.height();
+        }
+
+        resize((int) w, (int) (pos + MARGIN));
+
+        BadgeBanner.highlight(icon, badge.image);
+    }
 }

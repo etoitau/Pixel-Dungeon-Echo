@@ -28,47 +28,41 @@ import java.util.ArrayList;
 public class BombTriggerBeacon extends Item {
 
 
-	
-	public static final float TIME_TO_USE = 1;
-	
+    public static final float TIME_TO_USE = 1;
 
 
-	
-	{
-		name = "bomb trigger beacon";
-		image = ItemSpriteSheet.BEACON;
-		
-		unique = true;
-	}
+    {
+        name = "bomb trigger beacon";
+        image = ItemSpriteSheet.BEACON;
+
+        unique = true;
+    }
 
 
     @Override
-    public ArrayList<String> actions( Hero hero ) {
-        ArrayList<String> actions = super.actions( hero );
-        actions.remove( AC_THROW );
+    public ArrayList<String> actions(Hero hero) {
+        ArrayList<String> actions = super.actions(hero);
+        actions.remove(AC_THROW);
 
-            if(actions.contains("Detonate") == false)
-                actions.add("Detonate");
+        if (actions.contains("Detonate") == false)
+            actions.add("Detonate");
 
         return actions;
     }
-	
-	@Override
-	public void execute( Hero hero, String action ) {
 
-        if (action == "Detonate")
-        {
+    @Override
+    public void execute(Hero hero, String action) {
+
+        if (action == "Detonate") {
             GLog.i("Beacon sends out a signal...");
             int key = 0;
-            for(int i = 0; i < Dungeon.level.heaps.size(); i++) {
+            for (int i = 0; i < Dungeon.level.heaps.size(); i++) {
                 key = Dungeon.level.heaps.keyAt(i);
                 Heap heap = Dungeon.level.heaps.get(key);
 
-                for(Item item: heap.items)
-                {
-                    if(item instanceof RemoteBombGround)
-                    {
-                        ((RemoteBombGround)item).explode();
+                for (Item item : heap.items) {
+                    if (item instanceof RemoteBombGround) {
+                        ((RemoteBombGround) item).explode();
 
                     }
                 }
@@ -77,36 +71,35 @@ public class BombTriggerBeacon extends Item {
                 if (heap.isEmpty()) {
                     heap.destroy();
                 } else if (heap.sprite != null) {
-                    heap.sprite.view( heap.image(), heap.glowing() );
+                    heap.sprite.view(heap.image(), heap.glowing());
                 }
             }
             Dungeon.observe();
             hero.spend(5);
-			
-		} else {
-			
-			super.execute( hero, action );
-			
-		}
-	}
-	
 
-	
-	@Override
-	public boolean isUpgradable() {
-		return false;
-	}
-	
-	@Override
-	public boolean isIdentified() {
-		return true;
-	}
-	
-	private static final Glowing WHITE = new Glowing( 0xFFFFFF );
-	
+        } else {
 
-	@Override
-	public String info() {
-		return "A remote trigger that can detonate thrown remote bombs. It looks a bit worn out... its signal might not reach all the bombs from the first attempt." ;
-	}
+            super.execute(hero, action);
+
+        }
+    }
+
+
+    @Override
+    public boolean isUpgradable() {
+        return false;
+    }
+
+    @Override
+    public boolean isIdentified() {
+        return true;
+    }
+
+    private static final Glowing WHITE = new Glowing(0xFFFFFF);
+
+
+    @Override
+    public String info() {
+        return "A remote trigger that can detonate thrown remote bombs. It looks a bit worn out... its signal might not reach all the bombs from the first attempt.";
+    }
 }

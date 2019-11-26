@@ -11,13 +11,11 @@ public class WeaponEffect {
     public String Name = "";
     public String Description = "";
 
-    public float Effect(Char source, Char target)
-    {
+    public float Effect(Char source, Char target) {
         return 1f;
     }
 
-    public void YellText(Char source)
-    {
+    public void YellText(Char source) {
         source.sprite.showStatus(CharSprite.NEUTRAL, Name);
     }
 }

@@ -21,10 +21,10 @@ import com.etoitau.pixeldungeon.ui.Icons;
 
 public class WndError extends WndTitledMessage {
 
-	private static final String TXT_TITLE =  "ERROR";
-	
-	public WndError( String message ) {
-		super( Icons.WARNING.get(), TXT_TITLE, message );
-	}
+    private static final String TXT_TITLE = "ERROR";
+
+    public WndError(String message) {
+        super(Icons.WARNING.get(), TXT_TITLE, message);
+    }
 
 }

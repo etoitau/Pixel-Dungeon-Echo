@@ -23,38 +23,38 @@ import com.watabau.noosa.particles.Emitter.Factory;
 import com.watabau.utils.ColorMath;
 import com.watabau.utils.Random;
 
-public class EarthParticle extends PixelParticle {	
-	
-	public static final Emitter.Factory FACTORY = new Factory() {	
-		@Override
-		public void emit( Emitter emitter, int index, float x, float y ) {
-			((EarthParticle)emitter.recycle( EarthParticle.class )).reset( x,  y );
-		}
-	};
-	
-	public EarthParticle() {
-		super();
-		
-		color( ColorMath.random( 0x444444, 0x777766 ) );
-		angle = Random.Float( -30, 30 );
-		
-		lifespan = 0.5f;
-	}
-	
-	public void reset( float x, float y ) {
-		revive();
-		
-		this.x = x;
-		this.y = y;
+public class EarthParticle extends PixelParticle {
 
-		left = lifespan;
-	}
-	
-	@Override
-	public void update() {
-		super.update();
-		
-		float p = left / lifespan;
-		size( (p < 0.5f ? p : 1 - p) * 16 );
-	}
+    public static final Emitter.Factory FACTORY = new Factory() {
+        @Override
+        public void emit(Emitter emitter, int index, float x, float y) {
+            ((EarthParticle) emitter.recycle(EarthParticle.class)).reset(x, y);
+        }
+    };
+
+    public EarthParticle() {
+        super();
+
+        color(ColorMath.random(0x444444, 0x777766));
+        angle = Random.Float(-30, 30);
+
+        lifespan = 0.5f;
+    }
+
+    public void reset(float x, float y) {
+        revive();
+
+        this.x = x;
+        this.y = y;
+
+        left = lifespan;
+    }
+
+    @Override
+    public void update() {
+        super.update();
+
+        float p = left / lifespan;
+        size((p < 0.5f ? p : 1 - p) * 16);
+    }
 }

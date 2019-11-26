@@ -22,7 +22,7 @@ public class EnslavedSouls extends Mob {
     }
 
     @Override
-    public int attackSkill( Char target ) {
+    public int attackSkill(Char target) {
         return 5;
     }
 
@@ -37,9 +37,10 @@ public class EnslavedSouls extends Mob {
     }
 
     @Override
-    public void die( Object cause ) {
+    public void die(Object cause) {
         super.die(cause);
     }
+
     @Override
     public String description() {
         return "wha..";

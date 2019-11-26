@@ -27,45 +27,45 @@ import com.etoitau.pixeldungeon.utils.Utils;
 
 public class ImpShopkeeper extends Shopkeeper {
 
-	private static final String TXT_GREETINGS = "Hello, friend!";
-	
-	{
-		name = "ambitious imp";
-		spriteClass = ImpSprite.class;
-	}
-	
-	private boolean seenBefore = false;
-	
-	@Override
-	protected boolean act() {
+    private static final String TXT_GREETINGS = "Hello, friend!";
 
-		if (!seenBefore && Dungeon.visible[pos]) {
-			yell( Utils.format( TXT_GREETINGS ) );
-			seenBefore = true;
-		}
-		
-		return super.act();
-	}
-	
-	@Override
-	protected void flee() {
-		for (Heap heap: Dungeon.level.heaps.values()) {
-			if (heap.type == Heap.Type.FOR_SALE) {
-				CellEmitter.get( heap.pos ).burst( ElmoParticle.FACTORY, 4 );
-				heap.destroy();
-			}
-		}
-		
-		destroy();
-		
-		sprite.emitter().burst( Speck.factory( Speck.WOOL ), 15 );
-		sprite.killAndErase();
-	}
-	
-	@Override
-	public String description() {
-		return 
-			"Imps are lesser demons. They are notable for neither their strength nor their magic talent. " +
-			"But they are quite smart and sociable, and many of imps prefer to live and do business among non-demons.";
-	}
+    {
+        name = "ambitious imp";
+        spriteClass = ImpSprite.class;
+    }
+
+    private boolean seenBefore = false;
+
+    @Override
+    protected boolean act() {
+
+        if (!seenBefore && Dungeon.visible[pos]) {
+            yell(Utils.format(TXT_GREETINGS));
+            seenBefore = true;
+        }
+
+        return super.act();
+    }
+
+    @Override
+    protected void flee() {
+        for (Heap heap : Dungeon.level.heaps.values()) {
+            if (heap.type == Heap.Type.FOR_SALE) {
+                CellEmitter.get(heap.pos).burst(ElmoParticle.FACTORY, 4);
+                heap.destroy();
+            }
+        }
+
+        destroy();
+
+        sprite.emitter().burst(Speck.factory(Speck.WOOL), 15);
+        sprite.killAndErase();
+    }
+
+    @Override
+    public String description() {
+        return
+                "Imps are lesser demons. They are notable for neither their strength nor their magic talent. " +
+                        "But they are quite smart and sociable, and many of imps prefer to live and do business among non-demons.";
+    }
 }

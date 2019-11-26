@@ -31,71 +31,71 @@ import com.watabau.utils.Random;
 
 public class FetidRat extends Mob {
 
-	{
-		name = "fetid rat";
-		spriteClass = FetidRatSprite.class;
-		
-		HP = HT = 15;
-		defenseSkill = 5;
-		
-		EXP = 3;
-		maxLvl = 5;	
-		
-		state = WANDERING;
+    {
+        name = "fetid rat";
+        spriteClass = FetidRatSprite.class;
 
-        name = Dungeon.currentDifficulty.mobPrefix() + name;
+        HP = HT = 15;
+        defenseSkill = 5;
+
+        EXP = 3;
+        maxLvl = 5;
+
+        state = WANDERING;
+
         HT *= Dungeon.currentDifficulty.mobHPModifier();
         HP = HT;
-	}
-	
-	@Override
-	public int damageRoll() {
-		return Random.NormalIntRange( 2, 6 );
-	}
-	
-	@Override
-	public int attackSkill( Char target ) {
-		return 12;
-	}
-	
-	@Override
-	public int dr() {
-		return 2;
-	}
-	
-	@Override
-	public String defenseVerb() {
-		return "evaded";
-	}
-	
-	@Override
-	public int defenseProc( Char enemy, int damage ) {
-		
-		GameScene.add( Blob.seed( pos, 20, ParalyticGas.class ) );
-		
-		return super.defenseProc(enemy, damage);
-	}
-	
-	@Override
-	public void die( Object cause ) {
-		super.die( cause );
-		
-		Dungeon.level.drop( new RatSkull(), pos ).sprite.drop();
-	}
-	
-	@Override
-	public String description() {
-		return
-			"This marsupial rat is much larger than a regular one. It is surrounded by a foul cloud.";
-	}
-	
-	private static final HashSet<Class<?>> IMMUNITIES = new HashSet<Class<?>>();
-	static {
-		IMMUNITIES.add( Paralysis.class );
-	}
-	
-	@Override
-	public HashSet<Class<?>> immunities() {
-		return IMMUNITIES;
-	}
+    }
+
+    @Override
+    public int damageRoll() {
+        return Random.NormalIntRange(2, 6);
+    }
+
+    @Override
+    public int attackSkill(Char target) {
+        return 12;
+    }
+
+    @Override
+    public int dr() {
+        return 2;
+    }
+
+    @Override
+    public String defenseVerb() {
+        return "evaded";
+    }
+
+    @Override
+    public int defenseProc(Char enemy, int damage) {
+
+        GameScene.add(Blob.seed(pos, 20, ParalyticGas.class));
+
+        return super.defenseProc(enemy, damage);
+    }
+
+    @Override
+    public void die(Object cause) {
+        super.die(cause);
+
+        Dungeon.level.drop(new RatSkull(), pos).sprite.drop();
+    }
+
+    @Override
+    public String description() {
+        return
+                "This marsupial rat is much larger than a regular one. It is surrounded by a foul cloud.";
+    }
+
+    private static final HashSet<Class<?>> IMMUNITIES = new HashSet<Class<?>>();
+
+    static {
+        IMMUNITIES.add(Paralysis.class);
+    }
+
+    @Override
+    public HashSet<Class<?>> immunities() {
+        return IMMUNITIES;
+    }
 }

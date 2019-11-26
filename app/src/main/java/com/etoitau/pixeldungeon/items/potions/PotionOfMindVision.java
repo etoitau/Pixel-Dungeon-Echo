@@ -25,33 +25,33 @@ import com.etoitau.pixeldungeon.utils.GLog;
 
 public class PotionOfMindVision extends Potion {
 
-	{
-		name = "Potion of Mind Vision";
-	}
-	
-	@Override
-	protected void apply( Hero hero ) {
-		setKnown();
-		Buff.affect( hero, MindVision.class, MindVision.DURATION );
-		Dungeon.observe();
-		
-		if (Dungeon.level.mobs.size() > 0) {
-			GLog.i( "You can somehow feel the presence of other creatures' minds!" );
-		} else {
-			GLog.i( "You can somehow tell that you are alone on this level at the moment." );
-		}
-	}
-	
-	@Override
-	public String desc() {
-		return
-			"After drinking this, your mind will become attuned to the psychic signature " +
-			"of distant creatures, enabling you to sense biological presences through walls. " +
-			"Also this potion will permit you to see through nearby walls and doors.";
-	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 35 * quantity : super.price();
-	}
+    {
+        name = "Potion of Mind Vision";
+    }
+
+    @Override
+    protected void apply(Hero hero) {
+        setKnown();
+        Buff.affect(hero, MindVision.class, MindVision.DURATION);
+        Dungeon.observe();
+
+        if (Dungeon.level.mobs.size() > 0) {
+            GLog.i("You can somehow feel the presence of other creatures' minds!");
+        } else {
+            GLog.i("You can somehow tell that you are alone on this level at the moment.");
+        }
+    }
+
+    @Override
+    public String desc() {
+        return
+                "After drinking this, your mind will become attuned to the psychic signature " +
+                        "of distant creatures, enabling you to sense biological presences through walls. " +
+                        "Also this potion will permit you to see through nearby walls and doors.";
+    }
+
+    @Override
+    public int price() {
+        return isKnown() ? 35 * quantity : super.price();
+    }
 }

@@ -59,10 +59,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class ColdGirl extends Mob {
-	
-	{
-		name = "Cold Girl";
-		spriteClass = ColdGirlSprite.class;
+
+    {
+        name = "Cold Girl";
+        spriteClass = ColdGirlSprite.class;
 
         HP = HT = 30;
         EXP = 20;
@@ -71,12 +71,12 @@ public class ColdGirl extends Mob {
         hostile = false;
         state = new ColdGirlAI();
         champ = 1;
-	}
+    }
 
     public boolean isSister = false;
 
-    private static final String TXT_SMB_MISSED	= "%s %s %s's attack";
-    public static final String TXT_DEATH =  "Killed in the ice cave";
+    private static final String TXT_SMB_MISSED = "%s %s %s's attack";
+    public static final String TXT_DEATH = "Killed in the ice cave";
 
     public static final int PASSIVE = 0;
     public static final int HUNTING = 1;
@@ -103,47 +103,44 @@ public class ColdGirl extends Mob {
     public int skillCharge = 5;
 
 
-    public void turnToSis()
-    {
+    public void turnToSis() {
         isSister = true;
-        ((ColdGirlSprite)sprite).turnToSis();
+        ((ColdGirlSprite) sprite).turnToSis();
     }
 
-	@Override
-	public int damageRoll() {
-		return Random.NormalIntRange( 8, 15 );
-	}
-	
-	@Override
-	public int attackSkill( Char target ) {
-		return 28;
-	}
-	
-	@Override
-	public int dr() {
-		return 10;
-	}
-	
-	@Override
-	public boolean act() {
+    @Override
+    public int damageRoll() {
+        return Random.NormalIntRange(8, 15);
+    }
 
-		return super.act();
-	}
-	
-	@Override
-	public void move( int step ) {
-		super.move( step );
+    @Override
+    public int attackSkill(Char target) {
+        return 28;
+    }
 
+    @Override
+    public int dr() {
+        return 10;
+    }
 
-	}
+    @Override
+    public boolean act() {
+
+        return super.act();
+    }
+
+    @Override
+    public void move(int step) {
+        super.move(step);
 
 
+    }
 
 
     @Override
-    public int attackProc( Char enemy, int damage ) {
+    public int attackProc(Char enemy, int damage) {
 
-        if(Level.adjacent(pos, enemy.pos) == true && damage < HP)  // Curse
+        if (Level.adjacent(pos, enemy.pos) == true && damage < HP)  // Curse
         {
             if (firstDamage) {
                 speak("I have to feel your pain too?!");
@@ -153,16 +150,14 @@ public class ColdGirl extends Mob {
             damage(damage, this);
         }
 
-        if(damage < enemy.HP && Random.Int(5) < 2 && (((ColdGirlAI)ColdGirl.this.state).aiStatus == SUPER_HUNTING) && Level.adjacent(pos, enemy.pos) == true)
-        {
+        if (damage < enemy.HP && Random.Int(5) < 2 && (((ColdGirlAI) ColdGirl.this.state).aiStatus == SUPER_HUNTING) && Level.adjacent(pos, enemy.pos) == true) {
             ArrayList<Integer> skelSpawns = new ArrayList<>();
-            for (int i=0; i < Level.NEIGHBOURS8.length; i++) {
+            for (int i = 0; i < Level.NEIGHBOURS8.length; i++) {
                 int ofs = Level.NEIGHBOURS8[i];
-                if (pos - enemy.pos  == ofs) {
+                if (pos - enemy.pos == ofs) {
                     int maxTrollPush = 2;
                     int actualPush = ofs;
-                    while(maxTrollPush > 0 && enemy.pos - actualPush > 0 && enemy.pos - actualPush < Level.passable.length && ((Level.passable[enemy.pos - actualPush] || Level.avoid[enemy.pos - actualPush]) && Actor.findChar(enemy.pos - actualPush) == null))
-                    {
+                    while (maxTrollPush > 0 && enemy.pos - actualPush > 0 && enemy.pos - actualPush < Level.passable.length && ((Level.passable[enemy.pos - actualPush] || Level.avoid[enemy.pos - actualPush]) && Actor.findChar(enemy.pos - actualPush) == null)) {
                         skelSpawns.add(enemy.pos - actualPush);
                         actualPush += ofs;
                         maxTrollPush--;
@@ -171,31 +166,30 @@ public class ColdGirl extends Mob {
                     int newPos = enemy.pos - actualPush;
                     if ((Level.passable[newPos] || Level.avoid[newPos]) && Actor.findChar(newPos) == null) {
 
-                        Actor.addDelayed( new Pushing( enemy, enemy.pos, newPos ), -1 );
+                        Actor.addDelayed(new Pushing(enemy, enemy.pos, newPos), -1);
 
                         enemy.pos = newPos;
                         // FIXME
                         if (enemy instanceof Mob) {
-                            Dungeon.level.mobPress( (Mob)enemy );
+                            Dungeon.level.mobPress((Mob) enemy);
                         } else {
-                            Dungeon.level.press( newPos, enemy );
+                            Dungeon.level.press(newPos, enemy);
                         }
 
-                        enemy.sprite.bloodBurstA( sprite.center(), enemy.HP );
+                        enemy.sprite.bloodBurstA(sprite.center(), enemy.HP);
                     }
 
-                    for(int s = 0; s < skelSpawns.size(); s++)
-                    {
+                    for (int s = 0; s < skelSpawns.size(); s++) {
                         ColdGirlSkel slave = new ColdGirlSkel();
                         slave.pos = skelSpawns.get(s);
-                        Sample.INSTANCE.play( Assets.SND_GHOST );
+                        Sample.INSTANCE.play(Assets.SND_GHOST);
 
-                        GameScene.add( slave );
-                        Actor.addDelayed( new Pushing( slave, pos, slave.pos ), -1 );
-                        slave.sprite.emitter().burst( ShadowParticle.CURSE, 5 );
+                        GameScene.add(slave);
+                        Actor.addDelayed(new Pushing(slave, pos, slave.pos), -1);
+                        slave.sprite.emitter().burst(ShadowParticle.CURSE, 5);
                     }
 
-                    if(skelSpawns.size() > 0)
+                    if (skelSpawns.size() > 0)
                         speak("This is you once I am done");
                     Dungeon.observe();
                     break;
@@ -203,77 +197,69 @@ public class ColdGirl extends Mob {
             }
         }
 
-        if(damage >= enemy.HP && enemy instanceof Hero)
-        {
-            if(((ColdGirlAI)state).aiStatus < GOD_MODE)
-            {
+        if (damage >= enemy.HP && enemy instanceof Hero) {
+            if (((ColdGirlAI) state).aiStatus < GOD_MODE) {
                 speak("Baka..");
                 return super.attackProc(enemy, damage);
-            }
-            else
-            {
-                Sample.INSTANCE.play( Assets.SND_HIT, 1, 1, Random.Float( 0.8f, 1.25f ) );
-                enemy.sprite.bloodBurstA( sprite.center(), enemy.HP );
+            } else {
+                Sample.INSTANCE.play(Assets.SND_HIT, 1, 1, Random.Float(0.8f, 1.25f));
+                enemy.sprite.bloodBurstA(sprite.center(), enemy.HP);
                 speak("Are you done yet?!");
                 hostile = false;
-                if(Level.adjacent(pos, enemy.pos) == true)  // Knockback
+                if (Level.adjacent(pos, enemy.pos) == true)  // Knockback
                 {
-                    for (int i=0; i < Level.NEIGHBOURS8.length; i++) {
+                    for (int i = 0; i < Level.NEIGHBOURS8.length; i++) {
                         int ofs = Level.NEIGHBOURS8[i];
-                        if (pos - enemy.pos  == ofs) {
+                        if (pos - enemy.pos == ofs) {
                             int newPos = enemy.pos - ofs;
                             if ((Level.passable[newPos] || Level.avoid[newPos]) && Actor.findChar(newPos) == null) {
 
-                                Actor.addDelayed( new Pushing( enemy, enemy.pos, newPos ), -1 );
+                                Actor.addDelayed(new Pushing(enemy, enemy.pos, newPos), -1);
 
                                 enemy.pos = newPos;
                                 // FIXME
                                 if (enemy instanceof Mob) {
-                                    Dungeon.level.mobPress( (Mob)enemy );
+                                    Dungeon.level.mobPress((Mob) enemy);
                                 } else {
-                                    Dungeon.level.press( newPos, enemy );
+                                    Dungeon.level.press(newPos, enemy);
                                 }
 
-                                enemy.sprite.bloodBurstA( sprite.center(), enemy.HP );
+                                enemy.sprite.bloodBurstA(sprite.center(), enemy.HP);
                             }
                             break;
                         }
                     }
                 }
-                ((ColdGirlAI)state).aiStatus = DONE_MODE;
+                ((ColdGirlAI) state).aiStatus = DONE_MODE;
                 Buff.affect(Dungeon.hero, Frost.class, 10f);
                 return -1;
             }
-        }
-        else
+        } else
             return super.attackProc(enemy, damage);
     }
 
     @Override
-    public void damage( int dmg, Object src ) {
+    public void damage(int dmg, Object src) {
         hostile = true;
-        if(src instanceof Wand)
-        {
-            if(((ColdGirlAI)state).aiStatus == PASSIVE)
-                ((ColdGirlAI)state).aiStatus = HUNTING;
+        if (src instanceof Wand) {
+            if (((ColdGirlAI) state).aiStatus == PASSIVE)
+                ((ColdGirlAI) state).aiStatus = HUNTING;
             speak("Are you mocking me?");
-        }
-        else
+        } else
             super.damage(dmg, src);
 
     }
 
     @Override
-    public int defenseProc( Char enemy, int damage ) {
+    public int defenseProc(Char enemy, int damage) {
         hostile = true;
-        if(((ColdGirlAI)state).aiStatus == PASSIVE)
-            ((ColdGirlAI)state).aiStatus = HUNTING;
+        if (((ColdGirlAI) state).aiStatus == PASSIVE)
+            ((ColdGirlAI) state).aiStatus = HUNTING;
 
-        if(enemy instanceof Mob && !(enemy instanceof HiredMerc))
-        {
+        if (enemy instanceof Mob && !(enemy instanceof HiredMerc)) {
 
             //if(firstTroll)
-                speak("I have no time for fodder");
+            speak("I have no time for fodder");
             //GameScene.flash( 0x0042ff );
             //Sample.INSTANCE.play( Assets.SND_BLAST );
             firstTroll = false;
@@ -282,9 +268,9 @@ public class ColdGirl extends Mob {
         }
 
 
-        if(Level.adjacent(pos, enemy.pos) == false)  // Space-Swap
+        if (Level.adjacent(pos, enemy.pos) == false)  // Space-Swap
         {
-            if(skillCharge > 0) {
+            if (skillCharge > 0) {
                 int tmpPos = pos;
                 pos = enemy.pos;
                 move(enemy.pos);
@@ -295,40 +281,35 @@ public class ColdGirl extends Mob {
                 CellEmitter.center(tmpPos).burst(ShadowParticle.UP, Random.IntRange(1, 2));
                 Sample.INSTANCE.play(Assets.SND_GHOST);
                 enemy.damage(damage, enemy);
-                Sample.INSTANCE.play( Assets.SND_HIT, 1, 1, Random.Float( 0.8f, 1.25f ) );
-                enemy.sprite.bloodBurstA( sprite.center(), enemy.HP );
+                Sample.INSTANCE.play(Assets.SND_HIT, 1, 1, Random.Float(0.8f, 1.25f));
+                enemy.sprite.bloodBurstA(sprite.center(), enemy.HP);
                 if (firstSwap) {
                     speak("I have no time for this");
                     heroSpeak("EH?!");
                 } else {
-                   // speak("Space Swap!");
+                    // speak("Space Swap!");
                     heroSpeak("...");
                 }
                 firstSwap = false;
                 skillCharge--;
                 return -1;
-            }
-            else
-            {
-                if(firstComplaint)
-                {
+            } else {
+                if (firstComplaint) {
                     speak("Erg...");
                     firstComplaint = false;
                 }
 
                 return super.defenseProc(enemy, damage);
             }
-        }
-        else if(firstFetch || ((ColdGirlAI)state).aiStatus == GOD_MODE)
-        {
-            if(Dungeon.hero.belongings.weapon != null) {
+        } else if (firstFetch || ((ColdGirlAI) state).aiStatus == GOD_MODE) {
+            if (Dungeon.hero.belongings.weapon != null) {
 
                 int throwAt = 0;
 
-                do{
-                    throwAt = pos +  3 * Level.NEIGHBOURS8[Random.Int(Level.NEIGHBOURS8.length -1)];
+                do {
+                    throwAt = pos + 3 * Level.NEIGHBOURS8[Random.Int(Level.NEIGHBOURS8.length - 1)];
                 }
-                while(throwAt < 0 || throwAt > Level.passable.length || Level.passable[throwAt] == false);
+                while (throwAt < 0 || throwAt > Level.passable.length || Level.passable[throwAt] == false);
 
 
                 final int throwAtFinal = throwAt;
@@ -348,29 +329,27 @@ public class ColdGirl extends Mob {
                 spend(1f);
             }
             return -1;
-        }
-        else
+        } else
             return super.defenseProc(enemy, damage);
     }
 
-    private void trollMinion(Char minion)
-    {
-        if(Level.adjacent(pos, minion.pos) == true)  // Knockback
+    private void trollMinion(Char minion) {
+        if (Level.adjacent(pos, minion.pos) == true)  // Knockback
         {
-            for (int i=0; i < Level.NEIGHBOURS8.length; i++) {
+            for (int i = 0; i < Level.NEIGHBOURS8.length; i++) {
                 int ofs = Level.NEIGHBOURS8[i];
-                if (pos - minion.pos  == ofs) {
+                if (pos - minion.pos == ofs) {
                     int newPos = minion.pos - ofs;
                     if ((Level.passable[newPos] || Level.avoid[newPos]) && Actor.findChar(newPos) == null) {
 
-                        Actor.addDelayed( new Pushing( minion, minion.pos, newPos ), -1 );
+                        Actor.addDelayed(new Pushing(minion, minion.pos, newPos), -1);
 
                         enemy.pos = newPos;
                         // FIXME
                         if (minion instanceof Mob) {
-                            Dungeon.level.mobPress( (Mob)minion );
+                            Dungeon.level.mobPress((Mob) minion);
                         } else {
-                            Dungeon.level.press( newPos, minion );
+                            Dungeon.level.press(newPos, minion);
                         }
 
                     }
@@ -379,29 +358,28 @@ public class ColdGirl extends Mob {
             }
         }
         minion.damage(9999, this);
-        Sample.INSTANCE.play( Assets.SND_HIT, 1, 1, Random.Float( 0.8f, 1.25f ) );
-        minion.sprite.bloodBurstA( sprite.center(), minion.HP );
+        Sample.INSTANCE.play(Assets.SND_HIT, 1, 1, Random.Float(0.8f, 1.25f));
+        minion.sprite.bloodBurstA(sprite.center(), minion.HP);
     }
 
-	@Override
-	public void die( Object cause ) {
+    @Override
+    public void die(Object cause) {
 
-        if(((ColdGirlAI)state).aiStatus == HUNTING)
-        {
+        if (((ColdGirlAI) state).aiStatus == HUNTING) {
             HT = 100;
             HP = 100;
             defenseSkill = 11;
-            ((ColdGirlAI)state).aiStatus = SUPER_HUNTING;
-            GameScene.flash( 0x0042ff );
-            Camera.main.shake( 3, 0.07f * (20) );
+            ((ColdGirlAI) state).aiStatus = SUPER_HUNTING;
+            GameScene.flash(0x0042ff);
+            Camera.main.shake(3, 0.07f * (20));
             int[] cells = {
-                    pos-1, pos+1, pos-Level.WIDTH, pos+Level.WIDTH,
-                    pos-1-Level.WIDTH,
-                    pos-1+Level.WIDTH,
-                    pos+1-Level.WIDTH,
-                    pos+1+Level.WIDTH
+                    pos - 1, pos + 1, pos - Level.WIDTH, pos + Level.WIDTH,
+                    pos - 1 - Level.WIDTH,
+                    pos - 1 + Level.WIDTH,
+                    pos + 1 - Level.WIDTH,
+                    pos + 1 + Level.WIDTH
             };
-            for(int i = 0; i < cells.length; i++) {
+            for (int i = 0; i < cells.length; i++) {
                 int cell = cells[i];
                 Char ch = Actor.findChar(cell);
                 if (ch != null && ch != this && ch != Dungeon.hero && !(ch instanceof HiredMerc) && ch.HP > 0) {
@@ -409,22 +387,22 @@ public class ColdGirl extends Mob {
                 }
             }
             Sample.INSTANCE.play(Assets.SND_BLAST);
-            if(Level.adjacent(pos, enemy.pos) == true)  // Knockback
+            if (Level.adjacent(pos, enemy.pos) == true)  // Knockback
             {
-                for (int i=0; i < Level.NEIGHBOURS8.length; i++) {
+                for (int i = 0; i < Level.NEIGHBOURS8.length; i++) {
                     int ofs = Level.NEIGHBOURS8[i];
-                    if (pos - enemy.pos  == ofs) {
+                    if (pos - enemy.pos == ofs) {
                         int newPos = enemy.pos - ofs;
                         if ((Level.passable[newPos] || Level.avoid[newPos]) && Actor.findChar(newPos) == null) {
 
-                            Actor.addDelayed( new Pushing( enemy, enemy.pos, newPos ), -1 );
+                            Actor.addDelayed(new Pushing(enemy, enemy.pos, newPos), -1);
 
                             enemy.pos = newPos;
                             // FIXME
                             if (enemy instanceof Mob) {
-                                Dungeon.level.mobPress( (Mob)enemy );
+                                Dungeon.level.mobPress((Mob) enemy);
                             } else {
-                                Dungeon.level.press( newPos, enemy );
+                                Dungeon.level.press(newPos, enemy);
                             }
 
                         }
@@ -438,31 +416,29 @@ public class ColdGirl extends Mob {
             }
             spend(1f);
             return;
-        }
-        else if(((ColdGirlAI)state).aiStatus == SUPER_HUNTING)
-        {
-            ((ColdGirlAI)state).aiStatus = DONE_MODE;
-            ((ColdGirlSprite)sprite).haloUp();
+        } else if (((ColdGirlAI) state).aiStatus == SUPER_HUNTING) {
+            ((ColdGirlAI) state).aiStatus = DONE_MODE;
+            ((ColdGirlSprite) sprite).haloUp();
 
             HT = 10000;
             HP = 10000;
             defenseSkill = 1000;
-            if(Level.adjacent(pos, enemy.pos) == true)  // Knockback
+            if (Level.adjacent(pos, enemy.pos) == true)  // Knockback
             {
-                for (int i=0; i < Level.NEIGHBOURS8.length; i++) {
+                for (int i = 0; i < Level.NEIGHBOURS8.length; i++) {
                     int ofs = Level.NEIGHBOURS8[i];
-                    if (pos - enemy.pos  == ofs) {
+                    if (pos - enemy.pos == ofs) {
                         int newPos = enemy.pos - ofs;
                         if ((Level.passable[newPos] || Level.avoid[newPos]) && Actor.findChar(newPos) == null) {
 
-                            Actor.addDelayed( new Pushing( enemy, enemy.pos, newPos ), -1 );
+                            Actor.addDelayed(new Pushing(enemy, enemy.pos, newPos), -1);
 
                             enemy.pos = newPos;
                             // FIXME
                             if (enemy instanceof Mob) {
-                                Dungeon.level.mobPress( (Mob)enemy );
+                                Dungeon.level.mobPress((Mob) enemy);
                             } else {
-                                Dungeon.level.press( newPos, enemy );
+                                Dungeon.level.press(newPos, enemy);
                             }
 
                         }
@@ -473,8 +449,8 @@ public class ColdGirl extends Mob {
             discussionProgress = DISCUSSION_DEAD;
             speak("What is your malfunction?!");
 
-            GameScene.flash( 0x0042ff );
-            Camera.main.shake( 5, 0.07f * (30) );
+            GameScene.flash(0x0042ff);
+            Camera.main.shake(5, 0.07f * (30));
             spend(1f);
             return;
         }
@@ -483,106 +459,102 @@ public class ColdGirl extends Mob {
         HP = 10000;
         speak("In your dreams fool");
 
-	}
+    }
 
 
     public void discuss() {
         //Discussion("Cold Girl", "You don't belong here... leave", "Who are you?", "I belong where I want to");
         DiscussionNext(0);
     }
-	
-	@Override
-	public void notice() {
-		super.notice();
+
+    @Override
+    public void notice() {
+        super.notice();
         speak("You don't belong here");
-	}
-	
-	@Override
-	public String description() {
-		return
-			"A young girl somewhat not affected by the cold.";
-	}
+    }
+
+    @Override
+    public String description() {
+        return
+                "A young girl somewhat not affected by the cold.";
+    }
 
     private static final String AI_STATE = "aistate";
     private static final String CAME_FROM = "camefrom";
     private static final String CAME_FROM_POS = "cameformpos";
+
     @Override
-    public void storeInBundle( Bundle bundle ) {
-        super.storeInBundle( bundle );
-        bundle.put(AI_STATE, ((ColdGirlAI)state).aiStatus);
+    public void storeInBundle(Bundle bundle) {
+        super.storeInBundle(bundle);
+        bundle.put(AI_STATE, ((ColdGirlAI) state).aiStatus);
         bundle.put(CAME_FROM, cameFrom);
         bundle.put(CAME_FROM_POS, cameFromPos);
 
     }
 
     @Override
-    public void restoreFromBundle( Bundle bundle ) {
-        super.restoreFromBundle( bundle );
-        ((ColdGirlAI)state).aiStatus = bundle.getInt(AI_STATE);
+    public void restoreFromBundle(Bundle bundle) {
+        super.restoreFromBundle(bundle);
+        ((ColdGirlAI) state).aiStatus = bundle.getInt(AI_STATE);
         cameFrom = bundle.getInt(CAME_FROM);
         cameFromPos = bundle.getInt(CAME_FROM_POS);
     }
 
-    public void speak(String speakText)
-    {
+    public void speak(String speakText) {
         this.sprite.showStatus(CharSprite.NEUTRAL, speakText);
     }
 
-    public void heroSpeak(String speakText)
-    {
+    public void heroSpeak(String speakText) {
         Dungeon.hero.sprite.showStatus(CharSprite.NEUTRAL, speakText);
     }
 
-	private static final HashSet<Class<?>> RESISTANCES = new HashSet<Class<?>>();
-	static {
+    private static final HashSet<Class<?>> RESISTANCES = new HashSet<Class<?>>();
 
-	}
+    static {
+
+    }
 
     @Override
-    public boolean attack( Char enemy ) {
+    public boolean attack(Char enemy) {
         boolean visibleFight = Dungeon.visible[pos] || Dungeon.visible[enemy.pos];
 
-        if (hit( this, enemy, false )) {
+        if (hit(this, enemy, false)) {
 
             if (visibleFight) {
-                GLog.i( TXT_HIT, name, enemy.name );
+                GLog.i(TXT_HIT, name, enemy.name);
             }
 
             int dmg = damageRoll();
 
-            if(enemy == Dungeon.hero)
-            {
+            if (enemy == Dungeon.hero) {
                 dmg *= Dungeon.currentDifficulty.damageModifier();
                 dmg *= Dungeon.hero.heroSkills.passiveA3.incomingDamageModifier(); //  <--- Warrior Toughness if present
                 dmg -= Dungeon.hero.heroSkills.passiveA3.incomingDamageReduction(dmg); // <--- Mage SpiritArmor if present
             }
 
 
-            int effectiveDamage = Math.max( dmg, 0 );
+            int effectiveDamage = Math.max(dmg, 0);
 
-            effectiveDamage = attackProc( enemy, effectiveDamage );
-            effectiveDamage = enemy.defenseProc( this, effectiveDamage );
-            if(effectiveDamage < 0)
+            effectiveDamage = attackProc(enemy, effectiveDamage);
+            effectiveDamage = enemy.defenseProc(this, effectiveDamage);
+            if (effectiveDamage < 0)
                 return true;
-            enemy.damage( effectiveDamage, this );
+            enemy.damage(effectiveDamage, this);
 
 
             if (visibleFight) {
-                Sample.INSTANCE.play( Assets.SND_HIT, 1, 1, Random.Float( 0.8f, 1.25f ) );
+                Sample.INSTANCE.play(Assets.SND_HIT, 1, 1, Random.Float(0.8f, 1.25f));
             }
 
             if (enemy == Dungeon.hero) {
                 Dungeon.hero.interrupt();
                 if (effectiveDamage > enemy.HT / 4) {
-                    Camera.main.shake( GameMath.gate(1, effectiveDamage / (enemy.HT / 4), 5), 0.3f );
+                    Camera.main.shake(GameMath.gate(1, effectiveDamage / (enemy.HT / 4), 5), 0.3f);
                 }
             }
 
-            enemy.sprite.bloodBurstA( sprite.center(), effectiveDamage );
+            enemy.sprite.bloodBurstA(sprite.center(), effectiveDamage);
             enemy.sprite.flash();
-
-
-
 
 
             if (!enemy.isAlive() && visibleFight) {
@@ -596,14 +568,14 @@ public class ColdGirl extends Mob {
 
                     } else {
 
-                            Dungeon.fail( Utils.format( TXT_DEATH) );
+                        Dungeon.fail(Utils.format(TXT_DEATH));
 
 
-                        GLog.n( TXT_KILL, name );
+                        GLog.n(TXT_KILL, name);
                     }
 
                 } else {
-                    GLog.i( TXT_DEFEAT, name, enemy.name );
+                    GLog.i(TXT_DEFEAT, name, enemy.name);
                 }
             }
 
@@ -613,8 +585,8 @@ public class ColdGirl extends Mob {
 
             if (visibleFight) {
                 String defense = enemy.defenseVerb();
-                enemy.sprite.showStatus( CharSprite.NEUTRAL, defense );
-                 GLog.i( TXT_SMB_MISSED, enemy.name, defense, name );
+                enemy.sprite.showStatus(CharSprite.NEUTRAL, defense);
+                GLog.i(TXT_SMB_MISSED, enemy.name, defense, name);
 
 
                 Sample.INSTANCE.play(Assets.SND_MISS);
@@ -625,29 +597,29 @@ public class ColdGirl extends Mob {
         }
     }
 
-	@Override
-	public HashSet<Class<?>> resistances() {
-		return RESISTANCES;
-	}
-	
-	private static final HashSet<Class<?>> IMMUNITIES = new HashSet<Class<?>>();
-	static {
-		IMMUNITIES.add( Frost.class );
-        IMMUNITIES.add( Amok.class );
-        IMMUNITIES.add( Sleep.class );
-        IMMUNITIES.add( Terror.class );
-        IMMUNITIES.add( Burning.class );
-        IMMUNITIES.add( Affection.class );
-        IMMUNITIES.add( Poison.class );
-	}
-	
-	@Override
-	public HashSet<Class<?>> immunities() {
-		return IMMUNITIES;
-	}
+    @Override
+    public HashSet<Class<?>> resistances() {
+        return RESISTANCES;
+    }
 
-    private void Discussion(String title, String message, String... options)
-    {
+    private static final HashSet<Class<?>> IMMUNITIES = new HashSet<Class<?>>();
+
+    static {
+        IMMUNITIES.add(Frost.class);
+        IMMUNITIES.add(Amok.class);
+        IMMUNITIES.add(Sleep.class);
+        IMMUNITIES.add(Terror.class);
+        IMMUNITIES.add(Burning.class);
+        IMMUNITIES.add(Affection.class);
+        IMMUNITIES.add(Poison.class);
+    }
+
+    @Override
+    public HashSet<Class<?>> immunities() {
+        return IMMUNITIES;
+    }
+
+    private void Discussion(String title, String message, String... options) {
         GameScene.show(new PersistentWndOptions(title, message, options) {
             @Override
             protected void onSelect(int index) {
@@ -656,26 +628,26 @@ public class ColdGirl extends Mob {
         });
     }
 
-    private void DiscussionNext(int index)
-    {
-        switch (discussionProgress + index)
-        {
-            case 0: Discussion("Cold Girl", "My existence does not concern you... leave", "How do I leave?", "Were you raised like this?");
+    private void DiscussionNext(int index) {
+        switch (discussionProgress + index) {
+            case 0:
+                Discussion("Cold Girl", "My existence does not concern you... leave", "How do I leave?", "Were you raised like this?");
                 discussionProgress += DISCUSSION_STEP;
                 break;
             case 1:
                 speak("Die then");
                 hostile = true;
-                ((ColdGirlAI)state).aiStatus = HUNTING;
+                ((ColdGirlAI) state).aiStatus = HUNTING;
                 break;
             case DISCUSSION_STEP:
                 sendBack();
                 break;
-            case DISCUSSION_STEP + 1: Discussion("Cold Girl", "Talk about my mother like that again and I...\n You know what? Just die..", "Ok");
+            case DISCUSSION_STEP + 1:
+                Discussion("Cold Girl", "Talk about my mother like that again and I...\n You know what? Just die..", "Ok");
                 discussionProgress += DISCUSSION_STEP;
                 break;
             case 2 * DISCUSSION_STEP:
-                ((ColdGirlAI)state).aiStatus = HUNTING;
+                ((ColdGirlAI) state).aiStatus = HUNTING;
                 speak("The dead are always silent");
                 hostile = true;
                 break;
@@ -694,7 +666,7 @@ public class ColdGirl extends Mob {
             case DISCUSSION_DEAD + 3 * DISCUSSION_STEP:
                 sendBack();
                 Dungeon.hero.heroSkills.unlockSkill();
-                GLog.p("Fighting that weird girl inspired you into learning " +   Dungeon.hero.heroSkills.unlockableSkillName());
+                GLog.p("Fighting that weird girl inspired you into learning " + Dungeon.hero.heroSkills.unlockableSkillName());
                 break;
             default:
                 discuss(); // fallback to prevent getting stuck
@@ -702,50 +674,45 @@ public class ColdGirl extends Mob {
         }
     }
 
-    public void spawnMinions()
-    {
+    public void spawnMinions() {
         ArrayList<Integer> spawnPoints = new ArrayList<Integer>();
 
-        for (int i=0; i < Level.NEIGHBOURS8.length; i++) {
+        for (int i = 0; i < Level.NEIGHBOURS8.length; i++) {
             int p = pos + Level.NEIGHBOURS8[i];
-            if (Actor.findChar( p ) == null && (Level.passable[p] || Level.avoid[p])) {
-                spawnPoints.add( p );
+            if (Actor.findChar(p) == null && (Level.passable[p] || Level.avoid[p])) {
+                spawnPoints.add(p);
             }
         }
 
         if (spawnPoints.size() > 0) {
             Slaves slave = new Slaves();
-            slave.pos = Random.element( spawnPoints );
-            Sample.INSTANCE.play( Assets.SND_GHOST );
+            slave.pos = Random.element(spawnPoints);
+            Sample.INSTANCE.play(Assets.SND_GHOST);
 
-            GameScene.add( slave );
-            Actor.addDelayed( new Pushing( slave, pos, slave.pos ), -1 );
-            slave.sprite.emitter().burst( ShadowParticle.CURSE, 5 );
+            GameScene.add(slave);
+            Actor.addDelayed(new Pushing(slave, pos, slave.pos), -1);
+            slave.sprite.emitter().burst(ShadowParticle.CURSE, 5);
         }
 
     }
 
-    private void sendBack()
-    {
+    private void sendBack() {
         InterlevelScene.mode = InterlevelScene.Mode.TELEPORT_BACK;
         Game.switchScene(InterlevelScene.class);
         Dungeon.observe();
     }
 
-    public class ColdGirlSkel extends Skeleton
-    {
+    public class ColdGirlSkel extends Skeleton {
         {
-            HP = HT  = 10;
+            HP = HT = 10;
             defenseSkill = 1;
             EXP = 0;
             state = HUNTING;
         }
 
         @Override
-        public boolean act()
-        {
-            if(((ColdGirlAI)ColdGirl.this.state).aiStatus != SUPER_HUNTING)
-            {
+        public boolean act() {
+            if (((ColdGirlAI) ColdGirl.this.state).aiStatus != SUPER_HUNTING) {
                 die(null);
                 return true;
             }
@@ -753,11 +720,12 @@ public class ColdGirl extends Mob {
         }
 
         @Override
-        public void die( Object cause ) {
-            if(cause != null)
+        public void die(Object cause) {
+            if (cause != null)
                 ColdGirl.this.speak("What a waste of mana");
             super.die(cause);
         }
+
         @Override
         public String description() {
             return "Me in the future...";
@@ -779,10 +747,8 @@ public class ColdGirl extends Mob {
         }
 
         @Override
-        public boolean act()
-        {
-            if(((ColdGirlAI)ColdGirl.this.state).aiStatus != SUPER_HUNTING)
-            {
+        public boolean act() {
+            if (((ColdGirlAI) ColdGirl.this.state).aiStatus != SUPER_HUNTING) {
                 die(null);
                 return true;
             }
@@ -790,13 +756,13 @@ public class ColdGirl extends Mob {
         }
 
         @Override
-        public int attackSkill( Char target ) {
+        public int attackSkill(Char target) {
             return 5;
         }
 
         @Override
         public int damageRoll() {
-            return Random.NormalIntRange( 3, 8 );
+            return Random.NormalIntRange(3, 8);
         }
 
         @Override
@@ -805,11 +771,12 @@ public class ColdGirl extends Mob {
         }
 
         @Override
-        public void die( Object cause ) {
-            if(cause != null)
+        public void die(Object cause) {
+            if (cause != null)
                 ColdGirl.this.speak("Useless!");
             super.die(cause);
         }
+
         @Override
         public String description() {
             return "A spirit in agony";
@@ -819,23 +786,22 @@ public class ColdGirl extends Mob {
 
     public class ColdGirlAI implements AiState {
 
-        public static final String TAG	= "COLD_GIRL";
+        public static final String TAG = "COLD_GIRL";
         public int aiStatus = PASSIVE;
+
         @Override
-        public boolean act( boolean enemyInFOV, boolean justAlerted ) {
-            if(aiStatus == PASSIVE || aiStatus == DONE_MODE) {
+        public boolean act(boolean enemyInFOV, boolean justAlerted) {
+            if (aiStatus == PASSIVE || aiStatus == DONE_MODE) {
                 enemySeen = false;
                 spend(TICK);
                 sprite.idle();
                 target = -1;
                 return true;
-            }
-            else if(aiStatus == HUNTING)
-            {
+            } else if (aiStatus == HUNTING) {
                 enemySeen = enemyInFOV;
-                if (enemyInFOV && canAttack( enemy )) {
+                if (enemyInFOV && canAttack(enemy)) {
 
-                    return doAttack( enemy );
+                    return doAttack(enemy);
 
                 } else {
 
@@ -844,14 +810,14 @@ public class ColdGirl extends Mob {
                     }
 
                     int oldPos = pos;
-                    if (target != -1 && getCloser( target )) {
+                    if (target != -1 && getCloser(target)) {
 
-                        spend( 1 / speed() );
-                        return moveSprite( oldPos,  pos );
+                        spend(1 / speed());
+                        return moveSprite(oldPos, pos);
 
                     } else {
 
-                        spend( TICK );
+                        spend(TICK);
                         //aiStatus = PASSIVE;
                         //state = WANDERING;
                         //target = Dungeon.level.randomDestination();
@@ -859,14 +825,11 @@ public class ColdGirl extends Mob {
                         return true;
                     }
                 }
-            }
-
-            else if(aiStatus == SUPER_HUNTING)
-            {
+            } else if (aiStatus == SUPER_HUNTING) {
                 enemySeen = enemyInFOV;
-                if (enemyInFOV && canAttack( enemy )) {
+                if (enemyInFOV && canAttack(enemy)) {
 
-                    return doAttack( enemy );
+                    return doAttack(enemy);
 
                 } else {
 
@@ -875,14 +838,14 @@ public class ColdGirl extends Mob {
                     }
 
                     int oldPos = pos;
-                    if (target != -1 && getCloser( target )) {
+                    if (target != -1 && getCloser(target)) {
 
-                        spend( 1 / speed() );
-                        return moveSprite( oldPos,  pos );
+                        spend(1 / speed());
+                        return moveSprite(oldPos, pos);
 
                     } else {
 
-                        spend( TICK );
+                        spend(TICK);
                         //aiStatus = PASSIVE;
                         //state = WANDERING;
                         //target = Dungeon.level.randomDestination();
@@ -890,13 +853,11 @@ public class ColdGirl extends Mob {
                         return true;
                     }
                 }
-            }
-            else if(aiStatus == GOD_MODE)
-            {
+            } else if (aiStatus == GOD_MODE) {
                 enemySeen = enemyInFOV;
-                if (enemyInFOV && canAttack( enemy )) {
+                if (enemyInFOV && canAttack(enemy)) {
 
-                    return doAttack( enemy );
+                    return doAttack(enemy);
 
                 } else {
 
@@ -905,14 +866,14 @@ public class ColdGirl extends Mob {
                     }
 
                     int oldPos = pos;
-                    if (target != -1 && getCloser( target )) {
+                    if (target != -1 && getCloser(target)) {
 
-                        spend( 1 / speed() );
-                        return moveSprite( oldPos,  pos );
+                        spend(1 / speed());
+                        return moveSprite(oldPos, pos);
 
                     } else {
 
-                        spend( TICK );
+                        spend(TICK);
                         //aiStatus = PASSIVE;
                         //state = WANDERING;
                         //target = Dungeon.level.randomDestination();
@@ -921,17 +882,17 @@ public class ColdGirl extends Mob {
                     }
                 }
             }
-            spend( TICK ); // Avoid getting stuck
+            spend(TICK); // Avoid getting stuck
             return true;
         }
 
         @Override
         public String status() {
-            if(aiStatus == PASSIVE)
+            if (aiStatus == PASSIVE)
                 return Utils.format("The %s seems passive.\n You can tell she is cold but she shows no physical signs of it.", name);
-            else if(aiStatus == HUNTING)
+            else if (aiStatus == HUNTING)
                 return Utils.format("The %s seems upset.\n She may be young but she looks dangerous.", name);
-            else if(aiStatus == SUPER_HUNTING)
+            else if (aiStatus == SUPER_HUNTING)
                 return Utils.format("The %s seems very dangerous.\n Something is not right about her.", name);
             else
                 return Utils.format("The %s seems non-human.\n Taunting her was a bad idea", name);

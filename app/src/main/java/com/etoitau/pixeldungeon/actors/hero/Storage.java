@@ -36,62 +36,60 @@ import java.util.Iterator;
 
 public class Storage implements Iterable<Item> {
 
-	public static final int BACKPACK_SIZE	= 5;
+    public static final int BACKPACK_SIZE = 5;
 
-	private Hero owner;
+    private Hero owner;
 
-	public Bag backpack;
-
-
-
-	public Storage(Hero owner) {
-		this.owner = owner;
-		
-		backpack = new Bag() {{
-			name = "Storage";
-			size = BACKPACK_SIZE;
-		}};
-		backpack.owner = owner;
-	}
-	
+    public Bag backpack;
 
 
-	public void storeInBundle( Bundle bundle ) {
-		
-		backpack.storeInBundle2( bundle );
-		
+    public Storage(Hero owner) {
+        this.owner = owner;
 
-	}
-	
-	public void restoreFromBundle( Bundle bundle ) {
-		
-		backpack.clear();
-		backpack.restoreFromBundle2( bundle );
+        backpack = new Bag() {{
+            name = "Storage";
+            size = BACKPACK_SIZE;
+        }};
+        backpack.owner = owner;
+    }
 
 
-	}
+    public void storeInBundle(Bundle bundle) {
 
-	@Override
-	public Iterator<Item> iterator() {
-		return new ItemIterator();
-	}
+        backpack.storeInBundle2(bundle);
 
-	private class ItemIterator implements Iterator<Item> {
 
-		@Override
-		public boolean hasNext() {
+    }
+
+    public void restoreFromBundle(Bundle bundle) {
+
+        backpack.clear();
+        backpack.restoreFromBundle2(bundle);
+
+
+    }
+
+    @Override
+    public Iterator<Item> iterator() {
+        return new ItemIterator();
+    }
+
+    private class ItemIterator implements Iterator<Item> {
+
+        @Override
+        public boolean hasNext() {
             return false;
-		}
+        }
 
-		@Override
-		public Item next() {
-			return null;
+        @Override
+        public Item next() {
+            return null;
 
-		}
+        }
 
-		@Override
-		public void remove() {
+        @Override
+        public void remove() {
 
-		}
-	}
+        }
+    }
 }

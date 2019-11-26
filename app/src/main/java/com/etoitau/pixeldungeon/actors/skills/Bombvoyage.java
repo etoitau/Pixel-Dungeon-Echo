@@ -7,7 +7,7 @@ import com.etoitau.pixeldungeon.ui.StatusPane;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class Bombvoyage extends ActiveSkill3{
+public class Bombvoyage extends ActiveSkill3 {
 
 
     {
@@ -19,21 +19,18 @@ public class Bombvoyage extends ActiveSkill3{
     }
 
     @Override
-    public void execute( Hero hero, String action ) {
+    public void execute(Hero hero, String action) {
         super.execute(hero, action);
-        if(action == Skill.AC_ACTIVATE)
-        {
+        if (action == Skill.AC_ACTIVATE) {
             hero.heroSkills.active2.active = false; // Disable Double Arrow
         }
     }
 
     @Override
-    public boolean arrowToBomb()
-    {
-        if(active == false || Dungeon.hero.MP < getManaCost())
+    public boolean arrowToBomb() {
+        if (active == false || Dungeon.hero.MP < getManaCost())
             return false;
-        else
-        {
+        else {
             castTextYell();
             Dungeon.hero.MP -= getManaCost();
             StatusPane.manaDropping += getManaCost();
@@ -42,21 +39,18 @@ public class Bombvoyage extends ActiveSkill3{
     }
 
     @Override
-    public int getManaCost()
-    {
+    public int getManaCost() {
         return mana - level * 2;
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return true;
     }
 
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "Attaches a bomb to a standard arrow.\n"
                 + costUpgradeInfo();
     }

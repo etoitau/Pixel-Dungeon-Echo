@@ -27,103 +27,103 @@ import com.watabau.utils.Random;
 
 public class LastLevel extends Level {
 
-	private static final int SIZE = 7;
-	
-	{
-		color1 = 0x801500;
-		color2 = 0xa68521;
-	}
-	
-	private int pedestal;
-	
-	@Override
-	public String tilesTex() {
-		return Assets.TILES_HALLS;
-	}
-	
-	@Override
-	public String waterTex() {
-		return Assets.WATER_HALLS;
-	}
-	
-	@Override
-	protected boolean build() {
+    private static final int SIZE = 7;
 
-		Arrays.fill( map, Terrain.WALL );
-		Painter.fill( this, 1, 1, SIZE, SIZE, Terrain.WATER );
-		Painter.fill( this, 2, 2, SIZE-2, SIZE-2, Terrain.EMPTY );
-		Painter.fill( this, SIZE/2, SIZE/2, 3, 3, Terrain.EMPTY_SP );
-		
-		entrance = SIZE * WIDTH + SIZE / 2 + 1;
-		map[entrance] = Terrain.ENTRANCE;
-		
-		exit = entrance - WIDTH * SIZE;
-		map[exit] = Terrain.LOCKED_EXIT;
-		
-		pedestal = (SIZE / 2 + 1) * (WIDTH + 1);
-		map[pedestal] = Terrain.PEDESTAL;
-		map[pedestal-1] = map[pedestal+1] = Terrain.STATUE_SP;
-		
-		feeling = Feeling.NONE;
-		
-		return true;
-	}
+    {
+        color1 = 0x801500;
+        color2 = 0xa68521;
+    }
 
-	@Override
-	protected void decorate() {
-		for (int i=0; i < LENGTH; i++) {
-			if (map[i] == Terrain.EMPTY && Random.Int( 10 ) == 0) { 
-				map[i] = Terrain.EMPTY_DECO;
-			}
-		}
-	}
+    private int pedestal;
 
-	@Override
-	protected void createMobs() {
-	}
+    @Override
+    public String tilesTex() {
+        return Assets.TILES_HALLS;
+    }
 
-	@Override
-	protected void createItems() {
-		drop( new Amulet(), pedestal );
-	}
-	
-	@Override
-	public int randomRespawnCell() {
-		return -1;
-	}
+    @Override
+    public String waterTex() {
+        return Assets.WATER_HALLS;
+    }
 
-	@Override
-	public String tileName( int tile ) {
-		switch (tile) {
-		case Terrain.WATER:
-			return "Cold lava";
-		case Terrain.GRASS:
-			return "Embermoss";
-		case Terrain.HIGH_GRASS:
-			return "Emberfungi";
-		case Terrain.STATUE:
-		case Terrain.STATUE_SP:
-			return "Pillar";
-		default:
-			return super.tileName( tile );
-		}
-	}
-	
-	@Override
-	public String tileDesc(int tile) {
-		switch (tile) {
-		case Terrain.WATER:
-			return "It looks like lava, but it's cold and probably safe to touch.";
-		case Terrain.STATUE:
-		case Terrain.STATUE_SP:
-			return "The pillar is made of real humanoid skulls. Awesome."; 
-		default:
-			return super.tileDesc( tile );
-		}
-	}
-	
-	@Override
-	public void addVisuals( Scene scene ) {
-		HallsLevel.addVisuals( this, scene );
-	}
+    @Override
+    protected boolean build() {
+
+        Arrays.fill(map, Terrain.WALL);
+        Painter.fill(this, 1, 1, SIZE, SIZE, Terrain.WATER);
+        Painter.fill(this, 2, 2, SIZE - 2, SIZE - 2, Terrain.EMPTY);
+        Painter.fill(this, SIZE / 2, SIZE / 2, 3, 3, Terrain.EMPTY_SP);
+
+        entrance = SIZE * WIDTH + SIZE / 2 + 1;
+        map[entrance] = Terrain.ENTRANCE;
+
+        exit = entrance - WIDTH * SIZE;
+        map[exit] = Terrain.LOCKED_EXIT;
+
+        pedestal = (SIZE / 2 + 1) * (WIDTH + 1);
+        map[pedestal] = Terrain.PEDESTAL;
+        map[pedestal - 1] = map[pedestal + 1] = Terrain.STATUE_SP;
+
+        feeling = Feeling.NONE;
+
+        return true;
+    }
+
+    @Override
+    protected void decorate() {
+        for (int i = 0; i < LENGTH; i++) {
+            if (map[i] == Terrain.EMPTY && Random.Int(10) == 0) {
+                map[i] = Terrain.EMPTY_DECO;
+            }
+        }
+    }
+
+    @Override
+    protected void createMobs() {
+    }
+
+    @Override
+    protected void createItems() {
+        drop(new Amulet(), pedestal);
+    }
+
+    @Override
+    public int randomRespawnCell() {
+        return -1;
+    }
+
+    @Override
+    public String tileName(int tile) {
+        switch (tile) {
+            case Terrain.WATER:
+                return "Cold lava";
+            case Terrain.GRASS:
+                return "Embermoss";
+            case Terrain.HIGH_GRASS:
+                return "Emberfungi";
+            case Terrain.STATUE:
+            case Terrain.STATUE_SP:
+                return "Pillar";
+            default:
+                return super.tileName(tile);
+        }
+    }
+
+    @Override
+    public String tileDesc(int tile) {
+        switch (tile) {
+            case Terrain.WATER:
+                return "It looks like lava, but it's cold and probably safe to touch.";
+            case Terrain.STATUE:
+            case Terrain.STATUE_SP:
+                return "The pillar is made of real humanoid skulls. Awesome.";
+            default:
+                return super.tileDesc(tile);
+        }
+    }
+
+    @Override
+    public void addVisuals(Scene scene) {
+        HallsLevel.addVisuals(this, scene);
+    }
 }

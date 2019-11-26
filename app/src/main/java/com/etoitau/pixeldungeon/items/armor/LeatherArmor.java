@@ -22,17 +22,17 @@ import com.etoitau.pixeldungeon.sprites.ItemSpriteSheet;
 
 public class LeatherArmor extends Armor {
 
-	{	
-		name = "leather armor";
-		image = ItemSpriteSheet.ARMOR_LEATHER;
-	}
-	
-	public LeatherArmor() {
-		super( 2 );
-	}
-	
-	@Override
-	public String desc() {
-		return "Armor made from tanned monster hide. Not as light as cloth armor but provides better protection.";
-	}
+    {
+        name = "leather armor";
+        image = ItemSpriteSheet.ARMOR_LEATHER;
+    }
+
+    public LeatherArmor() {
+        super(2);
+    }
+
+    @Override
+    public String desc() {
+        return "Armor made from tanned monster hide. Not as light as cloth armor but provides better protection.";
+    }
 }

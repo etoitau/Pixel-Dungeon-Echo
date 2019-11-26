@@ -22,34 +22,34 @@ import com.etoitau.pixeldungeon.actors.Char;
 import com.etoitau.pixeldungeon.effects.particles.ShadowParticle;
 
 public class CursePersonificationSprite extends WraithSprite {
-	
-	private Emitter cloud;
-	
-	@Override
-	public void link( Char ch ) {
-		super.link( ch );
-		
-		if (cloud == null) {
-			cloud = emitter();
-			cloud.pour( ShadowParticle.UP, 0.1f );
-		}
-	}
-	
-	@Override
-	public void update() {
-		
-		super.update();
-		
-		if (cloud != null) {
-			cloud.visible = visible;
-		}
-	}
-	
-	@Override
-	public void kill() {
-		super.kill();
-		if (cloud != null) {
-			cloud.on = false;
-		}
-	}
+
+    private Emitter cloud;
+
+    @Override
+    public void link(Char ch) {
+        super.link(ch);
+
+        if (cloud == null) {
+            cloud = emitter();
+            cloud.pour(ShadowParticle.UP, 0.1f);
+        }
+    }
+
+    @Override
+    public void update() {
+
+        super.update();
+
+        if (cloud != null) {
+            cloud.visible = visible;
+        }
+    }
+
+    @Override
+    public void kill() {
+        super.kill();
+        if (cloud != null) {
+            cloud.on = false;
+        }
+    }
 }

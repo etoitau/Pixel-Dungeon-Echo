@@ -26,38 +26,35 @@ import com.etoitau.pixeldungeon.utils.GLog;
 public class Fletching extends Buff {
 
 
+    @Override
+    public boolean act() {
+        if (target.isAlive()) {
 
-	@Override
-	public boolean act() {
-		if (target.isAlive()) {
 
+            Hero hero = (Hero) target;
 
-			Hero hero = (Hero)target;
-
-            if(hero.heroSkills.passiveA1.fletching() < 1)// Huntress fletching if present
+            if (hero.heroSkills.passiveA1.fletching() < 1)// Huntress fletching if present
             {
-                spend( 100 );
+                spend(100);
                 return true;
             }
 
-                    GLog.p("Fletched an arrow!");
-                    Arrow arrow = new Arrow();
-                    if(arrow.collect()  == false)
-                        Dungeon.level.drop( arrow, hero.pos ).sprite.drop();
-
-
+            GLog.p("Fletched an arrow!");
+            Arrow arrow = new Arrow();
+            if (arrow.collect() == false)
+                Dungeon.level.drop(arrow, hero.pos).sprite.drop();
 
 
             spend(100 - hero.heroSkills.passiveA1.fletching() * 10);
 
-		} else {
+        } else {
 
-			diactivate();
+            diactivate();
 
-		}
+        }
 
-		return true;
-	}
-	
+        return true;
+    }
+
 
 }

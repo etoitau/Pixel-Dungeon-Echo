@@ -26,53 +26,53 @@ import com.watabau.utils.Random;
 
 public class Javelin extends MissileWeapon {
 
-	{
-		name = "javelin";
-		image = ItemSpriteSheet.JAVELIN;
-		
-		STR = 15;
-	}
-	
-	public Javelin() {
-		this( 1 );
-	}
-	
-	public Javelin( int number ) {
-		super();
-		quantity = number;
-	}
-	
-	@Override
-	public int min() {
-		return 2;
-	}
-	
-	@Override
-	public int max() {
-		return 15;
-	}
-	
-	@Override
-	public void proc( Char attacker, Char defender, int damage ) {
-		super.proc( attacker, defender, damage );
-		Buff.prolong( defender, Cripple.class, Cripple.DURATION );
-	}
-	
-	@Override
-	public String desc() {
-		return 
-			"This length of metal is weighted to keep the spike " +
-			"at its tip foremost as it sails through the air.";
-	}
-	
-	@Override
-	public Item random() {
-		quantity = Random.Int( 5, 15 );
-		return this;
-	}
-	
-	@Override
-	public int price() {
-		return 15 * quantity;
-	}
+    {
+        name = "javelin";
+        image = ItemSpriteSheet.JAVELIN;
+
+        STR = 15;
+    }
+
+    public Javelin() {
+        this(1);
+    }
+
+    public Javelin(int number) {
+        super();
+        quantity = number;
+    }
+
+    @Override
+    public int min() {
+        return 2;
+    }
+
+    @Override
+    public int max() {
+        return 15;
+    }
+
+    @Override
+    public void proc(Char attacker, Char defender, int damage) {
+        super.proc(attacker, defender, damage);
+        Buff.prolong(defender, Cripple.class, Cripple.DURATION);
+    }
+
+    @Override
+    public String desc() {
+        return
+                "This length of metal is weighted to keep the spike " +
+                        "at its tip foremost as it sails through the air.";
+    }
+
+    @Override
+    public Item random() {
+        quantity = Random.Int(5, 15);
+        return this;
+    }
+
+    @Override
+    public int price() {
+        return 15 * quantity;
+    }
 }

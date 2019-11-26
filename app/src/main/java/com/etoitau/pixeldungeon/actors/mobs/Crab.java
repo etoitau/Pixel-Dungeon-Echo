@@ -26,62 +26,61 @@ import com.watabau.utils.Random;
 
 public class Crab extends Mob {
 
-	{
-		name = "sewer crab";
-		spriteClass = CrabSprite.class;
-		
-		HP = HT = 15;
-		defenseSkill = 5;
-		baseSpeed = 2f;
-		
-		EXP = 3;
-		maxLvl = 9;
-		
-		loot = new MysteryMeat();
-		lootChance = 0.167f;
+    {
+        name = "sewer crab";
+        spriteClass = CrabSprite.class;
 
-        name = Dungeon.currentDifficulty.mobPrefix() + name;
+        HP = HT = 15;
+        defenseSkill = 5;
+        baseSpeed = 2f;
+
+        EXP = 3;
+        maxLvl = 9;
+
+        loot = new MysteryMeat();
+        lootChance = 0.167f;
+
         HT *= Dungeon.currentDifficulty.mobHPModifier();
         HP = HT;
-	}
-	
-	@Override
-	public int damageRoll() {
-		return Random.NormalIntRange( 3, 6 );
-	}
-	
-	@Override
-	public int attackSkill( Char target ) {
-		return 12;
-	}
-	
-	@Override
-	public int dr() {
-		return 4;
-	}
-	
-	@Override
-	public String defenseVerb() {
-		return "parried";
-	}
-	
-	@Override
-	public void die( Object cause ) {
-		Ghost.Quest.processSewersKill( pos );
-		super.die( cause );
-	}
+    }
 
     @Override
-    public int attackProc( Char enemy, int damage ) {
+    public int damageRoll() {
+        return Random.NormalIntRange(3, 6);
+    }
+
+    @Override
+    public int attackSkill(Char target) {
+        return 12;
+    }
+
+    @Override
+    public int dr() {
+        return 4;
+    }
+
+    @Override
+    public String defenseVerb() {
+        return "parried";
+    }
+
+    @Override
+    public void die(Object cause) {
+        Ghost.Quest.processSewersKill(pos);
+        super.die(cause);
+    }
+
+    @Override
+    public int attackProc(Char enemy, int damage) {
         champEffect(enemy, damage);
         return damage;
     }
-	
-	@Override
-	public String description() {
-		return
-			"These huge crabs are at the top of the food chain in the sewers. " +
-			"They are extremely fast and their thick exoskeleton can withstand " +
-			"heavy blows.";
-	}
+
+    @Override
+    public String description() {
+        return
+                "These huge crabs are at the top of the food chain in the sewers. " +
+                        "They are extremely fast and their thick exoskeleton can withstand " +
+                        "heavy blows.";
+    }
 }

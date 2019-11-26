@@ -26,55 +26,55 @@ import com.watabau.utils.Random;
 
 public class CurareDart extends MissileWeapon {
 
-	public static final float DURATION	= 3f;
-	
-	{
-		name = "curare dart";
-		image = ItemSpriteSheet.CURARE_DART;
-		
-		STR = 14;
-	}
-	
-	public CurareDart() {
-		this( 1 );
-	}
-	
-	public CurareDart( int number ) {
-		super();
-		quantity = number;
-	}
-	
-	@Override
-	public int min() {
-		return 1;
-	}
-	
-	@Override
-	public int max() {
-		return 3;
-	}
-	
-	@Override
-	public void proc( Char attacker, Char defender, int damage ) {
-		Buff.prolong( defender, Paralysis.class, DURATION );
-		super.proc( attacker, defender, damage );
-	}
-	
-	@Override
-	public String desc() {
-		return 
-			"These little evil darts don't do much damage but they can paralyze " +
-			"the target leaving it helpless and motionless for some time.";
-	}
-	
-	@Override
-	public Item random() {
-		quantity = Random.Int( 2, 5 );
-		return this;
-	}
-	
-	@Override
-	public int price() {
-		return 12 * quantity;
-	}
+    public static final float DURATION = 3f;
+
+    {
+        name = "curare dart";
+        image = ItemSpriteSheet.CURARE_DART;
+
+        STR = 14;
+    }
+
+    public CurareDart() {
+        this(1);
+    }
+
+    public CurareDart(int number) {
+        super();
+        quantity = number;
+    }
+
+    @Override
+    public int min() {
+        return 1;
+    }
+
+    @Override
+    public int max() {
+        return 3;
+    }
+
+    @Override
+    public void proc(Char attacker, Char defender, int damage) {
+        Buff.prolong(defender, Paralysis.class, DURATION);
+        super.proc(attacker, defender, damage);
+    }
+
+    @Override
+    public String desc() {
+        return
+                "These little evil darts don't do much damage but they can paralyze " +
+                        "the target leaving it helpless and motionless for some time.";
+    }
+
+    @Override
+    public Item random() {
+        quantity = Random.Int(2, 5);
+        return this;
+    }
+
+    @Override
+    public int price() {
+        return 12 * quantity;
+    }
 }

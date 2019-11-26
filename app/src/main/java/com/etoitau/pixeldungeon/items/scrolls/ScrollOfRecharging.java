@@ -27,43 +27,43 @@ import com.etoitau.pixeldungeon.utils.GLog;
 
 public class ScrollOfRecharging extends Scroll {
 
-	{
-		name = "Scroll of Recharging";
-	}
-	
-	@Override
-	protected void doRead() {
-		
-		int count = curUser.belongings.charge( true );		
-		charge( curUser );
-		
-		Sample.INSTANCE.play( Assets.SND_READ );
-		Invisibility.dispel();
-		
-		if (count > 0) {
-			GLog.i( "a surge of energy courses through your pack, recharging your wand" + (count > 1 ? "s" : "") );
-			SpellSprite.show( curUser, SpellSprite.CHARGE );
-		} else {
-			GLog.i( "a surge of energy courses through your pack, but nothing happens" );
-		}
-		setKnown();
-		
-		readAnimation();
-	}
-	
-	@Override
-	public String desc() {
-		return
-			"The raw magical power bound up in this parchment will, when released, " +
-			"recharge all of the reader's wands to full power.";
-	}
-	
-	public static void charge( Hero hero ) {
-		hero.sprite.centerEmitter().burst( EnergyParticle.FACTORY, 15 );
-	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 40 * quantity : super.price();
-	}
+    {
+        name = "Scroll of Recharging";
+    }
+
+    @Override
+    protected void doRead() {
+
+        int count = curUser.belongings.charge(true);
+        charge(curUser);
+
+        Sample.INSTANCE.play(Assets.SND_READ);
+        Invisibility.dispel();
+
+        if (count > 0) {
+            GLog.i("a surge of energy courses through your pack, recharging your wand" + (count > 1 ? "s" : ""));
+            SpellSprite.show(curUser, SpellSprite.CHARGE);
+        } else {
+            GLog.i("a surge of energy courses through your pack, but nothing happens");
+        }
+        setKnown();
+
+        readAnimation();
+    }
+
+    @Override
+    public String desc() {
+        return
+                "The raw magical power bound up in this parchment will, when released, " +
+                        "recharge all of the reader's wands to full power.";
+    }
+
+    public static void charge(Hero hero) {
+        hero.sprite.centerEmitter().burst(EnergyParticle.FACTORY, 15);
+    }
+
+    @Override
+    public int price() {
+        return isKnown() ? 40 * quantity : super.price();
+    }
 }

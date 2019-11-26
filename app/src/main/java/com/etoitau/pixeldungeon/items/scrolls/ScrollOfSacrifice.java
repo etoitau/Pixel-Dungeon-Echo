@@ -22,37 +22,35 @@ import com.etoitau.pixeldungeon.utils.GLog;
 
 public class ScrollOfSacrifice extends Scroll {
 
-	{
-		name = "Scroll of Sacrifice";
-	}
-	
-	@Override
-	protected void doRead() {
+    {
+        name = "Scroll of Sacrifice";
+    }
+
+    @Override
+    protected void doRead() {
 
         Dungeon.hero.STR++;
-        if(Dungeon.hero.HT > 3) {
+        if (Dungeon.hero.HT > 3) {
 
-            Dungeon.hero.HT-= 3;
-        }
-        else
-        {
+            Dungeon.hero.HT -= 3;
+        } else {
             Dungeon.hero.HT = 1;
         }
 
-        if(Dungeon.hero.HP > Dungeon.hero.HT)
+        if (Dungeon.hero.HP > Dungeon.hero.HT)
             Dungeon.hero.HP = Dungeon.hero.HT;
 
-        GLog.w( "The scroll boosts your strength, but at a cost!" );
-        GLog.p( "+1 strength!" );
-        GLog.n( "-3 max HP!" );
-		setKnown();
+        GLog.w("The scroll boosts your strength, but at a cost!");
+        GLog.p("+1 strength!");
+        GLog.n("-3 max HP!");
+        setKnown();
 
-		curUser.spendAndNext( TIME_TO_READ );
-	}
-	
-	@Override
-	public String desc() {
-		return 
-			"A scroll that boosts strength at a certain cost.";
-	}
+        curUser.spendAndNext(TIME_TO_READ);
+    }
+
+    @Override
+    public String desc() {
+        return
+                "A scroll that boosts strength at a certain cost.";
+    }
 }

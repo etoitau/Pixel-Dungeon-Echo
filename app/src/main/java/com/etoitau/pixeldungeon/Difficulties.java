@@ -32,7 +32,7 @@ import java.util.ArrayList;
 
 public enum Difficulties {
 
-    NORMAL( 0 ), EASY( 1 ), HARD( 2 ), HELL( 3 ), SUICIDE( 4 ) , JUSTKILLME( 5 ), SUPEREASY( 6 );
+    NORMAL(0), EASY(1), HARD(2), HELL(3), SUICIDE(4), JUSTKILLME(5), SUPEREASY(6);
 
 
     private int difficulty;
@@ -44,12 +44,13 @@ public enum Difficulties {
     public float defenceOffset = 0;
 
     public enum isNightOverwrite {DEFAULT, ALWAYS_DAY, ALWAYS_NIGHT}
+
     // set always day by default
     public isNightOverwrite isNight = isNightOverwrite.ALWAYS_DAY;
 
     private ArrayList<Integer> disabledChampions = new ArrayList<>();
 
-    Difficulties( int difficulty ) {
+    Difficulties(int difficulty) {
         this.difficulty = difficulty;
         championOffset = 0;
         hpOffset = 0;
@@ -63,7 +64,8 @@ public enum Difficulties {
             "- Start with 5 potions of healing.",
             "- Start with 500 Gold.",
             "- Start with 3 soul crystals.",
-            "- Mobs are Pathetic, do 50% less damage, take 50% more damage and have 50% less HP.",
+            "- Mobs do 50% less damage, take 50% more damage and have 50% less HP.",
+            "- Hunger is reduced by 40%",
             "- Champion spawn rate set to 10%."
     };
 
@@ -73,7 +75,8 @@ public enum Difficulties {
             "- Start with 200 Gold.",
             "- Start with 2 soul crystals.",
             "- Bonus to discovering hidden doors and traps.",
-            "- Mobs are Weak, do 25% less damage, take 10% more damage and have 15% less HP.",
+            "- Mobs do 25% less damage, take 10% more damage and have 15% less HP.",
+            "- Hunger is reduced by 20%",
             "- Champion spawn rate set to 10%."
     };
 
@@ -84,13 +87,13 @@ public enum Difficulties {
 
     public static final String[] HARD_DESC = {
             "- Potion of healing heals 75% max hp.",
-            "- Mobs are Strong, do 10% extra damage, take 10% less damage and have 20% more HP.",
+            "- Mobs do 10% extra damage, take 10% less damage and have 20% more HP.",
             "- Champion spawn rate set to 30%."
     };
 
     public static final String[] HELL_DESC = {
             "- Potion of healing heals 50% max hp.",
-            "- Mobs are Immortal, do 25% more damage, take 20% less damage and have 35% more HP.",
+            "- Mobs do 25% more damage, take 20% less damage and have 35% more HP.",
             "- Champion spawn rate set to 40%.",
             "- Hero starts with 4 less maxHP.",
             "- Hero gains 1 less maxHP on leveling.",
@@ -99,7 +102,7 @@ public enum Difficulties {
 
     public static final String[] SUICIDE_DESC = {
             "- Potion of healing heals 25% max hp.",
-            "- Mobs are Godlike, do 45% more damage, take 30% less damage and have 60% more HP.",
+            "- Mobs do 45% more damage, take 30% less damage and have 60% more HP.",
             "- Champion spawn rate set to 50%.",
             "- Hero starts with 8 less maxHP.",
             "- Hero gains 3 less maxHP on leveling.",
@@ -108,7 +111,7 @@ public enum Difficulties {
 
     public static final String[] JUST_KILL_ME_DESC = {
             "- Potion of healing heals 10% max hp.",
-            "- Mobs are Deities, do 60% more damage, take 40% less damage and have 75% more HP.",
+            "- Mobs do 60% more damage, take 40% less damage and have 75% more HP.",
             "- Champion spawn rate set to 100%.",
             "- Hero starts with 8 less maxHP.",
             "- Hero gains 3 less maxHP on leveling.",
@@ -158,46 +161,18 @@ public enum Difficulties {
         return "";
     }
 
-    // todo remove this?
-    public String mobPrefix() {
-
-        switch (this) {
-            case SUPEREASY:
-                return "Pathetic ";
-            case EASY:
-                return "Weak ";
-            case NORMAL:
-                return "";
-            case HARD:
-                return "Strong ";
-            case HELL:
-                return "Immortal ";
-            case SUICIDE:
-                return "Godlike ";
-            case JUSTKILLME:
-                return "Deity ";
-        }
-        return "";
-    }
-
-    public static String description(int difficulty)
-    {
+    public static String description(int difficulty) {
         try {
             return Difficulties.values()[difficulty].description();
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             return ""; // Invalid difficulty
         }
     }
 
-    public static String title(int difficulty)
-    {
+    public static String title(int difficulty) {
         try {
             return Difficulties.values()[difficulty].title();
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             return ""; // Invalid difficulty
         }
     }
@@ -226,8 +201,7 @@ public enum Difficulties {
         return 0;
     }
 
-    public float damageModifier()
-    {
+    public float damageModifier() {
         return naturalDamageModifier() + attOffset;
     }
 
@@ -235,7 +209,7 @@ public enum Difficulties {
 
         switch (this) {
             case SUPEREASY:
-                return  0.5f;
+                return 0.5f;
             case EASY:
                 return 0.75f;
             case NORMAL:
@@ -262,7 +236,7 @@ public enum Difficulties {
 
         switch (this) {
             case SUPEREASY:
-                return  1.5f;
+                return 1.5f;
             case EASY:
                 return 1.1f;
             case NORMAL:
@@ -305,6 +279,25 @@ public enum Difficulties {
         return 1f;
     }
 
+    // add reduction in hunger accrual for lower difficulties
+    public float naturalHungerModifier() {
+
+        switch (this) {
+            case SUPEREASY:
+                return 4f;
+            case EASY:
+                return 2f;
+            case NORMAL:
+            case HARD:
+            case HELL:
+            case SUICIDE:
+            case JUSTKILLME:
+                return 0;
+        }
+        return 0;
+
+    }
+
     public int healingPotionLimit() {
 
         switch (this) {
@@ -337,9 +330,7 @@ public enum Difficulties {
     }
 
 
-
-    public int difficultyHPLevelPenalty()
-    {
+    public int difficultyHPLevelPenalty() {
         switch (this) {
             case SUPEREASY:
             case EASY:
@@ -356,8 +347,7 @@ public enum Difficulties {
         return 0;
     }
 
-    public int difficultyHPStartPenalty()
-    {
+    public int difficultyHPStartPenalty() {
         switch (this) {
             case SUPEREASY:
             case EASY:
@@ -374,8 +364,7 @@ public enum Difficulties {
         return 0;
     }
 
-    public int difficultySkillStartBonus()
-    {
+    public int difficultySkillStartBonus() {
         switch (this) {
             case SUPEREASY:
             case EASY:
@@ -392,8 +381,7 @@ public enum Difficulties {
         return 0;
     }
 
-    public void difficultyStartItemBonus()
-    {
+    public void difficultyStartItemBonus() {
         switch (this) {
             case SUPEREASY:
                 new PotionOfHealing().identify().collect();
@@ -422,18 +410,17 @@ public enum Difficulties {
         }
     }
 
-    public boolean noSecrets(){
-       switch (this){
-           case SUPEREASY:
-           case EASY:
-               return true;
-       }
+    public boolean noSecrets() {
+        switch (this) {
+            case SUPEREASY:
+            case EASY:
+                return true;
+        }
 
-       return  false;
+        return false;
     }
 
-    public void reset()
-    {
+    public void reset() {
         championOffset = 0;
         defenceOffset = 0;
         hpOffset = 0;
@@ -441,46 +428,40 @@ public enum Difficulties {
         disabledChampions.clear();
     }
 
-    public void changeDefenceOffset(float change)
-    {
+    public void changeDefenceOffset(float change) {
         defenceOffset += change;
-        if(mobDefenceModifier() > naturalMobDefenceModifier())
+        if (mobDefenceModifier() > naturalMobDefenceModifier())
             defenceOffset = 0;
-        if(mobDefenceModifier() < 0.1f)
+        if (mobDefenceModifier() < 0.1f)
             defenceOffset = 0.1f - naturalMobDefenceModifier();
     }
 
-    public void changeChampionOffset(int change)
-    {
+    public void changeChampionOffset(int change) {
         championOffset += change;
-        if(championChance() < championChanceNatural())
+        if (championChance() < championChanceNatural())
             championOffset = 0;
-        if(championChance() > 10)
+        if (championChance() > 10)
             championOffset = 10 - championChanceNatural();
     }
 
-    public void changeHPOffset(float change)
-    {
+    public void changeHPOffset(float change) {
         hpOffset += change;
-        if(mobHPModifier() < naturalMobHPModifier())
+        if (mobHPModifier() < naturalMobHPModifier())
             hpOffset = 0;
-        if(mobHPModifier() > 2f)
+        if (mobHPModifier() > 2f)
             hpOffset = 2f - naturalMobHPModifier();
     }
 
-    public void changeDamageOffset(float change)
-    {
+    public void changeDamageOffset(float change) {
         attOffset += change;
-        if(damageModifier() < naturalDamageModifier())
+        if (damageModifier() < naturalDamageModifier())
             attOffset = 0;
-        if(damageModifier() > 2f)
+        if (damageModifier() > 2f)
             attOffset = 2f - naturalDamageModifier();
     }
 
-    public void ToggleNight()
-    {
-        switch(isNight)
-        {
+    public void ToggleNight() {
+        switch (isNight) {
             case ALWAYS_DAY:
                 isNight = isNightOverwrite.ALWAYS_NIGHT;
                 break;
@@ -493,9 +474,8 @@ public enum Difficulties {
         }
     }
 
-    public void ToggleNight(boolean harder)
-    {
-        if(harder) {
+    public void ToggleNight(boolean harder) {
+        if (harder) {
             switch (isNight) {
                 case DEFAULT:
                     isNight = isNightOverwrite.ALWAYS_NIGHT;
@@ -504,9 +484,7 @@ public enum Difficulties {
                     isNight = isNightOverwrite.DEFAULT;
                     break;
             }
-        }
-        else
-        {
+        } else {
             switch (isNight) {
                 case DEFAULT:
                     isNight = isNightOverwrite.ALWAYS_DAY;
@@ -518,10 +496,8 @@ public enum Difficulties {
         }
     }
 
-    public String GetToggleNightDesc()
-    {
-        switch(isNight)
-        {
+    public String GetToggleNightDesc() {
+        switch (isNight) {
             case ALWAYS_DAY:
                 return "Always Day";
             case ALWAYS_NIGHT:
@@ -534,9 +510,8 @@ public enum Difficulties {
 
     // can input a sensible order of difficulty and get the code number used internally here
     // NORMAL( 0 ), EASY( 1 ), HARD( 2 ), HELL( 3 ), SUICIDE( 4 ) , JUSTKILLME( 5 ), SUPEREASY( 6 )
-    public static int getNormalizedDifficulty(int diff)
-    {
-        switch (diff){
+    public static int getNormalizedDifficulty(int diff) {
+        switch (diff) {
             case 0:
                 return 6;
             case 1:
@@ -550,11 +525,13 @@ public enum Difficulties {
         }
     }
 
-    static  String join (String delim, String ... data) {
+    static String join(String delim, String... data) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < data.length; i++) {
             sb.append(data[i]);
-            if (i >= data.length-1) {break;}
+            if (i >= data.length - 1) {
+                break;
+            }
             sb.append(delim);
         }
         return sb.toString();

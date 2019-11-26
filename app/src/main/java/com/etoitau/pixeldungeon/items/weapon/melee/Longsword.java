@@ -20,18 +20,18 @@ package com.etoitau.pixeldungeon.items.weapon.melee;
 import com.etoitau.pixeldungeon.sprites.ItemSpriteSheet;
 
 public class Longsword extends MeleeWeapon {
-	
-	{
-		name = "longsword";
-		image = ItemSpriteSheet.LONG_SWORD;
-	}
-	
-	public Longsword() {
-		super( 4, 1f, 1f );
-	}
-	
-	@Override
-	public String desc() {
-		return "This towering blade inflicts heavy damage by investing its heft into every cut.";
-	}
+
+    {
+        name = "longsword";
+        image = ItemSpriteSheet.LONG_SWORD;
+    }
+
+    public Longsword() {
+        super(4, 1f, 1f);
+    }
+
+    @Override
+    public String desc() {
+        return "This towering blade inflicts heavy damage by investing its heft into every cut.";
+    }
 }

@@ -29,38 +29,38 @@ import com.etoitau.pixeldungeon.utils.Utils;
 
 public class WndItemStorage extends Window {
 
-	private static final float BUTTON_WIDTH		= 36;
-	private static final float BUTTON_HEIGHT	= 16;
+    private static final float BUTTON_WIDTH = 36;
+    private static final float BUTTON_HEIGHT = 16;
 
-	private static final float GAP	= 2;
+    private static final float GAP = 2;
 
-	private static final int WIDTH = 120;
+    private static final int WIDTH = 120;
 
     public WndItemStorage(final WndStorage owner, final Item item) {
 
         super();
 
         IconTitle titlebar = new IconTitle();
-        titlebar.icon( new ItemSprite( item.image(), item.glowing() ) );
-        titlebar.label( Utils.capitalize( item.toString() ) );
+        titlebar.icon(new ItemSprite(item.image(), item.glowing()));
+        titlebar.label(Utils.capitalize(item.toString()));
         if (item.isUpgradable() && item.levelKnown) {
-            titlebar.health( (float)item.durability() / item.maxDurability() );
+            titlebar.health((float) item.durability() / item.maxDurability());
         }
-        titlebar.setRect( 0, 0, WIDTH, 0 );
-        add( titlebar );
+        titlebar.setRect(0, 0, WIDTH, 0);
+        add(titlebar);
 
         if (item.levelKnown && item.level() > 0) {
-            titlebar.color( ItemSlot.UPGRADED );
+            titlebar.color(ItemSlot.UPGRADED);
         } else if (item.levelKnown && item.level < 0) {
-            titlebar.color( ItemSlot.DEGRADED );
+            titlebar.color(ItemSlot.DEGRADED);
         }
 
-        BitmapTextMultiline info = PixelScene.createMultiline( item.info(), 6 );
+        BitmapTextMultiline info = PixelScene.createMultiline(item.info(), 6);
         info.maxWidth = WIDTH;
         info.measure();
         info.x = titlebar.left();
         info.y = titlebar.bottom() + GAP;
-        add( info );
+        add(info);
 
         float y = info.y + info.height() + GAP;
         float x = 0;
@@ -68,30 +68,32 @@ public class WndItemStorage extends Window {
         if (Dungeon.hero.isAlive() && owner != null) {
 
 
-                RedButton btn = new RedButton( "Take from storage" ) {
-                    @Override
-                    protected void onClick() {
-                        item.execute( Dungeon.hero, Item.AC_STORE_TAKE );
-                        hide();
-                        owner.hide();
-                    };
-                };
-                btn.setSize( Math.max( BUTTON_WIDTH, btn.reqWidth() ), BUTTON_HEIGHT );
-                if (x + btn.width() > WIDTH) {
-                    x = 0;
-                    y += BUTTON_HEIGHT + GAP;
+            RedButton btn = new RedButton("Take from storage") {
+                @Override
+                protected void onClick() {
+                    item.execute(Dungeon.hero, Item.AC_STORE_TAKE);
+                    hide();
+                    owner.hide();
                 }
-                btn.setPos( x, y );
-                add( btn );
 
-                //if (action == item.defaultAction) {
-                //    btn.textColor( TITLE_COLOR );
-               // }
+                ;
+            };
+            btn.setSize(Math.max(BUTTON_WIDTH, btn.reqWidth()), BUTTON_HEIGHT);
+            if (x + btn.width() > WIDTH) {
+                x = 0;
+                y += BUTTON_HEIGHT + GAP;
+            }
+            btn.setPos(x, y);
+            add(btn);
 
-                x += btn.width() + GAP;
+            //if (action == item.defaultAction) {
+            //    btn.textColor( TITLE_COLOR );
+            // }
+
+            x += btn.width() + GAP;
 
         }
 
-        resize( WIDTH, (int)(y + (x > 0 ? BUTTON_HEIGHT : 0)) );
+        resize(WIDTH, (int) (y + (x > 0 ? BUTTON_HEIGHT : 0)));
     }
 }

@@ -25,37 +25,35 @@ import com.etoitau.pixeldungeon.utils.GLog;
 public class Hunting extends Buff {
 
 
-
-	@Override
-	public boolean act() {
-		if (target.isAlive()) {
-
-
-			Hero hero = (Hero)target;
+    @Override
+    public boolean act() {
+        if (target.isAlive()) {
 
 
+            Hero hero = (Hero) target;
 
-            if(hero.heroSkills.passiveA2.hunting() < 1)// Huntress Hunting if present
+
+            if (hero.heroSkills.passiveA2.hunting() < 1)// Huntress Hunting if present
             {
-                spend( 100 );
+                spend(100);
                 return true;
             }
 
 
-                  GLog.p("Hunted... something...");
-                  MysteryMeat steak = new MysteryMeat();
-                  Dungeon.level.drop( steak, hero.pos ).sprite.drop();
+            GLog.p("Hunted... something...");
+            MysteryMeat steak = new MysteryMeat();
+            Dungeon.level.drop(steak, hero.pos).sprite.drop();
 
-                spend( 100 - 10 * hero.heroSkills.passiveA2.hunting() );
+            spend(100 - 10 * hero.heroSkills.passiveA2.hunting());
 
-		} else {
+        } else {
 
-			diactivate();
+            diactivate();
 
-		}
+        }
 
-		return true;
-	}
-	
+        return true;
+    }
+
 
 }

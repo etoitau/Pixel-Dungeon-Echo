@@ -5,7 +5,7 @@ import com.etoitau.pixeldungeon.Dungeon;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class Endurance extends PassiveSkillA1{
+public class Endurance extends PassiveSkillA1 {
 
 
     {
@@ -14,8 +14,7 @@ public class Endurance extends PassiveSkillA1{
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         Dungeon.hero.HT += 5;
         Dungeon.hero.HP += 5;
         return true;
@@ -23,8 +22,7 @@ public class Endurance extends PassiveSkillA1{
 
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "+5 to health per level.\n"
                 + costUpgradeInfo();
     }

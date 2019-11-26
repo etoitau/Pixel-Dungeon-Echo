@@ -21,17 +21,17 @@ import com.etoitau.pixeldungeon.sprites.ItemSpriteSheet;
 
 public class Spear extends MeleeWeapon {
 
-	{
-		name = "spear";
-		image = ItemSpriteSheet.SPEAR;
-	}
-	
-	public Spear() {
-		super( 2, 1f, 1.5f );
-	}
-	
-	@Override
-	public String desc() {
-		return "A slender wooden rod tipped with sharpened iron.";
-	}
+    {
+        name = "spear";
+        image = ItemSpriteSheet.SPEAR;
+    }
+
+    public Spear() {
+        super(2, 1f, 1.5f);
+    }
+
+    @Override
+    public String desc() {
+        return "A slender wooden rod tipped with sharpened iron.";
+    }
 }

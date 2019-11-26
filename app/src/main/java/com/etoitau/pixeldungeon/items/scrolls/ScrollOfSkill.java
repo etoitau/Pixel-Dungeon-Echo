@@ -23,25 +23,25 @@ import com.etoitau.pixeldungeon.utils.GLog;
 
 public class ScrollOfSkill extends Scroll {
 
-	{
-		name = "Scroll of Skill";
-	}
-	
-	@Override
-	protected void doRead() {
+    {
+        name = "Scroll of Skill";
+    }
+
+    @Override
+    protected void doRead() {
 
         Skill.availableSkill++;
 
-        GLog.w( "The scroll contains valuable information about your specialties!" );
-        GLog.p( "+1 skill point!" );
-		setKnown();
+        GLog.w("The scroll contains valuable information about your specialties!");
+        GLog.p("+1 skill point!");
+        setKnown();
 
-		curUser.spendAndNext( TIME_TO_READ );
-	}
-	
-	@Override
-	public String desc() {
-		return 
-			"When read, words of wisdom will increase your skill.";
-	}
+        curUser.spendAndNext(TIME_TO_READ);
+    }
+
+    @Override
+    public String desc() {
+        return
+                "When read, words of wisdom will increase your skill.";
+    }
 }

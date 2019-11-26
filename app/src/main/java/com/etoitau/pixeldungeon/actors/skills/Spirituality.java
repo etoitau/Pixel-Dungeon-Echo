@@ -5,7 +5,7 @@ import com.etoitau.pixeldungeon.Dungeon;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class Spirituality extends PassiveSkillA1{
+public class Spirituality extends PassiveSkillA1 {
 
 
     {
@@ -15,8 +15,7 @@ public class Spirituality extends PassiveSkillA1{
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         Dungeon.hero.MP += 5;
         Dungeon.hero.MMP += 5;
         return true;
@@ -24,8 +23,7 @@ public class Spirituality extends PassiveSkillA1{
 
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "+5 to mana per level.\n"
                 + costUpgradeInfo();
     }

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class Dominance extends ActiveSkill3{
+public class Dominance extends ActiveSkill3 {
 
 
     {
@@ -24,46 +24,41 @@ public class Dominance extends ActiveSkill3{
 
 
     @Override
-    public ArrayList<String> actions( Hero hero ) {
+    public ArrayList<String> actions(Hero hero) {
         ArrayList<String> actions = new ArrayList<String>();
-        if(level > 0 && hero.MP >= getManaCost())
+        if (level > 0 && hero.MP >= getManaCost())
             actions.add(AC_CAST);
         return actions;
     }
 
     @Override
-    public void execute( Hero hero, String action ) {
-        if(action == Skill.AC_CAST && hero.MP >= getManaCost())
-        {
+    public void execute(Hero hero, String action) {
+        if (action == Skill.AC_CAST && hero.MP >= getManaCost()) {
             //hero.MP -= getManaCost();
-           // castTextYell();
+            // castTextYell();
             Legend.haxWand.castSpell(WandOfMagicCasting.CAST_TYPES.DOMINANCE);
             Dungeon.hero.heroSkills.lastUsed = this;
         }
     }
 
     @Override
-    public int getManaCost()
-    {
-        return (int)Math.ceil(mana * (1 + 0.6 * level));
+    public int getManaCost() {
+        return (int) Math.ceil(mana * (1 + 0.6 * level));
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return true;
     }
 
 
     @Override
-    public float getAlpha()
-    {
+    public float getAlpha() {
         return 1f;
     }
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "The target is no more than a slave to your will.\n"
                 + costUpgradeInfo();
     }

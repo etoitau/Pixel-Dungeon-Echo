@@ -5,7 +5,7 @@ import com.watabau.utils.Random;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class KeenEye extends PassiveSkillB3{
+public class KeenEye extends PassiveSkillB3 {
 
 
     {
@@ -17,15 +17,13 @@ public class KeenEye extends PassiveSkillB3{
 
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return true;
     }
 
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "Arrows pass through friendly units without harming them.\n"
                 + costUpgradeInfo();
     }

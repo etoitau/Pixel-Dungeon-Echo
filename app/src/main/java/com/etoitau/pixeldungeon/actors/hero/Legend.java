@@ -16,9 +16,9 @@ import com.etoitau.pixeldungeon.scenes.MissionScene;
 import com.watabau.utils.Bundle;
 
 // this is for hatsune todo remove
+
 /**
  * Created by Moussa on 04-Feb-17.
- *
  */
 public class Legend extends Hero {
 
@@ -29,12 +29,11 @@ public class Legend extends Hero {
 
     @Override
     public boolean act() {
-            super.act();
+        super.act();
 
-            if(MissionScene.scenePause == true)
-            {
-                spendAndNext( 1f );
-            }
+        if (MissionScene.scenePause == true) {
+            spendAndNext(1f);
+        }
 
         return false;
     }
@@ -50,8 +49,8 @@ public class Legend extends Hero {
         Buff.affect(this, ManaRegeneration.class);
         Buff.affect(this, ManaRegeneration.class);
 
-        Buff.affect( this, Regeneration.class );
-        Buff.affect( this, Regeneration.class );
+        Buff.affect(this, Regeneration.class);
+        Buff.affect(this, Regeneration.class);
 
         lvl = 100;
         HP = HT = 100;
@@ -60,27 +59,25 @@ public class Legend extends Hero {
         attackSkill = 40;
         defenseSkill = 25;
         Item tmp = new Longsword().identify();
-        belongings.weapon = (Weapon)tmp;
+        belongings.weapon = (Weapon) tmp;
         tmp = new PlateArmor().identify();
-        belongings.armor = (Armor)tmp;
+        belongings.armor = (Armor) tmp;
     }
 
     @Override
-    public void die(Object reason)
-    {
+    public void die(Object reason) {
         super.die(reason);
         MissionScene.scenePause = true;
     }
 
     @Override
-    public void storeInBundle( Bundle bundle ) {
-
+    public void storeInBundle(Bundle bundle) {
 
 
     }
 
     @Override
-    public void restoreFromBundle( Bundle bundle ) {
+    public void restoreFromBundle(Bundle bundle) {
 
     }
 }

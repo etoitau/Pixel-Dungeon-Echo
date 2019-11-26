@@ -29,44 +29,44 @@ import com.watabau.utils.Random;
 
 public class Bounce extends Glyph {
 
-	private static final String TXT_BOUNCE	= "%s of bounce";
-	
-	@Override
-	public int proc( Armor armor, Char attacker, Char defender, int damage) {
+    private static final String TXT_BOUNCE = "%s of bounce";
 
-		int level = Math.max( 0, armor.effectiveLevel() );
-		
-		if (Level.adjacent( attacker.pos, defender.pos ) && Random.Int( level + 5) >= 4) {
-			
-			for (int i=0; i < Level.NEIGHBOURS8.length; i++) {
-				int ofs = Level.NEIGHBOURS8[i];
-				if (attacker.pos - defender.pos == ofs) {
-					int newPos = attacker.pos + ofs;
-					if ((Level.passable[newPos] || Level.avoid[newPos]) && Actor.findChar( newPos ) == null) {
-						
-						Actor.addDelayed( new Pushing( attacker, attacker.pos, newPos ), -1 );
-						
-						attacker.pos = newPos;
-						// FIXME
-						if (attacker instanceof Mob) {
-							Dungeon.level.mobPress( (Mob)attacker );
-						} else {
-							Dungeon.level.press( newPos, attacker );
-						}
-						
-					}
-					break;
-				}
-			}
+    @Override
+    public int proc(Armor armor, Char attacker, Char defender, int damage) {
 
-		}
-		
-		return damage;
-	}
-	
-	@Override
-	public String name( String weaponName) {
-		return String.format( TXT_BOUNCE, weaponName );
-	}
+        int level = Math.max(0, armor.effectiveLevel());
+
+        if (Level.adjacent(attacker.pos, defender.pos) && Random.Int(level + 5) >= 4) {
+
+            for (int i = 0; i < Level.NEIGHBOURS8.length; i++) {
+                int ofs = Level.NEIGHBOURS8[i];
+                if (attacker.pos - defender.pos == ofs) {
+                    int newPos = attacker.pos + ofs;
+                    if ((Level.passable[newPos] || Level.avoid[newPos]) && Actor.findChar(newPos) == null) {
+
+                        Actor.addDelayed(new Pushing(attacker, attacker.pos, newPos), -1);
+
+                        attacker.pos = newPos;
+                        // FIXME
+                        if (attacker instanceof Mob) {
+                            Dungeon.level.mobPress((Mob) attacker);
+                        } else {
+                            Dungeon.level.press(newPos, attacker);
+                        }
+
+                    }
+                    break;
+                }
+            }
+
+        }
+
+        return damage;
+    }
+
+    @Override
+    public String name(String weaponName) {
+        return String.format(TXT_BOUNCE, weaponName);
+    }
 
 }

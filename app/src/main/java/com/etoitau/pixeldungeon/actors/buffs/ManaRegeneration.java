@@ -22,39 +22,37 @@ import com.etoitau.pixeldungeon.actors.hero.HeroClass;
 import com.etoitau.pixeldungeon.items.rings.RingOfMending;
 
 public class ManaRegeneration extends Buff {
-	
-	private static final float REGENERATION_DELAY = 10;
-	
-	@Override
-	public boolean act() {
-		if (target.isAlive()) {
 
-			if (target.MP < target.MMP) {
-				target.MP += 1;
-			}
-            if(((Hero)target).heroClass == HeroClass.MAGE)
-            {
+    private static final float REGENERATION_DELAY = 10;
+
+    @Override
+    public boolean act() {
+        if (target.isAlive()) {
+
+            if (target.MP < target.MMP) {
+                target.MP += 1;
+            }
+            if (((Hero) target).heroClass == HeroClass.MAGE) {
                 if (target.MP < target.MMP) {
                     target.MP += 1;
                 }
             }
 
-			int bonus = 0;
-            if(((Hero)target).heroClass == HeroClass.MAGE)
-            {
+            int bonus = 0;
+            if (((Hero) target).heroClass == HeroClass.MAGE) {
                 bonus = 1;
             }
 
-            bonus += ((Hero)target).heroSkills.passiveA2.manaRegenerationBonus(); // <-- Mage mdeitation if present
+            bonus += ((Hero) target).heroSkills.passiveA2.manaRegenerationBonus(); // <-- Mage mdeitation if present
 
-			spend( (float)(REGENERATION_DELAY / Math.pow( 1.2, bonus )) );
-			
-		} else {
-			
-			diactivate();
-			
-		}
+            spend((float) (REGENERATION_DELAY / Math.pow(1.2, bonus)));
 
-		return true;
-	}
+        } else {
+
+            diactivate();
+
+        }
+
+        return true;
+    }
 }

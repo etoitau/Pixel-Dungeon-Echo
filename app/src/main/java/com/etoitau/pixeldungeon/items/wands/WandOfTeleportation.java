@@ -29,60 +29,60 @@ import com.watabau.utils.Callback;
 
 public class WandOfTeleportation extends Wand {
 
-	{
-		name = "Wand of Teleportation";
-	}
+    {
+        name = "Wand of Teleportation";
+    }
 
-	@Override
-	protected void onZap( int cell ) {
-		
-		Char ch = Actor.findChar( cell );
-		
-		if (ch == curUser) {
-			
-			setKnown();
-			ScrollOfTeleportation.teleportHero( curUser );
-			
-		} else if (ch != null) {
-			
-			int count = 10;
-			int pos;
-			do {
-				pos = Dungeon.level.randomRespawnCell();
-				if (count-- <= 0) {
-					break;
-				}
-			} while (pos == -1);
-			
-			if (pos == -1) {
-				
-				GLog.w( ScrollOfTeleportation.TXT_NO_TELEPORT );
-				
-			} else {
-			
-				ch.pos = pos;
-				ch.sprite.place( ch.pos );
-				ch.sprite.visible = Dungeon.visible[pos];
-				GLog.i( curUser.name + " teleported " + ch.name + " to somewhere" );
-				
-			}
+    @Override
+    protected void onZap(int cell) {
 
-		} else {
-			
-			GLog.i( "nothing happened" );
-			
-		}
-	}
-	
-	protected void fx( int cell, Callback callback ) {
-		MagicMissile.coldLight( curUser.sprite.parent, curUser.pos, cell, callback );
-		Sample.INSTANCE.play( Assets.SND_ZAP );
-	}
-	
-	@Override
-	public String desc() {
-		return
-			"A blast from this wand will teleport a creature against " +
-			"its will to a random place on the current level.";
-	}
+        Char ch = Actor.findChar(cell);
+
+        if (ch == curUser) {
+
+            setKnown();
+            ScrollOfTeleportation.teleportHero(curUser);
+
+        } else if (ch != null) {
+
+            int count = 10;
+            int pos;
+            do {
+                pos = Dungeon.level.randomRespawnCell();
+                if (count-- <= 0) {
+                    break;
+                }
+            } while (pos == -1);
+
+            if (pos == -1) {
+
+                GLog.w(ScrollOfTeleportation.TXT_NO_TELEPORT);
+
+            } else {
+
+                ch.pos = pos;
+                ch.sprite.place(ch.pos);
+                ch.sprite.visible = Dungeon.visible[pos];
+                GLog.i(curUser.name + " teleported " + ch.name + " to somewhere");
+
+            }
+
+        } else {
+
+            GLog.i("nothing happened");
+
+        }
+    }
+
+    protected void fx(int cell, Callback callback) {
+        MagicMissile.coldLight(curUser.sprite.parent, curUser.pos, cell, callback);
+        Sample.INSTANCE.play(Assets.SND_ZAP);
+    }
+
+    @Override
+    public String desc() {
+        return
+                "A blast from this wand will teleport a creature against " +
+                        "its will to a random place on the current level.";
+    }
 }

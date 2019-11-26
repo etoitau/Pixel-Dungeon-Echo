@@ -20,14 +20,14 @@ package com.etoitau.pixeldungeon.actors.buffs;
 import com.etoitau.pixeldungeon.ui.BuffIndicator;
 
 public class Amok extends FlavourBuff {
-	
-	@Override
-	public int icon() {
-		return BuffIndicator.AMOK;
-	}
-	
-	@Override
-	public String toString() {
-		return "Amok";
-	}
+
+    @Override
+    public int icon() {
+        return BuffIndicator.AMOK;
+    }
+
+    @Override
+    public String toString() {
+        return "Amok";
+    }
 }

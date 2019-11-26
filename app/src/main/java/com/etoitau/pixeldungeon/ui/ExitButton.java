@@ -26,49 +26,49 @@ import com.etoitau.pixeldungeon.PixelDungeon;
 import com.etoitau.pixeldungeon.scenes.TitleScene;
 
 public class ExitButton extends Button {
-	
-	private Image image;
-	
-	public ExitButton() {
-		super();
-		
-		width = image.width;
-		height = image.height;
-	}
-	
-	@Override
-	protected void createChildren() {
-		super.createChildren();
-		
-		image = Icons.EXIT.get();
-		add( image );
-	}
-	
-	@Override
-	protected void layout() {
-		super.layout();
-		
-		image.x = x;
-		image.y = y;
-	}
-	
-	@Override
-	protected void onTouchDown() {
-		image.brightness( 1.5f );
-		Sample.INSTANCE.play( Assets.SND_CLICK );
-	}
-	
-	@Override
-	protected void onTouchUp() {
-		image.resetColor();
-	}
-	
-	@Override
-	protected void onClick() {
-		if (Game.scene() instanceof TitleScene) {
-			Game.instance.finish();
-		} else {
-			PixelDungeon.switchNoFade( TitleScene.class );
-		}
-	}
+
+    private Image image;
+
+    public ExitButton() {
+        super();
+
+        width = image.width;
+        height = image.height;
+    }
+
+    @Override
+    protected void createChildren() {
+        super.createChildren();
+
+        image = Icons.EXIT.get();
+        add(image);
+    }
+
+    @Override
+    protected void layout() {
+        super.layout();
+
+        image.x = x;
+        image.y = y;
+    }
+
+    @Override
+    protected void onTouchDown() {
+        image.brightness(1.5f);
+        Sample.INSTANCE.play(Assets.SND_CLICK);
+    }
+
+    @Override
+    protected void onTouchUp() {
+        image.resetColor();
+    }
+
+    @Override
+    protected void onClick() {
+        if (Game.scene() instanceof TitleScene) {
+            Game.instance.finish();
+        } else {
+            PixelDungeon.switchNoFade(TitleScene.class);
+        }
+    }
 }

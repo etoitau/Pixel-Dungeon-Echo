@@ -23,39 +23,39 @@ import com.watabau.utils.Bundle;
 
 public class Terror extends FlavourBuff {
 
-	public static final float DURATION = 10f;
-	
-	public int object = 0;
-	
-	private static final String OBJECT	= "object";
-	
-	@Override
-	public void storeInBundle( Bundle bundle ) {
-		super.storeInBundle( bundle );
-		bundle.put( OBJECT, object );
-		
-	}
-	
-	@Override
-	public void restoreFromBundle( Bundle bundle ) {
-		super.restoreFromBundle( bundle );
-		object = bundle.getInt( OBJECT );
-	}
-	
-	@Override
-	public int icon() {
-		return BuffIndicator.TERROR;
-	}
-	
-	@Override
-	public String toString() {
-		return "Terror";
-	}
-	
-	public static void recover( Char target ) {
-		Terror terror = target.buff( Terror.class );
-		if (terror != null && terror.cooldown() < DURATION) {
-			target.remove( terror );
-		}
-	}
+    public static final float DURATION = 10f;
+
+    public int object = 0;
+
+    private static final String OBJECT = "object";
+
+    @Override
+    public void storeInBundle(Bundle bundle) {
+        super.storeInBundle(bundle);
+        bundle.put(OBJECT, object);
+
+    }
+
+    @Override
+    public void restoreFromBundle(Bundle bundle) {
+        super.restoreFromBundle(bundle);
+        object = bundle.getInt(OBJECT);
+    }
+
+    @Override
+    public int icon() {
+        return BuffIndicator.TERROR;
+    }
+
+    @Override
+    public String toString() {
+        return "Terror";
+    }
+
+    public static void recover(Char target) {
+        Terror terror = target.buff(Terror.class);
+        if (terror != null && terror.cooldown() < DURATION) {
+            target.remove(terror);
+        }
+    }
 }

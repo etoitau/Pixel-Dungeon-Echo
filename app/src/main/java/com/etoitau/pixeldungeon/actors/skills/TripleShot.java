@@ -7,7 +7,7 @@ import com.etoitau.pixeldungeon.ui.StatusPane;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class TripleShot extends ActiveSkill2{
+public class TripleShot extends ActiveSkill2 {
 
 
     {
@@ -21,23 +21,20 @@ public class TripleShot extends ActiveSkill2{
     private int count = 0; // prevent infinite loop
 
     @Override
-    public void execute( Hero hero, String action ) {
+    public void execute(Hero hero, String action) {
         super.execute(hero, action);
-        if(action == Skill.AC_ACTIVATE)
-        {
+        if (action == Skill.AC_ACTIVATE) {
             hero.heroSkills.active3.active = false; // Disable Bombvoyage
         }
     }
 
     @Override
-    public boolean doubleShot()
-    {
-        if(active == false || Dungeon.hero.MP < getManaCost())
+    public boolean doubleShot() {
+        if (active == false || Dungeon.hero.MP < getManaCost())
             return false;
-        else if(count < 2)
-        {
+        else if (count < 2) {
             count++;
-            if(count == 1) {
+            if (count == 1) {
                 castTextYell();
                 Dungeon.hero.MP -= getManaCost();
                 StatusPane.manaDropping += getManaCost();
@@ -49,15 +46,13 @@ public class TripleShot extends ActiveSkill2{
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return true;
     }
 
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "Shoots three arrows at the same time.\n"
                 + costUpgradeInfo();
     }

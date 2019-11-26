@@ -1,11 +1,10 @@
 package com.etoitau.pixeldungeon.actors.skills;
 
 
-
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class Bandit extends PassiveSkillA1{
+public class Bandit extends PassiveSkillA1 {
 
 
     {
@@ -15,21 +14,18 @@ public class Bandit extends PassiveSkillA1{
     }
 
     @Override
-    public int lootBonus(int gold)
-    {
+    public int lootBonus(int gold) {
         return (int) (gold * 0.1f * level);
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return true;
     }
 
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "10% more gold per level.\n"
                 + "Becomes immune to Mimic gold steal.\n"
                 + costUpgradeInfo();

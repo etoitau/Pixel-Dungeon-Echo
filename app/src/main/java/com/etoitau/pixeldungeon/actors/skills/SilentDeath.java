@@ -6,7 +6,7 @@ import com.watabau.utils.Random;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class SilentDeath extends PassiveSkillB3{
+public class SilentDeath extends PassiveSkillB3 {
 
 
     {
@@ -16,11 +16,9 @@ public class SilentDeath extends PassiveSkillB3{
         image = 59;
     }
 
-    public boolean instantKill()
-    {
+    public boolean instantKill() {
 
-        if(Random.Int(100) < 10 * level)
-        {
+        if (Random.Int(100) < 10 * level) {
             castText = "Eternal Slumber";
             castTextYell();
             return true;
@@ -31,14 +29,12 @@ public class SilentDeath extends PassiveSkillB3{
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return true;
     }
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "10% per level chance to instantly kill a sleeping enemy.\n"
                 + costUpgradeInfo();
     }

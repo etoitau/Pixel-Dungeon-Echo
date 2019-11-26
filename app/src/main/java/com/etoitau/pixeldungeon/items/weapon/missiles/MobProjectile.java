@@ -23,45 +23,45 @@ import com.watabau.utils.Random;
 
 public class MobProjectile extends MissileWeapon {
 
-	{
-		name = "projectile";
-		image = ItemSpriteSheet.MOB_PROJECTILE;
-	}
+    {
+        name = "projectile";
+        image = ItemSpriteSheet.MOB_PROJECTILE;
+    }
 
-	public MobProjectile() {
-		this( 1 );
-	}
+    public MobProjectile() {
+        this(1);
+    }
 
-	public MobProjectile(int number) {
-		super();
-		quantity = number;
-	}
+    public MobProjectile(int number) {
+        super();
+        quantity = number;
+    }
 
-	@Override
-	public int min() {
-		return 1;
-	}
+    @Override
+    public int min() {
+        return 1;
+    }
 
-	@Override
-	public int max() {
-		return 4;
-	}
+    @Override
+    public int max() {
+        return 4;
+    }
 
-	@Override
-	public String desc() {
-		return
-			"These simple metal spikes are weighted to fly true and " +
-			"sting their prey with a flick of the wrist.";
-	}
+    @Override
+    public String desc() {
+        return
+                "These simple metal spikes are weighted to fly true and " +
+                        "sting their prey with a flick of the wrist.";
+    }
 
-	@Override
-	public Item random() {
-		quantity = Random.Int( 5, 15 );
-		return this;
-	}
+    @Override
+    public Item random() {
+        quantity = Random.Int(5, 15);
+        return this;
+    }
 
-	@Override
-	public int price() {
-		return quantity * 2;
-	}
+    @Override
+    public int price() {
+        return quantity * 2;
+    }
 }

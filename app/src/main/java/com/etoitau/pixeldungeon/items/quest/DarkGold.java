@@ -21,34 +21,34 @@ import com.etoitau.pixeldungeon.items.Item;
 import com.etoitau.pixeldungeon.sprites.ItemSpriteSheet;
 
 public class DarkGold extends Item {
-	
-	{
-		name = "dark gold ore";
-		image = ItemSpriteSheet.ORE;
-		
-		stackable = true;
-		unique = true;
-	}
-	
-	@Override
-	public boolean isUpgradable() {
-		return false;
-	}
-	
-	@Override
-	public boolean isIdentified() {
-		return true;
-	}
-	
-	@Override
-	public String info() {
-		return
-			"This metal is called dark not because of its color (it doesn't differ from the normal gold), " +
-			"but because it melts under the daylight, making it useless on the surface.";
-	}
-	
-	@Override
-	public int price() {
-		return quantity;
-	}
+
+    {
+        name = "dark gold ore";
+        image = ItemSpriteSheet.ORE;
+
+        stackable = true;
+        unique = true;
+    }
+
+    @Override
+    public boolean isUpgradable() {
+        return false;
+    }
+
+    @Override
+    public boolean isIdentified() {
+        return true;
+    }
+
+    @Override
+    public String info() {
+        return
+                "This metal is called dark not because of its color (it doesn't differ from the normal gold), " +
+                        "but because it melts under the daylight, making it useless on the surface.";
+    }
+
+    @Override
+    public int price() {
+        return quantity;
+    }
 }

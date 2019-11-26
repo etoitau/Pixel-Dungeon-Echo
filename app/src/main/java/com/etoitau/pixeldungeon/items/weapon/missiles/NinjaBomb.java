@@ -40,43 +40,43 @@ import com.watabau.utils.Random;
 
 public class NinjaBomb extends MissileWeapon {
 
-	public int strength;
+    public int strength;
 
-	{
-		name = "Ninja Bomb";
-		image = ItemSpriteSheet.MOB_PROJECTILE;
+    {
+        name = "Ninja Bomb";
+        image = ItemSpriteSheet.MOB_PROJECTILE;
         stackable = true;
-	}
+    }
 
-	public NinjaBomb() {
-		this( 1 );
-	}
+    public NinjaBomb() {
+        this(1);
+    }
 
-	public NinjaBomb(int number) {
-		super();
-		quantity = number;
-	}
-	
-	@Override
-	public int min() {
-		return 1;
-	}
-	
-	@Override
-	public int max() {
-		return 4;
-	}
-	
-	@Override
-	public String desc() {
-		return 
-			"A magical crystal capable of capturing soul essence. Throw this at a weak or weakened foe and capture his spirit.";
-	}
+    public NinjaBomb(int number) {
+        super();
+        quantity = number;
+    }
+
+    @Override
+    public int min() {
+        return 1;
+    }
+
+    @Override
+    public int max() {
+        return 4;
+    }
+
+    @Override
+    public String desc() {
+        return
+                "A magical crystal capable of capturing soul essence. Throw this at a weak or weakened foe and capture his spirit.";
+    }
 
     @Override
     public String info() {
 
-        StringBuilder info = new StringBuilder( desc() );
+        StringBuilder info = new StringBuilder(desc());
 
 
         return info.toString();
@@ -84,22 +84,21 @@ public class NinjaBomb extends MissileWeapon {
 
 
     @Override
-    protected void onThrow( int cell ) {
-        if(Actor.findChar(cell) != null && Actor.findChar(cell) instanceof Mob && (!(Actor.findChar(cell) instanceof NPC) || Actor.findChar(cell) instanceof SummonedPet) && !Bestiary.isBoss(Actor.findChar(cell)) && (Random.Int(10 * strength, 20  * strength) > Actor.findChar(cell).HP || Actor.findChar(cell) instanceof SummonedPet))
-        {
+    protected void onThrow(int cell) {
+        if (Actor.findChar(cell) != null && Actor.findChar(cell) instanceof Mob && (!(Actor.findChar(cell) instanceof NPC) || Actor.findChar(cell) instanceof SummonedPet) && !Bestiary.isBoss(Actor.findChar(cell)) && (Random.Int(10 * strength, 20 * strength) > Actor.findChar(cell).HP || Actor.findChar(cell) instanceof SummonedPet)) {
             Buff.affect(Actor.findChar(cell), Sleep.class);
             GLog.p("Knocked out " + Actor.findChar(cell).name + "!");
         }
 
         if (Dungeon.visible[cell]) {
-                Sample.INSTANCE.play( Assets.SND_PUFF );
-                Splash.at(cell, Color.parseColor("#50d0d0d0"), 5);
-            }
+            Sample.INSTANCE.play(Assets.SND_PUFF);
+            Splash.at(cell, Color.parseColor("#50d0d0d0"), 5);
+        }
 
     }
 
-	@Override
-	public int price() {
-		return quantity * 12;
-	}
+    @Override
+    public int price() {
+        return quantity * 12;
+    }
 }

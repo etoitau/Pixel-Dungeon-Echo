@@ -29,58 +29,58 @@ import com.etoitau.pixeldungeon.levels.Terrain;
 import com.etoitau.pixeldungeon.scenes.GameScene;
 
 public class Foliage extends Blob {
-	
-	@Override
-	protected void evolve() {
 
-		int from = WIDTH + 1;
-		int to = Level.LENGTH - WIDTH - 1;
-		
-		int[] map = Dungeon.level.map;
-		boolean regrowth = false;
-		
-		boolean visible = false;
-		
-		for (int pos=from; pos < to; pos++) {
-			if (cur[pos] > 0) {
-				
-				off[pos] = cur[pos];
-				volume += off[pos];
-				
-				if (map[pos] == Terrain.EMBERS) {
-					map[pos] = Terrain.GRASS;
-					regrowth = true;
-				}
-				
-				visible = visible || Dungeon.visible[pos];
-				
-			} else {
-				off[pos] = 0;
-			}
-		}
-		
-		Hero hero = Dungeon.hero;
-		if (hero.isAlive() && hero.visibleEnemies() == 0 && cur[hero.pos] > 0) {
-			Buff.affect( hero, Shadows.class ).prolong();
-		}
-		
-		if (regrowth) {
-			GameScene.updateMap();
-		}
-		
-		if (visible) {
-			Journal.add( Journal.Feature.GARDEN );
-		}
-	}
-	
-	@Override
-	public void use( BlobEmitter emitter ) {
-		super.use( emitter );	
-		emitter.start( ShaftParticle.FACTORY, 0.9f, 0 );
-	}
-	
-	@Override
-	public String tileDesc() {
-		return "Shafts of light pierce the gloom of the underground garden.";
-	}
+    @Override
+    protected void evolve() {
+
+        int from = WIDTH + 1;
+        int to = Level.LENGTH - WIDTH - 1;
+
+        int[] map = Dungeon.level.map;
+        boolean regrowth = false;
+
+        boolean visible = false;
+
+        for (int pos = from; pos < to; pos++) {
+            if (cur[pos] > 0) {
+
+                off[pos] = cur[pos];
+                volume += off[pos];
+
+                if (map[pos] == Terrain.EMBERS) {
+                    map[pos] = Terrain.GRASS;
+                    regrowth = true;
+                }
+
+                visible = visible || Dungeon.visible[pos];
+
+            } else {
+                off[pos] = 0;
+            }
+        }
+
+        Hero hero = Dungeon.hero;
+        if (hero.isAlive() && hero.visibleEnemies() == 0 && cur[hero.pos] > 0) {
+            Buff.affect(hero, Shadows.class).prolong();
+        }
+
+        if (regrowth) {
+            GameScene.updateMap();
+        }
+
+        if (visible) {
+            Journal.add(Journal.Feature.GARDEN);
+        }
+    }
+
+    @Override
+    public void use(BlobEmitter emitter) {
+        super.use(emitter);
+        emitter.start(ShaftParticle.FACTORY, 0.9f, 0);
+    }
+
+    @Override
+    public String tileDesc() {
+        return "Shafts of light pierce the gloom of the underground garden.";
+    }
 }

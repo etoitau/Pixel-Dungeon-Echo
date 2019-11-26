@@ -21,27 +21,27 @@ import com.etoitau.pixeldungeon.items.Item;
 import com.etoitau.pixeldungeon.sprites.ItemSpriteSheet;
 
 public class DriedRose extends Item {
-	
-	{
-		name = "dried rose";
-		image = ItemSpriteSheet.ROSE;
-		
-		unique = true;
-	}
-	
-	@Override
-	public boolean isUpgradable() {
-		return false;
-	}
-	
-	@Override
-	public boolean isIdentified() {
-		return true;
-	}
-	
-	@Override
-	public String info() {
-		return
-			"The rose has dried long ago, but it has kept all its petals somehow.";
-	}
+
+    {
+        name = "dried rose";
+        image = ItemSpriteSheet.ROSE;
+
+        unique = true;
+    }
+
+    @Override
+    public boolean isUpgradable() {
+        return false;
+    }
+
+    @Override
+    public boolean isIdentified() {
+        return true;
+    }
+
+    @Override
+    public String info() {
+        return
+                "The rose has dried long ago, but it has kept all its petals somehow.";
+    }
 }

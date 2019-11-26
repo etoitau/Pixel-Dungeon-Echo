@@ -5,7 +5,7 @@ import com.watabau.utils.Random;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class IronTip extends PassiveSkillB3{
+public class IronTip extends PassiveSkillB3 {
 
 
     {
@@ -16,13 +16,11 @@ public class IronTip extends PassiveSkillB3{
     }
 
     @Override
-    public int passThroughTargets(boolean shout)
-    {
-        if(shout == false)
+    public int passThroughTargets(boolean shout) {
+        if (shout == false)
             return level;
 
-        if(level > 0 && Random.Int(level + 1) > 0)
-        {
+        if (level > 0 && Random.Int(level + 1) > 0) {
             //castTextYell();
             multiTargetActive = true;
             return level;
@@ -33,15 +31,13 @@ public class IronTip extends PassiveSkillB3{
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return true;
     }
 
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "Uses iron arrow tips allowing some arrows to path through their targets and continue their path.\n"
                 + costUpgradeInfo();
     }

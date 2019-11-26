@@ -4,7 +4,7 @@ package com.etoitau.pixeldungeon.actors.skills;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class Summoner extends PassiveSkillB3{
+public class Summoner extends PassiveSkillB3 {
 
 
     {
@@ -14,20 +14,17 @@ public class Summoner extends PassiveSkillB3{
     }
 
     @Override
-    public int summoningLimitBonus()
-    {
+    public int summoningLimitBonus() {
         return level;
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return true;
     }
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "Summoning limit increases by 1 per level.\n"
                 + costUpgradeInfo();
     }

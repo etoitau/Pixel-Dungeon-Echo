@@ -12,10 +12,11 @@ import java.util.ArrayList;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class AimedShot extends ActiveSkill1{
+public class AimedShot extends ActiveSkill1 {
 
 
     boolean cast;
+
     {
         name = "Aimed Shot";
         castText = "I see him";
@@ -25,18 +26,16 @@ public class AimedShot extends ActiveSkill1{
     }
 
     @Override
-    public void execute( Hero hero, String action ) {
+    public void execute(Hero hero, String action) {
         super.execute(hero, action);
-        if(action == Skill.AC_ACTIVATE)
-        {
+        if (action == Skill.AC_ACTIVATE) {
             hero.heroSkills.active2.active = false; // Disable Double shot
             hero.heroSkills.active3.active = false; // Disable Bombvoyage
         }
     }
 
     //@Override
-    public float rangedDamageModifier()
-    {
+    public float rangedDamageModifier() {
         float toReturn = 1f;
         toReturn += cast ? 0.2f * level : 0;
         cast = false;
@@ -44,10 +43,8 @@ public class AimedShot extends ActiveSkill1{
     }
 
     //@Override
-    public boolean aimedShot()
-    {
-        if(active == false || Dungeon.hero.MP < getManaCost())
-        {
+    public boolean aimedShot() {
+        if (active == false || Dungeon.hero.MP < getManaCost()) {
             cast = false;
             return false;
         }
@@ -61,15 +58,13 @@ public class AimedShot extends ActiveSkill1{
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return true;
     }
 
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "Stronger ranged attack that never misses.\n"
                 + costUpgradeInfo();
     }

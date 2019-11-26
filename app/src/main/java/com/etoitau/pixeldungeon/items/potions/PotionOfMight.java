@@ -24,32 +24,32 @@ import com.etoitau.pixeldungeon.utils.GLog;
 
 public class PotionOfMight extends PotionOfStrength {
 
-	{
-		name = "Potion of Might";
-	}
-	
-	@Override
-	protected void apply( Hero hero ) {
-		setKnown();
-		
-		hero.STR++;
-		hero.HT += 5;
-		hero.HP += 5;
-		hero.sprite.showStatus( CharSprite.POSITIVE, "+1 str, +5 ht" );
-		GLog.p( "Newfound strength surges through your body." );
-		
-		Badges.validateStrengthAttained();
-	}
-	
-	@Override
-	public String desc() {
-		return
-			"This powerful liquid will course through your muscles, permanently " +
-			"increasing your strength by one point and health by five points.";
-	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 200 * quantity : super.price();
-	}
+    {
+        name = "Potion of Might";
+    }
+
+    @Override
+    protected void apply(Hero hero) {
+        setKnown();
+
+        hero.STR++;
+        hero.HT += 5;
+        hero.HP += 5;
+        hero.sprite.showStatus(CharSprite.POSITIVE, "+1 str, +5 ht");
+        GLog.p("Newfound strength surges through your body.");
+
+        Badges.validateStrengthAttained();
+    }
+
+    @Override
+    public String desc() {
+        return
+                "This powerful liquid will course through your muscles, permanently " +
+                        "increasing your strength by one point and health by five points.";
+    }
+
+    @Override
+    public int price() {
+        return isKnown() ? 200 * quantity : super.price();
+    }
 }

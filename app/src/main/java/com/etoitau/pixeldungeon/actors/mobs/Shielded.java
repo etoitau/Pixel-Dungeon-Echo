@@ -22,26 +22,26 @@ import com.etoitau.pixeldungeon.sprites.ShieldedSprite;
 
 public class Shielded extends Brute {
 
-	{
-		name = "shielded brute";
-		spriteClass = ShieldedSprite.class;
-		
-		defenseSkill = 20;
-	}
-	
-	@Override
-	public int dr() {
-		return 10;
-	}
-	
-	@Override
-	public String defenseVerb() {
-		return "blocked";
-	}
-	
-	@Override
-	public void die( Object cause ) {
-		super.die( cause );
-		Badges.validateRare( this );
-	}
+    {
+        name = "shielded brute";
+        spriteClass = ShieldedSprite.class;
+
+        defenseSkill = 20;
+    }
+
+    @Override
+    public int dr() {
+        return 10;
+    }
+
+    @Override
+    public String defenseVerb() {
+        return "blocked";
+    }
+
+    @Override
+    public void die(Object cause) {
+        super.die(cause);
+        Badges.validateRare(this);
+    }
 }

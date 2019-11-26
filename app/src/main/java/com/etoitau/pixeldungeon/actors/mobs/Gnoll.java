@@ -25,56 +25,55 @@ import com.etoitau.pixeldungeon.sprites.GnollSprite;
 import com.watabau.utils.Random;
 
 public class Gnoll extends Mob {
-	
-	{
-		name = "gnoll scout";
-		spriteClass = GnollSprite.class;
-		
-		HP = HT = 12;
-		defenseSkill = 4;
-		
-		EXP = 2;
-		maxLvl = 8;
-		
-		loot = Gold.class;
-		lootChance = 0.5f;
 
-        name = Dungeon.currentDifficulty.mobPrefix() + name;
+    {
+        name = "gnoll scout";
+        spriteClass = GnollSprite.class;
+
+        HP = HT = 12;
+        defenseSkill = 4;
+
+        EXP = 2;
+        maxLvl = 8;
+
+        loot = Gold.class;
+        lootChance = 0.5f;
+
         HT *= Dungeon.currentDifficulty.mobHPModifier();
         HP = HT;
-	}
-	
-	@Override
-	public int damageRoll() {
-		return Random.NormalIntRange( 2, 5 );
-	}
-	
-	@Override
-	public int attackSkill( Char target ) {
-		return 11;
-	}
-	
-	@Override
-	public int dr() {
-		return 2;
-	}
-	
-	@Override
-	public void die( Object cause ) {
-		Ghost.Quest.processSewersKill( pos );
-		super.die( cause );
-	}
+    }
 
     @Override
-    public int attackProc( Char enemy, int damage ) {
+    public int damageRoll() {
+        return Random.NormalIntRange(2, 5);
+    }
+
+    @Override
+    public int attackSkill(Char target) {
+        return 11;
+    }
+
+    @Override
+    public int dr() {
+        return 2;
+    }
+
+    @Override
+    public void die(Object cause) {
+        Ghost.Quest.processSewersKill(pos);
+        super.die(cause);
+    }
+
+    @Override
+    public int attackProc(Char enemy, int damage) {
         champEffect(enemy, damage);
         return damage;
     }
-	
-	@Override
-	public String description() {
-		return
-			"Gnolls are hyena-like humanoids. They dwell in sewers and dungeons, venturing up to raid the surface from time to time. " +
-			"Gnoll scouts are regular members of their pack, they are not as strong as brutes and not as intelligent as shamans.";
-	}
+
+    @Override
+    public String description() {
+        return
+                "Gnolls are hyena-like humanoids. They dwell in sewers and dungeons, venturing up to raid the surface from time to time. " +
+                        "Gnoll scouts are regular members of their pack, they are not as strong as brutes and not as intelligent as shamans.";
+    }
 }

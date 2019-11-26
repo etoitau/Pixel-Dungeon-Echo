@@ -4,7 +4,7 @@ package com.etoitau.pixeldungeon.actors.skills;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class Mastery extends PassiveSkillB3{
+public class Mastery extends PassiveSkillB3 {
 
 
     {
@@ -14,21 +14,18 @@ public class Mastery extends PassiveSkillB3{
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return true;
     }
 
     @Override
-    public int  weaponLevelBonus()
-    {
+    public int weaponLevelBonus() {
         return level;
     }
 
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "Melee weapons receive bonus to level.\n"
                 + costUpgradeInfo();
     }

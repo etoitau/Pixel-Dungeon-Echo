@@ -3,8 +3,7 @@ package com.etoitau.pixeldungeon.actors.skills;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class LegendActiveA extends BranchSkill{
-
+public class LegendActiveA extends BranchSkill {
 
 
     {
@@ -14,8 +13,7 @@ public class LegendActiveA extends BranchSkill{
     }
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "Hatsune has mastered both light and dark arts unlocking divine powers.";
     }
 }

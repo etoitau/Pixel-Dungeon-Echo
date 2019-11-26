@@ -8,7 +8,7 @@ import com.etoitau.pixeldungeon.ui.StatusPane;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class KnockBack extends ActiveSkill2{
+public class KnockBack extends ActiveSkill2 {
 
 
     {
@@ -20,33 +20,28 @@ public class KnockBack extends ActiveSkill2{
     }
 
     @Override
-    public void execute( Hero hero, String action ) {
+    public void execute(Hero hero, String action) {
         super.execute(hero, action);
-        if(action == Skill.AC_ACTIVATE)
-        {
+        if (action == Skill.AC_ACTIVATE) {
             hero.heroSkills.active1.active = false; // Disable Smash
             hero.heroSkills.active3.active = false; // Disable Rampage
         }
     }
 
     @Override
-    public float damageModifier()
-    {
-        if(active == false || Dungeon.hero.MP < getManaCost())
+    public float damageModifier() {
+        if (active == false || Dungeon.hero.MP < getManaCost())
             return 1f;
-        else
-        {
+        else {
             return 1f + 0.1f * level;
         }
     }
 
     @Override
-    public boolean knocksBack()
-    {
-        if(active == false || Dungeon.hero.MP < getManaCost())
+    public boolean knocksBack() {
+        if (active == false || Dungeon.hero.MP < getManaCost())
             return false;
-        else
-        {
+        else {
             castTextYell();
             Dungeon.hero.MP -= getManaCost();
             StatusPane.manaDropping += getManaCost();
@@ -56,21 +51,18 @@ public class KnockBack extends ActiveSkill2{
 
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return true;
     }
 
 
     @Override
-    public int getManaCost()
-    {
-        return (int)Math.ceil(mana * (1 + 0.55 * level));
+    public int getManaCost() {
+        return (int) Math.ceil(mana * (1 + 0.55 * level));
     }
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "Hits harder and knocks back target.\n"
                 + costUpgradeInfo();
     }

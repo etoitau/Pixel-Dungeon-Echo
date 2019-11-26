@@ -23,36 +23,36 @@ import com.etoitau.pixeldungeon.ui.BuffIndicator;
 import com.watabau.utils.Bundle;
 
 public class Charm extends FlavourBuff {
-	
-	public int object = 0;
-	
-	private static final String OBJECT	= "object";
-	
-	@Override
-	public void storeInBundle( Bundle bundle ) {
-		super.storeInBundle( bundle );
-		bundle.put( OBJECT, object );
-		
-	}
-	
-	@Override
-	public void restoreFromBundle( Bundle bundle ) {
-		super.restoreFromBundle( bundle );
-		object = bundle.getInt( OBJECT );
-	}
-	
-	@Override
-	public int icon() {
-		return BuffIndicator.HEART;
-	}
-	
-	@Override
-	public String toString() {
-		return "Charmed";
-	}
-	
-	public static float durationFactor( Char ch ) {
-		Resistance r = ch.buff( Resistance.class );
-		return r != null ? r.durationFactor() : 1;
-	}
+
+    public int object = 0;
+
+    private static final String OBJECT = "object";
+
+    @Override
+    public void storeInBundle(Bundle bundle) {
+        super.storeInBundle(bundle);
+        bundle.put(OBJECT, object);
+
+    }
+
+    @Override
+    public void restoreFromBundle(Bundle bundle) {
+        super.restoreFromBundle(bundle);
+        object = bundle.getInt(OBJECT);
+    }
+
+    @Override
+    public int icon() {
+        return BuffIndicator.HEART;
+    }
+
+    @Override
+    public String toString() {
+        return "Charmed";
+    }
+
+    public static float durationFactor(Char ch) {
+        Resistance r = ch.buff(Resistance.class);
+        return r != null ? r.durationFactor() : 1;
+    }
 }

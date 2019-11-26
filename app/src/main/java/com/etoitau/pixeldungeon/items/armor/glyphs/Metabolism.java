@@ -30,44 +30,44 @@ import com.watabau.utils.Random;
 
 public class Metabolism extends Glyph {
 
-	private static final String TXT_METABOLISM	= "%s of metabolism";
-	
-	private static ItemSprite.Glowing RED = new ItemSprite.Glowing( 0xCC0000 );
-	
-	@Override
-	public int proc( Armor armor, Char attacker, Char defender, int damage) {
+    private static final String TXT_METABOLISM = "%s of metabolism";
 
-		int level = Math.max( 0, armor.effectiveLevel() );
-		if (Random.Int( level / 2 + 5 ) >= 4) {
-			
-			int healing = Math.min( defender.HT - defender.HP, Random.Int( 1, defender.HT / 5 ) );
-			if (healing > 0) {
-				
-				Hunger hunger = defender.buff( Hunger.class );
-				
-				if (hunger != null && !hunger.isStarving()) {
-					
-					hunger.satisfy( -Hunger.STARVING / 10 );
-					BuffIndicator.refreshHero();
-					
-					defender.HP += healing;
-					defender.sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1 );
-					defender.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healing ) );
-				}
-			}
+    private static ItemSprite.Glowing RED = new ItemSprite.Glowing(0xCC0000);
 
-		}
-		
-		return damage;
-	}
-	
-	@Override
-	public String name( String weaponName) {
-		return String.format( TXT_METABOLISM, weaponName );
-	}
+    @Override
+    public int proc(Armor armor, Char attacker, Char defender, int damage) {
 
-	@Override
-	public Glowing glowing() {
-		return RED;
-	}
+        int level = Math.max(0, armor.effectiveLevel());
+        if (Random.Int(level / 2 + 5) >= 4) {
+
+            int healing = Math.min(defender.HT - defender.HP, Random.Int(1, defender.HT / 5));
+            if (healing > 0) {
+
+                Hunger hunger = defender.buff(Hunger.class);
+
+                if (hunger != null && !hunger.isStarving()) {
+
+                    hunger.satisfy(-Hunger.STARVING / 10);
+                    BuffIndicator.refreshHero();
+
+                    defender.HP += healing;
+                    defender.sprite.emitter().burst(Speck.factory(Speck.HEALING), 1);
+                    defender.sprite.showStatus(CharSprite.POSITIVE, Integer.toString(healing));
+                }
+            }
+
+        }
+
+        return damage;
+    }
+
+    @Override
+    public String name(String weaponName) {
+        return String.format(TXT_METABOLISM, weaponName);
+    }
+
+    @Override
+    public Glowing glowing() {
+        return RED;
+    }
 }

@@ -3,7 +3,7 @@ package com.etoitau.pixeldungeon.actors.skills;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class Stealth extends PassiveSkillA2{
+public class Stealth extends PassiveSkillA2 {
 
 
     {
@@ -13,18 +13,18 @@ public class Stealth extends PassiveSkillA2{
     }
 
     @Override
-    public int stealthBonus(){return level;}
+    public int stealthBonus() {
+        return level;
+    }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return true;
     }
 
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "Harder to detect.\n"
                 + costUpgradeInfo();
     }

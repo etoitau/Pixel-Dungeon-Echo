@@ -42,45 +42,44 @@ public class NecroBlade extends MeleeWeapon {
     public static final String AC_UPGRADE = "Consume";
 
     {
-		name = "necroblade";
-		image = ItemSpriteSheet.NecroBlade5;
-	}
+        name = "necroblade";
+        image = ItemSpriteSheet.NecroBlade5;
+    }
 
     public int charge = 100;
 
-	public NecroBlade() {
-		super( 1, 0.7f, 1f );
-	}
+    public NecroBlade() {
+        super(1, 0.7f, 1f);
+    }
 
     @Override
-    public ArrayList<String> actions( Hero hero ) {
-        ArrayList<String> actions = super.actions( hero );
-        if(charge > 25)
+    public ArrayList<String> actions(Hero hero) {
+        ArrayList<String> actions = super.actions(hero);
+        if (charge > 25)
             actions.add(AC_HEAL);
-        if(charge > 55)
+        if (charge > 55)
             actions.add(AC_SUMMON);
-        if(charge == 100)
+        if (charge == 100)
             actions.add(AC_UPGRADE);
         return actions;
     }
 
 
     @Override
-    public void execute( Hero hero, String action ) {
-        if (action.equals( AC_HEAL )) {
+    public void execute(Hero hero, String action) {
+        if (action.equals(AC_HEAL)) {
 
             hero.HP += hero.HT * 0.35;
-            if(hero.HP > hero.HT)
+            if (hero.HP > hero.HT)
                 hero.HP = hero.HT;
             GLog.p("NecroBlade heals " + ((int) (hero.HT * 0.35)) + " HP");
             updateCharge(-25);
 
-         CellEmitter.center(hero.pos).burst(Speck.factory(Speck.HEALING), 1);
-        // CellEmitter.center(hero.pos).burst(ShadowParticle.UP, Random.IntRange(1, 2));
+            CellEmitter.center(hero.pos).burst(Speck.factory(Speck.HEALING), 1);
+            // CellEmitter.center(hero.pos).burst(ShadowParticle.UP, Random.IntRange(1, 2));
 
 
-        } else if (action.equals( AC_SUMMON )) {
-
+        } else if (action.equals(AC_SUMMON)) {
 
 
             int newPos = hero.pos;
@@ -101,8 +100,8 @@ public class NecroBlade extends MeleeWeapon {
                 updateCharge(-55);
                 Skeleton skel = new Skeleton();
                 int skelLevel = this.level() > 1 ? 1 + this.level() : 1;
-                if(skelLevel > 7);
-                    skelLevel = 7;
+                if (skelLevel > 7) ;
+                skelLevel = 7;
                 skel.spawn(skelLevel);
                 skel.HP = skel.HT;
                 skel.pos = newPos;
@@ -114,73 +113,74 @@ public class NecroBlade extends MeleeWeapon {
                 skel.sprite.parent.add(new AlphaTweener(skel.sprite, 1, 0.15f));
                 CellEmitter.center(newPos).burst(ShadowParticle.UP, Random.IntRange(3, 5));
                 GLog.p("NecroBlade summoned a skeleton");
-            }
-            else
-            {
+            } else {
                 GLog.i("No place to summon");
             }
 
-        }else if (action.equals( AC_UPGRADE )) {
+        } else if (action.equals(AC_UPGRADE)) {
             updateCharge(-100);
             this.upgrade(1);
             GLog.p("NecroBlade consumed the souls within. It looks much better now.");
-        }
-        else
-        {
+        } else {
 
-            super.execute( hero, action );
+            super.execute(hero, action);
 
         }
     }
 
     @Override
-    public int damageRoll( Hero hero ) {
-        int damage = super.damageRoll( hero );
+    public int damageRoll(Hero hero) {
+        int damage = super.damageRoll(hero);
         damage += Random.Int((int) (charge / 8));
         return damage;
     }
 
 
-    public void updateCharge(int change)
-    {
+    public void updateCharge(int change) {
         charge += change;
-        if(charge > 100)
+        if (charge > 100)
             charge = 100;
-        if(charge < 0)
+        if (charge < 0)
             charge = 0;
 
-        switch((int)Math.floor(charge / 20))
-        {
-            case 0: image = ItemSpriteSheet.NecroBlade0;
+        switch ((int) Math.floor(charge / 20)) {
+            case 0:
+                image = ItemSpriteSheet.NecroBlade0;
                 break;
-            case 1: image = ItemSpriteSheet.NecroBlade1;
+            case 1:
+                image = ItemSpriteSheet.NecroBlade1;
                 break;
-            case 2: image = ItemSpriteSheet.NecroBlade2;
+            case 2:
+                image = ItemSpriteSheet.NecroBlade2;
                 break;
-            case 3: image = ItemSpriteSheet.NecroBlade3;
+            case 3:
+                image = ItemSpriteSheet.NecroBlade3;
                 break;
-            case 4: image = ItemSpriteSheet.NecroBlade4;
+            case 4:
+                image = ItemSpriteSheet.NecroBlade4;
                 break;
-            case 5: image = ItemSpriteSheet.NecroBlade5;
+            case 5:
+                image = ItemSpriteSheet.NecroBlade5;
                 break;
         }
     }
+
     @Override
-    public void restoreFromBundle( Bundle bundle ) {
+    public void restoreFromBundle(Bundle bundle) {
         super.restoreFromBundle(bundle);
         charge = bundle.getInt("CHARGE");
     }
 
     @Override
-    public void storeInBundle( Bundle bundle ) {
+    public void storeInBundle(Bundle bundle) {
         super.storeInBundle(bundle);
-        bundle.put( "CHARGE", charge );
+        bundle.put("CHARGE", charge);
     }
 
     @Override
-	public String desc() {
-		return "A blade forged from dark magic. NecroBlades consume the souls of those who perish by them. The more they consume, the stronger they become.\n" +
+    public String desc() {
+        return "A blade forged from dark magic. NecroBlades consume the souls of those who perish by them. The more they consume, the stronger they become.\n" +
                 "NecroBlade energy at " + charge + "/100\n"
                 + "The energy stored within increases damage by 0 - " + ((int) (charge / 8)) + ".";
-	}
+    }
 }

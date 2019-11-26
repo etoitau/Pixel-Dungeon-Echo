@@ -22,23 +22,23 @@ import com.etoitau.pixeldungeon.ui.BuffIndicator;
 
 public class MindVision extends FlavourBuff {
 
-	public static final float DURATION = 20f;
-	
-	public int distance = 2;
-	
-	@Override
-	public int icon() {
-		return BuffIndicator.MIND_VISION;
-	}
-	
-	@Override
-	public String toString() {
-		return "Mind vision";
-	}
+    public static final float DURATION = 20f;
 
-	@Override
-	public void detach() {
-		super.detach();
-		Dungeon.observe();
-	}
+    public int distance = 2;
+
+    @Override
+    public int icon() {
+        return BuffIndicator.MIND_VISION;
+    }
+
+    @Override
+    public String toString() {
+        return "Mind vision";
+    }
+
+    @Override
+    public void detach() {
+        super.detach();
+        Dungeon.observe();
+    }
 }

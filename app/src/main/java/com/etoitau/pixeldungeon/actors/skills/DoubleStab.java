@@ -7,7 +7,7 @@ import com.etoitau.pixeldungeon.ui.StatusPane;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class DoubleStab extends ActiveSkill1{
+public class DoubleStab extends ActiveSkill1 {
 
 
     {
@@ -19,30 +19,26 @@ public class DoubleStab extends ActiveSkill1{
     }
 
 
-
     @Override
-    public boolean doubleStab()
-    {
-        if(active == false || Dungeon.hero.MP < getManaCost())
+    public boolean doubleStab() {
+        if (active == false || Dungeon.hero.MP < getManaCost())
             return false;
 
-            //castTextYell();
-            Dungeon.hero.MP -= getManaCost();
-            StatusPane.manaDropping += getManaCost();
-            return true;
+        //castTextYell();
+        Dungeon.hero.MP -= getManaCost();
+        StatusPane.manaDropping += getManaCost();
+        return true;
 
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return true;
     }
 
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "Attacks twice with equipped melee weapon.\n"
                 + costUpgradeInfo();
     }

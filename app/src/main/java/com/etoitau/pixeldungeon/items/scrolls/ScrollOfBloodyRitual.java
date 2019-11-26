@@ -30,25 +30,25 @@ import com.watabau.utils.Random;
 
 public class ScrollOfBloodyRitual extends Scroll {
 
-	{
-		name = "Scroll of Bloody Ritual";
-	}
-	
-	@Override
-	protected void doRead() {
-		
-		GameScene.flash( 0xFF0000 );
-		
-		Sample.INSTANCE.play( Assets.SND_BLAST );
-		Invisibility.dispel();
+    {
+        name = "Scroll of Bloody Ritual";
+    }
 
-        int damage = (int)Math.round(Dungeon.hero.HT * 0.2);
+    @Override
+    protected void doRead() {
 
-		for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
-			if (Level.fieldOfView[mob.pos]) {
-				mob.damage( Random.IntRange( damage , damage ), this );
-			}
-		}
+        GameScene.flash(0xFF0000);
+
+        Sample.INSTANCE.play(Assets.SND_BLAST);
+        Invisibility.dispel();
+
+        int damage = (int) Math.round(Dungeon.hero.HT * 0.2);
+
+        for (Mob mob : Dungeon.level.mobs.toArray(new Mob[0])) {
+            if (Level.fieldOfView[mob.pos]) {
+                mob.damage(Random.IntRange(damage, damage), this);
+            }
+        }
 
         Dungeon.hero.HT -= damage;
         Dungeon.hero.HP = Dungeon.hero.HT;
@@ -56,21 +56,21 @@ public class ScrollOfBloodyRitual extends Scroll {
 
         GLog.n("Scroll of bloody ritual took away " + damage + " of your max hp!");
         GLog.p("A dark aura heals all your wounds... but you are not comfortable with the aura around you...");
-		Dungeon.observe();
-		
-		setKnown();
-		
-		curUser.spendAndNext( TIME_TO_READ );
-	}
-	
-	@Override
-	public String desc() {
-		return
-			"The scroll holds the secret of a forbidden ritual. In exchange for the reader's well being, the scroll damages everyone nearby and fully heals him.";
-	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 80 * quantity : super.price();
-	}
+        Dungeon.observe();
+
+        setKnown();
+
+        curUser.spendAndNext(TIME_TO_READ);
+    }
+
+    @Override
+    public String desc() {
+        return
+                "The scroll holds the secret of a forbidden ritual. In exchange for the reader's well being, the scroll damages everyone nearby and fully heals him.";
+    }
+
+    @Override
+    public int price() {
+        return isKnown() ? 80 * quantity : super.price();
+    }
 }

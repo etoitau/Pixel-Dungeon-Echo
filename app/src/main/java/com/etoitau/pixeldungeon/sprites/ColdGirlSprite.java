@@ -25,10 +25,10 @@ import com.etoitau.pixeldungeon.scenes.GameScene;
 
 public class ColdGirlSprite extends MobSprite {
 
-    protected static final int FRAME_WIDTH	= 12;
-    protected static final int FRAME_HEIGHT	= 15;
+    protected static final int FRAME_WIDTH = 12;
+    protected static final int FRAME_HEIGHT = 15;
 
-    protected static final int RUN_FRAMERATE	= 20;
+    protected static final int RUN_FRAMERATE = 20;
 
     public ArcherMaidenHalo halo = null;
     public boolean hasHalo = false;
@@ -36,63 +36,61 @@ public class ColdGirlSprite extends MobSprite {
     public boolean isSister = false;
 
 
-	public ColdGirlSprite() {
-		super();
+    public ColdGirlSprite() {
+        super();
 
 
-        if(isSister)
-            texture( Assets.COLD_GIRL_SISTER);
+        if (isSister)
+            texture(Assets.COLD_GIRL_SISTER);
         else
-		    texture( Assets.COLD_GIRL);
-		
-		TextureFilm frames = new TextureFilm( texture, FRAME_WIDTH, FRAME_HEIGHT );
+            texture(Assets.COLD_GIRL);
+
+        TextureFilm frames = new TextureFilm(texture, FRAME_WIDTH, FRAME_HEIGHT);
 
 
-        idle = new Animation( 1, true );
-        idle.frames( frames, 0, 0, 0, 1, 0, 0, 1, 1 );
+        idle = new Animation(1, true);
+        idle.frames(frames, 0, 0, 0, 1, 0, 0, 1, 1);
 
-        run = new Animation( RUN_FRAMERATE, true );
-        run.frames( frames, 2, 3, 4, 5, 6, 7 );
+        run = new Animation(RUN_FRAMERATE, true);
+        run.frames(frames, 2, 3, 4, 5, 6, 7);
 
-        die = new Animation( 20, false );
-        die.frames( frames, 8, 9, 10, 11, 12, 11 );
+        die = new Animation(20, false);
+        die.frames(frames, 8, 9, 10, 11, 12, 11);
 
-        attack = new Animation( 15, false );
-        attack.frames( frames, 13, 14, 15, 0 );
-
-        zap = attack.clone();
-		
-		play( idle );
-	}
-
-    public void turnToSis()
-    {
-        isSister = true;
-
-        texture( Assets.COLD_GIRL_SISTER);
-        TextureFilm frames = new TextureFilm( texture, FRAME_WIDTH, FRAME_HEIGHT );
-
-
-        idle = new Animation( 1, true );
-        idle.frames( frames, 0, 0, 0, 1, 0, 0, 1, 1 );
-
-        run = new Animation( RUN_FRAMERATE, true );
-        run.frames( frames, 2, 3, 4, 5, 6, 7 );
-
-        die = new Animation( 20, false );
-        die.frames( frames, 8, 9, 10, 11, 12, 11 );
-
-        attack = new Animation( 15, false );
-        attack.frames( frames, 13, 14, 15, 0 );
+        attack = new Animation(15, false);
+        attack.frames(frames, 13, 14, 15, 0);
 
         zap = attack.clone();
 
-        play( idle );
+        play(idle);
     }
 
-    public void haloUp()
-    {
-        if(hasHalo)
+    public void turnToSis() {
+        isSister = true;
+
+        texture(Assets.COLD_GIRL_SISTER);
+        TextureFilm frames = new TextureFilm(texture, FRAME_WIDTH, FRAME_HEIGHT);
+
+
+        idle = new Animation(1, true);
+        idle.frames(frames, 0, 0, 0, 1, 0, 0, 1, 1);
+
+        run = new Animation(RUN_FRAMERATE, true);
+        run.frames(frames, 2, 3, 4, 5, 6, 7);
+
+        die = new Animation(20, false);
+        die.frames(frames, 8, 9, 10, 11, 12, 11);
+
+        attack = new Animation(15, false);
+        attack.frames(frames, 13, 14, 15, 0);
+
+        zap = attack.clone();
+
+        play(idle);
+    }
+
+    public void haloUp() {
+        if (hasHalo)
             return;
 
         hasHalo = true;

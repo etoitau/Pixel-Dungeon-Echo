@@ -22,35 +22,35 @@ import com.etoitau.pixeldungeon.actors.Char;
 import com.etoitau.pixeldungeon.effects.Speck;
 
 public class FetidRatSprite extends RatSprite {
-	
-	private Emitter cloud;
-	
-	@Override
-	public void link( Char ch ) {
-		super.link( ch );
-		
-		if (cloud == null) {
-			cloud = emitter();
-			cloud.pour( Speck.factory( Speck.PARALYSIS ), 0.7f );
-		}
-	}
-	
-	@Override
-	public void update() {
-		
-		super.update();
-		
-		if (cloud != null) {
-			cloud.visible = visible;
-		}
-	}
-	
-	@Override
-	public void die() {
-		super.die();
-		
-		if (cloud != null) {
-			cloud.on = false;
-		}
-	}
+
+    private Emitter cloud;
+
+    @Override
+    public void link(Char ch) {
+        super.link(ch);
+
+        if (cloud == null) {
+            cloud = emitter();
+            cloud.pour(Speck.factory(Speck.PARALYSIS), 0.7f);
+        }
+    }
+
+    @Override
+    public void update() {
+
+        super.update();
+
+        if (cloud != null) {
+            cloud.visible = visible;
+        }
+    }
+
+    @Override
+    public void die() {
+        super.die();
+
+        if (cloud != null) {
+            cloud.on = false;
+        }
+    }
 }

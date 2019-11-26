@@ -26,41 +26,38 @@ import com.etoitau.pixeldungeon.utils.GLog;
 public class ScrollOfHome extends Scroll {
 
 
-	
-	{
-		name = "Scroll of Refuge";
-	}
-	
-	@Override
-	protected void doRead() {
+    {
+        name = "Scroll of Refuge";
+    }
 
-		Sample.INSTANCE.play( Assets.SND_READ );
+    @Override
+    protected void doRead() {
 
-        if(Dungeon.bossLevel() == false)
-        {
-            WandOfBlink.appear( curUser, Dungeon.level.entrance );
+        Sample.INSTANCE.play(Assets.SND_READ);
+
+        if (Dungeon.bossLevel() == false) {
+            WandOfBlink.appear(curUser, Dungeon.level.entrance);
             GLog.i("The scroll takes you back to the level entrance");
-        }
-        else
+        } else
             GLog.w("Strong magic aura of this place prevents you from teleporting!");
 
         Dungeon.observe();
 
-		setKnown();
-		
-		curUser.spendAndNext( TIME_TO_READ );
+        setKnown();
 
-	}
+        curUser.spendAndNext(TIME_TO_READ);
 
-	
-	@Override
-	public String desc() {
-		return
-			"Opens a magical portal that takes you back to the entrance of this dungeon level.";
-	}
-	
-	@Override
-	public int price() {
-		return isKnown() ? 40 * quantity : super.price();
-	}
+    }
+
+
+    @Override
+    public String desc() {
+        return
+                "Opens a magical portal that takes you back to the entrance of this dungeon level.";
+    }
+
+    @Override
+    public int price() {
+        return isKnown() ? 40 * quantity : super.price();
+    }
 }

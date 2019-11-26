@@ -3,7 +3,7 @@ package com.etoitau.pixeldungeon.actors.skills;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class Fletching extends PassiveSkillA1{
+public class Fletching extends PassiveSkillA1 {
 
 
     {
@@ -13,18 +13,18 @@ public class Fletching extends PassiveSkillA1{
     }
 
     @Override
-    public int fletching() {return level;}
+    public int fletching() {
+        return level;
+    }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return true;
     }
 
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "Creates arrows with time.\n"
                 + costUpgradeInfo();
     }

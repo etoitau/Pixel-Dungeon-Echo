@@ -18,8 +18,7 @@ import java.util.ArrayList;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class Negotiations extends BranchSkill{ // Not actually a skill but best way to do it
-
+public class Negotiations extends BranchSkill { // Not actually a skill but best way to do it
 
 
     public static final String TXT_HIRE_BRUTE = "Brute";
@@ -35,20 +34,19 @@ public class Negotiations extends BranchSkill{ // Not actually a skill but best 
     }
 
     @Override
-    public ArrayList<String> actions( Hero hero ) {
+    public ArrayList<String> actions(Hero hero) {
         ArrayList<String> actions = new ArrayList<String>();
-        if(hero.hiredMerc == null)
-        {
-            if(hero.heroClass != HeroClass.WARRIOR)
+        if (hero.hiredMerc == null) {
+            if (hero.heroClass != HeroClass.WARRIOR)
                 actions.add(TXT_HIRE_BRUTE);
-            if(hero.heroClass != HeroClass.ROGUE)
+            if (hero.heroClass != HeroClass.ROGUE)
                 actions.add(TXT_HIRE_THIEF);
-            if(hero.heroClass != HeroClass.MAGE)
+            if (hero.heroClass != HeroClass.MAGE)
                 actions.add(TXT_HIRE_WIZARD);
-            if(hero.heroClass != HeroClass.HUNTRESS)
+            if (hero.heroClass != HeroClass.HUNTRESS)
                 actions.add(TXT_HIRE_ARCHER);
 
-            if(HiredMerc.archerMaidenUnlocked)
+            if (HiredMerc.archerMaidenUnlocked)
                 actions.add(TXT_HIRE_ARCHER_MAIDEN);
         }
         return actions;
@@ -56,17 +54,15 @@ public class Negotiations extends BranchSkill{ // Not actually a skill but best 
 
 
     @Override
-    public void execute( Hero hero, String action ) {
-        if(action == TXT_HIRE_BRUTE || action == TXT_HIRE_THIEF || action == TXT_HIRE_WIZARD || action == TXT_HIRE_ARCHER  || action == TXT_HIRE_ARCHER_MAIDEN)
-        {
-            if(Dungeon.gold < getGoldCost())
-            {
+    public void execute(Hero hero, String action) {
+        if (action == TXT_HIRE_BRUTE || action == TXT_HIRE_THIEF || action == TXT_HIRE_WIZARD || action == TXT_HIRE_ARCHER || action == TXT_HIRE_ARCHER_MAIDEN) {
+            if (Dungeon.gold < getGoldCost()) {
                 GLog.n("You cannot afford a merc.");
                 return;
             }
 
             boolean spawned = false;
-            for (int nu = 0; nu < 1 ; nu++) {
+            for (int nu = 0; nu < 1; nu++) {
                 int newPos = hero.pos;
                 if (Actor.findChar(newPos) != null) {
                     ArrayList<Integer> candidates = new ArrayList<Integer>();
@@ -80,12 +76,12 @@ public class Negotiations extends BranchSkill{ // Not actually a skill but best 
                     }
                     newPos = candidates.size() > 0 ? Random.element(candidates) : -1;
                     if (newPos != -1) {
-                        if(action == TXT_HIRE_ARCHER_MAIDEN)
+                        if (action == TXT_HIRE_ARCHER_MAIDEN)
                             hero.hiredMerc = new HiredMerc(HiredMerc.MERC_TYPES.ArcherMaiden);
-                        else if(action == TXT_HIRE_ARCHER)
+                        else if (action == TXT_HIRE_ARCHER)
                             hero.hiredMerc = new HiredMerc(HiredMerc.MERC_TYPES.Archer);
                         else
-                            hero.hiredMerc = action == TXT_HIRE_BRUTE ? new HiredMerc(HiredMerc.MERC_TYPES.Brute): (action == TXT_HIRE_THIEF ? new HiredMerc(HiredMerc.MERC_TYPES.Thief) : new HiredMerc(HiredMerc.MERC_TYPES.Wizard));
+                            hero.hiredMerc = action == TXT_HIRE_BRUTE ? new HiredMerc(HiredMerc.MERC_TYPES.Brute) : (action == TXT_HIRE_THIEF ? new HiredMerc(HiredMerc.MERC_TYPES.Thief) : new HiredMerc(HiredMerc.MERC_TYPES.Wizard));
                         hero.hiredMerc.spawn(Dungeon.hero.lvl);
                         hero.hiredMerc.pos = newPos;
                         GameScene.add(hero.hiredMerc);
@@ -97,50 +93,45 @@ public class Negotiations extends BranchSkill{ // Not actually a skill but best 
                 }
             }
 
-            if(spawned == true) {
+            if (spawned == true) {
                 Dungeon.gold -= getGoldCost();
                 GLog.p(" " + action + " hired for " + getGoldCost() + " gold! ");
             }
         }
     }
 
-    public void restoreMerc(Hero hero)
-    {
-        if(hero.hiredMerc != null)
-        {
+    public void restoreMerc(Hero hero) {
+        if (hero.hiredMerc != null) {
             int newPos = hero.pos;
 
-                if (newPos != -1) {
-                    HiredMerc tmp = new HiredMerc(hero.hiredMerc.mercType);
-                    tmp.spawn(Dungeon.hero.lvl);
-                    tmp.pos = newPos;
-                    GameScene.add(tmp);
-                    Actor.addDelayed(new Pushing(tmp, hero.pos, newPos), -1);
-                    tmp.sprite.alpha(0);
-                    tmp.sprite.parent.add(new AlphaTweener(tmp.sprite, 1, 0.15f));
-                    tmp.weapon = hero.hiredMerc.weapon;
-                    tmp.armor = hero.hiredMerc.armor;
-                    ((MercSprite) tmp.sprite).updateArmor();
+            if (newPos != -1) {
+                HiredMerc tmp = new HiredMerc(hero.hiredMerc.mercType);
+                tmp.spawn(Dungeon.hero.lvl);
+                tmp.pos = newPos;
+                GameScene.add(tmp);
+                Actor.addDelayed(new Pushing(tmp, hero.pos, newPos), -1);
+                tmp.sprite.alpha(0);
+                tmp.sprite.parent.add(new AlphaTweener(tmp.sprite, 1, 0.15f));
+                tmp.weapon = hero.hiredMerc.weapon;
+                tmp.armor = hero.hiredMerc.armor;
+                ((MercSprite) tmp.sprite).updateArmor();
 
-                    hero.hiredMerc = tmp;
+                hero.hiredMerc = tmp;
 
             }
         }
     }
 
-    public int getGoldCost()
-    {
+    public int getGoldCost() {
         return Dungeon.hero.lvl * 0;
     }
 
-    public String getHireText()
-    {
+    public String getHireText() {
         return "\nHiring a level " + Dungeon.hero.lvl + " merc costs " + getGoldCost() + " gold.";
     }
 
     @Override
-    public String info()
-    {
-        return HiredMerc.MERC_TYPES.Brute.getDescription()  + "\n" + HiredMerc.MERC_TYPES.Thief.getDescription()  + "\n" + HiredMerc.MERC_TYPES.Wizard.getDescription() + (Dungeon.hero.hiredMerc == null ? getHireText() : "");
+    public String info() {
+        return HiredMerc.MERC_TYPES.Brute.getDescription() + "\n" + HiredMerc.MERC_TYPES.Thief.getDescription() + "\n" + HiredMerc.MERC_TYPES.Wizard.getDescription() + (Dungeon.hero.hiredMerc == null ? getHireText() : "");
     }
 }

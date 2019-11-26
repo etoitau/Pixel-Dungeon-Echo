@@ -19,22 +19,22 @@ package com.etoitau.pixeldungeon.items.rings;
 
 public class RingOfAccuracy extends Ring {
 
-	{
-		name = "Ring of Accuracy";
-	}
-	
-	@Override
-	protected RingBuff buff( ) {
-		return new Accuracy();
-	}
-	
-	@Override
-	public String desc() {
-		return isKnown() ?
-			"This ring increases your chance to hit the enemy." :
-			super.desc();
-	}
-	
-	public class Accuracy extends RingBuff {
-	}
+    {
+        name = "Ring of Accuracy";
+    }
+
+    @Override
+    protected RingBuff buff() {
+        return new Accuracy();
+    }
+
+    @Override
+    public String desc() {
+        return isKnown() ?
+                "This ring increases your chance to hit the enemy." :
+                super.desc();
+    }
+
+    public class Accuracy extends RingBuff {
+    }
 }

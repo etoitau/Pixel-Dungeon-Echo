@@ -29,13 +29,13 @@ public class ShadowCloneNew extends ShadowClone {
 
 
     @Override
-    public void execute( Hero hero, String action ) {
+    public void execute(Hero hero, String action) {
         if (action == Skill.AC_CAST) {
             ArrayList<Integer> respawnPoints = new ArrayList<Integer>();
 
             for (int i = 0; i < Level.NEIGHBOURS8.length; i++) {
                 int p = hero.pos + Level.NEIGHBOURS8[i];
-                if(p < 0 || p >= Level.passable.length)
+                if (p < 0 || p >= Level.passable.length)
                     continue;
                 if (Actor.findChar(p) == null && (Level.passable[p] || Level.avoid[p])) {
                     respawnPoints.add(p);
@@ -51,11 +51,11 @@ public class ShadowCloneNew extends ShadowClone {
                 minion.screams = false;
                 minion.HT = 7 + 5 * level;
                 minion.HP = 7 + 5 * level;
-                minion.defenseSkill = (int)(Dungeon.hero.defenseSkill(Dungeon.hero) * ((1f + level) / 4f));
+                minion.defenseSkill = (int) (Dungeon.hero.defenseSkill(Dungeon.hero) * ((1f + level) / 4f));
                 GameScene.add(minion);
                 WandOfBlink.appear(minion, respawnPoints.get(index));
                 minion.setLevel(level);
-                ((MirrorSprite)minion.sprite).updateArmor(level);
+                ((MirrorSprite) minion.sprite).updateArmor(level);
                 minion.sprite.alpha(0);
                 minion.sprite.parent.add(new AlphaTweener(minion.sprite, 1, 0.15f));
                 CellEmitter.get(minion.pos).burst(ElmoParticle.FACTORY, 4);
@@ -67,9 +67,9 @@ public class ShadowCloneNew extends ShadowClone {
             StatusPane.manaDropping += getManaCost();
             castTextYell();
             Dungeon.hero.heroSkills.lastUsed = this;
-            hero.spend( TIME_TO_USE );
+            hero.spend(TIME_TO_USE);
             hero.busy();
-            hero.sprite.operate( hero.pos );
+            hero.sprite.operate(hero.pos);
         }
     }
 }

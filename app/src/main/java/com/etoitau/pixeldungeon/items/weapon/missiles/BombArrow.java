@@ -39,21 +39,21 @@ import java.util.ArrayList;
 
 public class BombArrow extends Arrow {
 
-	{
-		name = "bomb arrow";
-		image = ItemSpriteSheet.BombArrow;
+    {
+        name = "bomb arrow";
+        image = ItemSpriteSheet.BombArrow;
 
         stackable = true;
-	}
+    }
 
-	public BombArrow() {
-		this( 1 );
-	}
+    public BombArrow() {
+        this(1);
+    }
 
-	public BombArrow(int number) {
-		super();
-		quantity = number;
-	}
+    public BombArrow(int number) {
+        super();
+        quantity = number;
+    }
 
     @Override
     public Item random() {
@@ -61,27 +61,26 @@ public class BombArrow extends Arrow {
         return this;
     }
 
-	@Override
-	public String desc() {
-		return 
-			"An arrow with an attached bomb. Keep your distance..";
-	}
-	
+    @Override
+    public String desc() {
+        return
+                "An arrow with an attached bomb. Keep your distance..";
+    }
 
-	@Override
-	public int price() {
-		return quantity * 15;
-	}
 
     @Override
-    public ArrayList<String> actions( Hero hero ) {
-        ArrayList<String> actions = super.actions( hero );
-        if(Dungeon.hero.belongings.bow != null) {
-            if(actions.contains(AC_THROW) == false)
-            actions.add(AC_THROW);
-        }
-        else
-            actions.remove( AC_THROW );
+    public int price() {
+        return quantity * 15;
+    }
+
+    @Override
+    public ArrayList<String> actions(Hero hero) {
+        ArrayList<String> actions = super.actions(hero);
+        if (Dungeon.hero.belongings.bow != null) {
+            if (actions.contains(AC_THROW) == false)
+                actions.add(AC_THROW);
+        } else
+            actions.remove(AC_THROW);
         actions.remove(AC_EQUIP);
 
         return actions;
@@ -89,14 +88,14 @@ public class BombArrow extends Arrow {
 
 
     @Override
-    protected void onThrow( int cell ) {
+    protected void onThrow(int cell) {
         if (Level.pit[cell]) {
-            super.onThrow( cell );
+            super.onThrow(cell);
         } else {
-            Sample.INSTANCE.play( Assets.SND_BLAST, 2 );
+            Sample.INSTANCE.play(Assets.SND_BLAST, 2);
 
             if (Dungeon.visible[cell]) {
-                CellEmitter.center(cell).burst( BlastParticle.FACTORY, 30 );
+                CellEmitter.center(cell).burst(BlastParticle.FACTORY, 30);
             }
 
             boolean terrainAffected = false;
@@ -104,20 +103,20 @@ public class BombArrow extends Arrow {
                 int c = cell + n;
                 if (c >= 0 && c < Level.LENGTH) {
                     if (Dungeon.visible[c]) {
-                        CellEmitter.get( c ).burst( SmokeParticle.FACTORY, 4 );
+                        CellEmitter.get(c).burst(SmokeParticle.FACTORY, 4);
                     }
 
                     if (Level.flamable[c]) {
-                        Level.set( c, Terrain.EMBERS );
+                        Level.set(c, Terrain.EMBERS);
                         GameScene.updateMap(c);
                         terrainAffected = true;
                     }
 
                     Char ch = Actor.findChar(c);
                     if (ch != null) {
-                        int dmg = Random.Int( 1 + Dungeon.depth, 10 + Dungeon.depth * 2 ) - Random.Int( ch.dr() );
+                        int dmg = Random.Int(1 + Dungeon.depth, 10 + Dungeon.depth * 2) - Random.Int(ch.dr());
                         if (dmg > 0) {
-                            ch.damage( dmg, this );
+                            ch.damage(dmg, this);
                             if (ch.isAlive()) {
                                 Buff.prolong(ch, Paralysis.class, 2);
                             }

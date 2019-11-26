@@ -29,56 +29,55 @@ import com.etoitau.pixeldungeon.windows.WndBag;
 
 public class ScrollOfEnchantment extends InventoryScroll {
 
-	private static final String TXT_GLOWS	= "your %s glows in the dark";
-    private static final String TXT_BOW	= "your bow is now a %s";
-	{
-		name = "Scroll of Enchantment";
-		inventoryTitle = "Select an enchantable item";
-		mode = WndBag.Mode.ENCHANTABLE;
-	}
-	
-	@Override
-	protected void onItemSelected( Item item ) {
+    private static final String TXT_GLOWS = "your %s glows in the dark";
+    private static final String TXT_BOW = "your bow is now a %s";
 
-		ScrollOfRemoveCurse.uncurse( Dungeon.hero, item );
+    {
+        name = "Scroll of Enchantment";
+        inventoryTitle = "Select an enchantable item";
+        mode = WndBag.Mode.ENCHANTABLE;
+    }
+
+    @Override
+    protected void onItemSelected(Item item) {
+
+        ScrollOfRemoveCurse.uncurse(Dungeon.hero, item);
 
 
         if (item instanceof Bow) {
 
-            Bow newBow =  ((Bow)item).enchant();
-            if(curUser.belongings.bow != null)
+            Bow newBow = ((Bow) item).enchant();
+            if (curUser.belongings.bow != null)
                 curUser.belongings.bow = newBow;
-            else
-            {
+            else {
                 item.detach(Dungeon.hero.belongings.backpack);
                 newBow.collect();
             }
 
             GLog.w(TXT_BOW, newBow.name());
-        }
-        else if (item instanceof Weapon) {
-			
-			((Weapon)item).enchant();
-			
-		} else {
+        } else if (item instanceof Weapon) {
 
-			((Armor)item).inscribe();
-		
-		}
-		
-		item.fix();
-		
-		curUser.sprite.emitter().start( Speck.factory( Speck.LIGHT ), 0.1f, 5 );
+            ((Weapon) item).enchant();
+
+        } else {
+
+            ((Armor) item).inscribe();
+
+        }
+
+        item.fix();
+
+        curUser.sprite.emitter().start(Speck.factory(Speck.LIGHT), 0.1f, 5);
         if (!(item instanceof Bow)) {
             Enchanting.show(curUser, item);
             GLog.w(TXT_GLOWS, item.name());
         }
-	}
-	
-	@Override
-	public String desc() {
-		return
-			"This scroll is able to imbue a weapon or an armor " +
-			"with a random enchantment, granting it a special power.";
-	}
+    }
+
+    @Override
+    public String desc() {
+        return
+                "This scroll is able to imbue a weapon or an armor " +
+                        "with a random enchantment, granting it a special power.";
+    }
 }

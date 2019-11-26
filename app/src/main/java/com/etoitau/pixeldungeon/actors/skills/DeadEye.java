@@ -7,7 +7,7 @@ import com.etoitau.pixeldungeon.ui.StatusPane;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class DeadEye extends ActiveSkill2{
+public class DeadEye extends ActiveSkill2 {
 
 
     {
@@ -19,45 +19,38 @@ public class DeadEye extends ActiveSkill2{
     }
 
     @Override
-    public int damageBonus(int hp)
-    {
+    public int damageBonus(int hp) {
         return damageBonus(hp, false);
     }
 
     @Override
-    public int damageBonus(int hp, boolean castText)
-    {
-        if(active == false || Dungeon.hero.MP < getManaCost())
+    public int damageBonus(int hp, boolean castText) {
+        if (active == false || Dungeon.hero.MP < getManaCost())
             return 0;
-        else
-        {
-            if(castText)
-            {
+        else {
+            if (castText) {
                 castTextYell();
                 Dungeon.hero.MP -= getManaCost();
                 StatusPane.manaDropping += getManaCost();
             }
 
-            return (int)(hp * 0.1f * level);
+            return (int) (hp * 0.1f * level);
         }
     }
 
     @Override
-    public int getManaCost()
-    {
-        return (int)Math.ceil(mana * (1 + 0.55 * level));
+    public int getManaCost() {
+        return (int) Math.ceil(mana * (1 + 0.55 * level));
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return true;
     }
 
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "Throwing Shurikens takes 10% per level of target's remaining health after standard damage.\n"
                 + costUpgradeInfo();
     }

@@ -5,7 +5,7 @@ import com.watabau.utils.Random;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class LockSmith extends PassiveSkillA3{
+public class LockSmith extends PassiveSkillA3 {
 
 
     {
@@ -16,10 +16,8 @@ public class LockSmith extends PassiveSkillA3{
     }
 
     @Override
-    public boolean disableTrap()
-    {
-        if(Random.Int(100) < 33 * level)
-        {
+    public boolean disableTrap() {
+        if (Random.Int(100) < 33 * level) {
             castText = "Woah!!";
             castTextYell();
             return true;
@@ -30,15 +28,13 @@ public class LockSmith extends PassiveSkillA3{
     }
 
     @Override
-    protected boolean upgrade()
-    {
+    protected boolean upgrade() {
         return true;
     }
 
 
     @Override
-    public String info()
-    {
+    public String info() {
         return "33% per level chance to disable traps.\n"
                 + costUpgradeInfo();
     }

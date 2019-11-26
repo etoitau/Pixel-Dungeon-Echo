@@ -19,22 +19,22 @@ package com.etoitau.pixeldungeon.items.rings;
 
 public class RingOfHerbalism extends Ring {
 
-	{
-		name = "Ring of Herbalism";
-	}
-	
-	@Override
-	protected RingBuff buff( ) {
-		return new Herbalism();
-	}
-	
-	@Override
-	public String desc() {
-		return isKnown() ?
-			"This ring increases your chance to gather dew and seeds from trampled grass." :
-			super.desc();
-	}
-	
-	public class Herbalism extends RingBuff {
-	}
+    {
+        name = "Ring of Herbalism";
+    }
+
+    @Override
+    protected RingBuff buff() {
+        return new Herbalism();
+    }
+
+    @Override
+    public String desc() {
+        return isKnown() ?
+                "This ring increases your chance to gather dew and seeds from trampled grass." :
+                super.desc();
+    }
+
+    public class Herbalism extends RingBuff {
+    }
 }
