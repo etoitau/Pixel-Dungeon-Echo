@@ -34,7 +34,6 @@ public enum Difficulties {
 
     NORMAL(0), EASY(1), HARD(2), HELL(3), SUICIDE(4), JUSTKILLME(5), SUPEREASY(6);
 
-
     private int difficulty;
 
     private int championOffset = 0;
@@ -42,11 +41,6 @@ public enum Difficulties {
     public float attOffset = 0;
     public float defOffset = 0;
     public float defenceOffset = 0;
-
-    public enum isNightOverwrite {DEFAULT, ALWAYS_DAY, ALWAYS_NIGHT}
-
-    // set always day by default
-    public isNightOverwrite isNight = isNightOverwrite.ALWAYS_DAY;
 
     // todo remove?
     private ArrayList<Integer> disabledChampions = new ArrayList<>();
@@ -67,7 +61,8 @@ public enum Difficulties {
             "- Start with 3 soul crystals.",
             "- Mobs do 50% less damage, take 50% more damage and have 50% less HP.",
             "- Hunger is reduced by 40%",
-            "- Champion spawn rate set to 10%."
+            "- Champion spawn rate set to 10%.",
+            "- Always day time"
     };
 
     public static final String[] EASY_DESC = {
@@ -78,18 +73,21 @@ public enum Difficulties {
             "- Bonus to discovering hidden doors and traps.",
             "- Mobs do 25% less damage, take 10% more damage and have 15% less HP.",
             "- Hunger is reduced by 20%",
-            "- Champion spawn rate set to 10%."
+            "- Champion spawn rate set to 10%.",
+            "- Night is 6 hours long"
     };
 
     public static final String[] NORMAL_DESC = {
             "- Mobs are standard.",
-            "- Champion spawn rate set to 20%."
+            "- Champion spawn rate set to 20%.",
+            "- Night is 8 hours long"
     };
 
     public static final String[] HARD_DESC = {
             "- Potion of healing heals 75% max hp.",
             "- Mobs do 10% extra damage, take 10% less damage and have 20% more HP.",
-            "- Champion spawn rate set to 30%."
+            "- Champion spawn rate set to 30%.",
+            "- Night is 10 hours long"
     };
 
     public static final String[] HELL_DESC = {
@@ -98,7 +96,8 @@ public enum Difficulties {
             "- Champion spawn rate set to 40%.",
             "- Hero starts with 4 less maxHP.",
             "- Hero gains 1 less maxHP on leveling.",
-            "- Hero starts with 4 skill points."
+            "- Hero starts with 4 skill points.",
+            "- Night is 12 hours long"
     };
 
     public static final String[] SUICIDE_DESC = {
@@ -107,7 +106,8 @@ public enum Difficulties {
             "- Champion spawn rate set to 50%.",
             "- Hero starts with 8 less maxHP.",
             "- Hero gains 3 less maxHP on leveling.",
-            "- Hero starts with 6 skill points."
+            "- Hero starts with 6 skill points.",
+            "- Night is 18 hours long"
     };
 
     public static final String[] JUST_KILL_ME_DESC = {
@@ -116,7 +116,8 @@ public enum Difficulties {
             "- Champion spawn rate set to 100%.",
             "- Hero starts with 8 less maxHP.",
             "- Hero gains 3 less maxHP on leveling.",
-            "- Hero starts with 8 skill points."
+            "- Hero starts with 8 skill points.",
+            "- Always night"
     };
 
 
@@ -299,6 +300,28 @@ public enum Difficulties {
 
     }
 
+    // night is shorter for easy mode, longer for hard
+    public float naturalNightFactor() {
+        // return fraction of whole day that is night
+        switch (this) {
+            case SUPEREASY:
+                return 0f;
+            case EASY:
+                return 6 / 24f;
+            case NORMAL:
+                return 8 / 24f;
+            case HARD:
+                return 10 / 24f;
+            case HELL:
+                return 12 / 24f;
+            case SUICIDE:
+                return 18 / 24f;
+            case JUSTKILLME:
+                return 1;
+        }
+        return 8 / 24f;
+    }
+
     // factor to apply to secret detection ability, factor it modifies ranges from 0.1 to 0.48
     // and secret is detected if greater than rand 0-1
     public float searchModifier() {
@@ -466,53 +489,6 @@ public enum Difficulties {
             attOffset = 2f - naturalDamageModifier();
     }
 
-    public void ToggleNight() {
-        switch (isNight) {
-            case ALWAYS_DAY:
-                isNight = isNightOverwrite.ALWAYS_NIGHT;
-                break;
-            case ALWAYS_NIGHT:
-                isNight = isNightOverwrite.DEFAULT;
-                break;
-            case DEFAULT:
-                isNight = isNightOverwrite.ALWAYS_NIGHT;
-                break;
-        }
-    }
-
-    public void ToggleNight(boolean harder) {
-        if (harder) {
-            switch (isNight) {
-                case DEFAULT:
-                    isNight = isNightOverwrite.ALWAYS_NIGHT;
-                    break;
-                case ALWAYS_DAY:
-                    isNight = isNightOverwrite.DEFAULT;
-                    break;
-            }
-        } else {
-            switch (isNight) {
-                case DEFAULT:
-                    isNight = isNightOverwrite.ALWAYS_DAY;
-                    break;
-                case ALWAYS_NIGHT:
-                    isNight = isNightOverwrite.DEFAULT;
-                    break;
-            }
-        }
-    }
-
-    public String GetToggleNightDesc() {
-        switch (isNight) {
-            case ALWAYS_DAY:
-                return "Always Day";
-            case ALWAYS_NIGHT:
-                return "Always Night";
-            case DEFAULT:
-                return "Day/Night";
-        }
-        return "error";
-    }
 
     // can input a sensible order of difficulty and get the code number used internally here
     // NORMAL( 0 ), EASY( 1 ), HARD( 2 ), HELL( 3 ), SUICIDE( 4 ) , JUSTKILLME( 5 ), SUPEREASY( 6 )

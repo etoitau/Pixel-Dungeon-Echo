@@ -187,7 +187,7 @@ public enum CurrentSkills {
     }
 
     public void storeInBundle(Bundle bundle) {
-        bundle.put(TYPE, toString());
+        bundle.put(TYPE, toString()); // string value of enum instance, e.g. "warrior"
         bundle.put(UNLOCKED, skillUnlocked);
         passiveA1.storeInBundle(bundle);
         passiveA2.storeInBundle(bundle);
@@ -224,6 +224,7 @@ public enum CurrentSkills {
             unlockSkill();
     }
 
+    // unlocked by fighting cold girl
     public void unlockSkill() {
         skillUnlocked = true;
         int preserveLevel = 0;

@@ -81,6 +81,7 @@ public class Belongings implements Iterable<Item> {
 
         bundle.put(WEAPON, weapon);
         bundle.put(ARMOR, armor);
+        // todo merc cleanup
         if (owner.hiredMerc != null) {
             bundle.put(MERC_WEAPON, Dungeon.hero.hiredMerc.weapon);
             bundle.put(MERC_ARMOR, Dungeon.hero.hiredMerc.armor);

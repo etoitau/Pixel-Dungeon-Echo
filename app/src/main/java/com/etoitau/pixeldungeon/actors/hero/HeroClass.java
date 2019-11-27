@@ -144,7 +144,7 @@ public enum HeroClass {
         Dungeon.hero.HT -= Dungeon.currentDifficulty.difficultyHPStartPenalty();
         Dungeon.currentDifficulty.difficultyStartItemBonus();
 
-        Skill.availableSkill = Skill.STARTING_SKILL;
+        Skill.availableSkill = Skill.STARTING_SKILL + Dungeon.currentDifficulty.difficultySkillStartBonus();
 
         Bow tmp = new Bow(1);
         tmp.collect();

@@ -38,14 +38,14 @@ public class Hunger extends Buff implements Hero.Doom {
 
     private static final float STEP = 10f;
 
-    public static final float HUNGRY = 260f;
+    public static final float HUNGRY = 260f; // about 260 turns to go from full to hungry
     public static final float STARVING = 360f;
 
     private static final String TXT_HUNGRY = "You are hungry.";
     private static final String TXT_STARVING = "You are starving!";
     private static final String TXT_DEATH = "You starved to death...";
 
-    private float level;
+    private float level; // level of hunger, increases with each act() call
 
     private static final String LEVEL = "level";
 

@@ -226,15 +226,12 @@ public class Hero extends Char {
 
     private static final String DIFFICULTY = "editdifficulty";
 
-    private static final String VERSION_SAVE = "verisionofsave";
     private static final String SKILLS_AVAILABLE = "availableskills";
 
     // todo merc to remove
     private static final String MERC_TYPE = "merctype";
     private static final String MERC_HEALTH = "merchealth";
     private static final String MERC_SKILL = "mercskill";
-
-    private static final int skills_reset_version = 19;
 
     @Override
     public void storeInBundle(Bundle bundle) {
@@ -246,6 +243,7 @@ public class Hero extends Char {
         heroClass.storeInBundle(bundle);
         subClass.storeInBundle(bundle);
 
+        // CurrentSkills
         heroSkills.storeInBundle(bundle);
 
         bundle.put(SKILLS_AVAILABLE, Skill.availableSkill);
@@ -258,8 +256,6 @@ public class Hero extends Char {
         bundle.put(EXPERIENCE, exp);
 
         bundle.put(DIFFICULTY, difficulty);
-
-        bundle.put(VERSION_SAVE, Game.versionBuild);
 
         // todo merc to remove
         if (hiredMerc != null) {
@@ -280,7 +276,6 @@ public class Hero extends Char {
         heroClass = HeroClass.restoreInBundle(bundle);
         subClass = HeroSubClass.restoreInBundle(bundle);
 
-
         attackSkill = bundle.getInt(ATTACK);
         defenseSkill = bundle.getInt(DEFENSE);
 
@@ -296,6 +291,7 @@ public class Hero extends Char {
         Dungeon.currentDifficulty.reset();
 
 
+        // todo merc cleanup
         String tmp = bundle.getString(MERC_TYPE);
         if (tmp != null && tmp != "") {
             try {
@@ -313,29 +309,11 @@ public class Hero extends Char {
         belongings.restoreFromBundle(bundle);
         storage.restoreFromBundle(bundle);
 
-        if (bundle.getInt(VERSION_SAVE) < skills_reset_version) {
-            switch (heroClass) {
-                case WARRIOR:
-                    heroSkills = CurrentSkills.WARRIOR;
-                    break;
-                case MAGE:
-                    heroSkills = CurrentSkills.MAGE;
-                    break;
-                case ROGUE:
-                    heroSkills = CurrentSkills.ROGUE;
-                    break;
-                case HUNTRESS:
-                    heroSkills = CurrentSkills.HUNTRESS;
-                    break;
-            }
-            heroSkills.init(this);
-            Skill.availableSkill = Skill.STARTING_SKILL + lvl * 2;
-        } else {
-            heroSkills = CurrentSkills.restoreFromBundle(bundle);
-            heroSkills.init(this);
-            heroSkills.restoreSkillsFromBundle(bundle);
-            Skill.availableSkill = bundle.getInt(SKILLS_AVAILABLE);
-        }
+        heroSkills = CurrentSkills.restoreFromBundle(bundle);
+        heroSkills.init(this);
+        heroSkills.restoreSkillsFromBundle(bundle);
+        Skill.availableSkill = bundle.getInt(SKILLS_AVAILABLE); 
+
     }
 
     public static void preview(GamesInProgress.Info info, Bundle bundle) {

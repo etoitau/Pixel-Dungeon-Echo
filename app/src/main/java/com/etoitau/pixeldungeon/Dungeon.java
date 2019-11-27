@@ -89,7 +89,6 @@ public class Dungeon {
     public static int depth;
     public static int gold;
 
-
     public static int difficulty;
     public static Difficulties currentDifficulty;
 
@@ -101,6 +100,7 @@ public class Dungeon {
     // Hero's field of view
     public static boolean[] visible = new boolean[Level.LENGTH];
 
+    public static final float DAY_LENGTH = 1800;
     public static boolean nightMode;
 
     public static SparseArray<ArrayList<Item>> droppedItems;
@@ -269,20 +269,13 @@ public class Dungeon {
         return depth == 5 || depth == 10 || depth == 15 || depth == 20 || depth == 25 || depth == ColdGirl.FROST_DEPTH || depth == 0;
     }
 
-    @SuppressWarnings("deprecation")
     public static void switchLevel(final Level level, int pos) {
 
-        // todo remove nightmode?
-        nightMode = new Date().getHours() < 7;
+        // determine if night time based on in-game time and current difficulty
+        float nightLength = DAY_LENGTH * currentDifficulty.naturalNightFactor();
+        float timeOfDay = Statistics.duration % DAY_LENGTH;
+        nightMode = timeOfDay > DAY_LENGTH / 2 && timeOfDay < DAY_LENGTH / 2 + nightLength;
 
-        try {
-            if (Dungeon.currentDifficulty.isNight == Difficulties.isNightOverwrite.ALWAYS_NIGHT)
-                nightMode = true;
-            if (Dungeon.currentDifficulty.isNight == Difficulties.isNightOverwrite.ALWAYS_DAY)
-                nightMode = false;
-        } catch (Exception e) {
-
-        }
         Dungeon.level = level;
         Actor.init();
 

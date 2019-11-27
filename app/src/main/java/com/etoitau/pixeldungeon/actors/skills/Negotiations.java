@@ -18,6 +18,7 @@ import java.util.ArrayList;
 /**
  * Created by Moussa on 20-Jan-17.
  */
+// todo merc cleanup
 public class Negotiations extends BranchSkill { // Not actually a skill but best way to do it
 
 

@@ -37,7 +37,7 @@ public class Skill {
 
     public String name = "Skill";
     public String castText = "";
-    public int level = 0;
+    public int level = 0; // level is 1, 2, or 3 - number of times this skill has been upgraded
     public int tier = 1;
     public int mana = 0;
     public int image = 0;
@@ -51,7 +51,6 @@ public class Skill {
             if (upgrade()) {
                 level++;
                 availableSkill -= tier;
-                // WndStory.showStory("You have gained a level in " + name);
                 return true;
             }
         } else {
@@ -135,7 +134,6 @@ public class Skill {
     }
 
     public void execute(Hero hero, String action) {
-
     }
 
     public float getAlpha() {
@@ -180,7 +178,6 @@ public class Skill {
     public int summoningLimitBonus() {
         return 0;
     }
-
 
     public float wandDamageBonus() {
         return 1f;
@@ -238,6 +235,7 @@ public class Skill {
         return false;
     }
 
+    // todo merc cleanup
     public void mercSummon() {
     }
 
@@ -246,7 +244,7 @@ public class Skill {
     }
 
     public void storeInBundle(Bundle bundle) {
-        bundle.put(SKILL_LEVEL + " " + tag, level);
+        bundle.put(SKILL_LEVEL + " " + tag, level); // e.g. Rampage could be key: "LEVEL A3" and value 2
     }
 
     public void restoreInBundle(Bundle bundle) {
