@@ -35,13 +35,11 @@ import com.etoitau.pixeldungeon.actors.buffs.Light;
 import com.etoitau.pixeldungeon.actors.buffs.Rage;
 import com.etoitau.pixeldungeon.actors.hero.Hero;
 import com.etoitau.pixeldungeon.actors.hero.HeroClass;
-import com.etoitau.pixeldungeon.actors.hero.Legend;
 import com.etoitau.pixeldungeon.actors.mobs.ColdGirl;
 import com.etoitau.pixeldungeon.actors.mobs.npcs.Blacksmith;
 import com.etoitau.pixeldungeon.actors.mobs.npcs.Imp;
 import com.etoitau.pixeldungeon.actors.mobs.npcs.Ghost;
 import com.etoitau.pixeldungeon.actors.mobs.npcs.Wandmaker;
-import com.etoitau.pixeldungeon.actors.skills.CurrentSkills;
 import com.etoitau.pixeldungeon.items.Ankh;
 import com.etoitau.pixeldungeon.items.Item;
 import com.etoitau.pixeldungeon.items.potions.Potion;
@@ -153,58 +151,6 @@ public class Dungeon {
         Badges.reset();
 
         StartScene.curClass.initHero(hero);
-
-    }
-
-    // todo this is for hatsune scenarios, I think. Should remove
-    public static void initLegend() {
-
-        challenges = PixelDungeon.challenges();
-
-        Actor.clear();
-
-        PathFinder.setMapSize(Level.WIDTH, Level.HEIGHT);
-
-        Scroll.initLabels();
-        Potion.initColors();
-        Wand.initWoods();
-        Ring.initGems();
-
-        Statistics.reset();
-        Journal.reset();
-
-        depth = 0;
-        gold = 0;
-
-        droppedItems = new SparseArray<ArrayList<Item>>();
-
-        potionOfStrength = 0;
-        scrollsOfUpgrade = 0;
-        scrollsOfEnchantment = 0;
-        dewVial = true;
-
-        chapters = new HashSet<Integer>();
-
-        Ghost.Quest.reset();
-        Wandmaker.Quest.reset();
-        Blacksmith.Quest.reset();
-        Imp.Quest.reset();
-
-        Room.shuffleTypes();
-
-        QuickSlot.primaryValue = null;
-        QuickSlot.secondaryValue = null;
-
-        hero = new Legend();
-        hero.difficulty = difficulty;
-        hero.live();
-
-        Badges.reset();
-
-        StartScene.curClass = HeroClass.HATSUNE;
-        StartScene.curClass.initHero(hero);
-        hero.heroSkills = CurrentSkills.HATSUNE;
-        hero.heroSkills.init();
 
     }
 

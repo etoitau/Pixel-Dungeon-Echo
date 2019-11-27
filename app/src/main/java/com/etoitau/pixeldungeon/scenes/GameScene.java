@@ -51,7 +51,6 @@ import com.etoitau.pixeldungeon.items.Item;
 import com.etoitau.pixeldungeon.items.potions.Potion;
 import com.etoitau.pixeldungeon.items.wands.WandOfBlink;
 import com.etoitau.pixeldungeon.levels.Level;
-import com.etoitau.pixeldungeon.levels.MovieLevel;
 import com.etoitau.pixeldungeon.levels.RegularLevel;
 import com.etoitau.pixeldungeon.levels.features.Chasm;
 import com.etoitau.pixeldungeon.plants.Plant;
@@ -383,12 +382,7 @@ public class GameScene extends PixelScene {
 
     @Override
     protected void onBackPressed() {
-        if (Dungeon.depth == 0 && Dungeon.level instanceof MovieLevel) {
-            Music.INSTANCE.enable(PixelDungeon.music());
-            InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
-            Game.switchScene(InterlevelScene.class);
-            Dungeon.observe();
-        } else if (!cancel()) {
+        if (!cancel()) {
             add(new WndGame());
         }
     }

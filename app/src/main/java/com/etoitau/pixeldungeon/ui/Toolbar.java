@@ -63,7 +63,6 @@ public class Toolbar extends Component {
     private Tool btnSkill;
     private Tool btnMerc;
     private Tool btnLastUsed;
-    //private Tool btnSearch;
     private Tool btnInfoSearch;
     private Tool btnInventory;
     private Tool btnQuick1;
@@ -152,17 +151,6 @@ public class Toolbar extends Component {
 
         });
 
-
-
-		/*
-		add( btnSearch = new Tool( 20, 7, 20, 25 ) {
-			@Override
-			protected void onClick() {
-				Dungeon.hero.search( true );
-			}
-		} );
-
-        */
         add(btnInfoSearch = new Tool(107, 7, 20, 25) {
             @Override
             protected void onClick() {
@@ -218,10 +206,9 @@ public class Toolbar extends Component {
 
     @Override
     protected void layout() {
+        btnInfoSearch.setPos(0, 40);
+        btnMerc.setPos(0, 70);
         btnWait.setPos(x, y);
-        //btnSearch.setPos( btnWait.right(), y );
-        btnInfoSearch.setPos(0, 70);
-        btnMerc.setPos(0, 40);
         btnSkill.setPos(btnWait.right(), y);
         btnLastUsed.setPos(btnSkill.right(), y);
         btnQuick1.setPos(width - btnQuick1.width(), y);

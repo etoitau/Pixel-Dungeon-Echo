@@ -37,10 +37,8 @@ import com.etoitau.pixeldungeon.Statistics;
 import com.etoitau.pixeldungeon.actors.Actor;
 import com.etoitau.pixeldungeon.actors.mobs.ColdGirl;
 import com.etoitau.pixeldungeon.items.Generator;
-import com.etoitau.pixeldungeon.levels.Campaigns.FirstWave;
 import com.etoitau.pixeldungeon.levels.FrostLevel;
 import com.etoitau.pixeldungeon.levels.Level;
-import com.etoitau.pixeldungeon.levels.MovieLevel;
 import com.etoitau.pixeldungeon.ui.GameLog;
 import com.etoitau.pixeldungeon.utils.GLog;
 import com.etoitau.pixeldungeon.windows.WndError;
@@ -62,7 +60,7 @@ public class InterlevelScene extends PixelScene {
     private static final String ERR_GENERIC = "Something went wrong...";
 
     public enum Mode {
-        DESCEND, ASCEND, CONTINUE, RESURRECT, RESURRECT_ANKH, RETURN, FALL, NONE, TELEPORT, TELEPORT_BACK, MOVIE, MOVIE_OUT, MISSION
+        DESCEND, ASCEND, CONTINUE, RESURRECT, RESURRECT_ANKH, RETURN, FALL, NONE, TELEPORT, TELEPORT_BACK
     }
 
     public static Mode mode;
@@ -116,16 +114,6 @@ public class InterlevelScene extends PixelScene {
             case TELEPORT_BACK:
                 text = TXT_TELEPORTING;
                 break;
-            // todo remove these hatsune messages
-            case MOVIE:
-                text = "10 years ago...";
-                break;
-            case MOVIE_OUT:
-                text = "The true story has yet to begin";
-                break;
-            case MISSION:
-                text = "10 years ago...";
-                break;
             default:
         }
 
@@ -138,9 +126,6 @@ public class InterlevelScene extends PixelScene {
         phase = Phase.FADE_IN;
         timeLeft = TIME_TO_FADE;
 
-        if (mode == Mode.MOVIE || mode == Mode.MOVIE_OUT || mode == Mode.MISSION)
-            timeLeft = 10 * TIME_TO_FADE;
-
         thread = new Thread() {
             @Override
             public void run() {
@@ -150,15 +135,6 @@ public class InterlevelScene extends PixelScene {
                     Generator.reset();
 
                     switch (mode) {
-                        case MISSION:
-                            runMission();
-                            break;
-                        case MOVIE:
-                            runMovie();
-                            break;
-                        case MOVIE_OUT:
-                            endMovie();
-                            break;
                         case DESCEND:
                             descend();
                             break;
@@ -216,9 +192,6 @@ public class InterlevelScene extends PixelScene {
         super.update();
 
         float p = timeLeft / TIME_TO_FADE;
-        if (mode == Mode.MOVIE || mode == Mode.MOVIE_OUT || mode == Mode.MISSION)
-            p /= 10;
-
 
         switch (phase) {
 
@@ -242,90 +215,22 @@ public class InterlevelScene extends PixelScene {
                     Music.INSTANCE.volume(p);
                 }
                 if ((timeLeft -= Game.elapsed) <= 0) {
-                    if (mode == Mode.MOVIE || mode == Mode.MISSION)
-                        //Game.switchScene( TitleScene.class );
-                        Game.switchScene(MissionScene.class);
-                    else if (mode == Mode.MOVIE_OUT)
-                        Game.switchScene(TitleScene.class);
-                    else
-                        Game.switchScene(GameScene.class);
+                    Game.switchScene(GameScene.class);
                 }
                 break;
 
             case STATIC:
                 if (error != null) {
-                    if (mode != Mode.MOVIE && mode != Mode.MOVIE_OUT) {
-                        add(new WndError(error) {
-                            public void onBackPressed() {
-                                super.onBackPressed();
-                                Game.switchScene(StartScene.class);
-                            }
-
-                            ;
-                        });
-                        error = null;
-                    } else {
-                        add(new WndError("Something went wrong with your movie... but the game continues") {
-                            public void onBackPressed() {
-                                super.onBackPressed();
-                                InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
-                                Game.switchScene(InterlevelScene.class);
-                            }
-
-                            ;
-                        });
-                        error = null;
-                    }
+                    add(new WndError(error) {
+                        public void onBackPressed() {
+                            super.onBackPressed();
+                            Game.switchScene(StartScene.class);
+                        }
+                    });
+                    error = null;
                 }
                 break;
         }
-    }
-
-    // todo remove
-    private void runMission() throws Exception {
-
-        try {
-            GameLog.wipe();
-        } catch (Exception ex) {
-            // Could have been causing issues
-        }
-
-
-        if (Dungeon.hero == null)
-            Dungeon.initLegend();
-
-        MissionScene.scenePause = true;
-        Level level = new FirstWave();
-        Dungeon.level = level;
-        level.create();
-        Dungeon.switchLevel(level, level.randomRespawnCell());
-    }
-
-    // todo remove
-    private void runMovie() throws Exception {
-
-        try {
-            GameLog.wipe();
-        } catch (Exception ex) {
-            // Could have been causing issues
-        }
-
-
-        if (Dungeon.hero == null)
-            Dungeon.initLegend();
-
-
-        Level level = new MovieLevel();
-        Dungeon.level = level;
-        level.create();
-        Dungeon.switchLevel(level, level.randomRespawnCell());
-    }
-
-    // todo remove
-    private void endMovie() throws Exception {
-
-        //Actor.fixTime();
-        // Game.switchScene(TitleScene.class);
     }
 
     private void descend() throws Exception {

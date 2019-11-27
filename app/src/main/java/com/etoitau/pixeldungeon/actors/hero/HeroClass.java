@@ -61,7 +61,7 @@ import com.watabau.utils.Bundle;
 
 public enum HeroClass {
 
-    WARRIOR("warrior"), MAGE("mage"), ROGUE("rogue"), HUNTRESS("huntress"), HATSUNE("hatsune");
+    WARRIOR("warrior"), MAGE("mage"), ROGUE("rogue"), HUNTRESS("huntress");
 
     private String title;
 
@@ -103,13 +103,6 @@ public enum HeroClass {
             "Huntresses sense neighbouring monsters even if they are hidden behind obstacles."
     };
 
-    public static final String[] LEGEND_PERKS = {
-            "Hatsune is believed to be a descendant of an Avatar who broke the rules and interacted with mortals.",
-            "She is best known for leading the failed defence of the town of Boonamai.",
-            "She is the first to give birth to twin daughters instead of one. A first in a lineage of over 10 generations.",
-            "She excels in tactics and has mastered both light and dark arts.",
-            "Her hair has turned blue from her massive spiritual strength."
-    };
 
     public void initHero(Hero hero) {
 
@@ -280,8 +273,6 @@ public enum HeroClass {
                 return Assets.ROGUE;
             case HUNTRESS:
                 return Assets.HUNTRESS;
-            case HATSUNE:
-                return Assets.LEGEND;
         }
 
         return null;
@@ -298,8 +289,6 @@ public enum HeroClass {
                 return ROG_PERKS;
             case HUNTRESS:
                 return HUN_PERKS;
-            case HATSUNE:
-                return LEGEND_PERKS;
         }
 
         return null;

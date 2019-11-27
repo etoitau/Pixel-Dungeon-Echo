@@ -1,9 +1,35 @@
+/*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
+ * Work by Moussa 2017 for Skillful Pixel Dungeon
+ *
+ * a mod of :
+ *
+ * Pixel Dungeon
+ * Copyright (C) 2012-2015 Oleg Dolya
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ */
+
 package com.etoitau.pixeldungeon.actors.skills;
 
 
 import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.actors.hero.Hero;
-import com.etoitau.pixeldungeon.actors.hero.Legend;
 import com.etoitau.pixeldungeon.items.wands.WandOfMagicCasting;
 
 import java.util.ArrayList;
@@ -11,8 +37,9 @@ import java.util.ArrayList;
 /**
  * Created by Moussa on 20-Jan-17.
  */
-public class NinjaBomb extends ActiveSkill2 {
 
+// used by rogue
+public class NinjaBomb extends ActiveSkill2 {
 
     {
         name = "Ninja Bomb";
@@ -30,12 +57,11 @@ public class NinjaBomb extends ActiveSkill2 {
         return actions;
     }
 
+
     @Override
     public void execute(Hero hero, String action) {
         if (action == Skill.AC_CAST && hero.MP >= getManaCost()) {
-            //hero.MP -= getManaCost();
-            //castTextYell();
-            Legend.haxWand.castSpell(WandOfMagicCasting.CAST_TYPES.NINJA_BOMB);
+            Hero.haxWand.castSpell(WandOfMagicCasting.CAST_TYPES.NINJA_BOMB);
             Dungeon.hero.heroSkills.lastUsed = this;
         }
     }
@@ -54,7 +80,6 @@ public class NinjaBomb extends ActiveSkill2 {
     @Override
     public String info() {
         return "Throws a bomb that emits sleeping gas on impact.\n"
-
                 + costUpgradeInfo();
     }
 }

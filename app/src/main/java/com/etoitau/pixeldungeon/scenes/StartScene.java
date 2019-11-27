@@ -134,27 +134,6 @@ public class StartScene extends PixelScene {
         buttonX = left;
         buttonY = bottom - BUTTON_HEIGHT;
 
-
-        ResumeButton btnResume = new ResumeButton() {
-
-            @Override
-            public void onClick() {
-                Game.switchScene(MissionStartScene.class);
-            }
-
-            @Override
-            public void update() {
-
-
-            }
-
-
-        };
-
-        btnResume.setPos(Camera.main.width - btnResume.width(), Camera.main.height / 2 - btnResume.height() / 2);
-        btnResume.visible = true;
-        add(btnResume);
-
         btnNewGame = new GameButton(TXT_NEW) {
             @Override
             protected void onClick() {
@@ -178,7 +157,6 @@ public class StartScene extends PixelScene {
         btnLoad = new GameButton(TXT_LOAD) {
             @Override
             protected void onClick() {
-                MissionScene.scenePause = false;
                 InterlevelScene.mode = InterlevelScene.Mode.CONTINUE;
                 Game.switchScene(InterlevelScene.class);
             }
@@ -315,11 +293,6 @@ public class StartScene extends PixelScene {
 
     private void updateClass(HeroClass cl) {
 
-        // Hatsune is on second screen in same position as warrior
-        if (cl == HeroClass.HATSUNE)
-            cl = HeroClass.WARRIOR;
-
-
         if (curClass == cl) {
             add(new WndClass(cl));
             return;
@@ -375,7 +348,6 @@ public class StartScene extends PixelScene {
         Dungeon.currentDifficulty = Difficulties.values()[diff];
         Dungeon.currentDifficulty.reset();
         InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
-        MissionScene.scenePause = false;
         // only show IntroScene once
         if (PixelDungeon.intro()) {
             PixelDungeon.intro(false);

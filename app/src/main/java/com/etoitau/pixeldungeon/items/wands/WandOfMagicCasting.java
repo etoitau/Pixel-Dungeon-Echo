@@ -17,6 +17,7 @@
  */
 package com.etoitau.pixeldungeon.items.wands;
 
+import com.etoitau.pixeldungeon.actors.hero.Hero;
 import com.watabau.noosa.audio.Sample;
 import com.watabau.noosa.tweeners.AlphaTweener;
 import com.etoitau.pixeldungeon.Assets;
@@ -26,27 +27,22 @@ import com.etoitau.pixeldungeon.actors.Char;
 import com.etoitau.pixeldungeon.actors.buffs.Blindness;
 import com.etoitau.pixeldungeon.actors.buffs.Buff;
 import com.etoitau.pixeldungeon.actors.buffs.Invisibility;
-import com.etoitau.pixeldungeon.actors.buffs.Poison;
-import com.etoitau.pixeldungeon.actors.hero.Legend;
-import com.etoitau.pixeldungeon.actors.mobs.Mob;
 import com.etoitau.pixeldungeon.actors.mobs.npcs.NPC;
 import com.etoitau.pixeldungeon.actors.mobs.npcs.SummonedPet;
 import com.etoitau.pixeldungeon.effects.MagicMissile;
-import com.etoitau.pixeldungeon.effects.Pushing;
 import com.etoitau.pixeldungeon.effects.Speck;
 import com.etoitau.pixeldungeon.effects.particles.ShadowParticle;
 import com.etoitau.pixeldungeon.items.weapon.missiles.NinjaBomb;
 import com.etoitau.pixeldungeon.mechanics.Ballistica;
 import com.etoitau.pixeldungeon.scenes.CellSelector;
 import com.etoitau.pixeldungeon.scenes.GameScene;
-import com.etoitau.pixeldungeon.scenes.MissionScene;
 import com.etoitau.pixeldungeon.sprites.CharSprite;
 import com.etoitau.pixeldungeon.sprites.WraithSprite;
-import com.etoitau.pixeldungeon.ui.QuickSlot;
 import com.etoitau.pixeldungeon.utils.GLog;
 import com.watabau.utils.Callback;
 import com.watabau.utils.Random;
 
+// exists as static object in Hero class, used for casting some skills like NinjaBomb
 public class WandOfMagicCasting extends Wand {
 
     {
@@ -55,7 +51,7 @@ public class WandOfMagicCasting extends Wand {
 
     public void castSpell(CAST_TYPES casting) {
         this.casting = casting;
-        MissionScene.selectCell(zapper);
+        GameScene.selectCell(zapper);
     }
 
 
@@ -101,7 +97,7 @@ public class WandOfMagicCasting extends Wand {
                 curUser.sprite.zap(cell);
 
 
-                final Wand curWand = Legend.haxWand;
+                final Wand curWand = Hero.haxWand;
 
                 ((WandOfMagicCasting) curWand).castSpellCost();
                 curUser.busy();

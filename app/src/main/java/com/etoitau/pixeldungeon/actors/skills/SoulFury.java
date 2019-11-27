@@ -1,10 +1,7 @@
 package com.etoitau.pixeldungeon.actors.skills;
 
 
-import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.actors.hero.Hero;
-import com.etoitau.pixeldungeon.actors.hero.Legend;
-import com.etoitau.pixeldungeon.items.wands.WandOfMagicCasting;
 
 import java.util.ArrayList;
 

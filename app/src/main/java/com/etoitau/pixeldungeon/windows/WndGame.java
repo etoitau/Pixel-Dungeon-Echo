@@ -22,7 +22,6 @@ import java.io.IOException;
 import com.watabau.noosa.Game;
 import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.PixelDungeon;
-import com.etoitau.pixeldungeon.actors.hero.Legend;
 import com.etoitau.pixeldungeon.scenes.GameScene;
 import com.etoitau.pixeldungeon.scenes.InterlevelScene;
 import com.etoitau.pixeldungeon.scenes.RankingsScene;
@@ -69,8 +68,7 @@ public class WndGame extends Window {
             });
         }
 
-        if (!Dungeon.hero.isAlive() && !(Dungeon.hero instanceof Legend)) {
-
+        if (!Dungeon.hero.isAlive()) {
             RedButton btnStart;
             addButton(btnStart = new RedButton(TXT_START) {
                 @Override

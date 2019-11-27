@@ -3,11 +3,9 @@ package com.etoitau.pixeldungeon.actors.mobs.npcs;
 import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.actors.Char;
 import com.etoitau.pixeldungeon.actors.buffs.Poison;
-import com.etoitau.pixeldungeon.actors.mobs.Eye;
 import com.etoitau.pixeldungeon.actors.mobs.Mob;
 import com.etoitau.pixeldungeon.levels.Level;
 import com.etoitau.pixeldungeon.mechanics.Ballistica;
-import com.etoitau.pixeldungeon.scenes.MissionScene;
 import com.etoitau.pixeldungeon.sprites.CharSprite;
 import com.etoitau.pixeldungeon.sprites.CrabSprite;
 import com.etoitau.pixeldungeon.sprites.EyeSprite;
@@ -263,12 +261,6 @@ public class SummonedPet extends NPC {
 
     @Override
     protected boolean act() {
-
-        if (MissionScene.scenePause == true) {
-            spend(1f);
-            next();
-            return false;
-        }
 
         degradeCounter++;
         if (petType != PET_TYPES.SPECIAL) {

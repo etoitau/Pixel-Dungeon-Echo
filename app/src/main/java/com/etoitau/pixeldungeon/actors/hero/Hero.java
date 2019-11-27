@@ -161,6 +161,7 @@ public class Hero extends Char {
 
     public CurrentSkills heroSkills = CurrentSkills.MAGE;
 
+    // todo merc
     public HiredMerc hiredMerc = null;
 
     protected int attackSkill = 10;

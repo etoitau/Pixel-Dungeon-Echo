@@ -25,9 +25,7 @@ package com.etoitau.pixeldungeon.windows;
 import com.watabau.noosa.Camera;
 import com.watabau.noosa.audio.Sample;
 import com.etoitau.pixeldungeon.Assets;
-import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.PixelDungeon;
-import com.etoitau.pixeldungeon.actors.hero.Legend;
 import com.etoitau.pixeldungeon.scenes.PixelScene;
 import com.etoitau.pixeldungeon.ui.CheckBox;
 import com.etoitau.pixeldungeon.ui.RedButton;
@@ -148,90 +146,74 @@ public class WndSettings extends Window {
         btnSound.checked(PixelDungeon.soundFx());
         add(btnSound);
 
-        // todo remove legend, simplify and remove outer if statement
-        if (Dungeon.hero == null || !(Dungeon.hero instanceof Legend)) {
-            if (inGame) {
-                // permadeath
-                CheckBox btnPermadeath = new CheckBox(TXT_PERMADEATH) {
-                    @Override
-                    protected void onClick() {
-                        super.onClick();
-                        PixelDungeon.permadeath(checked());
-                    }
-                };
-                btnPermadeath.setRect(0, btnSound.bottom() + GAP, WIDTH, BTN_HEIGHT);
-                btnPermadeath.checked(PixelDungeon.permadeath());
-                add(btnPermadeath);
 
-                // item degredation
-                CheckBox btnDeg = new CheckBox(TXT_DEGREDATION) {
-                    @Override
-                    protected void onClick() {
-                        super.onClick();
-                        PixelDungeon.itemDeg(checked());
-                    }
-                };
-                btnDeg.setRect(0, btnPermadeath.bottom() + GAP, WIDTH, BTN_HEIGHT);
-                btnDeg.checked(PixelDungeon.itemDeg());
-                add(btnDeg);
+        if (inGame) {
+            // permadeath
+            CheckBox btnPermadeath = new CheckBox(TXT_PERMADEATH) {
+                @Override
+                protected void onClick() {
+                    super.onClick();
+                    PixelDungeon.permadeath(checked());
+                }
+            };
+            btnPermadeath.setRect(0, btnSound.bottom() + GAP, WIDTH, BTN_HEIGHT);
+            btnPermadeath.checked(PixelDungeon.permadeath());
+            add(btnPermadeath);
 
-                // Brightness
-                CheckBox btnBrightness = new CheckBox(TXT_BRIGHTNESS) {
-                    @Override
-                    protected void onClick() {
-                        super.onClick();
-                        PixelDungeon.brightness(checked());
-                    }
-                };
-                btnBrightness.setRect(0, btnDeg.bottom() + GAP, WIDTH, BTN_HEIGHT);
-                btnBrightness.checked(PixelDungeon.brightness());
-                add(btnBrightness);
+            // item degredation
+            CheckBox btnDeg = new CheckBox(TXT_DEGREDATION) {
+                @Override
+                protected void onClick() {
+                    super.onClick();
+                    PixelDungeon.itemDeg(checked());
+                }
+            };
+            btnDeg.setRect(0, btnPermadeath.bottom() + GAP, WIDTH, BTN_HEIGHT);
+            btnDeg.checked(PixelDungeon.itemDeg());
+            add(btnDeg);
 
-                // Second Quickslot
-                CheckBox btnQuickslot = new CheckBox(TXT_QUICKSLOT) {
-                    @Override
-                    protected void onClick() {
-                        super.onClick();
-                        Toolbar.secondQuickslot(checked());
-                        PixelDungeon.secondQuickslot(checked());
-                    }
-                };
-                btnQuickslot.setRect(0, btnBrightness.bottom() + GAP, WIDTH, BTN_HEIGHT);
-                btnQuickslot.checked(PixelDungeon.secondQuickslot());
-                add(btnQuickslot);
+            // Brightness
+            CheckBox btnBrightness = new CheckBox(TXT_BRIGHTNESS) {
+                @Override
+                protected void onClick() {
+                    super.onClick();
+                    PixelDungeon.brightness(checked());
+                }
+            };
+            btnBrightness.setRect(0, btnDeg.bottom() + GAP, WIDTH, BTN_HEIGHT);
+            btnBrightness.checked(PixelDungeon.brightness());
+            add(btnBrightness);
 
-                resize(WIDTH, (int) btnQuickslot.bottom());
+            // Second Quickslot
+            CheckBox btnQuickslot = new CheckBox(TXT_QUICKSLOT) {
+                @Override
+                protected void onClick() {
+                    super.onClick();
+                    Toolbar.secondQuickslot(checked());
+                    PixelDungeon.secondQuickslot(checked());
+                }
+            };
+            btnQuickslot.setRect(0, btnBrightness.bottom() + GAP, WIDTH, BTN_HEIGHT);
+            btnQuickslot.checked(PixelDungeon.secondQuickslot());
+            add(btnQuickslot);
 
-            } else {
+            resize(WIDTH, (int) btnQuickslot.bottom());
 
-                RedButton btnOrientation = new RedButton(orientationText()) {
-                    @Override
-                    protected void onClick() {
-                        PixelDungeon.landscape(!PixelDungeon.landscape());
-                    }
-                };
-                btnOrientation.setRect(0, btnSound.bottom() + GAP, WIDTH, BTN_HEIGHT);
-                add(btnOrientation);
-
-                resize(WIDTH, (int) btnOrientation.bottom());
-
-            }
         } else {
-            resize(WIDTH, (int) btnSound.bottom());
-            if (!inGame) {
-                RedButton btnOrientation = new RedButton(orientationText()) {
-                    @Override
-                    protected void onClick() {
-                        PixelDungeon.landscape(!PixelDungeon.landscape());
-                    }
-                };
-                btnOrientation.setRect(0, btnSound.bottom() + GAP, WIDTH, BTN_HEIGHT);
-                add(btnOrientation);
 
+            RedButton btnOrientation = new RedButton(orientationText()) {
+                @Override
+                protected void onClick() {
+                    PixelDungeon.landscape(!PixelDungeon.landscape());
+                }
+            };
+            btnOrientation.setRect(0, btnSound.bottom() + GAP, WIDTH, BTN_HEIGHT);
+            add(btnOrientation);
 
-                resize(WIDTH, (int) btnOrientation.bottom());
-            }
+            resize(WIDTH, (int) btnOrientation.bottom());
+
         }
+
     }
 
     private void zoom(float value) {
