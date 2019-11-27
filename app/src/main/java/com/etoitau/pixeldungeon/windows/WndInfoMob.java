@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -17,6 +22,7 @@
  */
 package com.etoitau.pixeldungeon.windows;
 
+import com.etoitau.pixeldungeon.actors.mobs.Yog;
 import com.watabau.noosa.BitmapText;
 import com.watabau.noosa.ui.Component;
 import com.etoitau.pixeldungeon.actors.mobs.Mob;
@@ -38,7 +44,10 @@ public class WndInfoMob extends WndTitledMessage {
 
         StringBuilder builder = new StringBuilder(mob.description());
 
-        builder.append("\n\n" + mob.state.status() + ".");
+        // doesn't sound right to give scary description of final boss then say it's passive
+        if (!(mob instanceof Yog)) {
+            builder.append("\n\n" + mob.state.status() + ".");
+        }
 
         return builder.toString();
     }

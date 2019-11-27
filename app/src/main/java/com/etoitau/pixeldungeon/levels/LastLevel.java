@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -58,7 +63,6 @@ public class LastLevel extends Level {
         map[entrance] = Terrain.ENTRANCE;
 
         exit = entrance - WIDTH * SIZE;
-        map[exit] = Terrain.LOCKED_EXIT;
 
         pedestal = (SIZE / 2 + 1) * (WIDTH + 1);
         map[pedestal] = Terrain.PEDESTAL;
