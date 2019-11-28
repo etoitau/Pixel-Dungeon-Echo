@@ -172,14 +172,15 @@ public abstract class Level implements Bundlable {
         plants = new SparseArray<Plant>();
 
         if (!Dungeon.bossLevel()) {
+
             addItemToSpawn(new Arrow().random());
             if (Random.Int(2) == 0)
                 addItemToSpawn(new BombArrow(1));
             if (Random.Int(5) == 0)
                 addItemToSpawn(new CupidArrow(1));
 
-
             addItemToSpawn(Generator.random(Generator.Category.FOOD));
+
             if (Dungeon.posNeeded()) {
                 addItemToSpawn(new PotionOfStrength());
                 Dungeon.potionOfStrength++;
@@ -408,6 +409,7 @@ public abstract class Level implements Bundlable {
         };
     }
 
+    // todo merc cleanup
     public Actor mercRespawner() {
         return new Actor() {
             @Override
@@ -462,6 +464,7 @@ public abstract class Level implements Bundlable {
         };
     }
 
+    // todo merc cleanup
     private HiredMerc checkMerc() {
 
         for (Mob mob : Dungeon.level.mobs) {

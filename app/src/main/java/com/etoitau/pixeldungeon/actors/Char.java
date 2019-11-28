@@ -94,7 +94,7 @@ public abstract class Char extends Actor {
             "Too strong...",
             "C'est impossible!",
             "Sacre bleu!",
-            "Mommy...",
+            "Ouch...",
             "I will be avenged..."
     };
 
@@ -102,24 +102,23 @@ public abstract class Char extends Actor {
             "The Rat King will be victorious!",
             "The Rat King will avenge me!",
             "The Rat King shall prevail!",
-            //"The Rat King is your father...", too harsh?
             "Forgive me my lord...",
             "You know nothing...",
             "The world is ours... all of its cheese too..."
     };
 
     private String[] HERO_DEATH_SCREAM = {
-            "Ouch!",
-            "My face...",
-            "I have failed",
-            "This game blows...",
-            "Nerf it..."
+            "Ouch...",
+            "Next time...",
+            "I have failed...",
+            "Too hard...",
+            "Oops..."
     };
 
     private String[] PET_FAREWELL = {
             "Farewell...",
             "I have failed you...",
-            "I just wanted some love..."
+            "I'll be back..."
     };
 
     // todo merc to remove
