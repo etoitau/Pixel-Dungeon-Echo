@@ -55,10 +55,7 @@ public class Storage implements Iterable<Item> {
 
 
     public void storeInBundle(Bundle bundle) {
-
         backpack.storeInBundle2(bundle);
-
-
     }
 
     public void restoreFromBundle(Bundle bundle) {

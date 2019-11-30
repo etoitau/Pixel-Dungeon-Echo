@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -113,9 +118,15 @@ public class Bag extends Item implements Iterable<Item> {
         bundle.put(ITEMS, items);
     }
 
+    // used for Storage
     public void storeInBundle2(Bundle bundle) {
         super.storeInBundle(bundle);
         bundle.put(ITEMS2, items);
+    }
+
+    public void storeInBundle(Bundle bundle, String bundleKey) {
+        super.storeInBundle(bundle);
+        bundle.put(bundleKey, items);
     }
 
     @Override
@@ -124,7 +135,6 @@ public class Bag extends Item implements Iterable<Item> {
         for (Bundlable item : bundle.getCollection(ITEMS)) {
             ((Item) item).collect(this);
         }
-        ;
     }
 
     public void restoreFromBundle2(Bundle bundle) {
@@ -132,8 +142,15 @@ public class Bag extends Item implements Iterable<Item> {
         for (Bundlable item : bundle.getCollection(ITEMS2)) {
             ((Item) item).collect(this);
         }
-        ;
     }
+
+    public void restoreFromBundle(Bundle bundle, String bundleKey) {
+        super.restoreFromBundle(bundle);
+        for (Bundlable item : bundle.getCollection(bundleKey)) {
+            ((Item) item).collect(this);
+        }
+    }
+
 
     public boolean contains(Item item) {
         for (Item i : items) {

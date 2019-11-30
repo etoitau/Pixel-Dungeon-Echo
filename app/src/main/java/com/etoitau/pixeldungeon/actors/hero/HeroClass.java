@@ -138,7 +138,7 @@ public enum HeroClass {
     private static void initCommon(Hero hero) {
         (hero.belongings.armor = new ClothArmor()).identify();
         new Food().identify().collect();
-        new Keyring().collect();
+        //new Keyring().collect();
 
         Dungeon.hero.HP -= Dungeon.currentDifficulty.difficultyHPStartPenalty();
         Dungeon.hero.HT -= Dungeon.currentDifficulty.difficultyHPStartPenalty();
