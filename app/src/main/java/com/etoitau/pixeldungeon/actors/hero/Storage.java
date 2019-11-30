@@ -40,6 +40,7 @@ public class Storage implements Iterable<Item> {
 
     private Hero owner;
 
+    // todo rename, not a backpack...
     public Bag backpack;
 
 

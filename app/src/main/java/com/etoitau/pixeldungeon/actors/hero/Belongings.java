@@ -70,7 +70,7 @@ public class Belongings implements Iterable<Item> {
         keys = new Keyring();
     }
 
-    private static final String KEYS = "keys";
+    private static final String KEYS = "keyring";
     private static final String WEAPON = "weapon";
     private static final String ARMOR = "armor";
     private static final String MERC_WEAPON = "mercweapon";
@@ -81,8 +81,8 @@ public class Belongings implements Iterable<Item> {
     private static final String BOW = "bow";
 
     public void storeInBundle(Bundle bundle) {
-
         backpack.storeInBundle(bundle);
+
         keys.storeInBundle(bundle, KEYS);
 
         bundle.put(WEAPON, weapon);
@@ -99,7 +99,6 @@ public class Belongings implements Iterable<Item> {
     }
 
     public void restoreFromBundle(Bundle bundle) {
-
         backpack.clear();
         backpack.restoreFromBundle(bundle);
 

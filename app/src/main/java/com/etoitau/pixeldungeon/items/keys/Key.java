@@ -25,6 +25,7 @@ package com.etoitau.pixeldungeon.items.keys;
 import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.items.Item;
 import com.etoitau.pixeldungeon.items.bags.Bag;
+import com.etoitau.pixeldungeon.items.bags.Keyring;
 import com.watabau.utils.Bundle;
 
 public class Key extends Item {
@@ -74,6 +75,10 @@ public class Key extends Item {
     // items collect to backpack by default, if key, reroute to keyring
     @Override
     public boolean collect(Bag bag) {
-        return super.collect(Dungeon.hero.belongings.keys);
+        if (bag instanceof Keyring) {
+            return super.collect(bag);
+        } else {
+            return super.collect(Dungeon.hero.belongings.keys);
+        }
     }
 }
