@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -19,6 +24,8 @@ package com.etoitau.pixeldungeon.items.keys;
 
 import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.items.Item;
+import com.etoitau.pixeldungeon.items.bags.Bag;
+import com.etoitau.pixeldungeon.items.bags.Keyring;
 import com.watabau.utils.Bundle;
 
 public class Key extends Item {
@@ -63,5 +70,15 @@ public class Key extends Item {
     @Override
     public String status() {
         return depth + "\u007F";
+    }
+
+    // items collect to backpack by default, if key, reroute to keyring
+    @Override
+    public boolean collect(Bag bag) {
+        if (bag instanceof Keyring) {
+            return super.collect(bag);
+        } else {
+            return super.collect(Dungeon.hero.belongings.keys);
+        }
     }
 }

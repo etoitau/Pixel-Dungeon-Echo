@@ -32,6 +32,7 @@ import com.etoitau.pixeldungeon.items.Item;
 import com.etoitau.pixeldungeon.items.KindOfWeapon;
 import com.etoitau.pixeldungeon.items.armor.Armor;
 import com.etoitau.pixeldungeon.items.bags.Bag;
+import com.etoitau.pixeldungeon.items.bags.Keyring;
 import com.etoitau.pixeldungeon.items.keys.IronKey;
 import com.etoitau.pixeldungeon.items.keys.Key;
 import com.etoitau.pixeldungeon.items.rings.Ring;
@@ -48,6 +49,7 @@ public class Belongings implements Iterable<Item> {
     private Hero owner;
 
     public Bag backpack;
+    public Keyring keys;
 
     public KindOfWeapon weapon = null;
     public Armor armor = null;
@@ -64,8 +66,11 @@ public class Belongings implements Iterable<Item> {
             size = BACKPACK_SIZE;
         }};
         backpack.owner = owner;
+
+        keys = new Keyring();
     }
 
+    private static final String KEYS = "keyring";
     private static final String WEAPON = "weapon";
     private static final String ARMOR = "armor";
     private static final String MERC_WEAPON = "mercweapon";
@@ -76,8 +81,9 @@ public class Belongings implements Iterable<Item> {
     private static final String BOW = "bow";
 
     public void storeInBundle(Bundle bundle) {
-
         backpack.storeInBundle(bundle);
+
+        keys.storeInBundle(bundle, KEYS);
 
         bundle.put(WEAPON, weapon);
         bundle.put(ARMOR, armor);
@@ -93,9 +99,11 @@ public class Belongings implements Iterable<Item> {
     }
 
     public void restoreFromBundle(Bundle bundle) {
-
         backpack.clear();
         backpack.restoreFromBundle(bundle);
+
+        keys.clear();
+        keys.restoreFromBundle(bundle, KEYS);
 
         weapon = (KindOfWeapon) bundle.get(WEAPON);
         if (weapon != null) {
@@ -143,7 +151,7 @@ public class Belongings implements Iterable<Item> {
     @SuppressWarnings("unchecked")
     public <T extends Key> T getKey(Class<T> kind, int depth) {
 
-        for (Item item : backpack) {
+        for (Item item : keys) {
             if (item.getClass() == kind && ((Key) item).depth == depth) {
                 return (T) item;
             }
@@ -156,8 +164,8 @@ public class Belongings implements Iterable<Item> {
 
         IronKey.curDepthQuantity = 0;
 
-        for (Item item : backpack) {
-            if (item instanceof IronKey && ((IronKey) item).depth == Dungeon.depth) {
+        for (Item key : keys) {
+            if (key instanceof IronKey && ((IronKey) key).depth == Dungeon.depth) {
                 IronKey.curDepthQuantity++;
             }
         }
@@ -201,15 +209,8 @@ public class Belongings implements Iterable<Item> {
 
     public void resurrect(int depth, boolean withAnkh) {
 
-        // empties backpack
         for (Item item : backpack.items.toArray(new Item[0])) {
-            if (item instanceof Key) {
-                if (((Key) item).depth == depth) {
-                    item.detachAll(backpack);
-                }
-            } else if (item.unique) {
-                // Keep unique items
-            } else if (!item.isEquipped(owner) && withAnkh) {
+            if (!item.unique && !item.isEquipped(owner) && withAnkh) {
                 // if via ankh, lose your loot
                 item.detachAll(backpack);
             }

@@ -1523,7 +1523,7 @@ public class Hero extends Char {
         if (curAction instanceof HeroAction.Unlock) {
 
             if (theKey != null) {
-                theKey.detach(belongings.backpack);
+                theKey.detach(belongings.keys);
                 theKey = null;
             }
 
@@ -1536,7 +1536,7 @@ public class Hero extends Char {
         } else if (curAction instanceof HeroAction.OpenChest) {
 
             if (theKey != null) {
-                theKey.detach(belongings.backpack);
+                theKey.detach(belongings.keys);
                 theKey = null;
             }
 

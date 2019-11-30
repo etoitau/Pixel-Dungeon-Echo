@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -33,7 +38,6 @@ import com.etoitau.pixeldungeon.items.Gold;
 import com.etoitau.pixeldungeon.items.Item;
 import com.etoitau.pixeldungeon.items.armor.Armor;
 import com.etoitau.pixeldungeon.items.bags.Bag;
-import com.etoitau.pixeldungeon.items.bags.Keyring;
 import com.etoitau.pixeldungeon.items.bags.ScrollHolder;
 import com.etoitau.pixeldungeon.items.bags.SeedPouch;
 import com.etoitau.pixeldungeon.items.bags.WandHolster;
@@ -77,7 +81,7 @@ public class WndBag extends WndTabbed {
     protected static final int SLOT_SIZE = 28;
     protected static final int SLOT_MARGIN = 1;
 
-    protected static final int TAB_WIDTH = 25;
+    protected static final int TAB_WIDTH = 30; // 30 if four tabs, 24 if five
 
     protected static final int TITLE_HEIGHT = 12;
 
@@ -130,8 +134,7 @@ public class WndBag extends WndTabbed {
                 stuff.backpack,
                 stuff.getItem(SeedPouch.class),
                 stuff.getItem(ScrollHolder.class),
-                stuff.getItem(WandHolster.class),
-                stuff.getItem(Keyring.class)};
+                stuff.getItem(WandHolster.class)};
 
         for (Bag b : bags) {
             if (b != null) {
@@ -284,8 +287,6 @@ public class WndBag extends WndTabbed {
                 return Icons.get(Icons.SCROLL_HOLDER);
             } else if (bag instanceof WandHolster) {
                 return Icons.get(Icons.WAND_HOLSTER);
-            } else if (bag instanceof Keyring) {
-                return Icons.get(Icons.KEYRING);
             } else {
                 return Icons.get(Icons.BACKPACK);
             }
