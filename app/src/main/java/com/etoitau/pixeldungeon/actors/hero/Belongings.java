@@ -73,9 +73,6 @@ public class Belongings implements Iterable<Item> {
     private static final String KEYS = "keyring";
     private static final String WEAPON = "weapon";
     private static final String ARMOR = "armor";
-    private static final String MERC_WEAPON = "mercweapon";
-    private static final String MERC_ARMOR = "mercarmor";
-    private static final String MERC_ITEM = "mercitem";
     private static final String RING1 = "ring1";
     private static final String RING2 = "ring2";
     private static final String BOW = "bow";
