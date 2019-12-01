@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -17,20 +22,9 @@
  */
 package com.etoitau.pixeldungeon.actors.hero;
 
-import com.etoitau.pixeldungeon.Badges;
-import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.items.Item;
-import com.etoitau.pixeldungeon.items.KindOfWeapon;
-import com.etoitau.pixeldungeon.items.armor.Armor;
 import com.etoitau.pixeldungeon.items.bags.Bag;
-import com.etoitau.pixeldungeon.items.keys.IronKey;
-import com.etoitau.pixeldungeon.items.keys.Key;
-import com.etoitau.pixeldungeon.items.rings.Ring;
-import com.etoitau.pixeldungeon.items.scrolls.ScrollOfRemoveCurse;
-import com.etoitau.pixeldungeon.items.wands.Wand;
-//import com.etoitau.pixeldungeon.items.weapon.missiles.Bow;
 import com.watabau.utils.Bundle;
-import com.watabau.utils.Random;
 
 import java.util.Iterator;
 
@@ -38,14 +32,14 @@ public class Storage implements Iterable<Item> {
 
     public static final int BACKPACK_SIZE = 5;
 
-    private Hero owner;
+    // key for storage and retrieval from bundle
+    private static final String BUNDLE_KEY = "inventory2";
 
-    // todo rename, not a backpack...
+    // not really a backpack, but field is exposed and used by services that work on backpack and this
     public Bag backpack;
 
 
     public Storage(Hero owner) {
-        this.owner = owner;
 
         backpack = new Bag() {{
             name = "Storage";
@@ -56,15 +50,12 @@ public class Storage implements Iterable<Item> {
 
 
     public void storeInBundle(Bundle bundle) {
-        backpack.storeInBundle2(bundle);
+        backpack.storeInBundle(bundle, BUNDLE_KEY);
     }
 
     public void restoreFromBundle(Bundle bundle) {
-
         backpack.clear();
-        backpack.restoreFromBundle2(bundle);
-
-
+        backpack.restoreFromBundle(bundle, BUNDLE_KEY);
     }
 
     @Override
@@ -82,12 +73,10 @@ public class Storage implements Iterable<Item> {
         @Override
         public Item next() {
             return null;
-
         }
 
         @Override
         public void remove() {
-
         }
     }
 }

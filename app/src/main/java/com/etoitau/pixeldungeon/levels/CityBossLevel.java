@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -17,6 +22,7 @@
  */
 package com.etoitau.pixeldungeon.levels;
 
+import com.etoitau.pixeldungeon.levels.painters.EntrancePainter;
 import com.watabau.noosa.Scene;
 import com.watabau.noosa.tweeners.AlphaTweener;
 import com.etoitau.pixeldungeon.Assets;
@@ -34,6 +40,9 @@ import com.etoitau.pixeldungeon.scenes.GameScene;
 import com.watabau.utils.Bundle;
 import com.watabau.utils.Random;
 
+/**
+ * Depth 20 - King of Dwarves
+ */
 public class CityBossLevel extends Level {
 
     {
@@ -116,19 +125,7 @@ public class CityBossLevel extends Level {
         entrance = (TOP + HALL_HEIGHT + 2 + Random.Int(CHAMBER_HEIGHT - 1)) * WIDTH + LEFT + (/*1 +*/ Random.Int(HALL_WIDTH - 2));
         map[entrance] = Terrain.ENTRANCE;
 
-        int safety = 0;
-        int arenaStorage;
-        do {
-            arenaStorage = (TOP + HALL_HEIGHT + 2 + Random.Int(CHAMBER_HEIGHT - 1)) * WIDTH + LEFT + (/*1 +*/ Random.Int(HALL_WIDTH - 2));
-            safety++;
-        } while ((arenaStorage == entrance || arenaStorage != (arenaDoor + WIDTH + 1)) && safety < 100);
-
-        for (int i = 0; i < Level.NEIGHBOURS8.length; i++) {
-            if (map[entrance + Level.NEIGHBOURS8[i]] == Terrain.EMPTY)
-                arenaStorage = entrance + Level.NEIGHBOURS8[i];
-        }
-
-        map[arenaStorage] = Terrain.STORAGE;
+        EntrancePainter.paintStorage(this, entrance);
 
         return true;
     }

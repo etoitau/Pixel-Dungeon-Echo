@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -32,21 +37,23 @@ public class EntrancePainter extends Painter {
             door.set(Room.Door.Type.REGULAR);
         }
 
-        int safety = 0;
         level.entrance = room.random(1);
-        do {
-            level.storage = room.random(2);
-            safety++;
-        }
-        while ((level.storage == level.entrance || level.map[level.storage] == Terrain.SIGN) && safety < 100); // Still bugged, need a guaranteed way without risking infinte loops
         set(level, level.entrance, Terrain.ENTRANCE);
 
+        paintStorage(level, level.entrance);
+    }
+
+    public static void paintStorage(Level level, int center) {
+        level.storage = -1;
+
         for (int i = 0; i < Level.NEIGHBOURS8.length; i++) {
-            if (level.map[level.entrance + Level.NEIGHBOURS8[i]] == Terrain.EMPTY)
-                level.storage = level.entrance + Level.NEIGHBOURS8[i];
+            if (level.map[center + Level.NEIGHBOURS8[i]] == Terrain.EMPTY)
+                level.storage = center + Level.NEIGHBOURS8[i];
         }
 
-        set(level, level.storage, Terrain.STORAGE);
+        if (level.storage != -1) {
+            set(level, level.storage, Terrain.STORAGE);
+        }
     }
 
 }

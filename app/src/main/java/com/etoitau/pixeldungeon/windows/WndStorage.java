@@ -48,7 +48,7 @@ import com.etoitau.pixeldungeon.utils.Utils;
 
 public class WndStorage extends WndTabbed {
 
-    public static enum Mode {
+    public enum Mode {
         ALL,
         UNIDENTIFED,
         UPGRADEABLE,
@@ -67,13 +67,7 @@ public class WndStorage extends WndTabbed {
     protected static final int SLOT_SIZE = 28;
     protected static final int SLOT_MARGIN = 1;
 
-    protected static final int TAB_WIDTH = 25;
-
     protected static final int TITLE_HEIGHT = 12;
-
-    private Listener listener;
-    private WndStorage.Mode mode;
-    private String title;
 
     private int nCols;
     private int nRows;
@@ -82,21 +76,11 @@ public class WndStorage extends WndTabbed {
     protected int col;
     protected int row;
 
-    private static Mode lastMode;
-    private static Storage lastBag;
-
     public boolean noDegrade = !PixelDungeon.itemDeg();
 
-    public WndStorage(Storage bag, Listener listener, Mode mode, String title) {
+    public WndStorage(Storage bag) {
 
         super();
-
-        this.listener = listener;
-        this.mode = mode;
-        this.title = title;
-
-        lastMode = mode;
-        lastBag = bag;
 
         nCols = PixelDungeon.landscape() ? COLS_L : COLS_P;
         nRows = (5) / nCols + ((5) % nCols > 0 ? 1 : 0);
@@ -104,7 +88,7 @@ public class WndStorage extends WndTabbed {
         int slotsWidth = SLOT_SIZE * nCols + SLOT_MARGIN * (nCols - 1);
         int slotsHeight = SLOT_SIZE * nRows + SLOT_MARGIN * (nRows - 1);
 
-        BitmapText txtTitle = PixelScene.createText(title != null ? title : Utils.capitalize("Storage"), 9);
+        BitmapText txtTitle = PixelScene.createText(Utils.capitalize(bag.backpack.name()), 9);
         txtTitle.hardlight(TITLE_COLOR);
         txtTitle.measure();
         txtTitle.x = (int) (slotsWidth - txtTitle.width()) / 2;
@@ -157,99 +141,22 @@ public class WndStorage extends WndTabbed {
 
     @Override
     public void onMenuPressed() {
-        if (listener == null) {
-            hide();
-        }
+        hide();
     }
 
     @Override
     public void onBackPressed() {
-        if (listener != null) {
-            listener.onSelect(null);
-        }
         super.onBackPressed();
     }
 
     @Override
     protected void onClick(Tab tab) {
         hide();
-        //GameScene.show( new WndStorage( ((BagTab)tab).bag, listener, mode, title ) );
     }
 
     @Override
     protected int tabHeight() {
         return 20;
-    }
-
-    private class BagTab extends Tab {
-
-        private Image icon;
-
-        private Bag bag;
-
-        public BagTab(Bag bag) {
-            super();
-
-            this.bag = bag;
-
-            icon = icon();
-            add(icon);
-        }
-
-        @Override
-        protected void select(boolean value) {
-            super.select(value);
-            icon.am = selected ? 1.0f : 0.6f;
-        }
-
-        @Override
-        protected void layout() {
-            super.layout();
-
-            icon.copy(icon());
-            icon.x = x + (width - icon.width) / 2;
-            icon.y = y + (height - icon.height) / 2 - 2 - (selected ? 0 : 1);
-            if (!selected && icon.y < y + CUT) {
-                RectF frame = icon.frame();
-                frame.top += (y + CUT - icon.y) / icon.texture.height;
-                icon.frame(frame);
-                icon.y = y + CUT;
-            }
-        }
-
-        private Image icon() {
-            if (bag instanceof SeedPouch) {
-                return Icons.get(Icons.SEED_POUCH);
-            } else if (bag instanceof ScrollHolder) {
-                return Icons.get(Icons.SCROLL_HOLDER);
-            } else if (bag instanceof WandHolster) {
-                return Icons.get(Icons.WAND_HOLSTER);
-            } else if (bag instanceof Keyring) {
-                return Icons.get(Icons.KEYRING);
-            } else {
-                return Icons.get(Icons.BACKPACK);
-            }
-        }
-    }
-
-    private static class Placeholder extends Item {
-        {
-            name = null;
-        }
-
-        public Placeholder(int image) {
-            this.image = image;
-        }
-
-        @Override
-        public boolean isIdentified() {
-            return true;
-        }
-
-        @Override
-        public boolean isEquipped(Hero hero) {
-            return true;
-        }
     }
 
     private class ItemButton extends ItemSlot {
@@ -318,22 +225,8 @@ public class WndStorage extends WndTabbed {
                 }
 
 
-                if (item.name() == null) {
-                    enable(false);
-                } else {
-                    enable(
-                            mode == Mode.QUICKSLOT && (item.defaultAction != null) ||
-                                    mode == Mode.FOR_SALE && (item.price() > 0) && (!item.isEquipped(Dungeon.hero) || !item.cursed) ||
-                                    mode == Mode.UPGRADEABLE && item.isUpgradable() ||
-                                    mode == Mode.UNIDENTIFED && !item.isIdentified() ||
-                                    mode == Mode.WEAPON && (item instanceof MeleeWeapon || item instanceof Boomerang) ||
-                                    mode == Mode.ARMOR && (item instanceof Armor) ||
-                                    mode == Mode.ENCHANTABLE && (item instanceof MeleeWeapon || item instanceof Boomerang || item instanceof Armor) ||
-                                    mode == Mode.WAND && (item instanceof Wand) ||
-                                    mode == Mode.SEED && (item instanceof Seed) ||
-                                    mode == Mode.ALL
-                    );
-                }
+                enable(item.name() != null);
+
             } else {
                 bg.color(NORMAL);
             }
@@ -345,33 +238,18 @@ public class WndStorage extends WndTabbed {
             Sample.INSTANCE.play(Assets.SND_CLICK, 0.7f, 0.7f, 1.2f);
         }
 
-        ;
-
         protected void onTouchUp() {
             bg.brightness(1.0f);
         }
 
-        ;
-
         @Override
         protected void onClick() {
-            if (listener != null) {
-
-                hide();
-                listener.onSelect(item);
-
-            } else {
-
-                WndStorage.this.add(new WndItemStorage(WndStorage.this, item));
-
-            }
+            WndStorage.this.add(new WndItemStorage(WndStorage.this, item));
         }
 
         @Override
         protected boolean onLongClick() {
-
             return false;
-
         }
     }
 

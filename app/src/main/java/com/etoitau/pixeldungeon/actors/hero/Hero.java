@@ -869,7 +869,7 @@ public class Hero extends Char {
         int stairs = action.dst;
         if (pos == stairs && pos == Dungeon.level.storage) {
 
-            GameScene.show(new WndStorage(Dungeon.hero.storage, null, WndStorage.Mode.ALL, null));
+            GameScene.show(new WndStorage(Dungeon.hero.storage));
             ready();
             return false;
 

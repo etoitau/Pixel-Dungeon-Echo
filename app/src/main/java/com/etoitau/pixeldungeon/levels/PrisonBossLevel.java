@@ -39,6 +39,9 @@ import com.watabau.utils.Graph;
 import com.watabau.utils.Point;
 import com.watabau.utils.Random;
 
+/**
+ * Depth 10 - Tengu
+ */
 public class PrisonBossLevel extends RegularLevel {
 
     {

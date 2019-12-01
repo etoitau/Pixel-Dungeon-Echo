@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -17,6 +22,7 @@
  */
 package com.etoitau.pixeldungeon.levels;
 
+import com.etoitau.pixeldungeon.levels.painters.EntrancePainter;
 import com.watabau.noosa.Camera;
 import com.watabau.noosa.Scene;
 import com.watabau.noosa.audio.Sample;
@@ -37,6 +43,9 @@ import com.etoitau.pixeldungeon.scenes.GameScene;
 import com.watabau.utils.Bundle;
 import com.watabau.utils.Random;
 
+/**
+ * Depth 15 - DM-300
+ */
 public class CavesBossLevel extends Level {
 
     {
@@ -138,20 +147,9 @@ public class CavesBossLevel extends Level {
                 Random.Int(ROOM_TOP + 1, ROOM_BOTTOM - 1) * WIDTH;
         map[entrance] = Terrain.ENTRANCE;
 
-        int arenaStorage = 0;
-        int safety = 0;
-        do {
-            arenaStorage = Random.Int(ROOM_LEFT + 1, ROOM_RIGHT - 1) +
-                    Random.Int(ROOM_TOP + 1, ROOM_BOTTOM - 1) * WIDTH;
-            safety++;
-        } while (arenaStorage == entrance && safety < 10);
 
-        for (int i = 0; i < Level.NEIGHBOURS8.length; i++) {
-            if (map[entrance + Level.NEIGHBOURS8[i]] == Terrain.EMPTY)
-                arenaStorage = entrance + Level.NEIGHBOURS8[i];
-        }
+        EntrancePainter.paintStorage(this, entrance);
 
-        map[arenaStorage] = Terrain.STORAGE;
 
         boolean[] patch = Patch.generate(0.45f, 6);
         for (int i = 0; i < LENGTH; i++) {

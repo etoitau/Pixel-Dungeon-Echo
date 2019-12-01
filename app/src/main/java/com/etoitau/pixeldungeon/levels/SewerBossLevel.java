@@ -35,6 +35,9 @@ import com.watabau.utils.Bundle;
 import com.watabau.utils.Graph;
 import com.watabau.utils.Random;
 
+/**
+ * Depth 5 - Goo
+ */
 public class SewerBossLevel extends RegularLevel {
 
     {

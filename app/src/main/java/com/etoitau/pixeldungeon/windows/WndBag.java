@@ -59,7 +59,7 @@ import com.watabau.utils.GameMath;
 
 public class WndBag extends WndTabbed {
 
-    public static enum Mode {
+    public enum Mode {
         ALL,
         UNIDENTIFED,
         UPGRADEABLE,
