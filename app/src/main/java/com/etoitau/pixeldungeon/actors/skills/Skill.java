@@ -235,10 +235,6 @@ public class Skill {
         return false;
     }
 
-    // todo merc cleanup
-    public void mercSummon() {
-    }
-
     public boolean goToSleep() {
         return false;
     }

@@ -289,15 +289,6 @@ public class Dungeon {
             Actor.add(level.respawner());
         }
 
-        // todo merc to remove
-        if (hero.hiredMerc != null)
-            hero.checkMerc = true;
-        if (depth != ColdGirl.FROST_DEPTH && depth != 0) {
-            Actor mercRespawn = level.mercRespawner();
-            if (mercRespawn != null) {
-                Actor.add(mercRespawn);
-            }
-        }
         hero.pos = pos != -1 ? pos : level.exit;
 
         Light light = hero.buff(Light.class);

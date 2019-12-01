@@ -87,12 +87,6 @@ public class Belongings implements Iterable<Item> {
 
         bundle.put(WEAPON, weapon);
         bundle.put(ARMOR, armor);
-        // todo merc cleanup
-        if (owner.hiredMerc != null) {
-            bundle.put(MERC_WEAPON, Dungeon.hero.hiredMerc.weapon);
-            bundle.put(MERC_ARMOR, Dungeon.hero.hiredMerc.armor);
-            bundle.put(MERC_ITEM, Dungeon.hero.hiredMerc.carrying);
-        }
         bundle.put(RING1, ring1);
         bundle.put(RING2, ring2);
         bundle.put(BOW, bow);
@@ -116,14 +110,6 @@ public class Belongings implements Iterable<Item> {
         if (ring1 != null) {
             ring1.activate(owner);
         }
-
-
-        if (owner.hiredMerc != null) {
-            owner.hiredMerc.weapon = (KindOfWeapon) bundle.get(MERC_WEAPON);
-            owner.hiredMerc.armor = (Armor) bundle.get(MERC_ARMOR);
-            owner.hiredMerc.carrying = (Item) bundle.get(MERC_ITEM);
-        }
-
 
         ring2 = (Ring) bundle.get(RING2);
         if (ring2 != null) {

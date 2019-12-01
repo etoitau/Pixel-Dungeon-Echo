@@ -19,7 +19,6 @@ package com.etoitau.pixeldungeon.sprites;
 
 import com.watabau.noosa.TextureFilm;
 import com.etoitau.pixeldungeon.Assets;
-import com.etoitau.pixeldungeon.actors.mobs.npcs.HiredMerc;
 import com.etoitau.pixeldungeon.effects.ArcherMaidenHalo;
 import com.etoitau.pixeldungeon.items.weapon.missiles.Arrow;
 import com.etoitau.pixeldungeon.scenes.GameScene;

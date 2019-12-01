@@ -51,14 +51,12 @@ import com.etoitau.pixeldungeon.actors.mobs.Bestiary;
 import com.etoitau.pixeldungeon.actors.mobs.Mob;
 import com.etoitau.pixeldungeon.actors.mobs.Rat;
 import com.etoitau.pixeldungeon.actors.mobs.npcs.Blacksmith;
-import com.etoitau.pixeldungeon.actors.mobs.npcs.HiredMerc;
 import com.etoitau.pixeldungeon.actors.mobs.npcs.Imp;
 import com.etoitau.pixeldungeon.actors.mobs.npcs.NPC;
 import com.etoitau.pixeldungeon.actors.mobs.npcs.Shopkeeper;
 import com.etoitau.pixeldungeon.actors.mobs.npcs.SummonedPet;
 import com.etoitau.pixeldungeon.effects.CellEmitter;
 import com.etoitau.pixeldungeon.effects.particles.PoisonParticle;
-import com.etoitau.pixeldungeon.items.Item;
 import com.etoitau.pixeldungeon.items.weapon.melee.DualSwords;
 import com.etoitau.pixeldungeon.items.weapon.melee.NecroBlade;
 import com.etoitau.pixeldungeon.items.weapon.missiles.Arrow;
@@ -121,12 +119,6 @@ public abstract class Char extends Actor {
             "I'll be back..."
     };
 
-    // todo merc to remove
-    private String[] MERC_FAREWELL = {
-            "I didn't sign up for this...",
-            "I want a raise..."
-    };
-
     public int pos = 0;
 
     public CharSprite sprite;
@@ -157,8 +149,6 @@ public abstract class Char extends Actor {
             return RAT_DEATH_SCREAMS[Random.IntRange(0, RAT_DEATH_SCREAMS.length - 1)];
         if (this instanceof SummonedPet)
             return PET_FAREWELL[Random.IntRange(0, PET_FAREWELL.length - 1)];
-        if (this instanceof HiredMerc)
-            return MERC_FAREWELL[Random.IntRange(0, MERC_FAREWELL.length - 1)];
         return MOB_DEATH_SCREAMS[Random.IntRange(0, MOB_DEATH_SCREAMS.length - 1)];
     }
 

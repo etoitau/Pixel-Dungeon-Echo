@@ -22,7 +22,6 @@ import com.watabau.noosa.Game;
 import com.watabau.noosa.audio.Sample;
 import com.etoitau.pixeldungeon.Assets;
 import com.etoitau.pixeldungeon.Dungeon;
-import com.etoitau.pixeldungeon.ResultDescriptions;
 import com.etoitau.pixeldungeon.actors.Actor;
 import com.etoitau.pixeldungeon.actors.Char;
 import com.etoitau.pixeldungeon.actors.buffs.Amok;
@@ -33,7 +32,6 @@ import com.etoitau.pixeldungeon.actors.buffs.Poison;
 import com.etoitau.pixeldungeon.actors.buffs.Sleep;
 import com.etoitau.pixeldungeon.actors.buffs.Terror;
 import com.etoitau.pixeldungeon.actors.hero.Hero;
-import com.etoitau.pixeldungeon.actors.mobs.npcs.HiredMerc;
 import com.etoitau.pixeldungeon.effects.CellEmitter;
 import com.etoitau.pixeldungeon.effects.Pushing;
 import com.etoitau.pixeldungeon.effects.particles.ShadowParticle;
@@ -43,10 +41,8 @@ import com.etoitau.pixeldungeon.levels.Level;
 import com.etoitau.pixeldungeon.scenes.GameScene;
 import com.etoitau.pixeldungeon.scenes.InterlevelScene;
 import com.etoitau.pixeldungeon.sprites.CharSprite;
-import com.etoitau.pixeldungeon.sprites.CursePersonificationSprite;
 import com.etoitau.pixeldungeon.sprites.ColdGirlSprite;
 import com.etoitau.pixeldungeon.sprites.MissileSprite;
-import com.etoitau.pixeldungeon.sprites.RatSprite;
 import com.etoitau.pixeldungeon.utils.GLog;
 import com.etoitau.pixeldungeon.utils.Utils;
 import com.etoitau.pixeldungeon.windows.PersistentWndOptions;
@@ -256,7 +252,7 @@ public class ColdGirl extends Mob {
         if (((ColdGirlAI) state).aiStatus == PASSIVE)
             ((ColdGirlAI) state).aiStatus = HUNTING;
 
-        if (enemy instanceof Mob && !(enemy instanceof HiredMerc)) {
+        if (enemy instanceof Mob) {
 
             //if(firstTroll)
             speak("I have no time for fodder");
@@ -382,7 +378,7 @@ public class ColdGirl extends Mob {
             for (int i = 0; i < cells.length; i++) {
                 int cell = cells[i];
                 Char ch = Actor.findChar(cell);
-                if (ch != null && ch != this && ch != Dungeon.hero && !(ch instanceof HiredMerc) && ch.HP > 0) {
+                if (ch != null && ch != this && ch != Dungeon.hero && ch.HP > 0) {
                     trollMinion(ch);
                 }
             }
