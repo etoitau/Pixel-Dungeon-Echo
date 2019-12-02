@@ -25,7 +25,6 @@ import java.util.HashSet;
 
 import com.watabau.noosa.Scene;
 import com.watabau.noosa.audio.Sample;
-import com.watabau.noosa.tweeners.AlphaTweener;
 import com.etoitau.pixeldungeon.Assets;
 import com.etoitau.pixeldungeon.Challenges;
 import com.etoitau.pixeldungeon.Dungeon;
@@ -45,11 +44,8 @@ import com.etoitau.pixeldungeon.actors.hero.Hero;
 import com.etoitau.pixeldungeon.actors.hero.HeroClass;
 import com.etoitau.pixeldungeon.actors.mobs.Bestiary;
 import com.etoitau.pixeldungeon.actors.mobs.Mob;
-import com.etoitau.pixeldungeon.actors.mobs.npcs.HiredMerc;
-import com.etoitau.pixeldungeon.effects.Pushing;
 import com.etoitau.pixeldungeon.effects.particles.FlowParticle;
 import com.etoitau.pixeldungeon.effects.particles.WindParticle;
-import com.etoitau.pixeldungeon.items.Bomb;
 import com.etoitau.pixeldungeon.items.Generator;
 import com.etoitau.pixeldungeon.items.Gold;
 import com.etoitau.pixeldungeon.items.Heap;
@@ -74,7 +70,6 @@ import com.etoitau.pixeldungeon.levels.traps.*;
 import com.etoitau.pixeldungeon.mechanics.ShadowCaster;
 import com.etoitau.pixeldungeon.plants.Plant;
 import com.etoitau.pixeldungeon.scenes.GameScene;
-import com.etoitau.pixeldungeon.sprites.MercSprite;
 import com.etoitau.pixeldungeon.utils.GLog;
 import com.watabau.utils.Bundlable;
 import com.watabau.utils.Bundle;
@@ -407,73 +402,6 @@ public abstract class Level implements Bundlable {
                 return true;
             }
         };
-    }
-
-    // todo merc cleanup
-    public Actor mercRespawner() {
-        return new Actor() {
-            @Override
-            protected boolean act() {
-                if (Dungeon.hero.hiredMerc != null && Dungeon.hero.checkMerc == true) {
-
-                    HiredMerc mercCheck = checkMerc();
-                    if (mercCheck != null) {
-                        mercCheck.destroy();
-                        mercCheck.sprite.killAndErase();
-                    }
-
-
-                    for (int nu = 0; nu < 1; nu++) {
-                        int newPos = Dungeon.hero.pos;
-                        if (Actor.findChar(newPos) != null) {
-                            ArrayList<Integer> candidates = new ArrayList<Integer>();
-                            boolean[] passable = Level.passable;
-
-                            for (int n : Level.NEIGHBOURS4) {
-                                int c = Dungeon.hero.pos + n;
-                                if (c < 0 || c >= Level.passable.length)
-                                    continue;
-
-                                if (passable[c] && Actor.findChar(c) == null) {
-                                    candidates.add(c);
-                                }
-                            }
-                            newPos = candidates.size() > 0 ? Random.element(candidates) : -1;
-                            if (newPos != -1) {
-                                HiredMerc tmp = new HiredMerc(Dungeon.hero.hiredMerc.mercType);
-                                tmp.spawn(Dungeon.hero.lvl);
-                                tmp.pos = newPos;
-                                GameScene.add(tmp);
-                                Actor.addDelayed(new Pushing(tmp, Dungeon.hero.pos, newPos), -1);
-                                tmp.weapon = Dungeon.hero.hiredMerc.weapon;
-                                tmp.armor = Dungeon.hero.hiredMerc.armor;
-                                tmp.HP = Dungeon.hero.hiredMerc.HP;
-                                tmp.skill.level = Dungeon.hero.hiredMerc.skill.level;
-                                tmp.carrying = Dungeon.hero.hiredMerc.carrying;
-                                ((MercSprite) tmp.sprite).updateArmor();
-                                Dungeon.hero.hiredMerc = tmp;
-                                Dungeon.hero.checkMerc = false;
-                            }
-                        }
-                    }
-
-                }
-                spend(1);
-                return true;
-            }
-        };
-    }
-
-    // todo merc cleanup
-    private HiredMerc checkMerc() {
-
-        for (Mob mob : Dungeon.level.mobs) {
-            if (mob instanceof HiredMerc && mob.HP > 0) {
-                return (HiredMerc) mob;
-            }
-        }
-
-        return null;
     }
 
     public int randomRespawnCell() {

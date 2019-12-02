@@ -37,8 +37,6 @@ public enum CurrentSkills {
 
     public boolean skillUnlocked = false;
 
-    public static Negotiations mercMenu = new Negotiations();
-
     private String type = "";
 
     private CurrentSkills(String type) {

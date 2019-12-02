@@ -63,7 +63,6 @@ public enum Icons {
     ARCHER_MAIDEN_SKILL_B,
     ARCHER_MAIDEN_BOW,
     ARCHER_MAIDEN_POTION,
-    ALL_MERCS,
     RAT_KING,
     MOB,
     CHAMP_HALO,
@@ -196,9 +195,6 @@ public enum Icons {
                 break;
             case THIEF:
                 icon.frame(icon.texture.uvRect(43, 83, 54, 97));
-                break;
-            case ALL_MERCS:
-                icon.frame(icon.texture.uvRect(54, 83, 71, 97));
                 break;
             case RAT_KING:
                 icon.frame(icon.texture.uvRect(1, 102, 12, 117));

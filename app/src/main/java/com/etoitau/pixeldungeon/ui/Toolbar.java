@@ -34,7 +34,6 @@ import com.etoitau.pixeldungeon.DungeonTilemap;
 import com.etoitau.pixeldungeon.actors.Actor;
 import com.etoitau.pixeldungeon.actors.mobs.ColdGirl;
 import com.etoitau.pixeldungeon.actors.mobs.Mob;
-import com.etoitau.pixeldungeon.actors.skills.CurrentSkills;
 import com.etoitau.pixeldungeon.items.Heap;
 import com.etoitau.pixeldungeon.items.Item;
 import com.etoitau.pixeldungeon.levels.Level;
@@ -43,17 +42,13 @@ import com.etoitau.pixeldungeon.scenes.CellSelector;
 import com.etoitau.pixeldungeon.scenes.GameScene;
 import com.etoitau.pixeldungeon.sprites.ItemSprite;
 import com.etoitau.pixeldungeon.windows.WndCatalogus;
-//import com.etoitau.pixeldungeon.windows.WndDonations; todo remove this?
 import com.etoitau.pixeldungeon.windows.WndHero;
 import com.etoitau.pixeldungeon.windows.WndInfoCell;
 import com.etoitau.pixeldungeon.windows.WndInfoItem;
 import com.etoitau.pixeldungeon.windows.WndInfoMob;
 import com.etoitau.pixeldungeon.windows.WndInfoPlant;
 import com.etoitau.pixeldungeon.windows.WndBag;
-import com.etoitau.pixeldungeon.windows.WndMerc;
-import com.etoitau.pixeldungeon.windows.WndMercs;
 import com.etoitau.pixeldungeon.windows.WndMessage;
-import com.etoitau.pixeldungeon.windows.WndSkill;
 import com.etoitau.pixeldungeon.windows.WndSkills;
 import com.etoitau.pixeldungeon.windows.WndTradeItem;
 
@@ -61,7 +56,6 @@ public class Toolbar extends Component {
 
     private Tool btnWait;
     private Tool btnSkill;
-    private Tool btnMerc;
     private Tool btnLastUsed;
     private Tool btnInfoSearch;
     private Tool btnInventory;
@@ -128,29 +122,6 @@ public class Toolbar extends Component {
 
         });
 
-        // todo merc to remove
-        add(btnMerc = new Tool(252, 7, 20, 25) {
-            @Override
-            protected void onClick() {
-                if (Dungeon.hero.hiredMerc == null) {
-                    //GameScene.show(new WndSkill(null, CurrentSkills.mercMenu));
-                    GameScene.show(new WndMercs(WndMercs.Mode.ALL));
-                } else {
-                    GameScene.show(new WndMerc(null, null));
-                }
-
-            }
-
-            protected boolean onLongClick() {
-                if (Dungeon.hero.hiredMerc == null)
-                    GameScene.show(new WndSkill(null, CurrentSkills.mercMenu));
-                else
-                    GameScene.show(new WndMerc(null, null));
-                return true;
-            }
-
-        });
-
         add(btnInfoSearch = new Tool(107, 7, 20, 25) {
             @Override
             protected void onClick() {
@@ -207,7 +178,6 @@ public class Toolbar extends Component {
     @Override
     protected void layout() {
         btnInfoSearch.setPos(0, 40);
-        btnMerc.setPos(0, 70);
         btnWait.setPos(x, y);
         btnSkill.setPos(btnWait.right(), y);
         btnLastUsed.setPos(btnSkill.right(), y);
@@ -233,8 +203,6 @@ public class Toolbar extends Component {
 
                     if (tool == btnLastUsed)
                         tool.visible = Dungeon.hero.heroSkills.lastUsed != null;
-                    if (tool == btnMerc && Dungeon.depth == ColdGirl.FROST_DEPTH)
-                        ((Tool) tool).enable(false);
                 }
             }
         }

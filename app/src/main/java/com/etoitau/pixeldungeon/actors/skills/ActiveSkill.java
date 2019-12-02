@@ -13,7 +13,7 @@ public class ActiveSkill extends Skill {
     @Override
     public ArrayList<String> actions(Hero hero) {
         ArrayList<String> actions = new ArrayList<String>();
-        if (active == false && level > 0)
+        if (!active && level > 0)
             actions.add(AC_ACTIVATE);
         else if (level > 0)
             actions.add(AC_DEACTIVATE);
@@ -24,9 +24,9 @@ public class ActiveSkill extends Skill {
     @Override
     public void execute(Hero hero, String action) {
         Dungeon.hero.heroSkills.lastUsed = this;
-        if (action == Skill.AC_ACTIVATE) {
+        if (action.equals(Skill.AC_ACTIVATE)) {
             active = true;
-        } else if (action == Skill.AC_DEACTIVATE) {
+        } else if (action.equals(Skill.AC_DEACTIVATE)) {
             active = false;
         }
     }

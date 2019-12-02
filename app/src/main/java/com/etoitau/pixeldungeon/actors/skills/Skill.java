@@ -128,9 +128,9 @@ public class Skill {
         return "";
     }
 
+    // this returns empty list, but other classes (e.g. RoguePassiveA) extend and override and do something
     public ArrayList<String> actions(Hero hero) {
-        ArrayList<String> actions = new ArrayList<String>();
-        return actions;
+        return new ArrayList<>();
     }
 
     public void execute(Hero hero, String action) {
@@ -167,7 +167,7 @@ public class Skill {
     }
 
     public void castTextYell() {
-        if (castText != "")
+        if (!castText.equals(""))
             Dungeon.hero.sprite.showStatus(CharSprite.NEUTRAL, castText);
     }
 
@@ -219,8 +219,19 @@ public class Skill {
         return false;
     }
 
+    // todo does this skill work? passthrough
     public int passThroughTargets(boolean shout) {
         return 0;
+    }
+
+    // can hero apply AimedShot?
+    public boolean aimedShot() {
+        return false;
+    }
+
+    // damage modifier from AimedShot
+    public float rangedDamageModifier() {
+        return 1f;
     }
 
     public boolean doubleShot() {
@@ -231,12 +242,9 @@ public class Skill {
         return false;
     }
 
+    // aka Bombvoyage
     public boolean arrowToBomb() {
         return false;
-    }
-
-    // todo merc cleanup
-    public void mercSummon() {
     }
 
     public boolean goToSleep() {
@@ -244,7 +252,7 @@ public class Skill {
     }
 
     public void storeInBundle(Bundle bundle) {
-        bundle.put(SKILL_LEVEL + " " + tag, level); // e.g. Rampage could be key: "LEVEL A3" and value 2
+        bundle.put(SKILL_LEVEL + " " + tag, level); // e.g. Rampage could be key: "LEVEL A3" and value: 2
     }
 
     public void restoreInBundle(Bundle bundle) {

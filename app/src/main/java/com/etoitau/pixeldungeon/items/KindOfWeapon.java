@@ -21,7 +21,6 @@ import java.util.ArrayList;
 
 import com.etoitau.pixeldungeon.actors.Char;
 import com.etoitau.pixeldungeon.actors.hero.Hero;
-import com.etoitau.pixeldungeon.actors.mobs.npcs.HiredMerc;
 import com.etoitau.pixeldungeon.ui.QuickSlot;
 import com.etoitau.pixeldungeon.utils.GLog;
 import com.watabau.utils.Random;
@@ -94,10 +93,6 @@ abstract public class KindOfWeapon extends EquipableItem {
     abstract public int max();
 
     public int damageRoll(Hero owner) {
-        return Random.NormalIntRange(min(), max());
-    }
-
-    public int damageRoll(HiredMerc merc) {
         return Random.NormalIntRange(min(), max());
     }
 

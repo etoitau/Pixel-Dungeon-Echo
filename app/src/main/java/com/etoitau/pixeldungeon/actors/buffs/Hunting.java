@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -29,22 +34,20 @@ public class Hunting extends Buff {
     public boolean act() {
         if (target.isAlive()) {
 
-
             Hero hero = (Hero) target;
 
-
-            if (hero.heroSkills.passiveA2.hunting() < 1)// Huntress Hunting if present
+            if (hero.heroSkills.passiveA3.hunting() < 1)// hunting is not active
             {
                 spend(100);
                 return true;
             }
 
-
             GLog.p("Hunted... something...");
             MysteryMeat steak = new MysteryMeat();
-            Dungeon.level.drop(steak, hero.pos).sprite.drop();
+            if (!steak.collect())
+                Dungeon.level.drop(steak, hero.pos).sprite.drop();
 
-            spend(100 - 10 * hero.heroSkills.passiveA2.hunting());
+            spend(100 - 10 * hero.heroSkills.passiveA3.hunting());
 
         } else {
 

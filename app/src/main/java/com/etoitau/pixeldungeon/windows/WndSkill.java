@@ -17,15 +17,14 @@
  */
 package com.etoitau.pixeldungeon.windows;
 
-import com.watabau.noosa.BitmapTextMultiline;
 import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.actors.skills.BranchSkill;
-import com.etoitau.pixeldungeon.actors.skills.Negotiations;
-import com.etoitau.pixeldungeon.actors.skills.Skill;
 import com.etoitau.pixeldungeon.scenes.GameScene;
+import com.etoitau.pixeldungeon.ui.RedButton;
+import com.watabau.noosa.BitmapTextMultiline;
+import com.etoitau.pixeldungeon.actors.skills.Skill;
 import com.etoitau.pixeldungeon.scenes.PixelScene;
 import com.etoitau.pixeldungeon.sprites.SkillSprite;
-import com.etoitau.pixeldungeon.ui.RedButton;
 import com.etoitau.pixeldungeon.ui.Window;
 import com.etoitau.pixeldungeon.utils.Utils;
 
@@ -73,8 +72,6 @@ public class WndSkill extends Window {
                                 GameScene.show(new WndSkills(null, null));
                         }
                     }
-
-                    ;
                 };
                 btn.setSize(Math.max(BUTTON_WIDTH, btn.reqWidth()), BUTTON_HEIGHT);
                 if (x + btn.width() > WIDTH) {
@@ -82,12 +79,6 @@ public class WndSkill extends Window {
                     y += BUTTON_HEIGHT + GAP;
                 }
                 btn.setPos(x, y);
-
-
-                if (action == Negotiations.TXT_HIRE_ARCHER_MAIDEN) {
-                    btn.textColor(TITLE_COLOR);
-                }
-
 
                 add(btn);
 

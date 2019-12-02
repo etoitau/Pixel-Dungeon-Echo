@@ -68,7 +68,6 @@ import com.etoitau.pixeldungeon.actors.buffs.Weakness;
 import com.etoitau.pixeldungeon.actors.mobs.Bestiary;
 import com.etoitau.pixeldungeon.actors.mobs.ColdGirl;
 import com.etoitau.pixeldungeon.actors.mobs.Mob;
-import com.etoitau.pixeldungeon.actors.mobs.npcs.HiredMerc;
 import com.etoitau.pixeldungeon.actors.mobs.npcs.NPC;
 import com.etoitau.pixeldungeon.actors.skills.CurrentSkills;
 import com.etoitau.pixeldungeon.actors.skills.Skill;
@@ -161,9 +160,6 @@ public class Hero extends Char {
 
     public CurrentSkills heroSkills = CurrentSkills.MAGE;
 
-    // todo merc
-    public HiredMerc hiredMerc = null;
-
     protected int attackSkill = 10;
     protected int defenseSkill = 5;
 
@@ -193,8 +189,6 @@ public class Hero extends Char {
     public int exp = 0;
 
     public int difficulty = 0;
-
-    public boolean checkMerc = false;
 
 
     private ArrayList<Mob> visibleEnemies;
@@ -228,10 +222,6 @@ public class Hero extends Char {
 
     private static final String SKILLS_AVAILABLE = "availableskills";
 
-    // todo merc to remove
-    private static final String MERC_TYPE = "merctype";
-    private static final String MERC_HEALTH = "merchealth";
-    private static final String MERC_SKILL = "mercskill";
 
     @Override
     public void storeInBundle(Bundle bundle) {
@@ -256,13 +246,6 @@ public class Hero extends Char {
         bundle.put(EXPERIENCE, exp);
 
         bundle.put(DIFFICULTY, difficulty);
-
-        // todo merc to remove
-        if (hiredMerc != null) {
-            bundle.put(MERC_TYPE, hiredMerc.mercType);
-            bundle.put(MERC_HEALTH, hiredMerc.HP);
-            bundle.put(MERC_SKILL, hiredMerc.skill.level);
-        }
 
         belongings.storeInBundle(bundle);
 
@@ -289,21 +272,6 @@ public class Hero extends Char {
         Dungeon.difficulty = difficulty;
         Dungeon.currentDifficulty = Difficulties.values()[difficulty];
         Dungeon.currentDifficulty.reset();
-
-
-        // todo merc cleanup
-        String tmp = bundle.getString(MERC_TYPE);
-        if (tmp != null && tmp != "") {
-            try {
-                HiredMerc.MERC_TYPES tmpType = HiredMerc.MERC_TYPES.valueOf(tmp);
-                hiredMerc = new HiredMerc(tmpType);
-                checkMerc = true;
-                hiredMerc.spawn(lvl, bundle.getInt(MERC_HEALTH));
-                hiredMerc.skillLevel(bundle.getInt(MERC_SKILL));
-            } catch (Exception ex) {
-
-            }
-        }
 
 
         belongings.restoreFromBundle(bundle);
@@ -483,7 +451,6 @@ public class Hero extends Char {
 
         super.act();
 
-
         if (paralysed) {
 
             curAction = null;
@@ -496,7 +463,6 @@ public class Hero extends Char {
         AttackIndicator.updateState();
 
         if (curAction == null) {
-
             if (restoreHealth) {
                 if (isStarving() || HP >= HT) {
                     restoreHealth = false;
@@ -1268,11 +1234,6 @@ public class Hero extends Char {
             GLog.p(TXT_NEW_LEVEL, lvl);
             sprite.showStatus(CharSprite.POSITIVE, TXT_LEVEL_UP);
             Sample.INSTANCE.play(Assets.SND_LEVELUP);
-
-            // todo merc
-            if (hiredMerc != null) {
-                hiredMerc.level();
-            }
 
             Badges.validateLevelReached();
         }

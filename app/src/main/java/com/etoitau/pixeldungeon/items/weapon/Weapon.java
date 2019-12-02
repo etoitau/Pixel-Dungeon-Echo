@@ -22,7 +22,6 @@ import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.actors.Char;
 import com.etoitau.pixeldungeon.actors.hero.Hero;
 import com.etoitau.pixeldungeon.actors.hero.HeroClass;
-import com.etoitau.pixeldungeon.actors.mobs.npcs.HiredMerc;
 import com.etoitau.pixeldungeon.items.Item;
 import com.etoitau.pixeldungeon.items.KindOfWeapon;
 import com.etoitau.pixeldungeon.items.weapon.enchantments.*;
@@ -153,20 +152,6 @@ abstract public class Weapon extends KindOfWeapon {
                 damage += Random.IntRange(0, exStr);
             }
         }
-
-        return damage;
-    }
-
-    @Override
-    public int damageRoll(HiredMerc merc) {
-
-        int damage = super.damageRoll(merc);
-
-        int exStr = merc.mercType.getStrength(level) - STR();
-        if (exStr > 0) {
-            damage += Random.IntRange(0, exStr);
-        }
-
 
         return damage;
     }
