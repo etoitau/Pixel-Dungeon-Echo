@@ -451,7 +451,6 @@ public class Hero extends Char {
 
         super.act();
 
-
         if (paralysed) {
 
             curAction = null;
@@ -464,7 +463,6 @@ public class Hero extends Char {
         AttackIndicator.updateState();
 
         if (curAction == null) {
-
             if (restoreHealth) {
                 if (isStarving() || HP >= HT) {
                     restoreHealth = false;

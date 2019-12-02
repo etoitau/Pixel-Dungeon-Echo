@@ -17,6 +17,10 @@
  */
 package com.etoitau.pixeldungeon.windows;
 
+import com.etoitau.pixeldungeon.Dungeon;
+import com.etoitau.pixeldungeon.actors.skills.BranchSkill;
+import com.etoitau.pixeldungeon.scenes.GameScene;
+import com.etoitau.pixeldungeon.ui.RedButton;
 import com.watabau.noosa.BitmapTextMultiline;
 import com.etoitau.pixeldungeon.actors.skills.Skill;
 import com.etoitau.pixeldungeon.scenes.PixelScene;
@@ -54,42 +58,33 @@ public class WndSkill extends Window {
         float y = info.y + info.height() + GAP;
         float x = 0;
 
-        // todo remove if working w/o
-//        if (Dungeon.hero.isAlive()) {
-//            for (final String action : skill.actions(Dungeon.hero)) {
-//
-//                RedButton btn = new RedButton(action) {
-//                    @Override
-//                    protected void onClick() {
-//                        skill.execute(Dungeon.hero, action);
-//                        hide();
-//                        if (owner != null) {
-//                            owner.hide();
-//                            if (skill instanceof BranchSkill)
-//                                GameScene.show(new WndSkills(null, null));
-//                        }
-//                    }
-//
-//                    ;
-//                };
-//                btn.setSize(Math.max(BUTTON_WIDTH, btn.reqWidth()), BUTTON_HEIGHT);
-//                if (x + btn.width() > WIDTH) {
-//                    x = 0;
-//                    y += BUTTON_HEIGHT + GAP;
-//                }
-//                btn.setPos(x, y);
-//
-//
-//                if (action == Negotiations.TXT_HIRE_ARCHER_MAIDEN) {
-//                    btn.textColor(TITLE_COLOR);
-//                }
-//
-//
-//                add(btn);
-//
-//                x += btn.width() + GAP;
-//            }
-//        }
+        if (Dungeon.hero.isAlive()) {
+            for (final String action : skill.actions(Dungeon.hero)) {
+
+                RedButton btn = new RedButton(action) {
+                    @Override
+                    protected void onClick() {
+                        skill.execute(Dungeon.hero, action);
+                        hide();
+                        if (owner != null) {
+                            owner.hide();
+                            if (skill instanceof BranchSkill)
+                                GameScene.show(new WndSkills(null, null));
+                        }
+                    }
+                };
+                btn.setSize(Math.max(BUTTON_WIDTH, btn.reqWidth()), BUTTON_HEIGHT);
+                if (x + btn.width() > WIDTH) {
+                    x = 0;
+                    y += BUTTON_HEIGHT + GAP;
+                }
+                btn.setPos(x, y);
+
+                add(btn);
+
+                x += btn.width() + GAP;
+            }
+        }
 
         resize(WIDTH, (int) (y + (x > 0 ? BUTTON_HEIGHT : 0)));
     }

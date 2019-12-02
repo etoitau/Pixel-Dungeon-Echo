@@ -63,6 +63,7 @@ public class Arrow extends MissileWeapon {
         quantity = number;
     }
 
+
     @Override
     public void cast(final Hero user, int dst) {
 
@@ -75,10 +76,11 @@ public class Arrow extends MissileWeapon {
     @Override
     protected void onThrow(int cell) {
 
-
         if (Dungeon.hero.heroSkills.passiveB3.multiTargetActive == false || Dungeon.hero.heroSkills.active3.active == true) { //  bombvoyage
+            // if no iron tip ability or if bombvoyage active
             // Turn to bomb
             if (Dungeon.hero.heroSkills.active3.arrowToBomb() == true) {
+                // check mana, if sufficient, arrowToBomb spends mana and calls shout, and returns true, else false
                 if (Level.pit[cell]) {
                     super.onThrow(cell);
                 } else {

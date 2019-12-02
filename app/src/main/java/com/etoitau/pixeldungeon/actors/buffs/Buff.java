@@ -32,6 +32,8 @@ public class Buff extends Actor {
         }
 
         this.target = target;
+
+        // add to list of target's buffs, and add to static list of Actors in play
         target.add(this);
 
         return true;
@@ -68,8 +70,10 @@ public class Buff extends Actor {
     }
 
     public static <T extends Buff> T affect(Char target, Class<T> buffClass) {
+        // get any existing buffs matching the one being added
         T buff = target.buff(buffClass);
         if (buff != null) {
+            // if matching buff already in place, return it
             return buff;
         } else {
             return append(target, buffClass);

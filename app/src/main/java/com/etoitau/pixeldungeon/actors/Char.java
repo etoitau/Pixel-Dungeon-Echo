@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -214,16 +219,18 @@ public abstract class Char extends Actor {
             int dmg = damageRoll();
 
             if (enemy == Dungeon.hero) {
+                // if hero being attacked
                 dmg *= Dungeon.currentDifficulty.damageModifier();
                 dmg *= Dungeon.hero.heroSkills.passiveA3.incomingDamageModifier(); //  <--- Warrior Toughness if present
                 dmg -= Dungeon.hero.heroSkills.passiveA3.incomingDamageReduction(dmg); // <--- Mage SpiritArmor if present
-            } else {
-                if (this == Dungeon.hero && Dungeon.hero.rangedWeapon == null) {
+            } else if (this == Dungeon.hero) {
+                // hero is attacker
+                if (Dungeon.hero.rangedWeapon == null) {
+                    // if this is melee attack
                     dmg *= Dungeon.hero.heroSkills.passiveB2.damageModifier(); //  <--- Warrior Aggression if present
                     dmg *= Dungeon.hero.heroSkills.active1.damageModifier(); //  <--- Warrior Smash if present and active
                     dmg *= Dungeon.hero.heroSkills.active2.damageModifier(); //  <--- Warrior Knockback if present and active
                     dmg *= Dungeon.hero.heroSkills.active3.damageModifier(); //  <--- Warrior Rampage if present and active
-
 
                     if (!(Bestiary.isBoss(enemy)) && Dungeon.hero.heroSkills.active3.AoEDamage()) //  <--- Warrior Rampage if present and active
                     {
@@ -236,9 +243,17 @@ public abstract class Char extends Actor {
                         Dungeon.hero.heroSkills.active3.active = true; // Should be safe now
                     }
 
-                    if (!Bestiary.isBoss(enemy) && enemy instanceof Mob && ((Mob) enemy).state instanceof Mob.Sleeping && Dungeon.hero.heroSkills.passiveB3.instantKill())
+                    if (!Bestiary.isBoss(enemy) &&
+                            enemy instanceof Mob &&
+                            ((Mob) enemy).state instanceof Mob.Sleeping &&
+                            Dungeon.hero.heroSkills.passiveB3.instantKill())
                         dmg = ((Mob) enemy).HP + dr;
+                } else {
+                    // if ranged attack
+                    // Huntress AimedShot if present
+                    dmg *= Dungeon.hero.heroSkills.active1.rangedDamageModifier();
                 }
+
                 if (this == Dungeon.hero) {
                     if (Dungeon.hero.heroSkills.passiveB1.venomousAttack()) // <--- Rogue Venom when present
                         Buff.affect(enemy, Poison.class).set(Poison.durationFactor(enemy));
@@ -339,13 +354,20 @@ public abstract class Char extends Actor {
         }
     }
 
+    // did the attack land?
     public static boolean hit(Char attacker, Char defender, boolean magic) {
+        // Huntress Awareness against ranged attack
+        if (defender instanceof Hero && Level.distance(attacker.pos, defender.pos) > 1 && ((Hero) defender).heroSkills.passiveA3.dodgeChance())
+            return false;
+
+        // Huntress AimedShot
+        if (attacker instanceof Hero && Level.distance(attacker.pos, defender.pos) > 1 && ((Hero) attacker).heroSkills.active1.aimedShot())
+            return true;
+
         float acuRoll = Random.Float(attacker.attackSkill(defender));
         float defRoll = Random.Float(defender.defenseSkill(attacker));
 
-        if (defender instanceof Hero && Level.distance(attacker.pos, defender.pos) > 1 && ((Hero) defender).heroSkills.passiveA3.dodgeChance()) // <--- Huntress Awareness if present
-            return false;
-
+        // magic attack is more likely to land
         return (magic ? acuRoll * 2 : acuRoll) >= defRoll;
     }
 
