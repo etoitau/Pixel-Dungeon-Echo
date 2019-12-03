@@ -24,6 +24,7 @@ package com.etoitau.pixeldungeon.windows;
 
 import android.graphics.RectF;
 
+import com.etoitau.pixeldungeon.items.bags.PotionBelt;
 import com.watabau.gltextures.TextureCache;
 import com.watabau.noosa.BitmapText;
 import com.watabau.noosa.ColorBlock;
@@ -81,7 +82,7 @@ public class WndBag extends WndTabbed {
     protected static final int SLOT_SIZE = 28;
     protected static final int SLOT_MARGIN = 1;
 
-    protected static final int TAB_WIDTH = 30; // 30 if four tabs, 24 if five
+    protected static final int TAB_WIDTH = 24; // 30 if four tabs, 24 if five
 
     protected static final int TITLE_HEIGHT = 12;
 
@@ -132,6 +133,7 @@ public class WndBag extends WndTabbed {
         Belongings stuff = Dungeon.hero.belongings;
         Bag[] bags = {
                 stuff.backpack,
+                stuff.getItem(PotionBelt.class),
                 stuff.getItem(SeedPouch.class),
                 stuff.getItem(ScrollHolder.class),
                 stuff.getItem(WandHolster.class)};
@@ -287,6 +289,8 @@ public class WndBag extends WndTabbed {
                 return Icons.get(Icons.SCROLL_HOLDER);
             } else if (bag instanceof WandHolster) {
                 return Icons.get(Icons.WAND_HOLSTER);
+            } else if (bag instanceof PotionBelt) {
+                return Icons.get(Icons.POTIONS_BELT);
             } else {
                 return Icons.get(Icons.BACKPACK);
             }

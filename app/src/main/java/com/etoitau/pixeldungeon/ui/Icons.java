@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -41,6 +46,7 @@ public enum Icons {
     SUPPORT,
     SUPPORTED,
     BACKPACK,
+    POTIONS_BELT,
     SEED_POUCH,
     SCROLL_HOLDER,
     WAND_HOLSTER,
@@ -138,6 +144,9 @@ public enum Icons {
                 break;
             case WAND_HOLSTER:
                 icon.frame(icon.texture.uvRect(88, 0, 98, 10));
+                break;
+            case POTIONS_BELT:
+                icon.frame(icon.texture.uvRect(107, 66, 117, 76));
                 break;
             case KEYRING:
                 icon.frame(icon.texture.uvRect(64, 29, 74, 39));
