@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -63,15 +68,16 @@ public class Arrow extends MissileWeapon {
         quantity = number;
     }
 
-
-    @Override
-    public void cast(final Hero user, int dst) {
-
-        if (Dungeon.hero.heroSkills.passiveB3.passThroughTargets(false) > 0) {
-            castSPD(user, dst, Dungeon.hero.heroSkills.passiveB3.passThroughTargets(true));
-        } else
-            super.cast(user, dst);
-    }
+    // todo remove after test ironpoint
+//    @Override
+//    public void cast(final Hero user, int dst) {
+//
+//        if (Dungeon.hero.heroSkills.passiveB3.passThroughTargets(false) > 0) {
+//            // if they have levels in IronTip, then try to use it
+//            castSPD(user, dst, Dungeon.hero.heroSkills.passiveB3.passThroughTargets(true));
+//        } else
+//            super.cast(user, dst);
+//    }
 
     @Override
     protected void onThrow(int cell) {
@@ -127,6 +133,7 @@ public class Arrow extends MissileWeapon {
             return;
         }
 
+        // if iron tip and not bombvoyage:
         Ballistica.distance = Math.min(Ballistica.distance, Level.distance(Dungeon.hero.pos, cell));
 
         ArrayList<Char> chars = new ArrayList<Char>();
@@ -144,13 +151,12 @@ public class Arrow extends MissileWeapon {
         GLog.i(chars.size() + " targets");
         boolean hitOne = false;
         for (Char ch : chars) {
-            if (!curUser.shootThrough(ch, this)) {
-
-            } else
+            if (curUser.shootThrough(ch, this)) {
                 hitOne = true;
+            }
         }
 
-        if (hitOne == false)
+        if (!hitOne)
             miss(cell);
 
         Dungeon.hero.rangedWeapon = null;

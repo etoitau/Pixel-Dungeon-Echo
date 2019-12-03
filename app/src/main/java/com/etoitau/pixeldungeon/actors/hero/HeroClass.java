@@ -138,7 +138,6 @@ public enum HeroClass {
     private static void initCommon(Hero hero) {
         (hero.belongings.armor = new ClothArmor()).identify();
         new Food().identify().collect();
-        //new Keyring().collect();
 
         Dungeon.hero.HP -= Dungeon.currentDifficulty.difficultyHPStartPenalty();
         Dungeon.hero.HT -= Dungeon.currentDifficulty.difficultyHPStartPenalty();
@@ -160,13 +159,9 @@ public enum HeroClass {
 
 
         new ScrollOfHome().collect();
-        // new ScrollOfSacrifice().collect();
-        // new ScrollOfBloodyRitual().collect();
         new ScrollOfSkill().collect();
-        // new ScrollOfMagicMapping().identify().collect();
         // new ScrollOfFrostLevel().collect();
 
-        // new Ankh().collect();
         new PotionOfHealing().setKnown();
         new PotionOfMana().setKnown();
 
@@ -174,13 +169,8 @@ public enum HeroClass {
         new PotionOfMana().collect();
         new PotionOfMana().collect();
 
-        // new ScrollOfEnchantment().identify().collect();
-
         new SoulCrystal(3).collect();
         new SoulCrystalFilled(EyeSprite.class, 50, 20, "Captured Evil Eye").collect();
-        // new PotionOfMindVision().collect();
-        //new ArmorKit().collect();
-        // new ScrollHolder().collect();
     }
 
     public Badges.Badge masteryBadge() {

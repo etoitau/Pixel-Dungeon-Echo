@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -28,6 +33,11 @@ public class Ballistica {
     public static int distance;
 
     public static int cast(int from, int to, boolean magic, boolean hitChars) {
+        return cast(from, to, magic, hitChars, 0);
+    }
+
+    public static int cast(int from, int to, boolean magic, boolean hitChars, int skip) {
+        boolean passThrough = skip > 0;
 
         int w = Level.WIDTH;
 
@@ -72,7 +82,13 @@ public class Ballistica {
         int cell = from;
 
         int err = dA / 2;
-        while (cell != to || magic) {
+
+        int lastHit = to;
+        boolean pastTo = false;
+        while (cell != to || magic || passThrough) {
+            if (cell == to) {
+                pastTo = true;
+            }
 
             cell += stepA;
 
@@ -85,161 +101,130 @@ public class Ballistica {
             trace[distance++] = cell;
 
             if (!Level.passable[cell] && !Level.avoid[cell]) {
-                return trace[--distance - 1];
-            }
-
-            if (Level.losBlocking[cell] || (hitChars && Actor.findChar(cell) != null)) {
-                return cell;
-            }
-        }
-
-        trace[distance++] = cell;
-
-        return to;
-    }
-
-    public static int castMaiden(int from, int to) {
-
-        int w = Level.WIDTH;
-
-        int x0 = from % w;
-        int x1 = to % w;
-        int y0 = from / w;
-        int y1 = to / w;
-
-        int dx = x1 - x0;
-        int dy = y1 - y0;
-
-        int stepX = dx > 0 ? +1 : -1;
-        int stepY = dy > 0 ? +1 : -1;
-
-        dx = Math.abs(dx);
-        dy = Math.abs(dy);
-
-        int stepA;
-        int stepB;
-        int dA;
-        int dB;
-
-        if (dx > dy) {
-
-            stepA = stepX;
-            stepB = stepY * w;
-            dA = dx;
-            dB = dy;
-
-        } else {
-
-            stepA = stepY * w;
-            stepB = stepX;
-            dA = dy;
-            dB = dx;
-
-        }
-
-        distance = 1;
-        trace[0] = from;
-
-        int cell = from;
-
-        int err = dA / 2;
-        while (cell != to) {
-
-            cell += stepA;
-
-            err += dB;
-            if (err >= dA) {
-                err = err - dA;
-                cell = cell + stepB;
-            }
-
-            trace[distance++] = cell;
-
-            if (!Level.passable[cell] && !Level.avoid[cell]) {
-                return trace[--distance - 1];
-            }
-
-            if (Level.losBlocking[cell] || (Actor.findChar(cell) != null && !(Actor.findChar(cell) instanceof Hero) && !(Actor.findChar(cell) instanceof SummonedPet))) {
-                return cell;
-            }
-        }
-
-        trace[distance++] = cell;
-
-        return to;
-    }
-
-
-    public static int cast(int from, int to, int skipChars) {
-
-        int w = Level.WIDTH;
-
-        int x0 = from % w;
-        int x1 = to % w;
-        int y0 = from / w;
-        int y1 = to / w;
-
-        int dx = x1 - x0;
-        int dy = y1 - y0;
-
-        int stepX = dx > 0 ? +1 : -1;
-        int stepY = dy > 0 ? +1 : -1;
-
-        dx = Math.abs(dx);
-        dy = Math.abs(dy);
-
-        int stepA;
-        int stepB;
-        int dA;
-        int dB;
-
-        if (dx > dy) {
-
-            stepA = stepX;
-            stepB = stepY * w;
-            dA = dx;
-            dB = dy;
-
-        } else {
-
-            stepA = stepY * w;
-            stepB = stepX;
-            dA = dy;
-            dB = dx;
-
-        }
-
-        distance = 1;
-        trace[0] = from;
-
-        int cell = from;
-
-        int err = dA / 2;
-        while (cell != to && skipChars > 0) {
-
-            skipChars--;
-            cell += stepA;
-
-            err += dB;
-            if (err >= dA) {
-                err = err - dA;
-                cell = cell + stepB;
-            }
-
-            trace[distance++] = cell;
-
-            if (!Level.passable[cell]) {
-                return trace[--distance - 1];
+                // if hit something
+                if (magic || !pastTo) {
+                    // if magic, or not magic and not past 'to' return just short of this
+                    return trace[--distance - 1];
+                } else {
+                    // if not magic, and pastTo, then must have been probing for more mobs
+                    // report spot aimed  or last mob hit as endpoint
+                    rewindTrace(lastHit);
+                    return lastHit;
+                }
             }
 
             if (Level.losBlocking[cell]) {
-                return cell;
+                // if hit something
+                if (magic || !pastTo) {
+                    // if magic, or not magic and not past 'to' return this
+                    return cell;
+                } else {
+                    // if not magic, and pastTo, then must have been probing for more mobs
+                    // report spot aimed as endpoint
+                    rewindTrace(to);
+                    return to;
+                }
             }
 
+            if (hitChars && Actor.findChar(cell) != null) {
+                // if found someone to hit
+                lastHit = cell;
+                if (skip == 0) {
+                    // if not skipping anyone, done
+                    return cell;
+                } else {
+                    // if still some to skip, decrement,
+                    // note the cell hit to return later if no more are found
+                    skip--;
+                }
+            }
         }
 
         trace[distance++] = cell;
 
-        return to;
+        rewindTrace(lastHit);
+
+        return lastHit;
     }
+
+    private static void rewindTrace(int toHere) {
+        while (distance > 0 && trace[distance - 1] != toHere) {
+            distance--;
+        }
+    }
+
+
+    // todo cleanup after testing ironpoint
+//    public static int cast(int from, int to, int skipChars) {
+//
+//        int w = Level.WIDTH;
+//
+//        int x0 = from % w;
+//        int x1 = to % w;
+//        int y0 = from / w;
+//        int y1 = to / w;
+//
+//        int dx = x1 - x0;
+//        int dy = y1 - y0;
+//
+//        int stepX = dx > 0 ? +1 : -1;
+//        int stepY = dy > 0 ? +1 : -1;
+//
+//        dx = Math.abs(dx);
+//        dy = Math.abs(dy);
+//
+//        int stepA;
+//        int stepB;
+//        int dA;
+//        int dB;
+//
+//        if (dx > dy) {
+//
+//            stepA = stepX;
+//            stepB = stepY * w;
+//            dA = dx;
+//            dB = dy;
+//
+//        } else {
+//
+//            stepA = stepY * w;
+//            stepB = stepX;
+//            dA = dy;
+//            dB = dx;
+//
+//        }
+//
+//        distance = 1;
+//        trace[0] = from;
+//
+//        int cell = from;
+//
+//        int err = dA / 2;
+//        while (cell != to && skipChars > 0) {
+//
+//            skipChars--;
+//            cell += stepA;
+//
+//            err += dB;
+//            if (err >= dA) {
+//                err = err - dA;
+//                cell = cell + stepB;
+//            }
+//
+//            trace[distance++] = cell;
+//
+//            if (!Level.passable[cell]) {
+//                return trace[--distance - 1];
+//            }
+//
+//            if (Level.losBlocking[cell]) {
+//                return cell;
+//            }
+//
+//        }
+//
+//        trace[distance++] = cell;
+//
+//        return to;
+//    }
 }

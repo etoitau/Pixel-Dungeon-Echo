@@ -23,8 +23,14 @@
 package com.etoitau.pixeldungeon;
 
 
+import com.etoitau.pixeldungeon.items.armor.PlateArmor;
 import com.etoitau.pixeldungeon.items.food.Food;
+import com.etoitau.pixeldungeon.items.potions.PotionOfExperience;
 import com.etoitau.pixeldungeon.items.potions.PotionOfHealing;
+import com.etoitau.pixeldungeon.items.potions.PotionOfStrength;
+import com.etoitau.pixeldungeon.items.scrolls.ScrollOfMagicMapping;
+import com.etoitau.pixeldungeon.items.scrolls.ScrollOfSkill;
+import com.etoitau.pixeldungeon.items.weapon.melee.WarHammer;
 import com.etoitau.pixeldungeon.items.weapon.missiles.SoulCrystal;
 
 import java.util.ArrayList;
@@ -445,6 +451,15 @@ public enum Difficulties {
                 new SoulCrystal().identify().collect();
                 new SoulCrystal().identify().collect();
                 Dungeon.gold = 200;
+            case NORMAL:
+                // todo remove for production. this is to help with debugging
+                for (int i = 0; i < 25; i++) {
+                    new PotionOfExperience().identify().collect();
+                    new PotionOfStrength().identify().collect();
+                    new ScrollOfMagicMapping().identify().collect();
+                }
+                new PlateArmor().identify().collect();
+                new WarHammer().identify().collect();
         }
     }
 
