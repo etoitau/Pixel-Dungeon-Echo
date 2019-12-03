@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -23,11 +28,14 @@ import com.etoitau.pixeldungeon.actors.hero.Hero;
 import com.etoitau.pixeldungeon.items.Item;
 import com.etoitau.pixeldungeon.items.food.FrozenCarpaccio;
 import com.etoitau.pixeldungeon.items.food.MysteryMeat;
+import com.etoitau.pixeldungeon.items.potions.Potion;
 import com.etoitau.pixeldungeon.items.rings.RingOfElements.Resistance;
 import com.etoitau.pixeldungeon.ui.BuffIndicator;
+import com.etoitau.pixeldungeon.utils.GLog;
 
 public class Frost extends FlavourBuff {
 
+    private static final String TXT_SHATTERS = "The cold causes %s to shatter!";
     private static final float DURATION = 5f;
 
     @Override
@@ -47,6 +55,10 @@ public class Frost extends FlavourBuff {
                     if (!carpaccio.collect(hero.belongings.backpack)) {
                         Dungeon.level.drop(carpaccio, target.pos).sprite.drop();
                     }
+                } else if (item instanceof Potion) {
+                    item = item.detach( hero.belongings.backpack );
+                    GLog.w( TXT_SHATTERS, item.toString() );
+                    ((Potion) item).shatter( target.pos );
                 }
             }
 

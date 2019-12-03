@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -31,6 +36,7 @@ import com.etoitau.pixeldungeon.items.Torch;
 import com.etoitau.pixeldungeon.items.Weightstone;
 import com.etoitau.pixeldungeon.items.armor.*;
 import com.etoitau.pixeldungeon.items.bags.Bag;
+import com.etoitau.pixeldungeon.items.bags.PotionBelt;
 import com.etoitau.pixeldungeon.items.bags.ScrollHolder;
 import com.etoitau.pixeldungeon.items.bags.SeedPouch;
 import com.etoitau.pixeldungeon.items.bags.WandHolster;
@@ -107,7 +113,7 @@ public class ShopPainter extends Painter {
             case 1:
                 items.add((new DualSwords()).identify());
                 items.add(new NecroBlade().identify());
-
+                items.add(new PotionBelt());
                 break;
             case 6:
                 items.add((Random.Int(2) == 0 ? new Quarterstaff() : new Spear()).identify());

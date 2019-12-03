@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -218,6 +223,7 @@ public class ItemSpriteSheet {
 
     public static final int POTION_EMPTY = SPD_OFFSET + 32;
     public static final int POTION_PLACEHOLDER = SPD_OFFSET + 33;
+    public static final int BELT = SPD_OFFSET + 34;
 
     public static final int CRYSTAL_EMPTY = SPD_OFFSET + 40;
     public static final int CRYSTAL_FULL = SPD_OFFSET + 41;
