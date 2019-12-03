@@ -122,8 +122,9 @@ public class ScrollOfWipeOut extends Scroll {
     @Override
     public String desc() {
         return
-                "Read this scroll to unleash the wrath of the dungeon spirits, killing everything on the current level. " +
-                        "Well, almost everything. Some of the more powerful creatures may be not affected.";
+                "Read this scroll to unleash the wrath of the dungeon spirits, killing everything " +
+                        "on the current level. Well, almost everything. Some of the more powerful " +
+                        "creatures may be not affected.";
     }
 
     @Override

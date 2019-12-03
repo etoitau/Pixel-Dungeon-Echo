@@ -56,7 +56,7 @@ import com.watabau.utils.Callback;
 
 public class Badges {
 
-    public static enum Badge {
+    public enum Badge {
         MONSTERS_SLAIN_1("10 enemies slain", 0),
         MONSTERS_SLAIN_2("50 enemies slain", 1),
         MONSTERS_SLAIN_3("150 enemies slain", 2),
@@ -156,17 +156,17 @@ public class Badges {
         public String description;
         public int image;
 
-        private Badge(String description, int image) {
+        Badge(String description, int image) {
             this(description, image, false);
         }
 
-        private Badge(String description, int image, boolean meta) {
+        Badge(String description, int image, boolean meta) {
             this.description = description;
             this.image = image;
             this.meta = meta;
         }
 
-        private Badge() {
+        Badge() {
             this("", -1);
         }
     }

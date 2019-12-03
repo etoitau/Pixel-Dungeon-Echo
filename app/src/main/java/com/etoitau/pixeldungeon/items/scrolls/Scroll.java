@@ -55,7 +55,7 @@ public abstract class Scroll extends Item {
             ScrollOfSacrifice.class,
             ScrollOfBloodyRitual.class,
             ScrollOfSkill.class,
-            ScrollOfFrostLevel.class,
+            //ScrollOfFrostLevel.class,
             ScrollOfWipeOut.class
 
     };

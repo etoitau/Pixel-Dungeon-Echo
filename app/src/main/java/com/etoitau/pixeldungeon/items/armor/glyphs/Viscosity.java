@@ -118,7 +118,7 @@ public class Viscosity extends Glyph {
 
         @Override
         public String toString() {
-            return Utils.format("Defered damage (%d)", damage);
+            return Utils.format("Deferred damage (%d)", damage);
         }
 
         @Override

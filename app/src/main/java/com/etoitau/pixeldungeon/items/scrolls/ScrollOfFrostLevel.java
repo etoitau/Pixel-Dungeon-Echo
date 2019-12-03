@@ -54,7 +54,8 @@ public class ScrollOfFrostLevel extends Scroll {
     @Override
     public String desc() {
         return
-                "The scroll seems colder than the surroundings. As if it were a portal to a colder dimension.";
+                "The scroll seems colder than the surroundings. As if it were a portal " +
+                        "to a colder dimension.";
     }
 
     @Override
