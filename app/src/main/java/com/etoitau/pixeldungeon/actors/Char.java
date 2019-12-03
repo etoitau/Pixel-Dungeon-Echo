@@ -409,21 +409,6 @@ public abstract class Char extends Actor {
             return;
         }
 
-        // todo old SPD cleanup?
-        /*
-        if(src instanceof Hero) {
-            Hero heroSrc = (Hero) src;
-            if (heroSrc.rangedWeapon instanceof Arrow && heroSrc.belongings.bow instanceof Bow) {
-
-            }
-            else
-                Buff.detach( this, Frost.class );
-        }
-        else
-		    Buff.detach( this, Frost.class );
-
-        */
-
         Class<?> srcClass = src.getClass();
         if (immunities().contains(srcClass)) {
             dmg = 0;
