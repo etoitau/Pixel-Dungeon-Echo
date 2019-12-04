@@ -451,15 +451,23 @@ public enum Difficulties {
                 new SoulCrystal().identify().collect();
                 new SoulCrystal().identify().collect();
                 Dungeon.gold = 200;
+                break;
             case NORMAL:
                 // todo remove for production. this is to help with debugging
-                for (int i = 0; i < 25; i++) {
-                    new PotionOfExperience().identify().collect();
-                    new PotionOfStrength().identify().collect();
-                    new ScrollOfMagicMapping().identify().collect();
+                if (BuildConfig.DEBUG) {
+                    for (int i = 0; i < 25; i++) {
+                        new PotionOfExperience().identify().collect();
+                        new PotionOfStrength().identify().collect();
+                        new ScrollOfMagicMapping().identify().collect();
+                    }
+                    new PlateArmor().identify().collect();
+                    new WarHammer().identify().collect();
+                    for (int i = 0; i < 5; i++) {
+                        new PotionOfHealing().identify().collect();
+                    }
                 }
-                new PlateArmor().identify().collect();
-                new WarHammer().identify().collect();
+                break;
+
         }
     }
 

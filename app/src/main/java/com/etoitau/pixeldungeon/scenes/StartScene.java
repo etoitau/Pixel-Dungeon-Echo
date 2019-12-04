@@ -228,6 +228,7 @@ public class StartScene extends PixelScene {
             }
         }
         huntressUnlocked = true; // Just let it go... let it go... bla bla bla
+
         ExitButton btnExit = new ExitButton();
         btnExit.setPos(Camera.main.width - btnExit.width(), 0);
         add(btnExit);
@@ -303,8 +304,8 @@ public class StartScene extends PixelScene {
         }
         shields.get(curClass = cl).highlight(true);
 
-        if (cl != HeroClass.HUNTRESS || huntressUnlocked) {
-
+        if (cl != HeroClass.HUNTRESS || huntressUnlocked) { // always true
+            // todo unlock cleanup
             unlock.visible = false;
 
             GamesInProgress.Info info = GamesInProgress.check(curClass);

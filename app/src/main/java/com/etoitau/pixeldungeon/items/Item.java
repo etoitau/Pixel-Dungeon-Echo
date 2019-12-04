@@ -640,53 +640,6 @@ public class Item implements Bundlable {
     }
 
 
-    // todo cleanup after testing ironpoint
-//    public void castSPD(final Hero user, int dst, int skip) {
-//
-//        final int cell = Ballistica.cast(user.pos, dst, skip);
-//        user.sprite.zap(cell);
-//        user.busy();
-//
-//        Sample.INSTANCE.play(Assets.SND_MISS, 0.6f, 0.6f, 1.5f);
-//
-//        Char enemy = Actor.findChar(cell);
-//        // set autotarget for next shot
-//        QuickSlot.target(this, enemy);
-//
-//        // FIXME!!!
-//        float delay = TIME_TO_THROW;
-//        if (this instanceof MissileWeapon) {
-//            delay *= ((MissileWeapon) this).speedFactor(user);
-//            if (enemy != null) {
-//                SnipersMark mark = user.buff(SnipersMark.class);
-//                if (mark != null) {
-//                    if (mark.object == enemy.id()) {
-//                        delay *= 0.5f;
-//                    }
-//                    user.remove(mark);
-//                }
-//            }
-//        }
-//        final float finalDelay = delay;
-//
-//        final int dstFinal = dst;
-//        ((MissileSprite) user.sprite.parent.recycle(MissileSprite.class)).
-//                reset(user.pos, cell, this, new Callback() {
-//                    @Override
-//                    public void call() {
-//                        Item.this.detach(user.belongings.backpack).onThrow(cell);
-//                        if (curUser instanceof Hero && curItem instanceof Arrow && Dungeon.hero.heroSkills.active2.doubleShot()) // <--- Huntress double shot
-//                        {
-//                            if (Dungeon.hero.heroSkills.passiveB3.passThroughTargets(false) > 0) {
-//                                curItem.castSPD(curUser, dstFinal, Dungeon.hero.heroSkills.passiveB3.passThroughTargets(true)); // this is for doubleshot, why calling irontip
-//                            } else
-//                                curItem.cast(curUser, dstFinal);
-//                        } else
-//                            user.spendAndNext(finalDelay);
-//                    }
-//                });
-//    }
-
     protected static Hero curUser = null;
     protected static Item curItem = null;
     protected static CellSelector.Listener thrower = new CellSelector.Listener() {

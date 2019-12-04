@@ -28,7 +28,7 @@ public class BannerSprites {
         GAME_OVER,
         SELECT_YOUR_HERO,
         PIXEL_DUNGEON_SIGNS,
-        SKILLFUL_SIGNS
+        ECHO_SIGNS
     }
 
     ;
@@ -51,7 +51,7 @@ public class BannerSprites {
             case PIXEL_DUNGEON_SIGNS:
                 icon.frame(icon.texture.uvRect(0, 161, 128, 218));
                 break;
-            case SKILLFUL_SIGNS:
+            case ECHO_SIGNS:
                 icon.frame(icon.texture.uvRect(0, 223, 120, 248));
                 break;
         }

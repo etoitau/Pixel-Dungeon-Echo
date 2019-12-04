@@ -61,6 +61,7 @@ public class TitleScene extends PixelScene {
         archs.setSize(w, h);
         add(archs);
 
+        // main title "Pixel Dungeon"
         Image title = BannerSprites.get(BannerSprites.Type.PIXEL_DUNGEON);
         add(title);
 
@@ -73,6 +74,7 @@ public class TitleScene extends PixelScene {
         placeTorch(title.x + 18, title.y + 20);
         placeTorch(title.x + title.width - 18, title.y + 20);
 
+        // title highlights that fade in and out
         Image signs = new Image(BannerSprites.get(BannerSprites.Type.PIXEL_DUNGEON_SIGNS)) {
             private float time = 0;
 
@@ -93,6 +95,28 @@ public class TitleScene extends PixelScene {
         signs.y = title.y;
         add(signs);
 
+        // Echo title that fade in and out
+        Image echo = new Image(BannerSprites.get(BannerSprites.Type.ECHO_SIGNS)) {
+            private float time = 0;
+
+            @Override
+            public void update() {
+                super.update();
+                am = (float) Math.sin(+(time += Game.elapsed));
+            }
+
+            @Override
+            public void draw() {
+                //GLES20.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
+                super.draw();
+                //GLES20.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+            }
+        };
+        echo.x = title.x;
+        echo.y = title.y + title.height / 2 - echo.height / 2;
+        add(echo);
+
+        // buttons
         DashboardItem btnBadges = new DashboardItem(TXT_BADGES, 3) {
             @Override
             protected void onClick() {
