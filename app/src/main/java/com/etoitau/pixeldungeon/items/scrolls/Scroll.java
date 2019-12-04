@@ -55,12 +55,13 @@ public abstract class Scroll extends Item {
             ScrollOfSacrifice.class,
             ScrollOfBloodyRitual.class,
             ScrollOfSkill.class,
-            //ScrollOfFrostLevel.class,
+            ScrollOfFrostLevel.class,
             ScrollOfWipeOut.class
 
     };
     private static final String[] runes =
-            {"KAUNAN", "SOWILO", "LAGUZ", "YNGVI", "GYFU", "RAIDO", "ISAZ", "MANNAZ", "NAUDIZ", "BERKANAN", "ODAL", "TIWAZ", "", "", "", "", "", ""};
+            {"KAUNAN", "SOWILO", "LAGUZ", "YNGVI", "GYFU", "RAIDO", "ISAZ", "MANNAZ",
+                    "NAUDIZ", "BERKANAN", "ODAL", "TIWAZ", "", "", "", "", "", ""};// 12 labels + 6
     private static final Integer[] images = {
             ItemSpriteSheet.SCROLL_KAUNAN,
             ItemSpriteSheet.SCROLL_SOWILO,
@@ -73,13 +74,13 @@ public abstract class Scroll extends Item {
             ItemSpriteSheet.SCROLL_NAUDIZ,
             ItemSpriteSheet.SCROLL_BERKANAN,
             ItemSpriteSheet.SCROLL_ODAL,
-            ItemSpriteSheet.SCROLL_TIWAZ,
+            ItemSpriteSheet.SCROLL_TIWAZ, // 12
             ItemSpriteSheet.SCROLL_GOHOME,
             ItemSpriteSheet.SCROLL_SACRIFICE,
             ItemSpriteSheet.SCROLL_BLOODY,
             ItemSpriteSheet.SCROLL_SKILLPOINT,
             ItemSpriteSheet.SCROLL_FROST,
-            ItemSpriteSheet.SCROLL_WIPE_OUT
+            ItemSpriteSheet.SCROLL_WIPE_OUT // + 6
     };
 
     private static ItemStatusHandler<Scroll> handler;
@@ -93,6 +94,7 @@ public abstract class Scroll extends Item {
 
     @SuppressWarnings("unchecked")
     public static void initLabels() {
+        // exclude the explicitly labeled scrolls
         handler = new ItemStatusHandler<Scroll>((Class<? extends Scroll>[]) scrolls, runes, images, 6);
     }
 
