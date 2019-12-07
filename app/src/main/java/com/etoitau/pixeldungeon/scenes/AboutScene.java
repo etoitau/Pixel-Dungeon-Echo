@@ -42,7 +42,7 @@ public class AboutScene extends PixelScene {
 
     private static final String TXT_TITLE = "Pixel Dungeon Echo";
     private static final String TXT_BY = "by: Kyle Chatman";
-    private static final String TXT_ECHO_ON_GITHUB = "Source code is available on GitHub";
+    private static final String TXT_ECHO_ON_GITHUB = "Open source on GitHub:";
     private static final String LNK_ECHO = "github.com/etoitau/Pixel-Dungeon-Echo";
 
     private static final String TXT_BASED_ON_VANILLA = "Based on Pixel Dungeon";
@@ -50,7 +50,8 @@ public class AboutScene extends PixelScene {
     private static final String LNK_VANILLA = "github.com/watabou/pixel-dungeon";
     private static final String LNK_WATABOU = "pixeldungeon.watabou.ru";
 
-    private static final String TXT_SPD_CONTENT = "With content from Skillful Pixel Dungeon";
+    private static final String TXT_SPD_CONTENT_1 = "With content from";
+    private static final String TXT_SPD_CONTENT_2 = "Skillful Pixel Dungeon";
     private static final String TXT_BY_SPD = "by: BilbolDev";
     private static final String LNK_SPD = "github.com/bilbolPrime/SPD";
 
@@ -58,193 +59,58 @@ public class AboutScene extends PixelScene {
 
 
     private static float GAP = 2;
+    private static float TITLE_SIZE = 9;
+    private static float TXT_SIZE = 7;
+    private static int MAX_WIDTH = 120;
+
+    private float pos = GAP * 2; // tracking where next element should go
 
     @Override
     public void create() {
         super.create();
 
-        // wata image
-        Image wata = Icons.WATA.get();
-
-        // where should next item be
-        float pos = GAP * 4;
-
         // title
-        BitmapTextMultiline textTitle = createMultiline(TXT_TITLE, 8);
-        textTitle.hardlight(Window.TITLE_COLOR);
-        textTitle.maxWidth = Math.min(Camera.main.width, 120);
-        textTitle.measure();
-        add(textTitle);
-
-        textTitle.x = align((Camera.main.width - textTitle.width()) / 2);
-        textTitle.y = pos;
-
-        pos = textTitle.y + textTitle.height() + GAP;
+        addText(TXT_TITLE, TITLE_SIZE, MAX_WIDTH, 1, true);
 
         // by Kyle
-        BitmapTextMultiline textEchoBy = createMultiline(TXT_BY, 8);
-        textEchoBy.maxWidth = Math.min(Camera.main.width, 120);
-        textEchoBy.measure();
-        add(textEchoBy);
-
-        textEchoBy.x = align((Camera.main.width - textEchoBy.width()) / 2);
-        textEchoBy.y = pos;
-
-        pos = textEchoBy.y + textEchoBy.height() + GAP;
+        addText(TXT_BY, TXT_SIZE, MAX_WIDTH, 1, false);
 
         // src available
-        BitmapTextMultiline textEchoSrc = createMultiline(TXT_ECHO_ON_GITHUB, 8);
-        textEchoSrc.maxWidth = Math.min(Camera.main.width, 120);
-        textEchoSrc.measure();
-        add(textEchoSrc);
-
-        textEchoSrc.x = align((Camera.main.width - textEchoSrc.width()) / 2);
-        textEchoSrc.y = pos;
-
-        pos = textEchoSrc.y + textEchoSrc.height() + GAP;
+        addText(TXT_ECHO_ON_GITHUB, TXT_SIZE, MAX_WIDTH, 1, false);
 
         // echo src link
-        BitmapTextMultiline linkEcho = createMultiline(LNK_ECHO, 8);
-        linkEcho.maxWidth = Math.min(Camera.main.width, 120);
-        linkEcho.measure();
-        linkEcho.hardlight(Window.TITLE_COLOR);
-        add(linkEcho);
-
-        TouchArea hotAreaEcho = new TouchArea(linkEcho) {
-            @Override
-            protected void onClick(Touch touch) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://" + LNK_ECHO));
-                Game.instance.startActivity(intent);
-            }
-        };
-        add(hotAreaEcho);
-
-        linkEcho.x = align((Camera.main.width - linkEcho.width()) / 2);
-        linkEcho.y = pos;
-
-        pos = linkEcho.y + linkEcho.height() + GAP * 4;
+        addLink("https://", LNK_ECHO, TXT_SIZE, MAX_WIDTH, 4);
 
 
         // Pixel Dungeon
         // based on...
-        BitmapTextMultiline basedOnVanilla = createMultiline(TXT_BASED_ON_VANILLA, 8);
-        basedOnVanilla.maxWidth = Math.min(Camera.main.width, 120);
-        basedOnVanilla.measure();
-        add(basedOnVanilla);
-
-        basedOnVanilla.x = align((Camera.main.width - basedOnVanilla.width()) / 2);
-        basedOnVanilla.y = pos;
-
-        pos = basedOnVanilla.y + basedOnVanilla.height() + GAP;
+        addText(TXT_BASED_ON_VANILLA, TXT_SIZE, MAX_WIDTH, 1, false);
 
         // by Watabou
-        BitmapTextMultiline byWatabou = createMultiline(TXT_BY_VANILLA, 8);
-        byWatabou.maxWidth = Math.min(Camera.main.width, 120);
-        byWatabou.measure();
-        add(byWatabou);
-
-        byWatabou.x = align((Camera.main.width - byWatabou.width()) / 2);
-        byWatabou.y = pos;
-
-        pos = byWatabou.y + byWatabou.height() + GAP;
+        addText(TXT_BY_VANILLA, TXT_SIZE, MAX_WIDTH, 1, false);
 
         // vanilla src link
-        BitmapTextMultiline linkVanilla = createMultiline(LNK_VANILLA, 8);
-        linkVanilla.maxWidth = Math.min(Camera.main.width, 120);
-        linkVanilla.measure();
-        linkVanilla.hardlight(Window.TITLE_COLOR);
-        add(linkVanilla);
-
-        TouchArea hotAreaVanilla = new TouchArea(linkVanilla) {
-            @Override
-            protected void onClick(Touch touch) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://" + LNK_VANILLA));
-                Game.instance.startActivity(intent);
-            }
-        };
-        add(hotAreaVanilla);
-
-        linkVanilla.x = align((Camera.main.width - linkVanilla.width()) / 2);
-        linkVanilla.y = pos;
-
-        pos = linkVanilla.y + linkVanilla.height() + GAP;
+        addLink("https://", LNK_VANILLA, TXT_SIZE, MAX_WIDTH, 1);
 
         // watbou page link
-        BitmapTextMultiline linkWatabou = createMultiline(LNK_WATABOU, 8);
-        linkWatabou.maxWidth = Math.min(Camera.main.width, 120);
-        linkWatabou.measure();
-        linkWatabou.hardlight(Window.TITLE_COLOR);
-        add(linkWatabou);
+        addLink("http://", LNK_WATABOU, TXT_SIZE, MAX_WIDTH, 1);
 
-        TouchArea hotAreaWatabou = new TouchArea(linkWatabou) {
-            @Override
-            protected void onClick(Touch touch) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://" + LNK_WATABOU));
-                Game.instance.startActivity(intent);
-            }
-        };
-        add(hotAreaWatabou);
-
-        linkWatabou.x = align((Camera.main.width - linkWatabou.width()) / 2);
-        linkWatabou.y = pos;
-
-        pos = linkWatabou.y + linkWatabou.height() + GAP;
-
-        BitmapTextMultiline music = createMultiline(TXT_MUSIC, 8);
-        music.maxWidth = Math.min(Camera.main.width, 120);
-        music.measure();
-        add(music);
-
-        music.x = align((Camera.main.width - music.width()) / 2);
-        music.y = pos;
-
-        pos = music.y + music.height() + GAP * 4;
+        // music by
+        addText(TXT_MUSIC, TXT_SIZE, MAX_WIDTH, 4, false);
 
         // SPD
         // with content from SPD
-        BitmapTextMultiline contentSPD = createMultiline(TXT_SPD_CONTENT, 8);
-        contentSPD.maxWidth = Math.min(Camera.main.width, 120);
-        contentSPD.measure();
-        add(contentSPD);
-
-        contentSPD.x = align((Camera.main.width - contentSPD.width()) / 2);
-        contentSPD.y = pos;
-
-        pos = contentSPD.y + contentSPD.height() + GAP;
+        addText(TXT_SPD_CONTENT_1, TXT_SIZE, MAX_WIDTH, 1, false);
+        addText(TXT_SPD_CONTENT_2, TXT_SIZE, MAX_WIDTH, 1, false);
 
         // by bilboldev
-        BitmapTextMultiline byBilboldev = createMultiline(TXT_BY_SPD, 8);
-        byBilboldev.maxWidth = Math.min(Camera.main.width, 120);
-        byBilboldev.measure();
-        add(byBilboldev);
-
-        byBilboldev.x = align((Camera.main.width - byBilboldev.width()) / 2);
-        byBilboldev.y = pos;
-
-        pos = byBilboldev.y + byBilboldev.height() + GAP;
+        addText(TXT_BY_SPD, TXT_SIZE, MAX_WIDTH, 1, false);
 
         // link SPD
-        BitmapTextMultiline linkSPD = createMultiline(LNK_SPD, 8);
-        linkSPD.maxWidth = Math.min(Camera.main.width, 120);
-        linkSPD.measure();
-        linkSPD.hardlight(Window.TITLE_COLOR);
-        add(linkSPD);
+        addLink("https://", LNK_SPD, TXT_SIZE, MAX_WIDTH, 2);
 
-        linkSPD.x = align((Camera.main.width - linkSPD.width()) / 2);
-        linkSPD.y = pos;
-
-        TouchArea hotAreaSPD = new TouchArea(linkSPD) {
-            @Override
-            protected void onClick(Touch touch) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://" + LNK_SPD));
-                Game.instance.startActivity(intent);
-            }
-        };
-        add(hotAreaSPD);
-
-        pos = linkSPD.y + linkSPD.height() + GAP * 4;
-
-        // locate wata icon at end
+        // wata image
+        Image wata = Icons.WATA.get();
         wata.x = align((Camera.main.width - wata.width) / 2);
         wata.y = pos + wata.height;
         add(wata);
@@ -262,6 +128,42 @@ public class AboutScene extends PixelScene {
         add(btnExit);
 
         fadeIn();
+    }
+
+    private void addText(String text, float size, int maxWidth, int gaps, boolean isTitle) {
+        BitmapTextMultiline line = createMultiline(text, size);
+        if (isTitle)
+            line.hardlight(Window.TITLE_COLOR);
+        line.maxWidth = Math.min(Camera.main.width, maxWidth);
+        line.measure();
+        add(line);
+
+        line.x = align((Camera.main.width - line.width()) / 2);
+        line.y = pos;
+
+        pos = line.y + line.height() + GAP * gaps;
+    }
+
+    private void addLink(final String prefix, final String url, float size, int maxWidth, int gaps) {
+        BitmapTextMultiline link = createMultiline(url, size);
+        link.maxWidth = Math.min(Camera.main.width, maxWidth);
+        link.measure();
+        link.hardlight(Window.TITLE_COLOR);
+        add(link);
+
+        TouchArea hotAreaLink = new TouchArea(link) {
+            @Override
+            protected void onClick(Touch touch) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(prefix + url));
+                Game.instance.startActivity(intent);
+            }
+        };
+        add(hotAreaLink);
+
+        link.x = align((Camera.main.width - link.width()) / 2);
+        link.y = pos;
+
+        pos = link.y + link.height() + GAP * gaps;
     }
 
     @Override

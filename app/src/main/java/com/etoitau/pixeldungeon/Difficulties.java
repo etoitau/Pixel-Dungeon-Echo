@@ -23,6 +23,7 @@
 package com.etoitau.pixeldungeon;
 
 
+import com.etoitau.pixeldungeon.items.ArmorKit;
 import com.etoitau.pixeldungeon.items.armor.PlateArmor;
 import com.etoitau.pixeldungeon.items.food.Food;
 import com.etoitau.pixeldungeon.items.potions.PotionOfExperience;
@@ -464,7 +465,9 @@ public enum Difficulties {
                     new WarHammer().identify().collect();
                     for (int i = 0; i < 5; i++) {
                         new PotionOfHealing().identify().collect();
+                        new Food().identify().collect();
                     }
+                    new ArmorKit().collect();
                 }
                 break;
 
