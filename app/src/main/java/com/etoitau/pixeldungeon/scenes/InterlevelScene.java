@@ -345,6 +345,7 @@ public class InterlevelScene extends PixelScene {
             // refresh mobs, go to entrance
             Dungeon.resetLevel();
         }
+
     }
 
     @Override

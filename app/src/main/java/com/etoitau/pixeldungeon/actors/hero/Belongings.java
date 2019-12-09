@@ -196,6 +196,15 @@ public class Belongings implements Iterable<Item> {
             if (!item.unique && !item.isEquipped(owner) && withAnkh) {
                 // if via ankh, lose your loot
                 item.detachAll(backpack);
+            } else if (!withAnkh) {
+                // Char.die leads to buffs being removed, and wands charge via a buff
+                // but it doesn't clear the wand's Charger
+                if (item instanceof Wand) {
+                    // clear Charger
+                    ((Wand) item).stopCharging();
+                    // add new Charger and charging buff
+                    ((Wand) item).charge(owner);
+                }
             }
         }
 

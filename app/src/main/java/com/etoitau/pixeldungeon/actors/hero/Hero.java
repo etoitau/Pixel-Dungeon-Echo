@@ -298,6 +298,8 @@ public class Hero extends Char {
         Buff.affect(this, Hunger.class);
         Buff.affect(this, Fletching.class);
         Buff.affect(this, Hunting.class);
+
+
     }
 
     public int tier() {

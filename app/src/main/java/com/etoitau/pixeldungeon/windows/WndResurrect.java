@@ -85,7 +85,8 @@ public class WndResurrect extends Window {
             protected void onClick() {
                 hide();
 
-                Statistics.ankhsUsed++;
+                if (ankh != null)
+                    Statistics.ankhsUsed++;
 
                 InterlevelScene.mode = InterlevelScene.Mode.RESURRECT;
                 Game.switchScene(InterlevelScene.class);
