@@ -62,6 +62,7 @@ import com.watabau.utils.PointF;
 public class Item implements Bundlable {
 
     private static final String TXT_PACK_FULL = "Your pack is too full for the %s";
+    private static final String TXT_STORAGE_FULL = "Your storage chest is too full for the %s";
 
     private static final String TXT_BROKEN = "Because of frequent use, your %s has broken.";
     private static final String TXT_GONNA_BREAK = "Because of frequent use, your %s is going to break soon.";
@@ -234,8 +235,11 @@ public class Item implements Bundlable {
             return true;
 
         } else {
-
-            GLog.n(TXT_PACK_FULL, name());
+            if (container == Dungeon.hero.storage.backpack) {
+                GLog.n(TXT_STORAGE_FULL, name());
+            } else {
+                GLog.n(TXT_PACK_FULL, name());
+            }
             return false;
 
         }
