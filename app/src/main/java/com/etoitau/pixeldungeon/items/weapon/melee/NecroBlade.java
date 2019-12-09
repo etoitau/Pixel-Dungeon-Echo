@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -47,6 +52,7 @@ public class NecroBlade extends MeleeWeapon {
     }
 
     public int charge = 100;
+    private static final int CHARGE_PER_DAMAGE = 25;
 
     public NecroBlade() {
         super(1, 0.7f, 1f);
@@ -131,8 +137,13 @@ public class NecroBlade extends MeleeWeapon {
     @Override
     public int damageRoll(Hero hero) {
         int damage = super.damageRoll(hero);
-        damage += Random.Int((int) (charge / 8));
+        damage += Random.Int(damageChargeBonus());
         return damage;
+    }
+
+    // return current max damage boost due to charge level
+    private int damageChargeBonus() {
+        return charge / CHARGE_PER_DAMAGE;
     }
 
 
@@ -176,11 +187,11 @@ public class NecroBlade extends MeleeWeapon {
         super.storeInBundle(bundle);
         bundle.put("CHARGE", charge);
     }
-
+    
     @Override
     public String desc() {
         return "A blade forged from dark magic. NecroBlades consume the souls of those who perish by them. The more they consume, the stronger they become.\n" +
                 "NecroBlade energy at " + charge + "/100\n"
-                + "The energy stored within increases damage by 0 - " + ((int) (charge / 8)) + ".";
+                + "The energy stored within increases damage by 0 - " + damageChargeBonus() + ".";
     }
 }
