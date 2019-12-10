@@ -115,7 +115,11 @@ public class SacrificialFire extends Blob {
                     Journal.remove(Feature.SACRIFICIAL_FIRE);
 
                     GLog.w(TXT_REWARD);
-                    GameScene.effect(new Flare(7, 32).color(0x66FFFF, true).show(ch.sprite.parent, DungeonTilemap.tileCenterToWorld(fire.pos), 2f));
+                    GameScene.effect(new Flare(7, 32)
+                            .color(0x66FFFF, true)
+                            .show(ch.sprite.parent,
+                                    DungeonTilemap.tileCenterToWorld(fire.pos),
+                                    2f));
                     Dungeon.level.drop(new ScrollOfWipeOut(), fire.pos).sprite.drop();
                 }
             } else {

@@ -47,7 +47,6 @@ public class IronTip extends PassiveSkillB3 {
             return level;
 
         if (level > 0 && Random.Int(level + 1) > 0) {
-            castTextYell();
             multiTargetActive = true;
             return level;
         }

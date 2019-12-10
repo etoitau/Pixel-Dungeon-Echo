@@ -187,7 +187,7 @@ public class NecroBlade extends MeleeWeapon {
         super.storeInBundle(bundle);
         bundle.put("CHARGE", charge);
     }
-    
+
     @Override
     public String desc() {
         return "A blade forged from dark magic. NecroBlades consume the souls of those who perish by them. The more they consume, the stronger they become.\n" +

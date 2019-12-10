@@ -138,6 +138,7 @@ public class Arrow extends MissileWeapon {
 
         ArrayList<Char> chars = new ArrayList<Char>();
 
+
         for (int i = 1; i < Ballistica.distance + 1; i++) {
 
             int c = Ballistica.trace[i];
@@ -148,7 +149,13 @@ public class Arrow extends MissileWeapon {
             }
         }
 
-        GLog.i(chars.size() + " targets");
+        // if iron tip successfully activates, and finds more than one target, shout and report
+        if (chars.size() > 1) {
+            GLog.i(chars.size() + " targets");
+            Dungeon.hero.heroSkills.passiveB3.castTextYell();
+        }
+
+
         boolean hitOne = false;
         for (Char ch : chars) {
             if (curUser.shootThrough(ch, this)) {

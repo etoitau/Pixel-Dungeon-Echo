@@ -1240,6 +1240,7 @@ public class Hero extends Char {
             Badges.validateLevelReached();
         }
 
+        // warlock boost for kill
         if (subClass == HeroSubClass.WARLOCK) {
 
             int value = Math.min(HT - HP, 1 + (Dungeon.depth - 1) / 5);
@@ -1248,7 +1249,7 @@ public class Hero extends Char {
                 sprite.emitter().burst(Speck.factory(Speck.HEALING), 1);
             }
 
-            ((Hunger) buff(Hunger.class)).satisfy(20);
+            ((Hunger) buff(Hunger.class)).satisfy(15); // 10 seemed too low, 20 seemed too high
         }
     }
 
