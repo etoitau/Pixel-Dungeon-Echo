@@ -35,6 +35,7 @@ import com.etoitau.pixeldungeon.items.bags.Bag;
 import com.etoitau.pixeldungeon.items.bags.Keyring;
 import com.etoitau.pixeldungeon.items.keys.IronKey;
 import com.etoitau.pixeldungeon.items.keys.Key;
+import com.etoitau.pixeldungeon.items.keys.SkeletonKey;
 import com.etoitau.pixeldungeon.items.rings.Ring;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfRemoveCurse;
 import com.etoitau.pixeldungeon.items.wands.Wand;
@@ -143,12 +144,12 @@ public class Belongings implements Iterable<Item> {
         return null;
     }
 
-    public void countIronKeys() {
+    public void countDoorKeys() {
 
         IronKey.curDepthQuantity = 0;
 
         for (Item key : keys) {
-            if (key instanceof IronKey && ((IronKey) key).depth == Dungeon.depth) {
+            if ((key instanceof IronKey || key instanceof SkeletonKey) && ((Key)key).depth == Dungeon.depth) {
                 IronKey.curDepthQuantity++;
             }
         }

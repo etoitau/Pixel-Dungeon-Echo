@@ -45,7 +45,7 @@ public class AimedShot extends ActiveSkill1 {
 
     {
         name = "Aimed Shot";
-        castText = "I see him";
+        castText = "Sitting duck...";
         image = 93;
         tier = 1;
         mana = 3;

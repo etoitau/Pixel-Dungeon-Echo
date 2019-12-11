@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -34,15 +39,15 @@ public class Sign {
             "What are you doing here?!";
 
     private static final String[] TIPS = {
+            "Pixel-Mart. The best prices in town.",
             "Don't overestimate your strength, use weapons and armor you can handle.",
             "Not all doors in the dungeon are visible at first sight. If you are stuck, search for hidden doors.",
             "Remember, that raising your strength is not the only way to access better equipment. You can go " +
                     "the other way, lowering its strength requirement with Scrolls of Upgrade.",
-            "You can spend your gold in shops on deeper levels of the dungeon. The first one is on the 6th level.",
 
             "Beware of Goo!",
 
-            "Pixel-Mart - all you need for successful adventure!",
+            "Pixel-Mart. All you need for successful adventure!",
             "Identify your potions and scrolls as soon as possible. Don't put it off to the moment " +
                     "when you actually need them.",
             "Being hungry doesn't hurt, but starving does hurt.",

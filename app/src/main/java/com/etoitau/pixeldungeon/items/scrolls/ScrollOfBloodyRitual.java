@@ -66,7 +66,8 @@ public class ScrollOfBloodyRitual extends Scroll {
     @Override
     public String desc() {
         return
-                "The scroll holds the secret of a forbidden ritual. In exchange for the reader's well being, the scroll damages everyone nearby and fully heals him.";
+                "The scroll holds the secret of a forbidden ritual. In exchange for the reader's " +
+                        "well being, the scroll fully heals them and damages everyone else nearby.";
     }
 
     @Override

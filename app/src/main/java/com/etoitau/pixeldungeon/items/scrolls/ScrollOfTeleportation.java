@@ -81,7 +81,7 @@ public class ScrollOfTeleportation extends Scroll {
                 "The spell on this parchment instantly transports the reader " +
                         "to a random location on the dungeon level. It can be used " +
                         "to escape a dangerous situation, but the unlucky reader might " +
-                        "find himself in an even more dangerous place.";
+                        "find themselves in an even more dangerous place.";
     }
 
     @Override
