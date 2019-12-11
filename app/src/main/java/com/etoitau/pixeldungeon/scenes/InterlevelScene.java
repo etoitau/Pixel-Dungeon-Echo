@@ -26,6 +26,7 @@ import android.util.Log;
 
 import java.io.FileNotFoundException;
 
+import com.etoitau.pixeldungeon.BuildConfig;
 import com.watabau.noosa.BitmapText;
 import com.watabau.noosa.Camera;
 import com.watabau.noosa.Game;
@@ -57,7 +58,9 @@ public class InterlevelScene extends PixelScene {
     private static final String TXT_TELEPORTING = "A weird portal sucks you in...";
 
     private static final String ERR_FILE_NOT_FOUND = "File not found. For some reason.";
-    private static final String ERR_GENERIC = "Something went wrong...";
+    private static final String ERR_GENERIC = "Sorry, something went wrong.";
+
+    public static Exception lastException = null;
 
     public enum Mode {
         DESCEND, ASCEND, CONTINUE, RESURRECT, RESURRECT_ANKH, RETURN, FALL, NONE, TELEPORT, TELEPORT_BACK
@@ -156,6 +159,10 @@ public class InterlevelScene extends PixelScene {
                             fall();
                             break;
                         case TELEPORT:
+                            // if here to test error
+                            if (BuildConfig.DEBUG) {
+                                Dungeon.hero = null;
+                            }
                             teleport();
                             break;
                         case TELEPORT_BACK:
@@ -169,12 +176,12 @@ public class InterlevelScene extends PixelScene {
                     }
 
                 } catch (FileNotFoundException e) {
-
+                    lastException = e;
                     error = ERR_FILE_NOT_FOUND;
 
                 } catch (Exception e) {
-
-                    error = ERR_GENERIC + " in " + mode + "\n" + e;
+                    lastException = e;
+                    error = ERR_GENERIC;
 
                 }
 
@@ -220,8 +227,9 @@ public class InterlevelScene extends PixelScene {
                 break;
 
             case STATIC:
+                // calls error window
                 if (error != null) {
-                    add(new WndError(error) {
+                    add(new WndError(error, lastException) {
                         public void onBackPressed() {
                             super.onBackPressed();
                             Game.switchScene(StartScene.class);
@@ -279,7 +287,6 @@ public class InterlevelScene extends PixelScene {
 
         Dungeon.depth = ColdGirl.FROST_DEPTH - 1;
         Level level = Dungeon.newLevel();
-        int pos = level.randomRespawnCell();
         Dungeon.switchLevel(level, level.randomRespawnCell());
     }
 
