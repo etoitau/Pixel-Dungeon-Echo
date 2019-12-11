@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -17,6 +22,8 @@
  */
 package com.etoitau.pixeldungeon.items.keys;
 
+import com.etoitau.pixeldungeon.Dungeon;
+import com.etoitau.pixeldungeon.items.bags.Bag;
 import com.etoitau.pixeldungeon.sprites.ItemSpriteSheet;
 
 public class SkeletonKey extends Key {
@@ -31,5 +38,21 @@ public class SkeletonKey extends Key {
         return
                 "This key looks serious: its head is shaped like a skull. " +
                         "Probably it can open some serious door.";
+    }
+
+    @Override
+    public boolean collect(Bag bag) {
+        boolean result = super.collect(bag);
+        if (result && depth == Dungeon.depth && Dungeon.hero != null) {
+            Dungeon.hero.belongings.countDoorKeys();
+        }
+        return result;
+    }
+
+    @Override
+    public void onDetach() {
+        if (depth == Dungeon.depth) {
+            Dungeon.hero.belongings.countDoorKeys();
+        }
     }
 }

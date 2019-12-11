@@ -71,7 +71,7 @@ public class RogueArmor extends ClassArmor {
     public String desc() {
         return
                 "Wearing this dark garb, a rogue can perform a trick, that is called \"smoke bomb\" " +
-                        "(though no real explosives are used): he blinds enemies who could see him and jumps aside.";
+                        "that blinds all visible enemies while the rogue jumps aside.";
     }
 
     protected static CellSelector.Listener teleporter = new CellSelector.Listener() {

@@ -22,7 +22,9 @@
  */
 package com.etoitau.pixeldungeon.ui;
 
+import com.etoitau.pixeldungeon.BuildConfig;
 import com.etoitau.pixeldungeon.PixelDungeon;
+import com.etoitau.pixeldungeon.scenes.InterlevelScene;
 import com.watabau.noosa.Game;
 import com.watabau.noosa.Gizmo;
 import com.watabau.noosa.Image;
@@ -241,6 +243,11 @@ public class Toolbar extends Component {
 
             if (cell < 0 || cell > Level.LENGTH || (!Dungeon.level.visited[cell] && !Dungeon.level.mapped[cell])) {
                 GameScene.show(new WndMessage("You don't know what is there."));
+                // in debug mode can manually throw an error by inspecting unexplored tile
+                if (BuildConfig.DEBUG) {
+                    InterlevelScene.mode = InterlevelScene.Mode.TELEPORT;
+                    Game.switchScene(InterlevelScene.class);
+                }
                 return;
             }
 

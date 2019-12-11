@@ -137,7 +137,7 @@ public class StatusPane extends Component {
         depth.measure();
         add(depth);
 
-        Dungeon.hero.belongings.countIronKeys();
+        Dungeon.hero.belongings.countDoorKeys();
         keys = new BitmapText(PixelScene.font1x);
         keys.hardlight(0xCACFC2);
         add(keys);

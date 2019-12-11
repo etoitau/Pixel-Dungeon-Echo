@@ -23,7 +23,7 @@ public class SilentDeath extends PassiveSkillB3 {
             castTextYell();
             return true;
         }
-        castText = "Almost had him...";
+        castText = "Almost had them...";
         castTextYell();
         return false;
     }

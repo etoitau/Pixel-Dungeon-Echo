@@ -44,7 +44,7 @@ public class NecroBlade extends MeleeWeapon {
 
     public static final String AC_HEAL = "Heal";
     public static final String AC_SUMMON = "Summon";
-    public static final String AC_UPGRADE = "Consume";
+    public static final String AC_UPGRADE = "Upgrade";
 
     {
         name = "necroblade";

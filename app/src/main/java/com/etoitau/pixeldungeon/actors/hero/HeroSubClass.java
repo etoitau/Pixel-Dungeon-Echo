@@ -40,8 +40,9 @@ public enum HeroSubClass {
     ASSASSIN("assassin",
             "When performing a surprise attack, the _Assassin_ inflicts additional damage to his target."),
     FREERUNNER("freerunner",
-            "The _Freerunner_ can move almost twice faster, than most of the monsters. When he " +
-                    "is running, the Freerunner is much harder to hit. For that he must be unencumbered and not starving."),
+            "The _Freerunner_ can move almost twice as fast as most of the monsters. The " +
+                    "Freerunner is much harder to hit when running. For that they must be " +
+                    "unencumbered and not starving."),
 
     SNIPER("sniper",
             "_Snipers_ are able to detect weak points in an enemy's armor, " +
