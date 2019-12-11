@@ -255,8 +255,9 @@ public abstract class Char extends Actor {
                 }
 
                 if (this == Dungeon.hero) {
-                    if (Dungeon.hero.heroSkills.passiveB1.venomousAttack()) // <--- Rogue Venom when present
-                        Buff.affect(enemy, Poison.class).set(Poison.durationFactor(enemy));
+                    int venomLevel = Dungeon.hero.heroSkills.passiveB1.venomousAttack();
+                    if (venomLevel > 0) // <--- Rogue Venom when present
+                        Buff.affect(enemy, Poison.class).set(Poison.durationFactor(enemy) * 2 * venomLevel);
                 }
             }
 
