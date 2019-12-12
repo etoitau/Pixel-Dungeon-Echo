@@ -25,7 +25,6 @@ import com.watabau.noosa.Image;
 import com.watabau.noosa.audio.Sample;
 import com.etoitau.pixeldungeon.Assets;
 import com.etoitau.pixeldungeon.Dungeon;
-import com.etoitau.pixeldungeon.PixelDungeon;
 import com.etoitau.pixeldungeon.actors.skills.BranchSkill;
 import com.etoitau.pixeldungeon.actors.skills.Skill;
 import com.etoitau.pixeldungeon.items.bags.Bag;
@@ -35,36 +34,27 @@ import com.etoitau.pixeldungeon.items.bags.SeedPouch;
 import com.etoitau.pixeldungeon.items.bags.WandHolster;
 import com.etoitau.pixeldungeon.scenes.GameScene;
 import com.etoitau.pixeldungeon.scenes.PixelScene;
-import com.etoitau.pixeldungeon.sprites.ItemSpriteSheet;
 import com.etoitau.pixeldungeon.ui.Icons;
 import com.etoitau.pixeldungeon.ui.SkillSlot;
 import com.etoitau.pixeldungeon.utils.Utils;
 
 public class WndSkills extends WndTabbed {
 
-
-    protected static final int COLS_P = 4;
-    protected static final int COLS_L = 6;
-
     protected static final int SLOT_SIZE = 28;
     protected static final int SLOT_MARGIN = 1;
-
-    protected static final int TAB_WIDTH = 25;
 
     protected static final int TITLE_HEIGHT = 12;
 
     private Listener listener;
     private String title;
 
-    private int nCols;
-    private int nRows;
+    private final int NCOLS = 4;
+    private final int NROWS = 3;
 
     protected int count;
     protected int col;
     protected int row;
 
-
-    public boolean noDegrade = PixelDungeon.itemDeg();
 
     public WndSkills(Listener listener, String title) {
 
@@ -73,12 +63,8 @@ public class WndSkills extends WndTabbed {
         this.listener = listener;
         this.title = title;
 
-
-        nCols = 4;
-        nRows = 3;
-
-        int slotsWidth = SLOT_SIZE * nCols + SLOT_MARGIN * (nCols - 1);
-        int slotsHeight = SLOT_SIZE * nRows + SLOT_MARGIN * (nRows - 1);
+        int slotsWidth = SLOT_SIZE * NCOLS + SLOT_MARGIN * (NCOLS - 1);
+        int slotsHeight = SLOT_SIZE * NROWS + SLOT_MARGIN * (NROWS - 1);
 
         BitmapText txtTitle = PixelScene.createText(title != null ? title : Utils.capitalize("Skills" + (Skill.availableSkill > 0 ? " (" + Skill.availableSkill + " points)" : "")), 9);
         txtTitle.hardlight(TITLE_COLOR);
@@ -97,36 +83,29 @@ public class WndSkills extends WndTabbed {
     protected void placeSkills() {
 
 
-        placeSkill(Dungeon.hero.heroSkills.branchPA, true);
-        placeSkill(Dungeon.hero.heroSkills.passiveA1, false);
-        placeSkill(Dungeon.hero.heroSkills.passiveA2, false);
-        placeSkill(Dungeon.hero.heroSkills.passiveA3, false);
+        placeSkill(Dungeon.hero.heroSkills.branchPA, 0, 0);
+        placeSkill(Dungeon.hero.heroSkills.passiveA1, 0, 1);
+        placeSkill(Dungeon.hero.heroSkills.passiveA2, 0, 2);
+        placeSkill(Dungeon.hero.heroSkills.passiveA3, 0, 3);
 
-        placeSkill(Dungeon.hero.heroSkills.branchPB, true);
-        placeSkill(Dungeon.hero.heroSkills.passiveB1, true);
-        placeSkill(Dungeon.hero.heroSkills.passiveB2, true);
-        placeSkill(Dungeon.hero.heroSkills.passiveB3, true);
+        placeSkill(Dungeon.hero.heroSkills.branchPB, 1, 0);
+        placeSkill(Dungeon.hero.heroSkills.passiveB1, 1, 1);
+        placeSkill(Dungeon.hero.heroSkills.passiveB2, 1, 2);
+        placeSkill(Dungeon.hero.heroSkills.passiveB3, 1, 3);
 
-        placeSkill(Dungeon.hero.heroSkills.branchA, true);
-        placeSkill(Dungeon.hero.heroSkills.active1, true);
-        placeSkill(Dungeon.hero.heroSkills.active2, true);
-        placeSkill(Dungeon.hero.heroSkills.active3, true);
+        placeSkill(Dungeon.hero.heroSkills.branchA, 2, 0);
+        placeSkill(Dungeon.hero.heroSkills.active1, 2, 1);
+        placeSkill(Dungeon.hero.heroSkills.active2, 2, 2);
+        placeSkill(Dungeon.hero.heroSkills.active3, 2, 3);
 
     }
 
-    protected void placeSkill(final Skill skill, boolean showBackground) {
+    protected void placeSkill(final Skill skill, int row, int col) {
 
         int x = col * (SLOT_SIZE + SLOT_MARGIN);
         int y = TITLE_HEIGHT + row * (SLOT_SIZE + SLOT_MARGIN);
 
         add(new SkillButton(skill).setPos(x, y));
-
-        if (++col >= nCols) {
-            col = 0;
-            row++;
-        }
-
-        count++;
     }
 
     @Override
@@ -155,67 +134,6 @@ public class WndSkills extends WndTabbed {
         return 20;
     }
 
-    private class BagTab extends Tab {
-
-        private Image icon;
-
-        private Bag bag;
-
-        public BagTab(Bag bag) {
-            super();
-
-            this.bag = bag;
-
-            icon = icon();
-            add(icon);
-        }
-
-        @Override
-        protected void select(boolean value) {
-            super.select(value);
-            icon.am = selected ? 1.0f : 0.6f;
-        }
-
-        @Override
-        protected void layout() {
-            super.layout();
-
-            icon.copy(icon());
-            icon.x = x + (width - icon.width) / 2;
-            icon.y = y + (height - icon.height) / 2 - 2 - (selected ? 0 : 1);
-            if (!selected && icon.y < y + CUT) {
-                RectF frame = icon.frame();
-                frame.top += (y + CUT - icon.y) / icon.texture.height;
-                icon.frame(frame);
-                icon.y = y + CUT;
-            }
-        }
-
-        private Image icon() {
-            if (bag instanceof SeedPouch) {
-                return Icons.get(Icons.SEED_POUCH);
-            } else if (bag instanceof ScrollHolder) {
-                return Icons.get(Icons.SCROLL_HOLDER);
-            } else if (bag instanceof WandHolster) {
-                return Icons.get(Icons.WAND_HOLSTER);
-            } else if (bag instanceof Keyring) {
-                return Icons.get(Icons.KEYRING);
-            } else {
-                return Icons.get(Icons.BACKPACK);
-            }
-        }
-    }
-
-    private static class Placeholder extends Skill {
-        {
-            name = null;
-        }
-
-        public Placeholder(int image) {
-            this.image = image;
-        }
-    }
-
     private class SkillButton extends SkillSlot {
 
         private static final int NORMAL = 0xFF4A4D44;
@@ -225,7 +143,9 @@ public class WndSkills extends WndTabbed {
         private Skill skill;
         private ColorBlock bg;
 
-        private ColorBlock durability[];
+        // note durability here is indicating the levels of upgrade to a skill,
+        // name is because it uses durability indicator from bag ui
+        private ColorBlock[] durability;
 
         public SkillButton(Skill skill) {
 
@@ -285,13 +205,11 @@ public class WndSkills extends WndTabbed {
             Sample.INSTANCE.play(Assets.SND_CLICK, 0.7f, 0.7f, 1.2f);
         }
 
-        ;
 
         protected void onTouchUp() {
             bg.brightness(1.0f);
         }
 
-        ;
 
         @Override
         protected void onClick() {
