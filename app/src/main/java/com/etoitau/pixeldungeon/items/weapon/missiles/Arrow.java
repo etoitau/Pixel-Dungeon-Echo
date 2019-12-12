@@ -68,17 +68,6 @@ public class Arrow extends MissileWeapon {
         quantity = number;
     }
 
-    // todo remove after test ironpoint
-//    @Override
-//    public void cast(final Hero user, int dst) {
-//
-//        if (Dungeon.hero.heroSkills.passiveB3.passThroughTargets(false) > 0) {
-//            // if they have levels in IronTip, then try to use it
-//            castSPD(user, dst, Dungeon.hero.heroSkills.passiveB3.passThroughTargets(true));
-//        } else
-//            super.cast(user, dst);
-//    }
-
     @Override
     protected void onThrow(int cell) {
 

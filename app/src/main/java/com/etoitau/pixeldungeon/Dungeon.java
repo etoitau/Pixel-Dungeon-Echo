@@ -549,7 +549,8 @@ public class Dungeon {
         hero = (Hero) bundle.get(HERO);
         if (hero == null)
             Log.d("", "null hero");
-        QuickSlot.compress();
+        // todo cleanup if didn't break
+        //QuickSlot.compress();
 
         gold = bundle.getInt(GOLD);
         depth = bundle.getInt(DEPTH);

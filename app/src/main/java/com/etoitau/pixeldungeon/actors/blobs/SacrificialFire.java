@@ -17,6 +17,7 @@
  */
 package com.etoitau.pixeldungeon.actors.blobs;
 
+import com.etoitau.pixeldungeon.items.scrolls.ScrollOfChallenge;
 import com.watabau.noosa.audio.Sample;
 import com.etoitau.pixeldungeon.Assets;
 import com.etoitau.pixeldungeon.Dungeon;
@@ -48,6 +49,8 @@ public class SacrificialFire extends Blob {
 
     protected int pos;
 
+    private boolean causeNight = false;
+
     @Override
     public void restoreFromBundle(Bundle bundle) {
         super.restoreFromBundle(bundle);
@@ -62,7 +65,10 @@ public class SacrificialFire extends Blob {
 
     @Override
     protected void evolve() {
+
+
         volume = off[pos] = cur[pos];
+        // if char standing on
         Char ch = Actor.findChar(pos);
         if (ch != null) {
             if (Dungeon.visible[pos] && ch.buff(Marked.class) == null) {
@@ -70,6 +76,10 @@ public class SacrificialFire extends Blob {
                 Sample.INSTANCE.play(Assets.SND_BURNING);
             }
             Buff.prolong(ch, Marked.class, Marked.DURATION);
+            if (ch == Dungeon.hero) {
+                // if hero is in fire, beckon mobs
+                ScrollOfChallenge.challengeMobs(pos);
+            }
         }
         if (Dungeon.visible[pos]) {
             Journal.add(Feature.SACRIFICIAL_FIRE);
@@ -99,7 +109,8 @@ public class SacrificialFire extends Blob {
 
             int exp = 0;
             if (ch instanceof Mob) {
-                exp = ((Mob) ch).exp() * Random.IntRange(1, 3);
+                exp = Math.max(((Mob) ch).exp(), 1);
+                exp *= Random.IntRange(1, 3);
             } else if (ch instanceof Hero) {
                 exp = ((Hero) ch).maxExp();
             }
@@ -139,6 +150,7 @@ public class SacrificialFire extends Blob {
     public static class Marked extends FlavourBuff {
 
         public static final float DURATION = 5f;
+        private boolean causeNight = false;
 
         @Override
         public int icon() {
@@ -151,7 +163,18 @@ public class SacrificialFire extends Blob {
         }
 
         @Override
+        public boolean attachTo(Char target) {
+            // spawn more mobs like nighttime while hero marked
+            if (target == Dungeon.hero && !Dungeon.nightMode) { Dungeon.nightMode = causeNight = true; }
+            return super.attachTo(target);
+        }
+
+        @Override
         public void detach() {
+            if (causeNight) {
+                // if this buff caused it to be night, undo
+                Dungeon.nightMode = false;
+            }
             if (!target.isAlive()) {
                 sacrifice(target);
             }
@@ -160,3 +183,6 @@ public class SacrificialFire extends Blob {
     }
 
 }
+
+// spawn more mobs like nighttime
+               // if (!Dungeon.nightMode) { Dungeon.nightMode = causeNight = true; }

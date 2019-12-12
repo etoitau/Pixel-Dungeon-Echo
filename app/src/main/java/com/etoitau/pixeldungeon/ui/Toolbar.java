@@ -110,8 +110,26 @@ public class Toolbar extends Component {
 
         });
 
+        int imgX;
+        switch (Dungeon.hero.heroClass) {
+            case HUNTRESS:
+                imgX = 158;
+                break;
+            case WARRIOR:
+                imgX = 181;
+                break;
+            case MAGE:
+                imgX = 204;
+                break;
+            case ROGUE:
+                imgX = 227;
+                break;
+            default:
+                imgX = 40;
+                break;
+        }
 
-        add(btnLastUsed = new Tool(40, 7, 20, 25) {
+        add(btnLastUsed = new Tool(imgX, 7, 20, 25) {
             @Override
             protected void onClick() {
                 Dungeon.hero.heroSkills.showLastUsed();

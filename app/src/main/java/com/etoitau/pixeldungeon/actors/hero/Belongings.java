@@ -124,7 +124,7 @@ public class Belongings implements Iterable<Item> {
     public <T extends Item> T getItem(Class<T> itemClass) {
 
         for (Item item : this) {
-            if (itemClass.isInstance(item)) {
+            if (itemClass.equals(item.getClass())) {
                 return (T) item;
             }
         }

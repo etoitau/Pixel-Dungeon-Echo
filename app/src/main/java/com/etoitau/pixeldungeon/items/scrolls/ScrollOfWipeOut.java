@@ -17,7 +17,6 @@
  */
 package com.etoitau.pixeldungeon.items.scrolls;
 
-import java.util.ArrayList;
 
 import com.watabau.noosa.audio.Sample;
 import com.etoitau.pixeldungeon.Assets;
@@ -31,7 +30,6 @@ import com.etoitau.pixeldungeon.effects.CellEmitter;
 import com.etoitau.pixeldungeon.effects.Speck;
 import com.etoitau.pixeldungeon.items.Heap;
 import com.etoitau.pixeldungeon.items.Heap.Type;
-import com.etoitau.pixeldungeon.items.Item;
 import com.etoitau.pixeldungeon.scenes.GameScene;
 import com.etoitau.pixeldungeon.sprites.HeroSprite;
 import com.etoitau.pixeldungeon.sprites.ItemSpriteSheet;

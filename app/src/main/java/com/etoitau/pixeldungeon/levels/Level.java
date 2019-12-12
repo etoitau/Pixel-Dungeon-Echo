@@ -972,9 +972,9 @@ public abstract class Level implements Bundlable {
             case Terrain.OPEN_DOOR:
                 return "Open door";
             case Terrain.ENTRANCE:
-                return "Depth entrance";
+                return "Exit up";
             case Terrain.EXIT:
-                return "Depth exit";
+                return "Exit down";
             case Terrain.EMBERS:
                 return "Embers";
             case Terrain.LOCKED_DOOR:
@@ -1033,10 +1033,10 @@ public abstract class Level implements Bundlable {
             case Terrain.WATER:
                 return "In case of burning step into the water to extinguish the fire.";
             case Terrain.ENTRANCE:
-                return "Stairs lead up to the upper depth.";
+                return "To the level above.";
             case Terrain.EXIT:
             case Terrain.UNLOCKED_EXIT:
-                return "Stairs lead down to the lower depth.";
+                return "To the level below.";
             case Terrain.EMBERS:
                 return "Embers cover the floor.";
             case Terrain.HIGH_GRASS:

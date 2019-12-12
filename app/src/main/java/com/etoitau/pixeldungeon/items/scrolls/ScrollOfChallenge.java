@@ -39,12 +39,7 @@ public class ScrollOfChallenge extends Scroll {
     @Override
     protected void doRead() {
 
-        for (Mob mob : Dungeon.level.mobs.toArray(new Mob[0])) {
-            mob.beckon(curUser.pos);
-            if (Dungeon.visible[mob.pos]) {
-                Buff.affect(mob, Rage.class, Level.distance(curUser.pos, mob.pos));
-            }
-        }
+        challengeMobs(curUser.pos);
 
         for (Heap heap : Dungeon.level.heaps.values()) {
             if (heap.type == Heap.Type.MIMIC) {
@@ -71,5 +66,14 @@ public class ScrollOfChallenge extends Scroll {
         return
                 "When read aloud, this scroll will unleash a challenging roar " +
                         "that will awaken all monsters and alert them to the reader's location.";
+    }
+
+    public static void challengeMobs(int pos) {
+        for (Mob mob : Dungeon.level.mobs.toArray(new Mob[0])) {
+            mob.beckon(pos);
+            if (Dungeon.visible[mob.pos]) {
+                Buff.affect(mob, Rage.class, Level.distance(pos, mob.pos));
+            }
+        }
     }
 }
