@@ -242,7 +242,6 @@ public class Skill {
         return false;
     }
 
-    // todo does this skill work? passthrough
     public int passThroughTargets(boolean shout) {
         return 0;
     }

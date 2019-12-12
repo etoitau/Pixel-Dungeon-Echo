@@ -151,11 +151,13 @@ public enum HeroClass {
         new Arrow(15).collect();
         new CupidArrow(5).collect();
 
+        // identify certain scrolls
         new ScrollOfHome().setKnown();
         new ScrollOfSacrifice().setKnown();
         new ScrollOfBloodyRitual().setKnown();
         new ScrollOfSkill().setKnown();
         new ScrollOfFrostLevel().setKnown();
+        new ScrollOfWipeOut().setKnown();
 
 
         new ScrollOfHome().collect();

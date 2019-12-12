@@ -365,7 +365,8 @@ public abstract class Mob extends Char {
                 Badges.validateNightHunter();
             }
 
-            int exp = exp();
+            // determine xp to grant
+            int exp = exp(); // 1 min by default unless hero level > 30
 
             if (exp > 0) {
                 if (this.champ > 0) {

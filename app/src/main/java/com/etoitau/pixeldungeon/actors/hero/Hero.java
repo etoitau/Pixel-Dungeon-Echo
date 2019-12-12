@@ -185,8 +185,9 @@ public class Hero extends Char {
 
     public float awareness;
 
-    public int lvl = 1;
-    public int exp = 0;
+    // hero experiance
+    public int lvl = 1; // xp level
+    public int exp = 0; // current xp progress
 
     public int difficulty = 0;
 
@@ -298,8 +299,6 @@ public class Hero extends Char {
         Buff.affect(this, Hunger.class);
         Buff.affect(this, Fletching.class);
         Buff.affect(this, Hunting.class);
-
-
     }
 
     public int tier() {
@@ -335,18 +334,21 @@ public class Hero extends Char {
             accuracy *= 0.5f;
         }
 
+        // Huntress Accuracy
         if (rangedWeapon != null && Level.distance(pos, target.pos) > 1) {
-            accuracy *= heroSkills.passiveB1.toHitModifier(); // <--- Huntress Accuracy when present
+            accuracy *= heroSkills.passiveB1.toHitModifier();
         }
 
 
         KindOfWeapon wep = rangedWeapon != null ? rangedWeapon : belongings.weapon;
         if (wep != null) {
+            // attack with weapon
             if (rangedWeapon == null) {
                 return (int) ((attackSkill + Dungeon.hero.heroSkills.passiveB1.toHitBonus()) * accuracy * wep.acuracyFactor(this)); // <--- Warrior Firm Hand if present
             }
             return (int) (attackSkill * accuracy * wep.acuracyFactor(this));
         } else {
+            // attack bare-handed
             return (int) (attackSkill * accuracy);
         }
     }

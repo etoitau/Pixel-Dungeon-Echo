@@ -24,6 +24,7 @@ package com.etoitau.pixeldungeon.actors;
 
 import java.util.HashSet;
 
+import com.etoitau.pixeldungeon.actors.blobs.SacrificialFire;
 import com.watabau.noosa.Camera;
 import com.watabau.noosa.audio.Sample;
 import com.etoitau.pixeldungeon.Assets;
@@ -232,7 +233,8 @@ public abstract class Char extends Actor {
                     dmg *= Dungeon.hero.heroSkills.active2.damageModifier(); //  <--- Warrior Knockback if present and active
                     dmg *= Dungeon.hero.heroSkills.active3.damageModifier(); //  <--- Warrior Rampage if present and active
 
-                    if (!(Bestiary.isBoss(enemy)) && Dungeon.hero.heroSkills.active3.AoEDamage()) //  <--- Warrior Rampage if present and active
+                    // warrior Rampage
+                    if (!(Bestiary.isBoss(enemy)) && Dungeon.hero.heroSkills.active3.AoEDamage())
                     {
                         Dungeon.hero.heroSkills.active3.active = false; // Prevent infinite callstack
                         for (int possibleTarget : Level.NEIGHBOURS8) {
@@ -252,34 +254,50 @@ public abstract class Char extends Actor {
                     // if ranged attack
                     // Huntress AimedShot if present
                     dmg *= Dungeon.hero.heroSkills.active1.rangedDamageModifier();
+
+                    // Huntress KneeShot cripple
+                    if (!Bestiary.isBoss(enemy) && Dungeon.hero.heroSkills.passiveB2.cripple())
+                        Buff.prolong(enemy, Cripple.class, Cripple.DURATION);
                 }
 
-                if (this == Dungeon.hero) {
-                    int venomLevel = Dungeon.hero.heroSkills.passiveB1.venomousAttack();
-                    if (venomLevel > 0) // <--- Rogue Venom when present
-                        Buff.affect(enemy, Poison.class).set(Poison.durationFactor(enemy) * 2 * venomLevel);
-                }
+                // Rogue Venom skill (melee or ranged)
+                int venomLevel = Dungeon.hero.heroSkills.passiveB1.venomousAttack();
+                if (venomLevel > 0)
+                    Buff.affect(enemy, Poison.class).set(Poison.durationFactor(enemy) * 2 * venomLevel);
+
             }
 
+            // Sacrificial fire
+            if (this.buff(SacrificialFire.Marked.class) != null) {
+                // if attacker marked, pass on mark
+                Buff.prolong(enemy, SacrificialFire.Marked.class, SacrificialFire.Marked.DURATION);
+            }
+
+            // sum up damage
             int effectiveDamage = Math.max(dmg - dr, 0);
 
             effectiveDamage = attackProc(enemy, effectiveDamage);
             effectiveDamage = enemy.defenseProc(this, effectiveDamage);
             if (effectiveDamage < 0)
                 return true;
+            // do damage
             enemy.damage(effectiveDamage, this);
 
 
-            if (!Bestiary.isBoss(enemy) && this == Dungeon.hero && Dungeon.hero.heroSkills.active2.damageBonus(enemy.HP) > 0 && Dungeon.hero.rangedWeapon instanceof Shuriken) // <-- Rogue Deadeye when present
-                enemy.damage(Dungeon.hero.heroSkills.active2.damageBonus(enemy.HP, true), this);
+            // rogue Deadeye (not currently used)
+//            if (!Bestiary.isBoss(enemy) && this == Dungeon.hero &&
+//                    Dungeon.hero.heroSkills.active2.damageBonus(enemy.HP) > 0 &&
+//                    Dungeon.hero.rangedWeapon instanceof Shuriken)
+//                enemy.damage(Dungeon.hero.heroSkills.active2.damageBonus(enemy.HP, true), this);
 
-            if (!Bestiary.isBoss(enemy) && this == Dungeon.hero && Dungeon.hero.heroSkills.passiveB2.cripple() && Dungeon.hero.rangedWeapon != null) // <-- Huntress knee shot when present
-                Buff.prolong(enemy, Cripple.class, Cripple.DURATION);
 
+
+            // hear hit
             if (visibleFight) {
                 Sample.INSTANCE.play(Assets.SND_HIT, 1, 1, Random.Float(0.8f, 1.25f));
             }
 
+            // if hero hit, stop action
             if (enemy == Dungeon.hero) {
                 Dungeon.hero.interrupt();
                 if (effectiveDamage > enemy.HT / 4) {
@@ -287,9 +305,11 @@ public abstract class Char extends Actor {
                 }
             }
 
+            // show hit
             enemy.sprite.bloodBurstA(sprite.center(), effectiveDamage);
             enemy.sprite.flash();
 
+            // dual swords double attack
             if (this instanceof Hero && ((Hero) this).rangedWeapon == null && ((Hero) this).belongings.weapon instanceof DualSwords) {
                 if (enemy.isAlive()) {
                     if (((DualSwords) ((Hero) this).belongings.weapon).secondHit == false) {
@@ -301,8 +321,9 @@ public abstract class Char extends Actor {
                 }
             }
 
+            // enemy died from necroblade
             if (this instanceof Hero && ((Hero) this).rangedWeapon == null && ((Hero) this).belongings.weapon instanceof NecroBlade) {
-                if (enemy.isAlive() == false) {
+                if (!enemy.isAlive()) {
                     ((NecroBlade) Dungeon.hero.belongings.weapon).updateCharge(enemy.HT > 22 ? (int) Math.floor(enemy.HT / 22) : 1);
                     GLog.p("NecroBlade absored a portion of " + enemy.name + "'s life energy.");
 
@@ -311,6 +332,7 @@ public abstract class Char extends Actor {
 
             if (!enemy.isAlive() && visibleFight) {
                 if (enemy == Dungeon.hero) {
+                    // if hero got killed
 
                     if (Dungeon.hero.killerGlyph != null) {
 
@@ -337,7 +359,7 @@ public abstract class Char extends Actor {
             return true;
 
         } else {
-
+            // else missed
             if (visibleFight) {
                 String defense = enemy.defenseVerb();
                 enemy.sprite.showStatus(CharSprite.NEUTRAL, defense);

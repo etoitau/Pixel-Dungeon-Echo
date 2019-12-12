@@ -146,7 +146,6 @@ public class QuickSlot extends Button implements WndBag.Listener {
             return (Item) content;
 
         } else if (content != null) {
-
             Item item = Dungeon.hero.belongings.getItem((Class<? extends Item>) content);
             return item != null ? item : Item.virtual((Class<? extends Item>) content);
 
@@ -315,12 +314,12 @@ public class QuickSlot extends Button implements WndBag.Listener {
         }
     }
 
-    public static void compress() {
-        if ((primaryValue == null && secondaryValue != null) ||
-                (primaryValue == secondaryValue)) {
-
-            primaryValue = secondaryValue;
-            secondaryValue = null;
-        }
-    }
+//    public static void compress() {
+//        if ((primaryValue == null && secondaryValue != null) ||
+//                (primaryValue == secondaryValue)) {
+//
+//            primaryValue = secondaryValue;
+//            secondaryValue = null;
+//        }
+//    }
 }

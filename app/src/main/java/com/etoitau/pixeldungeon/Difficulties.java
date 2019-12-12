@@ -31,6 +31,7 @@ import com.etoitau.pixeldungeon.items.potions.PotionOfHealing;
 import com.etoitau.pixeldungeon.items.potions.PotionOfStrength;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfSkill;
+import com.etoitau.pixeldungeon.items.scrolls.ScrollOfWipeOut;
 import com.etoitau.pixeldungeon.items.weapon.melee.WarHammer;
 import com.etoitau.pixeldungeon.items.weapon.missiles.SoulCrystal;
 
@@ -467,7 +468,6 @@ public enum Difficulties {
                         new PotionOfHealing().identify().collect();
                         new Food().identify().collect();
                     }
-                    new ArmorKit().collect();
                 }
                 break;
 
