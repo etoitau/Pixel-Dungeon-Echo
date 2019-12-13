@@ -63,7 +63,7 @@ import com.etoitau.pixeldungeon.ui.AttackIndicator;
 import com.etoitau.pixeldungeon.ui.Banner;
 import com.etoitau.pixeldungeon.ui.BusyIndicator;
 import com.etoitau.pixeldungeon.ui.GameLog;
-import com.etoitau.pixeldungeon.ui.HealthIndicator;
+import com.etoitau.pixeldungeon.ui.HealthIndicatorManager;
 import com.etoitau.pixeldungeon.ui.QuickSlot;
 import com.etoitau.pixeldungeon.ui.StatusPane;
 import com.etoitau.pixeldungeon.ui.Toast;
@@ -218,7 +218,7 @@ public class GameScene extends PixelScene {
         hero.updateArmor();
         mobs.add(hero);
 
-        add(new HealthIndicator());
+        add(new HealthIndicatorManager());
 
         add(cellSelector = new CellSelector(tiles));
 

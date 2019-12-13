@@ -24,6 +24,10 @@ import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.actors.mobs.Mob;
 import com.etoitau.pixeldungeon.scenes.PixelScene;
 
+/**
+ * Shows a red button in upper right of ui when enemies are in sight.
+ * Clicking it centers camera on each in turn and shows their HealthIndicator
+ */
 public class DangerIndicator extends Tag {
 
     public static final int COLOR = 0xFF4C4C;
@@ -94,10 +98,13 @@ public class DangerIndicator extends Tag {
     @Override
     protected void onClick() {
 
+        // next mob
         Mob target = Dungeon.hero.visibleEnemy(enemyIndex++);
 
-        HealthIndicator.instance.target(target == HealthIndicator.instance.target() ? null : target);
+        // show health
+        HealthIndicatorManager.instance.target(target, HealthIndicatorManager.PEEK_DURATION);
 
+        // move camera to target
         Camera.main.target = null;
         Camera.main.focusOn(target.sprite);
     }
