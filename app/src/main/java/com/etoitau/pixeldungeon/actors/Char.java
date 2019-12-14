@@ -25,6 +25,7 @@ package com.etoitau.pixeldungeon.actors;
 import java.util.HashSet;
 
 import com.etoitau.pixeldungeon.actors.blobs.SacrificialFire;
+import com.etoitau.pixeldungeon.ui.AttackIndicator;
 import com.watabau.noosa.Camera;
 import com.watabau.noosa.audio.Sample;
 import com.etoitau.pixeldungeon.Assets;
@@ -239,8 +240,11 @@ public abstract class Char extends Actor {
                         Dungeon.hero.heroSkills.active3.active = false; // Prevent infinite callstack
                         for (int possibleTarget : Level.NEIGHBOURS8) {
                             Char tmpTarget = Actor.findChar(pos + possibleTarget);
-                            if (tmpTarget != null && tmpTarget != enemy && tmpTarget instanceof Mob && !(tmpTarget instanceof NPC))
+                            if (tmpTarget != null && tmpTarget != enemy && tmpTarget instanceof Mob && !(tmpTarget instanceof NPC)) {
+                                AttackIndicator.target(tmpTarget);
                                 attack(tmpTarget);
+                            }
+
                         }
                         Dungeon.hero.heroSkills.active3.active = true; // Should be safe now
                     }

@@ -30,7 +30,7 @@ public class HealthIndicatorManager extends Component {
     private Map<Char, HealthIndicator> indicators = new HashMap<>();
 
     public final static float PEEK_DURATION = 1f;
-    public final static float DEFAULT_DURATION = 4f;
+    public final static float DEFAULT_DURATION = 5f;
 
     public HealthIndicatorManager() {
         super();
