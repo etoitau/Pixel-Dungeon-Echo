@@ -23,15 +23,16 @@
 package com.etoitau.pixeldungeon;
 
 
-import com.etoitau.pixeldungeon.items.ArmorKit;
 import com.etoitau.pixeldungeon.items.armor.PlateArmor;
+import com.etoitau.pixeldungeon.items.bags.PotionBelt;
+import com.etoitau.pixeldungeon.items.bags.ScrollHolder;
+import com.etoitau.pixeldungeon.items.bags.SeedPouch;
+import com.etoitau.pixeldungeon.items.bags.WandHolster;
 import com.etoitau.pixeldungeon.items.food.Food;
 import com.etoitau.pixeldungeon.items.potions.PotionOfExperience;
 import com.etoitau.pixeldungeon.items.potions.PotionOfHealing;
 import com.etoitau.pixeldungeon.items.potions.PotionOfStrength;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfMagicMapping;
-import com.etoitau.pixeldungeon.items.scrolls.ScrollOfSkill;
-import com.etoitau.pixeldungeon.items.scrolls.ScrollOfWipeOut;
 import com.etoitau.pixeldungeon.items.wands.WandOfAvalanche;
 import com.etoitau.pixeldungeon.items.wands.WandOfDisintegration;
 import com.etoitau.pixeldungeon.items.wands.WandOfFirebolt;
@@ -461,8 +462,14 @@ public enum Difficulties {
                 Dungeon.gold = 200;
                 break;
             case NORMAL:
-                // todo remove for production. this is to help with debugging
+                // god mode for debugging
                 if (BuildConfig.DEBUG) {
+
+                    new PotionBelt().collect();
+                    new ScrollHolder().collect();
+                    new WandHolster().collect();
+                    new SeedPouch().collect();
+
                     for (int i = 0; i < 25; i++) {
                         new PotionOfExperience().identify().collect();
                         new PotionOfStrength().identify().collect();
@@ -480,6 +487,7 @@ public enum Difficulties {
                     new WandOfFirebolt().identify().collect();
                     new WandOfPoison().identify().collect();
                     new WandOfMagicMissile().identify().collect();
+
                 }
                 break;
 

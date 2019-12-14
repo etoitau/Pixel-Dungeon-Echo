@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -48,6 +53,8 @@ public class SacrificialFire extends Blob {
     private static final String TXT_REWARD = "\"Your sacrifice is worthy and so are you!\" ";
 
     protected int pos;
+
+    private boolean claimed = false;
 
     @Override
     public void restoreFromBundle(Bundle bundle) {
@@ -100,10 +107,11 @@ public class SacrificialFire extends Blob {
 
     public static void sacrifice(Char ch) {
 
+
         Wound.hit(ch);
 
         SacrificialFire fire = (SacrificialFire) Dungeon.level.blobs.get(SacrificialFire.class);
-        if (fire != null) {
+        if (fire != null && !fire.claimed) {
 
             int exp = 0;
             if (ch instanceof Mob) {
@@ -130,6 +138,7 @@ public class SacrificialFire extends Blob {
                                     DungeonTilemap.tileCenterToWorld(fire.pos),
                                     2f));
                     Dungeon.level.drop(new ScrollOfWipeOut(), fire.pos).sprite.drop();
+                    fire.claimed = true;
                 }
             } else {
 

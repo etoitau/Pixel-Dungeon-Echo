@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 import com.etoitau.pixeldungeon.PixelDungeon;
 import com.etoitau.pixeldungeon.levels.painters.*;
@@ -104,6 +105,18 @@ public class Room extends Rect implements Graph.Node, Bundlable {
         int x = Random.Int(left + 1 + m, right - m);
         int y = Random.Int(top + 1 + m, bottom - m);
         return x + y * Level.WIDTH;
+    }
+
+    public List<Integer> cellsInside() { return cellsInside(0); }
+
+    public List<Integer> cellsInside(int m) {
+        ArrayList<Integer> cells = new ArrayList<>();
+        for (int x = left + 1 + m; x < right - m; x++) {
+            for (int y = top + 1 + m; y < bottom - m; y++) {
+                cells.add(x + y * Level.WIDTH);
+            }
+        }
+        return cells;
     }
 
     public void addNeigbour(Room other) {

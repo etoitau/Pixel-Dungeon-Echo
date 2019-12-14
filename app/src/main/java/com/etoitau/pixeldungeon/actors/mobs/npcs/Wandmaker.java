@@ -18,6 +18,7 @@
 package com.etoitau.pixeldungeon.actors.mobs.npcs;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.Journal;
@@ -184,9 +185,21 @@ public class Wandmaker extends NPC {
             if (!spawned && Dungeon.depth > 6 && Random.Int(10 - Dungeon.depth) == 0) {
 
                 Wandmaker npc = new Wandmaker();
-                do {
-                    npc.pos = room.random();
-                } while (level.map[npc.pos] == Terrain.ENTRANCE || level.map[npc.pos] == Terrain.SIGN);
+
+                npc.pos = room.random();
+                List<Integer> cells = room.cellsInside();
+                int offset = Random.Int(cells.size());
+                int temp;
+                for (int i = 0; i < cells.size(); i++) {
+                    temp = cells.get( (i + offset) % cells.size() );
+                    if (level.map[temp] != Terrain.ENTRANCE &&
+                            level.map[temp] != Terrain.SIGN &&
+                            level.map[temp] != Terrain.STORAGE) {
+                        npc.pos = temp;
+                        break;
+                    }
+                }
+
                 level.mobs.add(npc);
                 Actor.occupyCell(npc);
 

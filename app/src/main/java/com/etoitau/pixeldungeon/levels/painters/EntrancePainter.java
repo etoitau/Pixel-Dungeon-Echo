@@ -22,6 +22,7 @@
  */
 package com.etoitau.pixeldungeon.levels.painters;
 
+import com.etoitau.pixeldungeon.actors.Actor;
 import com.etoitau.pixeldungeon.levels.Level;
 import com.etoitau.pixeldungeon.levels.Room;
 import com.etoitau.pixeldungeon.levels.Terrain;
@@ -45,9 +46,10 @@ public class EntrancePainter extends Painter {
 
     public static void paintStorage(Level level, int center) {
         level.storage = -1;
-
+        int cell;
         for (int i = 0; i < Level.NEIGHBOURS8.length; i++) {
-            if (level.map[center + Level.NEIGHBOURS8[i]] == Terrain.EMPTY)
+            cell = center + Level.NEIGHBOURS8[i];
+            if (level.map[cell] == Terrain.EMPTY && Actor.findChar(cell) == null)
                 level.storage = center + Level.NEIGHBOURS8[i];
         }
 
