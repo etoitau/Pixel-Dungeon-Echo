@@ -49,8 +49,6 @@ public class SacrificialFire extends Blob {
 
     protected int pos;
 
-    private boolean causeNight = false;
-
     @Override
     public void restoreFromBundle(Bundle bundle) {
         super.restoreFromBundle(bundle);
@@ -179,6 +177,13 @@ public class SacrificialFire extends Blob {
                 sacrifice(target);
             }
             super.detach();
+        }
+
+        public static void spreadFire(Char from, Char to) {
+            if (from.buff(SacrificialFire.Marked.class) != null) {
+                // if attacker marked, pass on mark
+                Buff.prolong(to, SacrificialFire.Marked.class, SacrificialFire.Marked.DURATION);
+            }
         }
     }
 

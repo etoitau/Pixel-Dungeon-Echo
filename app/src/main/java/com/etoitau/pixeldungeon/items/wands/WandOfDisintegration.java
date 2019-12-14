@@ -23,6 +23,7 @@ import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.DungeonTilemap;
 import com.etoitau.pixeldungeon.actors.Actor;
 import com.etoitau.pixeldungeon.actors.Char;
+import com.etoitau.pixeldungeon.actors.blobs.SacrificialFire;
 import com.etoitau.pixeldungeon.effects.CellEmitter;
 import com.etoitau.pixeldungeon.effects.DeathRay;
 import com.etoitau.pixeldungeon.effects.particles.PurpleParticle;
@@ -30,6 +31,7 @@ import com.etoitau.pixeldungeon.levels.Level;
 import com.etoitau.pixeldungeon.levels.Terrain;
 import com.etoitau.pixeldungeon.mechanics.Ballistica;
 import com.etoitau.pixeldungeon.scenes.GameScene;
+import com.etoitau.pixeldungeon.ui.HealthIndicatorManager;
 import com.watabau.utils.Callback;
 import com.watabau.utils.Random;
 
@@ -88,6 +90,8 @@ public class WandOfDisintegration extends Wand {
         int dmgMax = 8 + lvl * lvl / 3;
         dmgMax *= Dungeon.hero.heroSkills.passiveB2.wandDamageBonus();
         for (Char ch : chars) {
+            SacrificialFire.Marked.spreadFire(Dungeon.hero, ch);
+            HealthIndicatorManager.instance.target(ch);
             ch.damage(Random.NormalIntRange(dmgMin, dmgMax), this);
             ch.sprite.centerEmitter().burst(PurpleParticle.BURST, Random.IntRange(1, 2));
             ch.sprite.flash();

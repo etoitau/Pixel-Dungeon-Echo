@@ -241,6 +241,7 @@ public abstract class Char extends Actor {
                         for (int possibleTarget : Level.NEIGHBOURS8) {
                             Char tmpTarget = Actor.findChar(pos + possibleTarget);
                             if (tmpTarget != null && tmpTarget != enemy && tmpTarget instanceof Mob && !(tmpTarget instanceof NPC)) {
+                                SacrificialFire.Marked.spreadFire(this, tmpTarget);
                                 AttackIndicator.target(tmpTarget);
                                 attack(tmpTarget);
                             }
@@ -271,11 +272,7 @@ public abstract class Char extends Actor {
 
             }
 
-            // Sacrificial fire
-            if (this.buff(SacrificialFire.Marked.class) != null) {
-                // if attacker marked, pass on mark
-                Buff.prolong(enemy, SacrificialFire.Marked.class, SacrificialFire.Marked.DURATION);
-            }
+            SacrificialFire.Marked.spreadFire(this, enemy);
 
             // sum up damage
             int effectiveDamage = Math.max(dmg - dr, 0);

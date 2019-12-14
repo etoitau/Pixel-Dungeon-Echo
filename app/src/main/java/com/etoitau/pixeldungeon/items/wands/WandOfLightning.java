@@ -20,6 +20,8 @@ package com.etoitau.pixeldungeon.items.wands;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import com.etoitau.pixeldungeon.actors.blobs.SacrificialFire;
+import com.etoitau.pixeldungeon.ui.HealthIndicatorManager;
 import com.watabau.noosa.Camera;
 import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.ResultDescriptions;
@@ -100,6 +102,8 @@ public class WandOfLightning extends Wand {
 
             affected.clear();
             int lvl = power();
+            SacrificialFire.Marked.spreadFire(Dungeon.hero, ch);
+            HealthIndicatorManager.instance.target(ch);
             hit(ch, Random.Int(5 + lvl / 2, 10 + lvl));
 
         } else {

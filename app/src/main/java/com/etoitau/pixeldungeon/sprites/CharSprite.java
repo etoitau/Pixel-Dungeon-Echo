@@ -196,6 +196,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
         play(operate);
     }
 
+    // animation
     public void zap(int cell) {
         turnTo(ch.pos, cell);
         play(zap);

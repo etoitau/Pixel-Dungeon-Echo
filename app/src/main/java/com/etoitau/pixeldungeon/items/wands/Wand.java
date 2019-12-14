@@ -411,6 +411,7 @@ public abstract class Wand extends KindOfWeapon {
 
     protected static CellSelector.Listener zapper = new CellSelector.Listener() {
 
+        // wand attack happens here
         @Override
         public void onSelect(Integer target) {
 
@@ -425,8 +426,9 @@ public abstract class Wand extends KindOfWeapon {
 
                 curWand.setKnown();
 
+                // calculate path
                 final int cell = Ballistica.cast(curUser.pos, target, true, curWand.hitChars);
-                curUser.sprite.zap(cell);
+                curUser.sprite.zap(cell); // animation
 
                 QuickSlot.target(curItem, Actor.findChar(cell));
 
@@ -437,7 +439,7 @@ public abstract class Wand extends KindOfWeapon {
                     curWand.fx(cell, new Callback() {
                         @Override
                         public void call() {
-                            curWand.onZap(cell);
+                            curWand.onZap(cell); // damage happens in here depending on wand
                             curWand.wandUsed();
                         }
                     });
