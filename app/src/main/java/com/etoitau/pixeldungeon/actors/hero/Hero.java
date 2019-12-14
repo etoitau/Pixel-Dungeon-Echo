@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.HashSet;
 
 import com.etoitau.pixeldungeon.PixelDungeon;
+import com.etoitau.pixeldungeon.ui.HealthIndicatorManager;
 import com.watabau.noosa.Camera;
 import com.watabau.noosa.Game;
 import com.watabau.noosa.audio.Sample;
@@ -317,6 +318,7 @@ public class Hero extends Char {
     public boolean shootThrough(Char enemy, MissileWeapon wep) {
 
         rangedWeapon = wep;
+        HealthIndicatorManager.instance.target(enemy);
         boolean result = attack(enemy);
 
         return result;

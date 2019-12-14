@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -17,28 +22,23 @@
  */
 package com.etoitau.pixeldungeon.ui;
 
+import com.etoitau.pixeldungeon.actors.Actor;
+import com.etoitau.pixeldungeon.actors.Char;
+import com.etoitau.pixeldungeon.sprites.CharSprite;
 import com.watabau.gltextures.TextureCache;
 import com.watabau.noosa.Image;
 import com.watabau.noosa.ui.Component;
-import com.etoitau.pixeldungeon.actors.Char;
-import com.etoitau.pixeldungeon.sprites.CharSprite;
 
 public class HealthIndicator extends Component {
 
     private static final float HEIGHT = 2;
-
-    public static HealthIndicator instance;
 
     private Char target;
 
     private Image bg;
     private Image level;
 
-    public HealthIndicator() {
-        super();
-
-        instance = this;
-    }
+    private HealthIndicatorTimer timer = new HealthIndicatorTimer();
 
     @Override
     protected void createChildren() {
@@ -55,7 +55,23 @@ public class HealthIndicator extends Component {
     public void update() {
         super.update();
 
-        if (target != null && target.isAlive() && target.sprite.visible) {
+        // if target is gone, clean up
+        if (target == null || !target.isAlive()) {
+            HealthIndicatorManager.instance.remove(target);
+            Actor.remove(timer);
+            visible = false;
+            return;
+        }
+
+        // if timer is up, remove it and hide indicator
+        if (!timer.hasTime) {
+            Actor.remove(timer);
+            visible = false;
+            return;
+        }
+
+        // if hero can see target, and indicator has time, show it
+        if (target.sprite.visible) {
             CharSprite sprite = target.sprite;
             bg.scale.x = sprite.width;
             level.scale.x = sprite.width * target.HP / target.HT;
@@ -68,15 +84,19 @@ public class HealthIndicator extends Component {
         }
     }
 
-    public void target(Char ch) {
-        if (ch != null && ch.isAlive()) {
-            target = ch;
-        } else {
-            target = null;
-        }
-    }
+    public void target(Char ch, float duration) {
+        if (ch == null || !ch.isAlive()) { return; }
 
-    public Char target() {
-        return target;
+        target = ch;
+
+        if (!timer.hasTime) {
+            Actor.remove(timer);
+            timer = new HealthIndicatorTimer();
+            Actor.add(timer);
+        }
+
+        timer.setTimer(duration);
+
     }
 }
+
