@@ -74,8 +74,11 @@ public class WandOfAvalanche extends Wand {
                     if (ch.sprite != null)
                         ch.sprite.flash();
 
-                    HealthIndicatorManager.instance.target(ch);
-                    SacrificialFire.Marked.spreadFire(Dungeon.hero, ch);
+                    if (ch != curUser) {
+                        HealthIndicatorManager.instance.target(ch);
+                        SacrificialFire.Marked.spreadFire(Dungeon.hero, ch);
+                    }
+
                     ch.damage(Random.Int(2, 6 + (int) ((size - d) * 2 * Dungeon.hero.heroSkills.passiveB2.wandDamageBonus())), this);
 
                     if (ch.isAlive() && Random.Int(2 + d) == 0) {

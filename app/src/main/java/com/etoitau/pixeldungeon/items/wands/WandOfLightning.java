@@ -68,6 +68,9 @@ public class WandOfLightning extends Wand {
             Camera.main.shake(2, 0.3f);
         } else if (ch instanceof Mob) {
             damage *= Dungeon.hero.heroSkills.passiveB2.wandDamageBonus(); // <---- Mage Sorcerer if present
+
+            SacrificialFire.Marked.spreadFire(Dungeon.hero, ch);
+            HealthIndicatorManager.instance.target(ch);
         }
 
         affected.add(ch);
@@ -102,8 +105,7 @@ public class WandOfLightning extends Wand {
 
             affected.clear();
             int lvl = power();
-            SacrificialFire.Marked.spreadFire(Dungeon.hero, ch);
-            HealthIndicatorManager.instance.target(ch);
+
             hit(ch, Random.Int(5 + lvl / 2, 10 + lvl));
 
         } else {

@@ -34,7 +34,10 @@ import com.etoitau.pixeldungeon.items.scrolls.ScrollOfSkill;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfWipeOut;
 import com.etoitau.pixeldungeon.items.wands.WandOfAvalanche;
 import com.etoitau.pixeldungeon.items.wands.WandOfDisintegration;
+import com.etoitau.pixeldungeon.items.wands.WandOfFirebolt;
 import com.etoitau.pixeldungeon.items.wands.WandOfLightning;
+import com.etoitau.pixeldungeon.items.wands.WandOfMagicMissile;
+import com.etoitau.pixeldungeon.items.wands.WandOfPoison;
 import com.etoitau.pixeldungeon.items.weapon.melee.WarHammer;
 import com.etoitau.pixeldungeon.items.weapon.missiles.SoulCrystal;
 
@@ -474,6 +477,9 @@ public enum Difficulties {
                     new WandOfAvalanche().identify().collect();
                     new WandOfLightning().identify().collect();
                     new WandOfDisintegration().identify().collect();
+                    new WandOfFirebolt().identify().collect();
+                    new WandOfPoison().identify().collect();
+                    new WandOfMagicMissile().identify().collect();
                 }
                 break;
 

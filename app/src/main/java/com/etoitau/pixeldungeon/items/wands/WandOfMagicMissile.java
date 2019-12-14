@@ -19,6 +19,7 @@ package com.etoitau.pixeldungeon.items.wands;
 
 import java.util.ArrayList;
 
+import com.etoitau.pixeldungeon.actors.blobs.SacrificialFire;
 import com.watabau.noosa.audio.Sample;
 import com.etoitau.pixeldungeon.Assets;
 import com.etoitau.pixeldungeon.Badges;
@@ -68,6 +69,8 @@ public class WandOfMagicMissile extends Wand {
 
         Char ch = Actor.findChar(cell);
         if (ch != null) {
+
+            SacrificialFire.Marked.spreadFire(Dungeon.hero, ch);
 
             int level = power();
 

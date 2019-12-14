@@ -17,6 +17,7 @@
  */
 package com.etoitau.pixeldungeon.items.wands;
 
+import com.etoitau.pixeldungeon.actors.blobs.SacrificialFire;
 import com.watabau.noosa.audio.Sample;
 import com.etoitau.pixeldungeon.Assets;
 import com.etoitau.pixeldungeon.Dungeon;
@@ -59,6 +60,8 @@ public class WandOfFirebolt extends Wand {
 
         Char ch = Actor.findChar(cell);
         if (ch != null) {
+
+            SacrificialFire.Marked.spreadFire(Dungeon.hero, ch);
 
             ch.damage(Random.Int(1, (int) (8 + level * level * Dungeon.hero.heroSkills.passiveB2.wandDamageBonus())), this);
             Buff.affect(ch, Burning.class).reignite(ch);

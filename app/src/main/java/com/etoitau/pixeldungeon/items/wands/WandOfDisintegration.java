@@ -91,7 +91,9 @@ public class WandOfDisintegration extends Wand {
         dmgMax *= Dungeon.hero.heroSkills.passiveB2.wandDamageBonus();
         for (Char ch : chars) {
             SacrificialFire.Marked.spreadFire(Dungeon.hero, ch);
+
             HealthIndicatorManager.instance.target(ch);
+
             ch.damage(Random.NormalIntRange(dmgMin, dmgMax), this);
             ch.sprite.centerEmitter().burst(PurpleParticle.BURST, Random.IntRange(1, 2));
             ch.sprite.flash();

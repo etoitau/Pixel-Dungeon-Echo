@@ -17,6 +17,7 @@
  */
 package com.etoitau.pixeldungeon.items.wands;
 
+import com.etoitau.pixeldungeon.actors.blobs.SacrificialFire;
 import com.watabau.noosa.audio.Sample;
 import com.etoitau.pixeldungeon.Assets;
 import com.etoitau.pixeldungeon.Dungeon;
@@ -38,6 +39,8 @@ public class WandOfPoison extends Wand {
     protected void onZap(int cell) {
         Char ch = Actor.findChar(cell);
         if (ch != null) {
+
+            SacrificialFire.Marked.spreadFire(Dungeon.hero, ch);
 
             Buff.affect(ch, Poison.class).set(Poison.durationFactor(ch) * (5 + power() * Dungeon.hero.heroSkills.passiveB2.wandDamageBonus()));
 
