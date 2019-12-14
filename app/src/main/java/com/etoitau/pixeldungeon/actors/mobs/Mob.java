@@ -384,6 +384,10 @@ public abstract class Mob extends Char {
         return Dungeon.hero.lvl <= maxLvl ? EXP : 0;
     }
 
+    public int getEXP() {
+        return EXP;
+    }
+
     @Override
     public void die(Object cause) {
 

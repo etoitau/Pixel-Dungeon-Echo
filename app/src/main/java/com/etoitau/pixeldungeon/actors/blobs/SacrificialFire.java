@@ -48,7 +48,9 @@ import com.watabau.utils.Random;
 
 public class SacrificialFire extends Blob {
 
+
     private static final String TXT_WORTHY = "\"Your sacrifice is worthy...\" ";
+    private static final String TXT_BARELY = "\"Your sacrifice is barely worthy...\" ";
     private static final String TXT_UNWORTHY = "\"Your sacrifice is unworthy...\" ";
     private static final String TXT_REWARD = "\"Your sacrifice is worthy and so are you!\" ";
 
@@ -114,11 +116,20 @@ public class SacrificialFire extends Blob {
         if (fire != null && !fire.claimed) {
 
             int exp = 0;
+            String msg = TXT_UNWORTHY;
             if (ch instanceof Mob) {
-                exp = Math.max(((Mob) ch).exp(), 1);
-                exp *= Random.IntRange(1, 3);
+                exp = ((Mob) ch).exp();
+                if (exp > 0) {
+                    exp *= Random.IntRange(1, 3);
+                    msg = TXT_WORTHY;
+                } else if (Random.Float() > 0.5) {
+                    exp = ((Mob) ch).getEXP();
+                    msg = TXT_BARELY;
+                }
+
             } else if (ch instanceof Hero) {
                 exp = ((Hero) ch).maxExp();
+                msg = TXT_WORTHY;
             }
 
             if (exp > 0) {
@@ -126,7 +137,7 @@ public class SacrificialFire extends Blob {
                 int volume = fire.volume - exp;
                 if (volume > 0) {
                     fire.seed(fire.pos, volume);
-                    GLog.w(TXT_WORTHY);
+                    GLog.w(msg);
                 } else {
                     fire.seed(fire.pos, 0);
                     Journal.remove(Feature.SACRIFICIAL_FIRE);
