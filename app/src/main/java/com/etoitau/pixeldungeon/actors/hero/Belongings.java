@@ -28,6 +28,7 @@ import java.util.Iterator;
 
 import com.etoitau.pixeldungeon.Badges;
 import com.etoitau.pixeldungeon.Dungeon;
+import com.etoitau.pixeldungeon.items.Ankh;
 import com.etoitau.pixeldungeon.items.Item;
 import com.etoitau.pixeldungeon.items.KindOfWeapon;
 import com.etoitau.pixeldungeon.items.armor.Armor;
@@ -40,6 +41,7 @@ import com.etoitau.pixeldungeon.items.rings.Ring;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfRemoveCurse;
 import com.etoitau.pixeldungeon.items.wands.Wand;
 import com.etoitau.pixeldungeon.items.weapon.missiles.Bow;
+import com.etoitau.pixeldungeon.utils.GLog;
 import com.watabau.utils.Bundle;
 import com.watabau.utils.Random;
 
@@ -192,8 +194,10 @@ public class Belongings implements Iterable<Item> {
     }
 
     public void resurrect(int depth, boolean withAnkh) {
+        Iterator<Item> it = backpack.iterator();
 
-        for (Item item : backpack.items.toArray(new Item[0])) {
+        while (it.hasNext()) {
+            Item item = it.next();
             if (!item.unique && !item.isEquipped(owner) && withAnkh) {
                 // if via ankh, lose your loot
                 item.detachAll(backpack);
@@ -201,10 +205,13 @@ public class Belongings implements Iterable<Item> {
                 // Char.die leads to buffs being removed, and wands charge via a buff
                 // but it doesn't clear the wand's Charger
                 if (item instanceof Wand) {
+                    Wand wand = (Wand) item;
                     // clear Charger
-                    ((Wand) item).stopCharging();
+                    wand.stopCharging();
                     // add new Charger and charging buff
-                    ((Wand) item).charge(owner);
+                    wand.charge(owner);
+                    // set wands to full charge
+                    wand.curCharges = wand.maxCharges;
                 }
             }
         }

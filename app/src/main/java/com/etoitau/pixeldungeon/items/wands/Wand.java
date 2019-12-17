@@ -189,11 +189,10 @@ public abstract class Wand extends KindOfWeapon {
         }
     }
 
-    ;
-
     public void charge(Char owner) {
         if (charger == null) {
-            (charger = new Charger()).attachTo(owner);
+            charger = new Charger();
+            charger.attachTo(owner);
         }
     }
 

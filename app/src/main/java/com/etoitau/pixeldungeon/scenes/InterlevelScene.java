@@ -22,8 +22,6 @@
  */
 package com.etoitau.pixeldungeon.scenes;
 
-import android.util.Log;
-
 import java.io.FileNotFoundException;
 
 import com.etoitau.pixeldungeon.BuildConfig;
@@ -38,10 +36,8 @@ import com.etoitau.pixeldungeon.Statistics;
 import com.etoitau.pixeldungeon.actors.Actor;
 import com.etoitau.pixeldungeon.actors.mobs.ColdGirl;
 import com.etoitau.pixeldungeon.items.Generator;
-import com.etoitau.pixeldungeon.levels.FrostLevel;
 import com.etoitau.pixeldungeon.levels.Level;
 import com.etoitau.pixeldungeon.ui.GameLog;
-import com.etoitau.pixeldungeon.utils.GLog;
 import com.etoitau.pixeldungeon.windows.WndError;
 import com.etoitau.pixeldungeon.windows.WndStory;
 
@@ -347,10 +343,10 @@ public class InterlevelScene extends PixelScene {
             // go to entrance of fresh boss level
             Dungeon.switchLevel(level, level.entrance);
         } else {
-            // pass -1 so keys aren't reset
-            Dungeon.hero.resurrect(-1, withAnkh);
             // refresh mobs, go to entrance
             Dungeon.resetLevel();
+            // pass -1 so keys aren't reset
+            Dungeon.hero.resurrect(-1, withAnkh);
         }
 
     }

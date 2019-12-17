@@ -1366,6 +1366,7 @@ public class Hero extends Char {
             }
         } else if (!PixelDungeon.permadeath()) {
             // if not in permadeath mode, give option to continue
+            Dungeon.deleteGame(Dungeon.hero.heroClass, false);
             GameScene.show(new WndResurrect(ankh, cause));
         } else {
             reallyDie(cause);
