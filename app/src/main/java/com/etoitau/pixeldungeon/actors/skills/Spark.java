@@ -33,9 +33,7 @@ import com.etoitau.pixeldungeon.items.wands.WandOfMagicCasting;
 
 import java.util.ArrayList;
 
-/**
- * Created by Moussa on 20-Jan-17.
- */
+
 // used by Mage
 public class Spark extends ActiveSkill2 {
 

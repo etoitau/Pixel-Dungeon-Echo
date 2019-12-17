@@ -31,9 +31,7 @@ import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.actors.hero.Hero;
 import com.etoitau.pixeldungeon.ui.StatusPane;
 
-/**
- * Created by Moussa on 20-Jan-17.
- */
+
 public class Rampage extends ActiveSkill3 {
 
 

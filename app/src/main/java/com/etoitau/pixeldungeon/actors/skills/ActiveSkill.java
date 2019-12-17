@@ -31,9 +31,6 @@ import com.etoitau.pixeldungeon.actors.hero.Hero;
 
 import java.util.ArrayList;
 
-/**
- * Created by Moussa on 22-Jan-17.
- */
 public class ActiveSkill extends Skill {
 
     @Override

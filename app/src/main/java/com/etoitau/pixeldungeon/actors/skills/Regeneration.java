@@ -27,9 +27,7 @@
 package com.etoitau.pixeldungeon.actors.skills;
 
 
-/**
- * Created by Moussa on 20-Jan-17.
- */
+
 public class Regeneration extends PassiveSkillA2 {
 
 

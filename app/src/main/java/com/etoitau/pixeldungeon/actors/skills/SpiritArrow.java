@@ -35,9 +35,7 @@ import com.etoitau.pixeldungeon.ui.StatusPane;
 
 import java.util.ArrayList;
 
-/**
- * Created by Moussa on 20-Jan-17.
- */
+
 public class SpiritArrow extends ActiveSkill1 {
 
 

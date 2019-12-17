@@ -1,6 +1,5 @@
 package com.etoitau.pixeldungeon.actors.skills;
 
-import com.etoitau.pixeldungeon.Dungeon;
 
 /**
  * Created by Moussa on 20-Jan-17.

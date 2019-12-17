@@ -34,9 +34,7 @@ import com.etoitau.pixeldungeon.items.wands.WandOfMagicCasting;
 
 import java.util.ArrayList;
 
-/**
- * Created by Moussa on 20-Jan-17.
- */
+
 
 // used by rogue
 public class NinjaBomb extends ActiveSkill2 {

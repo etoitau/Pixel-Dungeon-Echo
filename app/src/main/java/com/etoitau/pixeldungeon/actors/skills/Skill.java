@@ -32,9 +32,7 @@ import com.watabau.utils.Bundle;
 
 import java.util.ArrayList;
 
-/**
- * Created by Moussa on 20-Jan-17.
- */
+
 public class Skill {
 
     public static final String AC_ADVANCE = "Advance";

@@ -1,6 +1,5 @@
 package com.etoitau.pixeldungeon.actors.skills;
 
-import com.watabau.utils.Random;
 
 /**
  * Created by Moussa on 20-Jan-17.

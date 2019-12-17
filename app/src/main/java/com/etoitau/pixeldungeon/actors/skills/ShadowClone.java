@@ -43,9 +43,7 @@ import com.watabau.utils.Random;
 
 import java.util.ArrayList;
 
-/**
- * Created by Moussa on 20-Jan-17.
- */
+
 public class ShadowClone extends ActiveSkill3 {
 
     {
