@@ -134,6 +134,7 @@ public class WndSkills extends WndTabbed {
         return 20;
     }
 
+
     private class SkillButton extends SkillSlot {
 
         private static final int NORMAL = 0xFF4A4D44;

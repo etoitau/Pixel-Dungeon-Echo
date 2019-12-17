@@ -85,10 +85,8 @@ public class MirrorImage extends NPC {
     public int attackProc(Char enemy, int damage) {
         int dmg = super.attackProc(enemy, damage);
 
-        if (this instanceof ShadowClone == false) {
-            destroy();
-            sprite.die();
-        }
+        destroy();
+        sprite.die();
 
         return dmg;
     }

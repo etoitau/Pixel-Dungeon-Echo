@@ -37,6 +37,9 @@ public class WndSkill extends Window {
 
     private static final int WIDTH = 120;
 
+    public static final String FAIL_ADVANCE = "You do not have enough skill points to " +
+            "advance in this branch.";
+
     public WndSkill(final WndSkills owner, final Skill skill) {
 
         super();
@@ -64,12 +67,21 @@ public class WndSkill extends Window {
                 RedButton btn = new RedButton(action) {
                     @Override
                     protected void onClick() {
-                        skill.execute(Dungeon.hero, action);
+                        boolean result = skill.execute(Dungeon.hero, action);
+                        // this skill window goes away
                         hide();
                         if (owner != null) {
+                            // skill tree window goes away
                             owner.hide();
-                            if (skill instanceof BranchSkill)
-                                GameScene.show(new WndSkills(null, null));
+                            // if we were advancing branch, bring skill tree back
+                            if (skill instanceof BranchSkill) {
+                                WndSkills skillTree = new WndSkills(null, null);
+                                if (!result) {
+                                    skillTree.add(new WndMessage(FAIL_ADVANCE));
+                                }
+                                GameScene.show(skillTree);
+                            }
+
                         }
                     }
                 };

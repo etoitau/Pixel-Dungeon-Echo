@@ -78,8 +78,8 @@ import com.watabau.utils.Random;
 
 public class GameScene extends PixelScene {
 
-    protected static final String TXT_WELCOME = "Welcome to the level %d of Pixel Dungeon!";
-    protected static final String TXT_WELCOME_BACK = "Welcome back to the level %d of Pixel Dungeon!";
+    protected static final String TXT_WELCOME = "Welcome to level %d of the dungeon!";
+    protected static final String TXT_WELCOME_BACK = "Welcome back to level %d of the dungeon!";
     protected static final String TXT_NIGHT_MODE = "Be cautious, since the dungeon is even more dangerous at night!";
 
     protected static final String TXT_CHASM = "Your steps echo across the dungeon.";

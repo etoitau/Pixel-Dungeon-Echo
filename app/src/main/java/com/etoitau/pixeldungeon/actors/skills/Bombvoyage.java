@@ -45,12 +45,12 @@ public class Bombvoyage extends ActiveSkill3 {
     }
 
     @Override
-    public void execute(Hero hero, String action) {
-        super.execute(hero, action);
+    public boolean execute(Hero hero, String action) {
         if (action.equals(Skill.AC_ACTIVATE)) {
             hero.heroSkills.active1.active = false; // Disable AimedShot
             hero.heroSkills.active2.active = false; // Disable Double Arrow
         }
+        return super.execute(hero, action);
     }
 
     @Override

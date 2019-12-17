@@ -44,8 +44,6 @@ public class Skill {
     public static final String AC_SUMMON = "Summon";
     public static final String AC_CAST = "Cast";
 
-    public static final String FAIL_ADVANCE = "You do not have enough skill points to advance in this branch.";
-
     public static final String SKILL_LEVEL = "LEVEL";
 
     public String tag = "";
@@ -77,7 +75,8 @@ public class Skill {
                 return true;
             }
         } else {
-            WndStory.showStory(FAIL_ADVANCE);
+
+//            WndStory.showStory(FAIL_ADVANCE);
         }
 
         return false;
@@ -156,7 +155,8 @@ public class Skill {
         return new ArrayList<>();
     }
 
-    public void execute(Hero hero, String action) {
+    public boolean execute(Hero hero, String action) {
+        return true;
     }
 
     public float getAlpha() {

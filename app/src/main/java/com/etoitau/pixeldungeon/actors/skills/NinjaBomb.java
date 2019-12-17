@@ -59,11 +59,12 @@ public class NinjaBomb extends ActiveSkill2 {
 
 
     @Override
-    public void execute(Hero hero, String action) {
+    public boolean execute(Hero hero, String action) {
         if (action == Skill.AC_CAST && hero.MP >= getManaCost()) {
             Hero.haxWand.castSpell(WandOfMagicCasting.CAST_TYPES.NINJA_BOMB);
             Dungeon.hero.heroSkills.lastUsed = this;
         }
+        return true;
     }
 
     @Override

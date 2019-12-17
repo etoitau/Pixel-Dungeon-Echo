@@ -1,3 +1,29 @@
+/*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
+ * Skillful Pixel Dungeon
+ * Copyright (C) 2017 Moussa
+ *
+ * Pixel Dungeon
+ * Copyright (C) 2012-2015 Oleg Dolya
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ */
+
 package com.etoitau.pixeldungeon.actors.skills;
 
 
@@ -95,7 +121,7 @@ public enum CurrentSkills {
                 active1 = new DoubleStab();
                 //active2 = new DeadEye();
                 active2 = new NinjaBomb();
-                active3 = new ShadowCloneNew();
+                active3 = new ShadowClone();
                 break;
 
             case HUNTRESS:
@@ -151,30 +177,32 @@ public enum CurrentSkills {
         return 0;
     }
 
-    public void advance(BRANCHES branch) {
+    public boolean advance(BRANCHES branch) {
+        boolean result = false;
         switch (branch) {
             case PASSIVEA:
                 if (passiveA1.level < Skill.MAX_LEVEL) {
-                    passiveA1.requestUpgrade();
+                    result = passiveA1.requestUpgrade();
                 } else if (passiveA2.level < Skill.MAX_LEVEL) {
-                    passiveA2.requestUpgrade();
-                } else passiveA3.requestUpgrade();
+                    result = passiveA2.requestUpgrade();
+                } else result = passiveA3.requestUpgrade();
                 break;
             case PASSIVEB:
                 if (passiveB1.level < Skill.MAX_LEVEL) {
-                    passiveB1.requestUpgrade();
+                    result = passiveB1.requestUpgrade();
                 } else if (passiveB2.level < Skill.MAX_LEVEL) {
-                    passiveB2.requestUpgrade();
-                } else passiveB3.requestUpgrade();
+                    result = passiveB2.requestUpgrade();
+                } else result = passiveB3.requestUpgrade();
                 break;
             case ACTIVE:
                 if (active1.level < Skill.MAX_LEVEL) {
-                    active1.requestUpgrade();
+                    result = active1.requestUpgrade();
                 } else if (active2.level < Skill.MAX_LEVEL) {
-                    active2.requestUpgrade();
-                } else active3.requestUpgrade();
+                    result = active2.requestUpgrade();
+                } else result = active3.requestUpgrade();
                 break;
         }
+        return result;
     }
 
 

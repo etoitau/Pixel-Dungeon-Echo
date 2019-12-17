@@ -47,12 +47,12 @@ public class DoubleShot extends ActiveSkill2 {
     private boolean onDouble = false; // prevent infinite loop
 
     @Override
-    public void execute(Hero hero, String action) {
-        super.execute(hero, action);
+    public boolean execute(Hero hero, String action) {
         if (action.equals(Skill.AC_ACTIVATE)) {
             hero.heroSkills.active1.active = false; // Disable AimedShot
             hero.heroSkills.active3.active = false; // Disable Bombvoyage
         }
+        return super.execute(hero, action);
     }
 
     @Override

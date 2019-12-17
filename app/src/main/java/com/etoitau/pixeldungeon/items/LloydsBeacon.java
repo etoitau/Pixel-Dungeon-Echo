@@ -49,7 +49,7 @@ public class LloydsBeacon extends Item {
             "Lloyd's beacon is an intricate magic device, that allows you to return to a place you have already been.";
 
     private static final String TXT_SET =
-            "\n\nThis beacon was set somewhere on the level %d of Pixel Dungeon.";
+            "\n\nThis beacon was set somewhere on the level %d of the dungeon.";
 
     public static final float TIME_TO_USE = 1;
 
