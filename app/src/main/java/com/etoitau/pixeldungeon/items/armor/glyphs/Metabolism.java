@@ -28,6 +28,9 @@ import com.etoitau.pixeldungeon.sprites.ItemSprite.Glowing;
 import com.etoitau.pixeldungeon.ui.BuffIndicator;
 import com.watabau.utils.Random;
 
+/**
+ * Chance to heal by 1/5 max, but increase hunger by 1/10 max
+ */
 public class Metabolism extends Glyph {
 
     private static final String TXT_METABOLISM = "%s of metabolism";

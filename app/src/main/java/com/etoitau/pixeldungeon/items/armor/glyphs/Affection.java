@@ -29,6 +29,9 @@ import com.etoitau.pixeldungeon.sprites.ItemSprite.Glowing;
 import com.watabau.utils.GameMath;
 import com.watabau.utils.Random;
 
+/**
+ * Chance of giving both attacker and defender charm debuff, defender's may not last as long
+ */
 public class Affection extends Glyph {
 
     private static final String TXT_AFFECTION = "%s of affection";

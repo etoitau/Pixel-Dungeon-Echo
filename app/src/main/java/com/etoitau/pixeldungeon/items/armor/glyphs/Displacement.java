@@ -28,6 +28,9 @@ import com.etoitau.pixeldungeon.sprites.ItemSprite;
 import com.etoitau.pixeldungeon.sprites.ItemSprite.Glowing;
 import com.watabau.utils.Random;
 
+/**
+ * Chance to teleport defender to random location on the level
+ */
 public class Displacement extends Glyph {
 
     private static final String TXT_DISPLACEMENT = "%s of displacement";

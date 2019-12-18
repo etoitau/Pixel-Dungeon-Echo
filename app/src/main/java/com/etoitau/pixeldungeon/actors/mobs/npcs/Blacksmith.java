@@ -182,7 +182,7 @@ public class Blacksmith extends NPC {
         }
 
         if (item1.level() < 0 || item2.level() < 0) {
-            return "It's a junk, the quality is too poor!";
+            return "It's junk, the quality is too poor!";
         }
 
         if (!item1.isUpgradable() || !item2.isUpgradable()) {

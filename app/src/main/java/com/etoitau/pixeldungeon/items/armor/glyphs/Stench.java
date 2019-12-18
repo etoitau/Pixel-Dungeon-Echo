@@ -28,6 +28,9 @@ import com.etoitau.pixeldungeon.sprites.ItemSprite;
 import com.etoitau.pixeldungeon.sprites.ItemSprite.Glowing;
 import com.watabau.utils.Random;
 
+/**
+ * Chance to release toxic gas
+ */
 public class Stench extends Glyph {
 
     private static final String TXT_STENCH = "%s of stench";

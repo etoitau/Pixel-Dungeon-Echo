@@ -32,6 +32,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 
+import com.etoitau.pixeldungeon.levels.features.Sign;
 import com.watabau.noosa.Game;
 import com.etoitau.pixeldungeon.actors.Actor;
 import com.etoitau.pixeldungeon.actors.Char;
@@ -122,6 +123,7 @@ public class Dungeon {
         Potion.initColors();
         Wand.initWoods();
         Ring.initGems();
+        Sign.initSigns();
 
         Statistics.reset();
         Journal.reset();
@@ -436,6 +438,7 @@ public class Dungeon {
             Potion.save(bundle);
             Wand.save(bundle);
             Ring.save(bundle);
+            Sign.save(bundle);
 
             Bundle badges = new Bundle();
             Badges.saveLocal(badges);
@@ -502,6 +505,7 @@ public class Dungeon {
         Potion.restore(bundle);
         Wand.restore(bundle);
         Ring.restore(bundle);
+        Sign.restore(bundle);
 
         potionOfStrength = bundle.getInt(POS);
         scrollsOfUpgrade = bundle.getInt(SOU);
@@ -549,8 +553,6 @@ public class Dungeon {
         hero = (Hero) bundle.get(HERO);
         if (hero == null)
             Log.d("", "null hero");
-        // todo cleanup if didn't break
-        //QuickSlot.compress();
 
         gold = bundle.getInt(GOLD);
         depth = bundle.getInt(DEPTH);

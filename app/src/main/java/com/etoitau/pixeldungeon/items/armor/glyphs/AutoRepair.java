@@ -24,6 +24,9 @@ import com.etoitau.pixeldungeon.items.armor.Armor;
 import com.etoitau.pixeldungeon.items.armor.Armor.Glyph;
 import com.etoitau.pixeldungeon.sprites.ItemSprite.Glowing;
 
+/**
+ * Spends defender's gold to prevent deterioration
+ */
 public class AutoRepair extends Glyph {
 
     private static final String TXT_AUTO_REPAIR = "%s of auto-repair";

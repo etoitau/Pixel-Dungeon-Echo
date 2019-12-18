@@ -32,6 +32,9 @@ import com.etoitau.pixeldungeon.sprites.ItemSprite;
 import com.etoitau.pixeldungeon.sprites.ItemSprite.Glowing;
 import com.watabau.utils.Random;
 
+/**
+ * Chance to spawn mirror images, but increase damage to defender
+ */
 public class Multiplicity extends Glyph {
 
     private static final String TXT_MULTIPLICITY = "%s of multiplicity";

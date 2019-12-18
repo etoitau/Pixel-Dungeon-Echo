@@ -33,6 +33,9 @@ import com.etoitau.pixeldungeon.utils.Utils;
 import com.watabau.utils.Bundle;
 import com.watabau.utils.Random;
 
+/**
+ * Chance to spread attack damage out to 1 per tick
+ */
 public class Viscosity extends Glyph {
 
     private static final String TXT_VISCOSITY = "%s of viscosity";

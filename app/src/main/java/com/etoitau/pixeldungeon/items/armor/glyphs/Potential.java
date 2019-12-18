@@ -29,6 +29,9 @@ import com.etoitau.pixeldungeon.sprites.ItemSprite;
 import com.etoitau.pixeldungeon.sprites.ItemSprite.Glowing;
 import com.watabau.utils.Random;
 
+/**
+ * Chance to hit attacker with lightning, but defender gets hit as well (half as hard on average)
+ */
 public class Potential extends Glyph {
 
     private static final String TXT_POTENTIAL = "%s of potential";

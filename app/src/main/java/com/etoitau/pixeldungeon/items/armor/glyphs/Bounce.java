@@ -27,6 +27,9 @@ import com.etoitau.pixeldungeon.items.armor.Armor.Glyph;
 import com.etoitau.pixeldungeon.levels.Level;
 import com.watabau.utils.Random;
 
+/**
+ * Chance to bounce attacker away
+ */
 public class Bounce extends Glyph {
 
     private static final String TXT_BOUNCE = "%s of bounce";

@@ -31,6 +31,9 @@ import com.etoitau.pixeldungeon.sprites.ItemSprite;
 import com.etoitau.pixeldungeon.sprites.ItemSprite.Glowing;
 import com.watabau.utils.Random;
 
+/**
+ * Chance of giving attacker frost and defender burning debuff
+ */
 public class AntiEntropy extends Glyph {
 
     private static final String TXT_ANTI_ENTROPY = "%s of anti-entropy";

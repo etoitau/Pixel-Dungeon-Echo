@@ -30,6 +30,9 @@ import com.etoitau.pixeldungeon.sprites.ItemSprite;
 import com.etoitau.pixeldungeon.sprites.ItemSprite.Glowing;
 import com.watabau.utils.Random;
 
+/**
+ * Chance to give defender earthroot buff, but also rooted debuff
+ */
 public class Entanglement extends Glyph {
 
     private static final String TXT_ENTANGLEMENT = "%s of entanglement";
