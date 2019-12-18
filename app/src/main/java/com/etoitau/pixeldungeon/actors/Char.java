@@ -381,7 +381,9 @@ public abstract class Char extends Actor {
     // did the attack land?
     public static boolean hit(Char attacker, Char defender, boolean magic) {
         // Huntress Awareness against ranged attack
-        if (defender instanceof Hero && Level.distance(attacker.pos, defender.pos) > 1 && ((Hero) defender).heroSkills.passiveA3.dodgeChance())
+        if (defender instanceof Hero
+                && Level.distance(attacker.pos, defender.pos) > 1
+                && ((Hero) defender).heroSkills.passiveA2.dodgeChance())
             return false;
 
         // Huntress AimedShot

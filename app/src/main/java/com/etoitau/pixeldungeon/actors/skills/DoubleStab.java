@@ -18,10 +18,10 @@ public class DoubleStab extends ActiveSkill1 {
 
     @Override
     public boolean doubleStab() {
-        if (active == false || Dungeon.hero.MP < getManaCost())
+        if (!active || Dungeon.hero.MP < getManaCost())
             return false;
 
-        //castTextYell();
+        castTextYell();
         Dungeon.hero.MP -= getManaCost();
         StatusPane.manaDropping += getManaCost();
         return true;

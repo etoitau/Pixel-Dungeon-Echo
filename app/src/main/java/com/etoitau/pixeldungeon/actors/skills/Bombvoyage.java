@@ -52,7 +52,7 @@ public class Bombvoyage extends ActiveSkill3 {
 
     @Override
     public boolean arrowToBomb() {
-        if (active == false || Dungeon.hero.MP < getManaCost())
+        if (!active || Dungeon.hero.MP < getManaCost())
             return false;
         else {
             castTextYell();

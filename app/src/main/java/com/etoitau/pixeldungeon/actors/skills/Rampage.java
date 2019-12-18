@@ -45,7 +45,7 @@ public class Rampage extends ActiveSkill3 {
 
     @Override
     public float damageModifier() {
-        if (active == false || Dungeon.hero.MP < getManaCost())
+        if (!active || Dungeon.hero.MP < getManaCost())
             return 1f;
         else {
             return 0.4f + 0.2f * level;
@@ -54,7 +54,7 @@ public class Rampage extends ActiveSkill3 {
 
     @Override
     public boolean AoEDamage() {
-        if (active == false || Dungeon.hero.MP < getManaCost())
+        if (!active || Dungeon.hero.MP < getManaCost())
             return false;
         else {
             castTextYell();

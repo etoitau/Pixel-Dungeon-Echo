@@ -20,7 +20,7 @@ public class KOArrow extends PassiveSkillB2 {
 
     @Override
     public boolean goToSleep() {
-
+        if (level < 1) { return false; }
         if (Random.Int(100) < 10 * level) {
             castTextYell();
             return true;

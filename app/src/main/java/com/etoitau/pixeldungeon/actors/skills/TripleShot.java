@@ -48,6 +48,7 @@ public class TripleShot extends ActiveSkill2 {
     public boolean execute(Hero hero, String action) {
         if (action == Skill.AC_ACTIVATE) {
             hero.heroSkills.active3.active = false; // Disable Bombvoyage
+            hero.heroSkills.active1.active = false; // Disable Aimed Shot
         }
         return super.execute(hero, action);
     }

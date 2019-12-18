@@ -37,6 +37,7 @@ public class Venom extends PassiveSkillB1 {
     }
 
     public int venomousAttack() {
+        if (level < 1) { return 0; }
         if (Random.Int(100) < 10 * level) {
             castTextYell();
             return level;

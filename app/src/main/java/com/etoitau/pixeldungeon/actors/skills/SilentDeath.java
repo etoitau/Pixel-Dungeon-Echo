@@ -17,15 +17,17 @@ public class SilentDeath extends PassiveSkillB3 {
     }
 
     public boolean instantKill() {
+        if (level < 1) { return false; }
 
         if (Random.Int(100) < 10 * level) {
             castText = "Eternal Slumber";
             castTextYell();
             return true;
+        } else {
+            castText = "Almost had them...";
+            castTextYell();
+            return false;
         }
-        castText = "Almost had them...";
-        castTextYell();
-        return false;
     }
 
     @Override

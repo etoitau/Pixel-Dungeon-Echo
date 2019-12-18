@@ -68,7 +68,7 @@ public class Smash extends ActiveSkill1 {
 
     @Override
     public float damageModifier() {
-        if (active == false || Dungeon.hero.MP < getManaCost())
+        if (!active || Dungeon.hero.MP < getManaCost())
             return 1f;
         else {
             castTextYell();

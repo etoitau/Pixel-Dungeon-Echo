@@ -17,14 +17,16 @@ public class LockSmith extends PassiveSkillA3 {
 
     @Override
     public boolean disableTrap() {
+        if (level < 1) { return false; }
         if (Random.Int(100) < 33 * level) {
-            castText = "Woah!!";
+            castText = "That was close!";
             castTextYell();
             return true;
+        } else {
+            castText = "Need to train in " + name + " more...";
+            castTextYell();
+            return false;
         }
-        castText = "Need to train in " + name + " more...";
-        castTextYell();
-        return false;
     }
 
     @Override

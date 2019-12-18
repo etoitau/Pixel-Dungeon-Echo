@@ -16,14 +16,18 @@ public class Awareness extends PassiveSkillA2 {
 
     @Override
     public boolean dodgeChance() {
+        if (level < 1) { return false; }
+
         if (Random.Int(100) < 25 * level) {
             castText = "Too easy..";
             castTextYell();
             return true;
+        } else {
+            // this would be too much shouting
+//            castText = "I am losing my touch...";
+//            castTextYell();
+            return false;
         }
-        castText = "I am losing my touch...";
-        castTextYell();
-        return false;
     }
 
     @Override

@@ -250,7 +250,7 @@ public enum CurrentSkills {
             unlockSkill();
     }
 
-    // unlocked by fighting cold girl
+    // unlocked by fighting cold girl todo unlock extra skills somehow?
     public void unlockSkill() {
         skillUnlocked = true;
         int preserveLevel = 0;
