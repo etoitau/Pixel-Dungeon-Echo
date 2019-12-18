@@ -271,7 +271,7 @@ public class StartScene extends PixelScene {
         final int diff = index;
 
 
-        StartScene.this.add(new WndOptions(title, Description, "Yes", "No") {
+        StartScene.this.add(new WndOptions(title, Description, "OK", "Back") {
 
             @Override
             protected void onSelect(int index) {
