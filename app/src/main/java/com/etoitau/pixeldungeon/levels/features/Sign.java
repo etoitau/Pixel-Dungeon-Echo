@@ -35,6 +35,10 @@ import com.etoitau.pixeldungeon.windows.WndMessage;
 import com.watabau.utils.Bundle;
 import com.watabau.utils.Random;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class Sign {
 
     private static final String TXT_DEAD_END =
@@ -58,11 +62,14 @@ public class Sign {
     private static final String[] SEWER_SIGN = {
             "Don't overestimate your strength. Use weapons and armor you can handle.",
             "Not all doors in the dungeon are visible at first sight. If you are stuck, search for hidden doors.",
-            "Remember that raising your strength is not the only way to access better equipment. You can go " +
-                    "the other way, lowering its strength requirement with Scrolls of Upgrade.",
-            "An alchemy pot will randomly pick one of the seeds thrown into it to decide what potion to give."
-
+            "Upgrading a piece of equipment will make it more effective, and also lighter.",
+            "After you've thrown enough seeds in, an alchemy pot will randomly pick one and " +
+                    "you'll get the potion associated with that seed.",
+            "Every dungeon is different. An indigo potion, or a holly wand, might not do what it " +
+                    "did the last time you explored.",
+            "Ration your food, there's not much to be found in the dungeon."
     };
+    private static List<Integer> sewerIndexes;
 
 
     private static final String[] PRISON_SIGN = {
@@ -76,6 +83,7 @@ public class Sign {
                     "heal you to offset it.",
             "Mystery meat is risky unless you can cook or freeze it"
     };
+    private static List<Integer> prisonIndexes;
 
     private static final String[] CAVE_SIGN = {
             "When you're attacked by several monsters at the same time, try to retreat behind a door.",
@@ -83,28 +91,40 @@ public class Sign {
             "There is no sense in possessing more than one Ankh at the same time, because you will " +
                     "lose them upon resurrecting.",
             "A scroll of upgrade or enchantment will also fix partially degraded item.",
-            "If you have two of the same item, the blacksmith can upgrade the higher-level one."
+            "If you have two of the same item, the blacksmith can upgrade the higher-level one.",
+            "Picking on someone much lower level than you doesn't give you any experience."
     };
+    private static List<Integer> caveIndexes;
 
     private static final String[] CITY_SIGN = {
             "When you upgrade an enchanted weapon, there is a chance to destroy that enchantment.",
             "Weapons and armors deteriorate faster than wands and rings, but there are more ways to fix them.",
-            "The only way to obtain a Scroll of Wipe Out is to receive it as a gift from the dungeon spirits.",
+            "There is a powerful scroll that can only be obtained through sacrifice to the dungeon " +
+                    "spirits. Look for a mysterious alter - the mark it gives spreads through violence.",
             "Wearing armour lighter than your strength makes it easier to dodge hits.",
             "Enchanted armour always has a cost, and can even kill you",
-            "Make sure you find the ambitious imp. It's a valuable friend to have..."
+            "Make sure you find the ambitious imp. It's a valuable friend to have...",
+            "Magical attacks are much harder to dodge than those from normal weapons."
     };
+    private static List<Integer> cityIndexes;
 
     private static final String TXT_BURN =
             "As you try to read the sign it bursts into greenish flames.";
 
     private static final String SIGN_SEED_KEY = "sign_seed";
 
-    private static int randSeed = 1;
-    private static Integer[] seeds = new Integer[]{97, 149, 257, 313, 499, 571, 691, 761, 829, 907};
+    private static int randSeed = 1; 
 
     public static void initSigns() {
-        randSeed = Random.element(seeds);
+        randSeed = Random.Int(217);
+        getShuffle();
+    }
+
+    private static void getShuffle() {
+        sewerIndexes = randIndexes(SEWER_SIGN, randSeed);
+        prisonIndexes = randIndexes(PRISON_SIGN, randSeed);
+        caveIndexes = randIndexes(CAVE_SIGN, randSeed);
+        cityIndexes = randIndexes(CITY_SIGN, randSeed);
     }
 
     public static void save(Bundle bundle) {
@@ -115,8 +135,9 @@ public class Sign {
         if (bundle.contains(SIGN_SEED_KEY)) {
             randSeed = bundle.getInt(SIGN_SEED_KEY);
         } else {
-            randSeed = seeds[0];
+            randSeed = 1;
         }
+        getShuffle();
     }
 
 
@@ -126,7 +147,6 @@ public class Sign {
             return;
 
         }
-        int index;
         String signText = null;
         switch (Dungeon.depth) {
             case 1:
@@ -135,8 +155,7 @@ public class Sign {
             case 2:
             case 3:
             case 4:
-                index = (Dungeon.depth - 2) * randSeed % SEWER_SIGN.length;
-                signText = SEWER_SIGN[index];
+                signText = SEWER_SIGN[sewerIndexes.get(Dungeon.depth - 2)];
                 break;
             case 5:
                 signText = BOSS_SIGN[0];
@@ -147,8 +166,7 @@ public class Sign {
             case 7:
             case 8:
             case 9:
-                index = (Dungeon.depth - 7) * randSeed % PRISON_SIGN.length;
-                signText = PRISON_SIGN[index];
+                signText = PRISON_SIGN[prisonIndexes.get(Dungeon.depth - 7)];
                 break;
             case 10:
                 signText = BOSS_SIGN[1];
@@ -159,8 +177,7 @@ public class Sign {
             case 12:
             case 13:
             case 14:
-                index = (Dungeon.depth - 12) * randSeed % CAVE_SIGN.length;
-                signText = CAVE_SIGN[index];
+                signText = CAVE_SIGN[caveIndexes.get(Dungeon.depth - 12)];
                 break;
             case 15:
                 signText = BOSS_SIGN[2];
@@ -171,8 +188,7 @@ public class Sign {
             case 17:
             case 18:
             case 19:
-                index = (Dungeon.depth - 17) * randSeed % CITY_SIGN.length;
-                signText = CITY_SIGN[index];
+                signText = CITY_SIGN[cityIndexes.get(Dungeon.depth - 17)];
                 break;
             case 20:
                 signText = BOSS_SIGN[3];
@@ -199,5 +215,14 @@ public class Sign {
         Sample.INSTANCE.play(Assets.SND_BURNING);
 
         GLog.w(TXT_BURN);
+    }
+
+    private static <T> List<Integer> randIndexes(T[] array, int seed) {
+        ArrayList<Integer> indexes = new ArrayList<>(array.length);
+        for (int i = 0; i < array.length; i++) {
+            indexes.add(i);
+        }
+        Collections.shuffle(indexes, new java.util.Random(seed));
+        return indexes;
     }
 }
