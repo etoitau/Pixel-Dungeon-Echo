@@ -113,7 +113,7 @@ public class Sign {
 
     private static final String SIGN_SEED_KEY = "sign_seed";
 
-    private static int randSeed = 1; 
+    private static int randSeed = 1;
 
     public static void initSigns() {
         randSeed = Random.Int(217);

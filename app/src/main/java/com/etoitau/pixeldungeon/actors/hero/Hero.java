@@ -677,7 +677,7 @@ public class Hero extends Char {
     private boolean actPickUp(HeroAction.PickUp action) {
         int dst = action.dst;
         if (pos == dst) {
-
+            // if standing on it
             Heap heap = Dungeon.level.heaps.get(pos);
             if (heap != null) {
                 Item item = heap.pickUp();
@@ -1156,21 +1156,23 @@ public class Hero extends Char {
         Heap heap;
 
         if (Dungeon.level.map[cell] == Terrain.ALCHEMY && cell != pos) {
-
+            // if alchemy pot
             curAction = new HeroAction.Cook(cell);
 
         } else if (Level.fieldOfView[cell] && (ch = Actor.findChar(cell)) instanceof Mob) {
-
+            // if mob
             if (ch instanceof NPC) {
                 curAction = new HeroAction.Interact((NPC) ch);
-            } else if (ch instanceof ColdGirl && ((((ColdGirl.ColdGirlAI) ((ColdGirl) ch).state).aiStatus == ColdGirl.PASSIVE) || (((ColdGirl.ColdGirlAI) ((ColdGirl) ch).state).aiStatus == ColdGirl.DONE_MODE))) {
+            } else if (ch instanceof ColdGirl &&
+                    ((((ColdGirl.ColdGirlAI) ((ColdGirl) ch).state).aiStatus == ColdGirl.PASSIVE)
+                            || (((ColdGirl.ColdGirlAI) ((ColdGirl) ch).state).aiStatus == ColdGirl.DONE_MODE))) {
                 curAction = new HeroAction.Discuss((ColdGirl) ch);
             } else {
                 curAction = new HeroAction.Attack(ch);
             }
 
         } else if (Level.fieldOfView[cell] && (heap = Dungeon.level.heaps.get(cell)) != null && heap.type != Heap.Type.HIDDEN) {
-
+            // some kind of collectible item
             switch (heap.type) {
                 case HEAP:
                     curAction = new HeroAction.PickUp(cell);

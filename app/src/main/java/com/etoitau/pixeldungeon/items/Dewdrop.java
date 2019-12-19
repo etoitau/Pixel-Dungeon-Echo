@@ -42,8 +42,10 @@ public class Dewdrop extends Item {
 
         DewVial vial = hero.belongings.getItem(DewVial.class);
 
-        if (hero.HP < hero.HT || vial == null || vial.isFull()) {
+        boolean pickedUp;
 
+        if (hero.HP < hero.HT) {
+            // use drop to heal
             int value = 1 + (Dungeon.depth - 1) / 5;
             if (hero.heroClass == HeroClass.HUNTRESS) {
                 value++;
@@ -55,17 +57,22 @@ public class Dewdrop extends Item {
                 hero.sprite.emitter().burst(Speck.factory(Speck.HEALING), 1);
                 hero.sprite.showStatus(CharSprite.POSITIVE, TXT_VALUE, effect);
             }
-
-        } else if (vial != null) {
-
+            pickedUp = true;
+        } else if (vial == null || vial.isFull()) {
+            // if full health and no vial or full vial, don't pick up
+            pickedUp = false;
+        } else {
+            // if full health and vial not full, put in vial
             vial.collectDew(this);
-
+            pickedUp = true;
         }
 
-        Sample.INSTANCE.play(Assets.SND_DEWDROP);
-        hero.spendAndNext(TIME_TO_PICK_UP);
+        if (pickedUp) {
+            Sample.INSTANCE.play(Assets.SND_DEWDROP);
+            hero.spendAndNext(TIME_TO_PICK_UP);
+        }
 
-        return true;
+        return pickedUp;
     }
 
     @Override
