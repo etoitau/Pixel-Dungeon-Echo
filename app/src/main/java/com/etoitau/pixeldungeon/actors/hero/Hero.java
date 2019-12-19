@@ -346,7 +346,9 @@ public class Hero extends Char {
         if (wep != null) {
             // attack with weapon
             if (rangedWeapon == null) {
-                return (int) ((attackSkill + Dungeon.hero.heroSkills.passiveB1.toHitBonus()) * accuracy * wep.acuracyFactor(this)); // <--- Warrior Firm Hand if present
+                int firmHandBonus = (int) (Dungeon.hero.heroSkills.passiveB1.toHitBonus()
+                        * accuracy * wep.acuracyFactor(this));
+                return attackSkill + firmHandBonus; // <--- Warrior Firm Hand if present
             }
             return (int) (attackSkill * accuracy * wep.acuracyFactor(this));
         } else {
@@ -1016,9 +1018,10 @@ public class Hero extends Char {
             }
         }
 
-        if (!(Bestiary.isBoss(enemy)) && rangedWeapon != null && rangedWeapon instanceof Arrow
-                && enemy instanceof Mob && !(enemy instanceof NPC) && heroSkills.passiveB2.goToSleep()) //  <--- Warrior KnockBack if present and active
-        {
+        // KO Arrow
+        if (heroSkills.passiveB2.goToSleep()
+                && rangedWeapon != null && rangedWeapon instanceof Arrow
+                && enemy instanceof Mob && !(Bestiary.isBoss(enemy)) && !(enemy instanceof NPC) ) {
             Buff.affect(enemy, Sleep.class);
             return -1;
         }

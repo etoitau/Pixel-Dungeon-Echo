@@ -31,7 +31,9 @@ import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.actors.hero.Hero;
 import com.etoitau.pixeldungeon.ui.StatusPane;
 
-
+/**
+ * bonus skill for warrior
+ */
 public class Smite extends Smash {
 
 

@@ -43,7 +43,7 @@ public class ManaRegeneration extends Buff {
                 bonus = 1;
             }
 
-            bonus += ((Hero) target).heroSkills.passiveA2.manaRegenerationBonus(); // <-- Mage mdeitation if present
+            bonus += ((Hero) target).heroSkills.passiveA2.manaRegenerationBonus(); // <-- Mage meditation if present
 
             spend((float) (REGENERATION_DELAY / Math.pow(1.2, bonus)));
 

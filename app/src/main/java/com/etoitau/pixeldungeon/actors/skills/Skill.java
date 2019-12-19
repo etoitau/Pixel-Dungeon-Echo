@@ -46,11 +46,11 @@ public class Skill {
 
     public String tag = "";
 
-    public static final int MAX_LEVEL = 3;
+    public static final int MAX_LEVEL = 3; // how many times a skill can be upgraded
 
-    public static final int STARTING_SKILL = 2;
+    public static final int STARTING_SKILL = 2; // starting points
 
-    public static int availableSkill = STARTING_SKILL;
+    public static int availableSkill = STARTING_SKILL; // available points
 
     public static final float TIME_TO_USE = 1f;
 
@@ -72,11 +72,7 @@ public class Skill {
                 availableSkill -= tier;
                 return true;
             }
-        } else {
-
-//            WndStory.showStory(FAIL_ADVANCE);
         }
-
         return false;
     }
 

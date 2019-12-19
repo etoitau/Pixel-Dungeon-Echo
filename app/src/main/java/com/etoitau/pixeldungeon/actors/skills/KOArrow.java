@@ -7,6 +7,8 @@ import com.watabau.utils.Random;
 
 /**
  * Created by Moussa on 20-Jan-17.
+ *
+ * Bonus skill for rogue
  */
 public class KOArrow extends PassiveSkillB2 {
 
