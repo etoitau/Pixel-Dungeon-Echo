@@ -68,7 +68,6 @@ import com.etoitau.pixeldungeon.items.weapon.melee.DualSwords;
 import com.etoitau.pixeldungeon.items.weapon.melee.NecroBlade;
 import com.etoitau.pixeldungeon.items.weapon.missiles.Arrow;
 import com.etoitau.pixeldungeon.items.weapon.missiles.Bow;
-import com.etoitau.pixeldungeon.items.weapon.missiles.Shuriken;
 import com.etoitau.pixeldungeon.levels.Level;
 import com.etoitau.pixeldungeon.levels.Terrain;
 import com.etoitau.pixeldungeon.levels.features.Door;
@@ -326,9 +325,8 @@ public abstract class Char extends Actor {
             // enemy died from necroblade
             if (this instanceof Hero && ((Hero) this).rangedWeapon == null && ((Hero) this).belongings.weapon instanceof NecroBlade) {
                 if (!enemy.isAlive()) {
-                    ((NecroBlade) Dungeon.hero.belongings.weapon).updateCharge(enemy.HT > 22 ? (int) Math.floor(enemy.HT / 22) : 1);
-                    GLog.p("NecroBlade absored a portion of " + enemy.name + "'s life energy.");
-
+                    if (((NecroBlade) Dungeon.hero.belongings.weapon).absorbSoul(enemy.HT))
+                        GLog.p("NecroBlade absored a portion of " + enemy.name + "'s life energy.");
                 }
             }
 

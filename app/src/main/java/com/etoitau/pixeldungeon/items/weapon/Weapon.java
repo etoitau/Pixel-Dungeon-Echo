@@ -46,9 +46,9 @@ abstract public class Weapon extends KindOfWeapon {
     private static final String TXT_TO_STRING = "%s :%d";
     private static final String TXT_BROKEN = "broken %s :%d";
 
-    public int STR = 10;
-    public float ACU = 1;
-    public float DLY = 1f;
+    public int STR = 10; // required hero strength
+    public float ACU = 1; // accuracy
+    public float DLY = 1f; // attack delay
 
     public enum Imbue {
         NONE, SPEED, ACCURACY
