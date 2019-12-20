@@ -77,8 +77,8 @@ public class Sign {
             "Identify your potions and scrolls as soon as possible. Don't put it off to the moment " +
                     "when you actually need them.",
             "Being hungry doesn't hurt, but starving does hurt.",
-            "Surprise attack has a better chance to hit. For example, you can ambush your enemy behind " +
-                    "a closed door when you know it is approaching.",
+            "A surprise attack has a better chance to hit. For example, you can ambush your enemy " +
+                    "behind a closed door when you know it is approaching.",
             "You can fill your dew vial by throwing it into a well of health.",
             "If you have a full dew vial when you take a mortal blow, it will automatically " +
                     "heal you to offset it.",

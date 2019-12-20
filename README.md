@@ -16,6 +16,9 @@ Developed by [Kyle Chatman](http://www.kchatman.com) under a GNU Public License.
 [https://play.google.com/store/apps/details?id=com.etoitau.pixeldungeon](https://play.google.com/store/apps/details?id=com.etoitau.pixeldungeon)
 
 ## Description of Changes
+### v. 1.0.5
+* Bug fixes
+    * Ankh not wiping out backpack
 ### v. 1.0.4
 * Reworked signpost system
     * New tips
