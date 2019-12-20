@@ -67,7 +67,8 @@ public class Sign {
                     "you'll get the potion associated with that seed.",
             "Every dungeon is different. An indigo potion, or a holly wand, might not do what it " +
                     "did the last time you explored.",
-            "Ration your food, there's not much to be found in the dungeon."
+            "Ration your food, there's not much to be found in the dungeon.",
+            "Items only start wearing out if they're level +1 or greater."
     };
     private static List<Integer> sewerIndexes;
 

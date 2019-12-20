@@ -88,7 +88,7 @@ public class WndResurrect extends Window {
                 if (ankh != null)
                     Statistics.ankhsUsed++;
 
-                InterlevelScene.mode = InterlevelScene.Mode.RESURRECT;
+                InterlevelScene.mode = ankh == null? InterlevelScene.Mode.RESURRECT: InterlevelScene.Mode.RESURRECT_ANKH;
                 Game.switchScene(InterlevelScene.class);
             }
         };

@@ -250,6 +250,7 @@ public abstract class Char extends Actor {
                         Dungeon.hero.heroSkills.active3.active = true; // Should be safe now
                     }
 
+                    // rogue silent death
                     if (!Bestiary.isBoss(enemy) &&
                             enemy instanceof Mob &&
                             ((Mob) enemy).state instanceof Mob.Sleeping &&

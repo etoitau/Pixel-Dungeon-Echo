@@ -75,6 +75,7 @@ abstract public class Weapon extends KindOfWeapon {
             }
         }
 
+        // durability updated here
         use();
     }
 

@@ -212,6 +212,7 @@ public class Bag extends Item implements Iterable<Item> {
                 nested.remove();
             } else {
                 items.remove(index);
+                index--;
             }
         }
     }

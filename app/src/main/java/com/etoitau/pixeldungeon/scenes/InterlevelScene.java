@@ -148,6 +148,7 @@ public class InterlevelScene extends PixelScene {
                             break;
                         case RESURRECT_ANKH:
                             resurrect(true);
+                            break;
                         case RETURN:
                             returnTo();
                             break;

@@ -25,6 +25,9 @@ package com.etoitau.pixeldungeon.actors.hero;
 import android.util.Log;
 
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Stack;
 
 import com.etoitau.pixeldungeon.Badges;
 import com.etoitau.pixeldungeon.Dungeon;
@@ -195,12 +198,14 @@ public class Belongings implements Iterable<Item> {
 
     public void resurrect(int depth, boolean withAnkh) {
         Iterator<Item> it = backpack.iterator();
+        Stack<Item> toRemove = new Stack<>();
 
         while (it.hasNext()) {
             Item item = it.next();
             if (!item.unique && !item.isEquipped(owner) && withAnkh) {
                 // if via ankh, lose your loot
-                item.detachAll(backpack);
+                toRemove.add(item);
+                //item.detachAll(backpack);
             } else if (!withAnkh) {
                 // Char.die leads to buffs being removed, and wands charge via a buff
                 // but it doesn't clear the wand's Charger
@@ -214,6 +219,10 @@ public class Belongings implements Iterable<Item> {
                     wand.curCharges = wand.maxCharges;
                 }
             }
+        }
+
+        while (!toRemove.isEmpty()) {
+            toRemove.pop().detachAll(backpack);
         }
 
         // remove curses from equipped items
