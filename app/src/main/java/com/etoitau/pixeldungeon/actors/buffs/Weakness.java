@@ -57,6 +57,6 @@ public class Weakness extends FlavourBuff {
 
     public static float duration(Char ch) {
         Resistance r = ch.buff(Resistance.class);
-        return r != null ? r.durationFactor() * DURATION : DURATION;
+        return r != null ? r.durationFactor(ch) * DURATION : DURATION;
     }
 }

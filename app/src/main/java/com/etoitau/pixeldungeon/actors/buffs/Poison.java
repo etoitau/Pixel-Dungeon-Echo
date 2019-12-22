@@ -87,7 +87,7 @@ public class Poison extends Buff implements Hero.Doom {
 
     public static float durationFactor(Char ch) {
         Resistance r = ch.buff(Resistance.class);
-        return r != null ? r.durationFactor() : 1;
+        return r != null ? r.durationFactor(ch) : 1;
     }
 
     @Override

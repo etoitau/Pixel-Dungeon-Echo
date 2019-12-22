@@ -19,7 +19,9 @@ package com.etoitau.pixeldungeon.items.rings;
 
 import java.util.HashSet;
 
+import com.etoitau.pixeldungeon.actors.Char;
 import com.etoitau.pixeldungeon.actors.blobs.ToxicGas;
+import com.etoitau.pixeldungeon.actors.buffs.Buff;
 import com.etoitau.pixeldungeon.actors.buffs.Burning;
 import com.etoitau.pixeldungeon.actors.buffs.Poison;
 import com.etoitau.pixeldungeon.actors.mobs.Eye;
@@ -71,8 +73,21 @@ public class RingOfElements extends Ring {
             }
         }
 
-        public float durationFactor() {
+        public float durationFactor(Char ch) {
+            if (ch == null) { return 1; }
+            int cumulativeLevel = 0;
+            for (Buff buff: ch.buffs(Resistance.class)) {
+                cumulativeLevel += ((RingBuff) buff).level;
+            }
+            return durationFactor(cumulativeLevel);
+        }
+
+        public float durationFactor(int level) {
             return level < 0 ? 1 : (2 + 0.5f * level) / (2 + level);
+        }
+
+        public float durationFactor() {
+            return durationFactor(level);
         }
     }
 }

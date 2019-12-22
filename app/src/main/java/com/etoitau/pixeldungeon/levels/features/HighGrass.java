@@ -28,6 +28,8 @@ import com.etoitau.pixeldungeon.effects.CellEmitter;
 import com.etoitau.pixeldungeon.effects.particles.LeafParticle;
 import com.etoitau.pixeldungeon.items.Dewdrop;
 import com.etoitau.pixeldungeon.items.Generator;
+import com.etoitau.pixeldungeon.items.rings.Ring;
+import com.etoitau.pixeldungeon.items.rings.RingOfHerbalism;
 import com.etoitau.pixeldungeon.items.rings.RingOfHerbalism.Herbalism;
 import com.etoitau.pixeldungeon.levels.Level;
 import com.etoitau.pixeldungeon.levels.Terrain;
@@ -43,12 +45,13 @@ public class HighGrass {
 
         if (!Dungeon.isChallenged(Challenges.NO_HERBALISM)) {
             int herbalismLevel = 0;
+
             if (ch != null) {
-                Herbalism herbalism = ch.buff(Herbalism.class);
-                if (herbalism != null) {
-                    herbalismLevel = herbalism.level;
+                for (Buff buff: ch.buffs(RingOfHerbalism.Herbalism.class)) {
+                    herbalismLevel += ((Ring.RingBuff) buff).level;
                 }
             }
+            
             // Seed
             if (herbalismLevel >= 0 && Random.Int(18) <= Random.Int(herbalismLevel + 1)) {
                 level.drop(Generator.random(Generator.Category.SEED), pos).sprite.drop();
@@ -62,7 +65,7 @@ public class HighGrass {
 
         int leaves = 4;
 
-        // Warlock's barkskin
+        // Warden's barkskin
         if (ch instanceof Hero && ((Hero) ch).subClass == HeroSubClass.WARDEN) {
             Buff.affect(ch, Barkskin.class).level(ch.HT / 3);
             leaves = 8;

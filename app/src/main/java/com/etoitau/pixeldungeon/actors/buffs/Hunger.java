@@ -80,7 +80,7 @@ public class Hunger extends Buff implements Hero.Doom {
                 int bonus = 0;
 
                 for (Buff buff : target.buffs(RingOfSatiety.Satiety.class)) {
-                    // reduce hunger gained per step by level of ring of satiety if equipped
+                    // reduce hunger gained per step by level of rings of satiety if equipped
                     bonus += ((RingOfSatiety.Satiety) buff).level;
                 }
 

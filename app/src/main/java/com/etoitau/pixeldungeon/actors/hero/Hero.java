@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.HashSet;
 
 import com.etoitau.pixeldungeon.PixelDungeon;
+import com.etoitau.pixeldungeon.items.rings.Ring;
 import com.etoitau.pixeldungeon.ui.HealthIndicatorManager;
 import com.watabau.noosa.Camera;
 import com.watabau.noosa.Game;
@@ -1529,17 +1530,10 @@ public class Hero extends Char {
 
         boolean smthFound = false;
 
-        int positive = 0;
-        int negative = 0;
+        int distance = 1;
         for (Buff buff : buffs(RingOfDetection.Detection.class)) {
-            int bonus = ((RingOfDetection.Detection) buff).level;
-            if (bonus > positive) {
-                positive = bonus;
-            } else if (bonus < 0) {
-                negative += bonus;
-            }
+            distance += ((Ring.RingBuff) buff).level;
         }
-        int distance = 1 + positive + negative;
 
         // detection ability
         // awareness is 0.1 to 0.2775
