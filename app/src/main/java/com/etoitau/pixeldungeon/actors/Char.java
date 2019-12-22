@@ -99,7 +99,12 @@ public abstract class Char extends Actor {
             "C'est impossible!",
             "Sacre bleu!",
             "Ouch...",
-            "I will be avenged..."
+            "I will be avenged...",
+            "Ooph...",
+            "Aaargh...",
+            "Ay, a scratch...",
+            "t'will serve...",
+            "Inconceivable!"
     };
 
     private String[] RAT_DEATH_SCREAMS = {
@@ -151,6 +156,8 @@ public abstract class Char extends Actor {
     public String getDeathScream() {
         if (this instanceof Hero)
             return HERO_DEATH_SCREAM[Random.IntRange(0, HERO_DEATH_SCREAM.length - 1)];
+        // turn down the screaming a bit...
+        if (Random.Float() < 0.66) { return ""; }
         if (this instanceof Rat)
             return RAT_DEATH_SCREAMS[Random.IntRange(0, RAT_DEATH_SCREAMS.length - 1)];
         if (this instanceof SummonedPet)
