@@ -28,7 +28,8 @@ public class PotionOfExperience extends Potion {
     @Override
     protected void apply(Hero hero) {
         setKnown();
-        hero.earnExp(hero.maxExp() - hero.exp);
+        // add xp equivalent to current level
+        hero.earnExp(hero.maxExp());
     }
 
     @Override
