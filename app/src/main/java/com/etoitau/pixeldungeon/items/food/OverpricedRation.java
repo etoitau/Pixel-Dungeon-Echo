@@ -25,7 +25,7 @@ public class OverpricedRation extends Food {
     {
         name = "overpriced food ration";
         image = ItemSpriteSheet.OVERPRICED;
-        energy = Hunger.STARVING - Hunger.HUNGRY;
+        energy = Hunger.STARVING - Hunger.HUNGRY; // 100
         message = "That food tasted ok.";
     }
 

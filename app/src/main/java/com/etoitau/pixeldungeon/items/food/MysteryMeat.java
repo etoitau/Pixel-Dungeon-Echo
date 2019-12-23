@@ -34,7 +34,7 @@ public class MysteryMeat extends Food {
     {
         name = "mystery meat";
         image = ItemSpriteSheet.MEAT;
-        energy = Hunger.STARVING - Hunger.HUNGRY;
+        energy = Hunger.STARVING - Hunger.HUNGRY; // 100
         message = "That food tasted... strange.";
     }
 

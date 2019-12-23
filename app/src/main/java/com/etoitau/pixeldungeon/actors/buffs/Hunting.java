@@ -29,6 +29,9 @@ import com.etoitau.pixeldungeon.utils.GLog;
 
 public class Hunting extends Buff {
 
+    private static final float BASE_COOLDOWN = 160;
+    private static final int BONUS_PER_LEVEL = 20;
+
 
     @Override
     public boolean act() {
@@ -47,7 +50,7 @@ public class Hunting extends Buff {
             if (!steak.collect())
                 Dungeon.level.drop(steak, hero.pos).sprite.drop();
 
-            spend(100 - 10 * hero.heroSkills.passiveA3.hunting());
+            spend(BASE_COOLDOWN - BONUS_PER_LEVEL * hero.heroSkills.passiveA3.hunting());
 
         } else {
 

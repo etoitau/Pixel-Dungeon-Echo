@@ -25,7 +25,7 @@ public class ChargrilledMeat extends Food {
     {
         name = "chargrilled meat";
         image = ItemSpriteSheet.STEAK;
-        energy = Hunger.STARVING - Hunger.HUNGRY;
+        energy = Hunger.STARVING - Hunger.HUNGRY; // 100
     }
 
     @Override

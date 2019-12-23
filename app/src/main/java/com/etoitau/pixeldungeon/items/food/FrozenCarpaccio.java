@@ -36,7 +36,7 @@ public class FrozenCarpaccio extends Food {
     {
         name = "frozen carpaccio";
         image = ItemSpriteSheet.CARPACCIO;
-        energy = Hunger.STARVING - Hunger.HUNGRY;
+        energy = Hunger.STARVING - Hunger.HUNGRY; // 100
     }
 
     @Override
