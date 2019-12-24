@@ -25,6 +25,7 @@ package com.etoitau.pixeldungeon.scenes;
 import java.io.FileNotFoundException;
 
 import com.etoitau.pixeldungeon.BuildConfig;
+import com.etoitau.pixeldungeon.TimeMachine;
 import com.watabau.noosa.BitmapText;
 import com.watabau.noosa.Camera;
 import com.watabau.noosa.Game;
@@ -59,7 +60,17 @@ public class InterlevelScene extends PixelScene {
     public static Exception lastException = null;
 
     public enum Mode {
-        DESCEND, ASCEND, CONTINUE, RESURRECT, RESURRECT_ANKH, RETURN, FALL, NONE, TELEPORT, TELEPORT_BACK
+        DESCEND,
+        ASCEND,
+        CONTINUE,
+        RESURRECT,
+        RESURRECT_ANKH,
+        RETURN,
+        FALL,
+        NONE,
+        TELEPORT,
+        TELEPORT_BACK,
+        BACK_IN_TIME
     }
 
     public static Mode mode;
@@ -75,7 +86,6 @@ public class InterlevelScene extends PixelScene {
         FADE_IN, STATIC, FADE_OUT
     }
 
-    ;
     private Phase phase;
     private float timeLeft;
 
@@ -164,6 +174,9 @@ public class InterlevelScene extends PixelScene {
                             break;
                         case TELEPORT_BACK:
                             teleport_back();
+                            break;
+                        case BACK_IN_TIME:
+                            backInTime();
                             break;
                         default:
                     }
@@ -350,6 +363,16 @@ public class InterlevelScene extends PixelScene {
             Dungeon.hero.resurrect(-1, withAnkh);
         }
 
+    }
+
+
+    private void backInTime() {
+        Actor.fixTime();
+        GameLog.wipe();
+        // use TimeMachine to set Dungeon and level state to old snapshot
+        TimeMachine.goBack();
+        // start up dungeon in this state
+        Dungeon.switchLevel(Dungeon.level, Dungeon.hero.pos);
     }
 
     @Override

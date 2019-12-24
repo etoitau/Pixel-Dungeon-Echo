@@ -225,6 +225,8 @@ public class ItemSpriteSheet {
     public static final int POTION_PLACEHOLDER = SPD_OFFSET + 33;
     public static final int BELT = SPD_OFFSET + 34;
 
+    public static final int CRACKED_ANKH = SPD_OFFSET + 35;
+
     public static final int CRYSTAL_EMPTY = SPD_OFFSET + 40;
     public static final int CRYSTAL_FULL = SPD_OFFSET + 41;
 

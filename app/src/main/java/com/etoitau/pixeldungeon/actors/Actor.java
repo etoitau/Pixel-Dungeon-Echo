@@ -266,4 +266,13 @@ public abstract class Actor implements Bundlable {
     public static HashSet<Actor> all() {
         return all;
     }
+
+    public static Actor findByClass(Class searchClass) {
+        for (Actor actor: all) {
+            if (actor.getClass() == searchClass) {
+                return actor;
+            }
+        }
+        return null;
+    }
 }

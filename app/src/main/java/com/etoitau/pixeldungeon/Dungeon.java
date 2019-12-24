@@ -438,6 +438,7 @@ public class Dungeon {
         Wand.save(bundle);
         Ring.save(bundle);
         Sign.save(bundle);
+        TimeMachine.save(bundle);
 
         Bundle badges = new Bundle();
         Badges.saveLocal(badges);
@@ -486,10 +487,12 @@ public class Dungeon {
         }
     }
 
+    // used in InterlevelSchene.restore()
     public static void loadGame(HeroClass cl) throws IOException {
         loadGame(gameFile(cl), true);
     }
 
+    // used by WndRanking
     public static void loadGame(String fileName) throws IOException {
         loadGame(fileName, false);
     }
@@ -516,6 +519,7 @@ public class Dungeon {
         Wand.restore(bundle);
         Ring.restore(bundle);
         Sign.restore(bundle);
+        TimeMachine.restore(bundle);
 
         potionOfStrength = bundle.getInt(POS);
         scrollsOfUpgrade = bundle.getInt(SOU);
