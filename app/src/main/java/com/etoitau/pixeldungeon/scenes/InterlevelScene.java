@@ -366,6 +366,7 @@ public class InterlevelScene extends PixelScene {
     }
 
 
+    // todo do we need to do this through interlevelscene? or direct form ankh ok?
     private void backInTime() {
         Actor.fixTime();
         GameLog.wipe();
@@ -373,6 +374,8 @@ public class InterlevelScene extends PixelScene {
         TimeMachine.goBack();
         // start up dungeon in this state
         Dungeon.switchLevel(Dungeon.level, Dungeon.hero.pos);
+        // todo fix actor process loop
+
     }
 
     @Override

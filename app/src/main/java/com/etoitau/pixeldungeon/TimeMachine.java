@@ -37,7 +37,7 @@ public class TimeMachine {
     private static final int MAX_SAVES = 2;
     private static AnkhTimer timer;
 
-    public static boolean isOn;
+    public static boolean isOn = false;
 
 
     private static final String KEY_IS_ON = "isOn";
@@ -51,10 +51,11 @@ public class TimeMachine {
 
     public static void setTimer() {
         if (!isOn) {
-            AnkhTimer foundTimer = (AnkhTimer) Actor.findByClass(AnkhTimer.class);
+            // add timer if not already added
+            AnkhTimer foundTimer = Dungeon.hero.buff(AnkhTimer.class);
             if (foundTimer == null) {
                 timer = new AnkhTimer();
-                Actor.add(timer);
+                timer.attachTo(Dungeon.hero);
             } else {
                 timer = foundTimer;
             }
@@ -64,7 +65,7 @@ public class TimeMachine {
     }
 
     public static void stopTimer() {
-        Actor.remove(timer);
+        timer.detach();
         isOn = false;
     }
 
@@ -82,10 +83,7 @@ public class TimeMachine {
         snapshots.offer(snapshot);
     }
 
-    public static void goBack(Ankh ankh) {
-        // record current ankh's
-        AnkhCracked cracked = Dungeon.hero.belongings.getItem(AnkhCracked.class);
-        Ankh uncracked = Dungeon.hero.belongings.getItem(Ankh.class);
+    public static void goBack() {
 
         // get oldest snapshot, should be 1-2 x TOCK
         Bundle bundle = snapshots.getFirst();
@@ -96,16 +94,15 @@ public class TimeMachine {
         Dungeon.loadGameFromBundle(gameBundle, true);
         Dungeon.level = (Level) bundle.get(KEY_LEVEL);
 
-        // restore ankhs
-        Belongings belongings = Dungeon.hero.belongings;
-        belongings.getItem(AnkhCracked.class).detachAll(belongings.backpack);
-        belongings.getItem(Ankh.class).detachAll(belongings.backpack);
-        cracked.collect(belongings.backpack);
-        uncracked.collect(belongings.backpack);
+        // find ankh to use
+        Ankh ankhToUse = Dungeon.hero.belongings.getItem(AnkhCracked.class);
+        if (ankhToUse == null) {
+            ankhToUse = Dungeon.hero.belongings.getItem(Ankh.class);
+        }
 
         // use the ankh
-        if (ankh != null) {
-            ankh.usedTimeMachine();
+        if (ankhToUse != null) {
+            ankhToUse.usedTimeMachine();
         }
 
         // check if have any ankh left, if not, shut down
@@ -126,6 +123,12 @@ public class TimeMachine {
 
     public static void restore(Bundle bundle) {
         snapshots.clear();
+
+        if (!bundle.contains(KEY_TIME_MACHINE)) {
+            isOn = false;
+            return;
+        }
+
         Bundle timeMachine = bundle.getBundle(KEY_TIME_MACHINE);
 
         isOn = timeMachine.getBoolean(KEY_IS_ON);

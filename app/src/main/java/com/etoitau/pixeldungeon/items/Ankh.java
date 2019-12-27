@@ -26,7 +26,9 @@ import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.TimeMachine;
 import com.etoitau.pixeldungeon.actors.hero.Hero;
 import com.etoitau.pixeldungeon.items.bags.Bag;
+import com.etoitau.pixeldungeon.scenes.InterlevelScene;
 import com.etoitau.pixeldungeon.sprites.ItemSpriteSheet;
+import com.watabau.noosa.Game;
 
 import java.util.ArrayList;
 
@@ -68,7 +70,8 @@ public class Ankh extends Item {
     @Override
     public void execute(final Hero hero, String action) {
         if (action.equals(AC_GO_BACK)) {
-            TimeMachine.goBack(this);
+            InterlevelScene.mode = InterlevelScene.Mode.BACK_IN_TIME;
+            Game.switchScene(InterlevelScene.class);
         } else {
             super.execute(hero, action);
         }

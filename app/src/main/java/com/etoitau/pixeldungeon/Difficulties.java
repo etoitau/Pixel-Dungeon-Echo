@@ -23,6 +23,8 @@
 package com.etoitau.pixeldungeon;
 
 
+import com.etoitau.pixeldungeon.items.Ankh;
+import com.etoitau.pixeldungeon.items.AnkhCracked;
 import com.etoitau.pixeldungeon.items.armor.PlateArmor;
 import com.etoitau.pixeldungeon.items.bags.PotionBelt;
 import com.etoitau.pixeldungeon.items.bags.ScrollHolder;
@@ -481,12 +483,9 @@ public enum Difficulties {
                         new PotionOfHealing().identify().collect();
                         new Food().identify().collect();
                     }
-                    new WandOfAvalanche().identify().collect();
-                    new WandOfLightning().identify().collect();
-                    new WandOfDisintegration().identify().collect();
                     new WandOfFirebolt().identify().collect();
-                    new WandOfPoison().identify().collect();
-                    new WandOfMagicMissile().identify().collect();
+                    new Ankh().collect();
+                    new AnkhCracked().collect();
 
                 }
                 break;

@@ -2,10 +2,11 @@ package com.etoitau.pixeldungeon.items;
 
 import com.etoitau.pixeldungeon.TimeMachine;
 import com.etoitau.pixeldungeon.actors.Actor;
+import com.etoitau.pixeldungeon.actors.buffs.Buff;
 
-public class AnkhTimer extends Actor {
+public class AnkhTimer extends Buff {
     @Override
-    protected boolean act() {
+    public boolean act() {
         // save snapshot
         TimeMachine.takeSnapshot();
         // postpone till next
