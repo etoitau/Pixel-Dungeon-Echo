@@ -452,6 +452,8 @@ public enum Difficulties {
                 new SoulCrystal().identify().collect();
                 new SoulCrystal().identify().collect();
                 new SoulCrystal().identify().collect();
+                new Ankh().collect();
+                new Ankh().collect();
                 Dungeon.gold = 500;
                 break;
             case EASY:
@@ -461,6 +463,7 @@ public enum Difficulties {
                 new Food().identify().collect();
                 new SoulCrystal().identify().collect();
                 new SoulCrystal().identify().collect();
+                new Ankh().collect();
                 Dungeon.gold = 200;
                 break;
             case NORMAL:

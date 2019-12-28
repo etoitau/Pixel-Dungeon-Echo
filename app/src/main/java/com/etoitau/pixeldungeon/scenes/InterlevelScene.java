@@ -65,6 +65,7 @@ public class InterlevelScene extends PixelScene {
         CONTINUE,
         RESURRECT,
         RESURRECT_ANKH,
+        RESURRECT_CRACKED,
         RETURN,
         FALL,
         NONE,
@@ -111,6 +112,7 @@ public class InterlevelScene extends PixelScene {
                 break;
             case RESURRECT:
             case RESURRECT_ANKH:
+            case RESURRECT_CRACKED:
                 text = TXT_RESURRECTING;
                 break;
             case RETURN:
@@ -154,10 +156,9 @@ public class InterlevelScene extends PixelScene {
                             restore();
                             break;
                         case RESURRECT:
-                            resurrect(false);
-                            break;
                         case RESURRECT_ANKH:
-                            resurrect(true);
+                        case RESURRECT_CRACKED:
+                            resurrect();
                             break;
                         case RETURN:
                             returnTo();
@@ -343,13 +344,13 @@ public class InterlevelScene extends PixelScene {
         }
     }
 
-    private void resurrect(boolean withAnkh) throws Exception {
+    private void resurrect() {
 
         Actor.fixTime();
 
         if (Dungeon.bossLevel()) {
-            // pass current depth to flush correct keys
-            Dungeon.hero.resurrect(Dungeon.depth, withAnkh);
+            // reset hero
+            Dungeon.hero.resurrect(mode);
             // then kick up to prev level
             Dungeon.depth--;
             // recreate fresh boss level
@@ -359,23 +360,20 @@ public class InterlevelScene extends PixelScene {
         } else {
             // refresh mobs, go to entrance
             Dungeon.resetLevel();
-            // pass -1 so keys aren't reset
-            Dungeon.hero.resurrect(-1, withAnkh);
+            // reset hero
+            Dungeon.hero.resurrect(mode);
         }
 
     }
 
-
-    // todo do we need to do this through interlevelscene? or direct form ankh ok?
+    // Using ankh to go back in time
     private void backInTime() {
-        Actor.fixTime();
+        Actor.clear();
         GameLog.wipe();
         // use TimeMachine to set Dungeon and level state to old snapshot
         TimeMachine.goBack();
         // start up dungeon in this state
         Dungeon.switchLevel(Dungeon.level, Dungeon.hero.pos);
-        // todo fix actor process loop
-
     }
 
     @Override
