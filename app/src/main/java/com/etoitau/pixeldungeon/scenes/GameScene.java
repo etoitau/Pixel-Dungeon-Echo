@@ -256,7 +256,7 @@ public class GameScene extends PixelScene {
 
         switch (InterlevelScene.mode) {
             case BACK_IN_TIME:
-                WandOfBlink.appear(Dungeon.hero, Dungeon.level.entrance);
+                WandOfBlink.appear(Dungeon.hero, Dungeon.hero.pos);
                 new Flare(8, 32).color(0xAAFFA3, true).show(hero, 1f);
                 break;
             case RESURRECT:

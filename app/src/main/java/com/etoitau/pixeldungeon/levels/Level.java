@@ -85,8 +85,6 @@ public abstract class Level implements Bundlable {
         GRASS
     }
 
-    ;
-
     public static final int WIDTH = 32;
     public static final int HEIGHT = 32;
     public static final int LENGTH = WIDTH * HEIGHT;
@@ -1068,9 +1066,8 @@ public abstract class Level implements Bundlable {
             case Terrain.EMPTY_WELL:
                 return "The well has run dry.";
             case Terrain.STORAGE:
-                return "The storage can hold up to five items. These items are not lost if you are " +
-                        "resurrected by an Ankh. To use, stand in same tile and open your inventory. " +
-                        "Click on any item and then click store.";
+                return "The storage can hold up to five items. To use, stand in same tile and open " +
+                        "your inventory. Click on any item and then click store.";
             default:
                 if (tile >= Terrain.WATER_TILES) {
                     return tileDesc(Terrain.WATER);

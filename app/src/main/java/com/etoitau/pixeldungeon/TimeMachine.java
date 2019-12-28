@@ -90,6 +90,7 @@ public class TimeMachine {
         if (bundle == null) { return; }
 
         // load game from snapshot
+        Actor.clear();
         Bundle gameBundle = bundle.getBundle(KEY_GAME);
         Dungeon.loadGameFromBundle(gameBundle, true);
         Dungeon.level = (Level) bundle.get(KEY_LEVEL);
@@ -118,11 +119,10 @@ public class TimeMachine {
 
         // restart snapshot collection
         snapshots.clear();
-        takeSnapshot();
     }
 
     public static void restore(Bundle bundle) {
-        snapshots.clear();
+        reset();
 
         if (!bundle.contains(KEY_TIME_MACHINE)) {
             isOn = false;
@@ -156,6 +156,11 @@ public class TimeMachine {
         }
         timeMachine.put(KEY_N_SNAPSHOTS, i);
         bundle.put(KEY_TIME_MACHINE, timeMachine);
+    }
+
+    public static void reset() {
+        snapshots.clear();
+        isOn = false;
     }
 
 }

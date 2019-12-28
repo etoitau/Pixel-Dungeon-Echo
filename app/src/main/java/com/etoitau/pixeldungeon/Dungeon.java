@@ -124,6 +124,7 @@ public class Dungeon {
         Wand.initWoods();
         Ring.initGems();
         Sign.initSigns();
+        TimeMachine.reset();
 
         Statistics.reset();
         Journal.reset();
