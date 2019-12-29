@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.HashSet;
 
 import com.etoitau.pixeldungeon.PixelDungeon;
+import com.etoitau.pixeldungeon.actors.mobs.Wraith;
 import com.etoitau.pixeldungeon.items.AnkhCracked;
 import com.etoitau.pixeldungeon.items.rings.Ring;
 import com.etoitau.pixeldungeon.ui.HealthIndicatorManager;
@@ -1410,13 +1411,11 @@ public class Hero extends Char {
         int pos = Dungeon.hero.pos;
 
         ArrayList<Integer> passable = new ArrayList<Integer>();
-        for (Integer ofs : Level.NEIGHBOURS8) {
-            int cell = pos + ofs;
+        for (Integer cell : Level.aroundEight(pos)) {
             if ((Level.passable[cell] || Level.avoid[cell]) && Dungeon.level.heaps.get(cell) == null) {
                 passable.add(cell);
             }
         }
-        Collections.shuffle(passable);
 
         ArrayList<Item> items = new ArrayList<Item>(Dungeon.hero.belongings.backpack.items);
         for (Integer cell : passable) {
@@ -1635,6 +1634,8 @@ public class Hero extends Char {
             Buff.prolong(this, Weakness.class, Weakness.duration(this));
             // big hit to hunger
             hunger.satisfy(-Hunger.STARVING);
+            // haunted
+            Wraith.spawnAround(pos, 1);
         } else {
             // full health
             HP = HT;

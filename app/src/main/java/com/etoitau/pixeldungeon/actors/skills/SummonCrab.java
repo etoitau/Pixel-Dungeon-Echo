@@ -39,6 +39,7 @@ import com.etoitau.pixeldungeon.ui.StatusPane;
 import com.watabau.utils.Random;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class SummonCrab extends ActiveSkill2 {
@@ -67,18 +68,8 @@ public class SummonCrab extends ActiveSkill2 {
             for (int nu = 0; nu < 1; nu++) {
                 int newPos = hero.pos;
                 if (Actor.findChar(newPos) != null) {
-                    ArrayList<Integer> candidates = new ArrayList<Integer>();
-                    boolean[] passable = Level.passable;
-
-                    for (int n : Level.NEIGHBOURS4) {
-                        int c = hero.pos + n;
-                        if (c < 0 || c >= Level.passable.length)
-                            continue;
-                        if (passable[c] && Actor.findChar(c) == null) {
-                            candidates.add(c);
-                        }
-                    }
-                    newPos = candidates.size() > 0 ? Random.element(candidates) : -1;
+                    List<Integer> candidates = Level.aroundCell(hero.pos, 1, Level.NEIGHBOURS4, true);
+                    newPos = candidates.size() > 0 ? candidates.get(0) : -1;
                     if (newPos != -1) {
                         spawned = true;
                         SummonedPet crab = new SummonedPet(SummonedPet.PET_TYPES.CRAB);
@@ -92,7 +83,7 @@ public class SummonCrab extends ActiveSkill2 {
                 }
             }
 
-            if (spawned == true) {
+            if (spawned) {
                 hero.MP -= getManaCost();
                 StatusPane.manaDropping += getManaCost();
                 castTextYell();

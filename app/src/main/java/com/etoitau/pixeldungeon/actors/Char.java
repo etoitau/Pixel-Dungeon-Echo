@@ -244,8 +244,8 @@ public abstract class Char extends Actor {
                     if (!(Bestiary.isBoss(enemy)) && Dungeon.hero.heroSkills.active3.AoEDamage())
                     {
                         Dungeon.hero.heroSkills.active3.active = false; // Prevent infinite callstack
-                        for (int possibleTarget : Level.NEIGHBOURS8) {
-                            Char tmpTarget = Actor.findChar(pos + possibleTarget);
+                        for (int possibleTarget : Level.aroundEight(pos)) {
+                            Char tmpTarget = Actor.findChar(possibleTarget);
                             if (tmpTarget != null && tmpTarget != enemy && tmpTarget instanceof Mob && !(tmpTarget instanceof NPC)) {
                                 SacrificialFire.Marked.spreadFire(this, tmpTarget);
                                 AttackIndicator.target(tmpTarget);
@@ -682,6 +682,7 @@ public abstract class Char extends Actor {
     public void move(int step) {
 
         if (Level.adjacent(step, pos) && buff(Vertigo.class) != null) {
+            // if vertigo
             step = pos + Level.NEIGHBOURS8[Random.Int(8)];
             if (!(Level.passable[step] || Level.avoid[step]) || Actor.findChar(step) != null) {
                 return;

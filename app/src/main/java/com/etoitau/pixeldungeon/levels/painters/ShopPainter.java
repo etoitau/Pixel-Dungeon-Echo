@@ -187,8 +187,7 @@ public class ShopPainter extends Painter {
         level.mobs.add(shopkeeper);
 
         if (level instanceof LastShopLevel) {
-            for (int i = 0; i < Level.NEIGHBOURS9.length; i++) {
-                int p = shopkeeper.pos + Level.NEIGHBOURS9[i];
+            for (int p: Level.aroundNine(shopkeeper.pos)) {
                 if (level.map[p] == Terrain.EMPTY_SP) {
                     level.map[p] = Terrain.WATER;
                 }

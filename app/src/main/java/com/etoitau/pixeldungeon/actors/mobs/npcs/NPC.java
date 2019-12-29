@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -23,6 +28,9 @@ import com.etoitau.pixeldungeon.items.Heap;
 import com.etoitau.pixeldungeon.levels.Level;
 import com.watabau.utils.Random;
 
+import java.util.Collections;
+import java.util.List;
+
 public abstract class NPC extends Mob {
 
     {
@@ -36,10 +44,18 @@ public abstract class NPC extends Mob {
     protected void throwItem() {
         Heap heap = Dungeon.level.heaps.get(pos);
         if (heap != null) {
-            int n;
-            do {
-                n = pos + Level.NEIGHBOURS8[Random.Int(8)];
-            } while (!Level.passable[n] && !Level.avoid[n]);
+            int n = pos;
+
+            List<Integer> cells = Level.aroundEight(pos);
+            Collections.shuffle(cells);
+
+            for (int cell: cells) {
+                if (Level.passable[cell] || Level.avoid[cell]) {
+                    n = cell;
+                    break;
+                }
+            }
+
             Dungeon.level.drop(heap.pickUp(), n).sprite.drop(pos);
         }
     }

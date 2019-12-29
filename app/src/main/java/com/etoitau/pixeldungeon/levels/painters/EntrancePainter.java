@@ -46,11 +46,9 @@ public class EntrancePainter extends Painter {
 
     public static void paintStorage(Level level, int center) {
         level.storage = -1;
-        int cell;
-        for (int i = 0; i < Level.NEIGHBOURS8.length; i++) {
-            cell = center + Level.NEIGHBOURS8[i];
+        for (int cell: Level.aroundEight(center)) {
             if (level.map[cell] == Terrain.EMPTY && Actor.findChar(cell) == null)
-                level.storage = center + Level.NEIGHBOURS8[i];
+                level.storage = cell;
         }
 
         if (level.storage != -1) {

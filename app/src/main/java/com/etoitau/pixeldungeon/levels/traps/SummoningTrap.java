@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -17,7 +22,7 @@
  */
 package com.etoitau.pixeldungeon.levels.traps;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.actors.Actor;
@@ -56,32 +61,17 @@ public class SummoningTrap {
             }
         }
 
-        ArrayList<Integer> candidates = new ArrayList<Integer>();
-
-        for (int i = 0; i < Level.NEIGHBOURS8.length; i++) {
-            int p = pos + Level.NEIGHBOURS8[i];
-            if (Actor.findChar(p) == null && (Level.passable[p] || Level.avoid[p])) {
-                candidates.add(p);
-            }
-        }
-
-        ArrayList<Integer> respawnPoints = new ArrayList<Integer>();
-
-        while (nMobs > 0 && candidates.size() > 0) {
-            int index = Random.index(candidates);
-
-            DUMMY.pos = candidates.get(index);
+        List<Integer> respawnPoints = Level.aroundCell(pos, nMobs, Level.NEIGHBOURS8, true);
+        for (int point: respawnPoints) {
+            DUMMY.pos = point;
             Actor.occupyCell(DUMMY);
 
-            respawnPoints.add(candidates.remove(index));
-            nMobs--;
-        }
-
-        for (Integer point : respawnPoints) {
             Mob mob = Bestiary.mob(Dungeon.depth);
-            mob.state = mob.WANDERING;
-            GameScene.add(mob, DELAY);
-            WandOfBlink.appear(mob, point);
+            if (mob != null) {
+                mob.state = mob.WANDERING;
+                GameScene.add(mob, DELAY);
+                WandOfBlink.appear(mob, point);
+            }
         }
     }
 }

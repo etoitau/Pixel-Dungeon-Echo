@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -17,9 +22,8 @@
  */
 package com.etoitau.pixeldungeon.items.armor.glyphs;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import com.etoitau.pixeldungeon.actors.Actor;
 import com.etoitau.pixeldungeon.actors.Char;
 import com.etoitau.pixeldungeon.actors.hero.Hero;
 import com.etoitau.pixeldungeon.actors.mobs.npcs.MirrorImage;
@@ -48,20 +52,13 @@ public class Multiplicity extends Glyph {
 
         if (Random.Int(level / 2 + 6) >= 5) {
 
-            ArrayList<Integer> respawnPoints = new ArrayList<Integer>();
-
-            for (int i = 0; i < Level.NEIGHBOURS8.length; i++) {
-                int p = defender.pos + Level.NEIGHBOURS8[i];
-                if (Actor.findChar(p) == null && (Level.passable[p] || Level.avoid[p])) {
-                    respawnPoints.add(p);
-                }
-            }
+            List<Integer> respawnPoints = Level.aroundCell(defender.pos, 1, Level.NEIGHBOURS8, true);
 
             if (respawnPoints.size() > 0) {
                 MirrorImage mob = new MirrorImage();
                 mob.duplicate((Hero) defender);
                 GameScene.add(mob);
-                WandOfBlink.appear(mob, Random.element(respawnPoints));
+                WandOfBlink.appear(mob, respawnPoints.get(0));
 
                 defender.damage(Random.IntRange(1, defender.HT / 6), this);
                 checkOwner(defender);

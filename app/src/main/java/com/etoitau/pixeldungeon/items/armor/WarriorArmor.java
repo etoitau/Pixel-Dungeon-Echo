@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -106,8 +111,8 @@ public class WarriorArmor extends ClassArmor {
                         Dungeon.level.press(dest, curUser);
                         Dungeon.observe();
 
-                        for (int i = 0; i < Level.NEIGHBOURS8.length; i++) {
-                            Char mob = Actor.findChar(curUser.pos + Level.NEIGHBOURS8[i]);
+                        for (int cell: Level.aroundEight(curUser.pos)) {
+                            Char mob = Actor.findChar(cell);
                             if (mob != null && mob != curUser) {
                                 Buff.prolong(mob, Paralysis.class, SHOCK_TIME);
                             }

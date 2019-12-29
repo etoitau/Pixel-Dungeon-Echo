@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -28,6 +33,9 @@ import com.etoitau.pixeldungeon.levels.Terrain;
 import com.etoitau.pixeldungeon.scenes.GameScene;
 import com.watabau.utils.Bundle;
 import com.watabau.utils.Random;
+
+import java.util.Collections;
+import java.util.List;
 
 public class WellWater extends Blob {
 
@@ -94,10 +102,18 @@ public class WellWater extends Blob {
 
             } else {
 
-                int newPlace;
-                do {
-                    newPlace = pos + Level.NEIGHBOURS8[Random.Int(8)];
-                } while (!Level.passable[newPlace] && !Level.avoid[newPlace]);
+                int newPlace = pos;
+
+                List<Integer> candidates = Level.aroundEight(pos);
+                Collections.shuffle(candidates);
+
+                for (int cell: candidates) {
+                    if (Level.passable[cell] || Level.avoid[cell]) {
+                        newPlace = cell;
+                        break;
+                    }
+                }
+
                 Dungeon.level.drop(heap.pickUp(), newPlace).sprite.drop(pos);
 
                 return false;

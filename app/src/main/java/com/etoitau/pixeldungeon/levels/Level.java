@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -20,8 +25,10 @@ package com.etoitau.pixeldungeon.levels;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 import com.watabau.noosa.Scene;
 import com.watabau.noosa.audio.Sample;
@@ -483,8 +490,10 @@ public abstract class Level implements Bundlable {
 
     private int getWaterTile(int pos) {
         int t = Terrain.WATER_TILES;
-        for (int j = 0; j < NEIGHBOURS4.length; j++) {
-            if ((Terrain.flags[map[pos + NEIGHBOURS4[j]]] & Terrain.UNSTITCHABLE) != 0) {
+        List<Integer> cells = Level.aroundFour(pos);
+
+        for (int j = 0; j < cells.size(); j++) {
+            if ((Terrain.flags[map[cells.get(j)]] & Terrain.UNSTITCHABLE) != 0) {
                 t += 1 << j;
             }
         }
@@ -498,12 +507,13 @@ public abstract class Level implements Bundlable {
 
         } else {
             boolean flood = false;
-            for (int j = 0; j < NEIGHBOURS4.length; j++) {
-                if (water[pos + NEIGHBOURS4[j]]) {
+            for (int cell: aroundFour(pos)) {
+                if (water[cell]) {
                     flood = true;
                     break;
                 }
             }
+
             if (flood) {
                 set(pos, getWaterTile(pos));
             } else {
@@ -517,8 +527,7 @@ public abstract class Level implements Bundlable {
 
             boolean d = false;
 
-            for (int j = 0; j < NEIGHBOURS9.length; j++) {
-                int n = i + NEIGHBOURS9[j];
+            for (int n: aroundNine(i)) {
                 if (n >= 0 && n < LENGTH && map[n] != Terrain.WALL && map[n] != Terrain.WALL_DECO) {
                     d = true;
                     break;
@@ -528,8 +537,7 @@ public abstract class Level implements Bundlable {
             if (d) {
                 d = false;
 
-                for (int j = 0; j < NEIGHBOURS9.length; j++) {
-                    int n = i + NEIGHBOURS9[j];
+                for (int n: aroundNine(i)) {
                     if (n >= 0 && n < LENGTH && !pit[n]) {
                         d = true;
                         break;
@@ -574,11 +582,15 @@ public abstract class Level implements Bundlable {
         }
 
         if ((map[cell] == Terrain.ALCHEMY) && !(item instanceof Plant.Seed)) {
-            int n;
-            do {
-                n = cell + NEIGHBOURS8[Random.Int(8)];
-            } while (map[n] != Terrain.EMPTY_SP);
-            cell = n;
+            List<Integer> cells = Level.aroundEight(cell);
+            Collections.shuffle(cells);
+
+            for (int trialCell: cells) {
+                if (map[trialCell] == Terrain.EMPTY_SP) {
+                    cell = trialCell;
+                    break;
+                }
+            }
         }
 
         Heap heap = heaps.get(cell);
@@ -595,13 +607,16 @@ public abstract class Level implements Bundlable {
             }
 
         } else if (heap.type == Heap.Type.LOCKED_CHEST || heap.type == Heap.Type.CRYSTAL_CHEST) {
-
-            int n;
-            do {
-                n = cell + Level.NEIGHBOURS8[Random.Int(8)];
-            } while (!Level.passable[n] && !Level.avoid[n]);
+            List<Integer> cells = Level.aroundEight(cell);
+            Collections.shuffle(cells);
+            int n = cell;
+            for (int trialCell: cells) {
+                if (Level.passable[trialCell] || Level.avoid[trialCell]) {
+                    n = trialCell;
+                    break;
+                }
+            }
             return drop(item, n);
-
         }
         heap.drop(item);
 
@@ -1077,5 +1092,76 @@ public abstract class Level implements Bundlable {
                 }
                 return "";
         }
+    }
+
+    /**
+     * random array of cell indexes around pos
+     * pos - central cell
+     * nToGet - how many cells are desired
+     * offsetsToUse - for example NEIGHBOURS8
+     * openOnly - only give cells which are passable and not occupied by a character
+     */
+    public static List<Integer> aroundCell(int pos, int nToGet, int[] offsetsToUse, boolean openOnly) {
+        // combine pos and offsets into list
+        List<Integer> cells = aroundCell(pos, offsetsToUse);
+
+        // trivial case where want all points
+        if (nToGet == offsetsToUse.length && !openOnly) { return cells; }
+
+        // can't give more than available
+        nToGet = Math.min(nToGet, offsetsToUse.length);
+
+        if (nToGet < offsetsToUse.length) {
+            // if not trying all, shuffle to get random points
+            Collections.shuffle(cells);
+        }
+
+        List<Integer> toReturn = new ArrayList<>();
+        if (!openOnly) {
+            for (int i = 0; i < nToGet; i++) {
+                toReturn.add(cells.get(i));
+            }
+            return toReturn;
+        } else {
+            for (int i = 0; toReturn.size() <= nToGet && i < cells.size(); i++) {
+                // keep trying until have spawned specified amount or run out of possible spots
+                if ((passable[cells.get(i)] || avoid[cells.get(i)]) && Actor.findChar(cells.get(i)) == null) {
+                    toReturn.add(cells.get(i));
+                }
+            }
+            return toReturn;
+        }
+    }
+
+    public static List<Integer> aroundCell(int pos, int[] offsetsToUse) {
+        List<Integer> toReturn = new ArrayList<>(offsetsToUse.length);
+        for (int i: offsetsToUse) {
+            toReturn.add(pos + i);
+        }
+        return toReturn;
+    }
+
+    public static List<Integer> aroundFour(int pos) {
+        return aroundCell(pos, NEIGHBOURS4);
+    }
+
+    public static List<Integer> aroundFour(int pos, int nToGet) {
+        return aroundCell(pos, nToGet, NEIGHBOURS4, false);
+    }
+
+    public static List<Integer> aroundEight(int pos) {
+        return aroundCell(pos, NEIGHBOURS8);
+    }
+
+    public static List<Integer> aroundEight(int pos, int nToGet) {
+        return aroundCell(pos, nToGet, NEIGHBOURS8, false);
+    }
+
+    public static List<Integer> aroundNine(int pos) {
+        return aroundCell(pos, NEIGHBOURS9);
+    }
+
+    public static List<Integer> aroundNine(int pos, int nToGet) {
+        return aroundCell(pos, nToGet, NEIGHBOURS9, false);
     }
 }

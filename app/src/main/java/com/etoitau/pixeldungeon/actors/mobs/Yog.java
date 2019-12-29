@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -17,8 +22,8 @@
  */
 package com.etoitau.pixeldungeon.actors.mobs;
 
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.ResultDescriptions;
@@ -85,10 +90,19 @@ public class Yog extends Mob {
         RottingFist fist1 = new RottingFist();
         BurningFist fist2 = new BurningFist();
 
-        do {
-            fist1.pos = pos + Level.NEIGHBOURS8[Random.Int(8)];
-            fist2.pos = pos + Level.NEIGHBOURS8[Random.Int(8)];
-        } while (!Level.passable[fist1.pos] || !Level.passable[fist2.pos] || fist1.pos == fist2.pos);
+        List<Integer> candidates = Level.aroundCell(pos, 2, Level.NEIGHBOURS8, true);
+
+        if (candidates.size() > 0) {
+            fist1.pos = candidates.get(0);
+            if (candidates.size() > 1) {
+                fist2.pos = candidates.get(1);
+            } else {
+                fist2.pos = pos - 1;
+            }
+        } else {
+            fist1.pos = pos + 1;
+            fist2.pos = pos - 1;
+        }
 
         GameScene.add(fist1);
         GameScene.add(fist2);
@@ -114,18 +128,11 @@ public class Yog extends Mob {
     @Override
     public int defenseProc(Char enemy, int damage) {
 
-        ArrayList<Integer> spawnPoints = new ArrayList<Integer>();
-
-        for (int i = 0; i < Level.NEIGHBOURS8.length; i++) {
-            int p = pos + Level.NEIGHBOURS8[i];
-            if (Actor.findChar(p) == null && (Level.passable[p] || Level.avoid[p])) {
-                spawnPoints.add(p);
-            }
-        }
+        List<Integer> spawnPoints = Level.aroundCell(pos, 1, Level.NEIGHBOURS8, true);
 
         if (spawnPoints.size() > 0) {
             Larva larva = new Larva();
-            larva.pos = Random.element(spawnPoints);
+            larva.pos = spawnPoints.get(0);
 
             GameScene.add(larva);
             Actor.addDelayed(new Pushing(larva, pos, larva.pos), -1);
@@ -361,8 +368,8 @@ public class Yog extends Mob {
 
         @Override
         public boolean act() {
-            for (int i = 0; i < Level.NEIGHBOURS9.length; i++) {
-                GameScene.add(Blob.seed(pos + Level.NEIGHBOURS9[i], 2, Fire.class));
+            for (int cell: Level.aroundNine(pos)) {
+                GameScene.add(Blob.seed(cell, 2, Fire.class));
             }
 
             return super.act();

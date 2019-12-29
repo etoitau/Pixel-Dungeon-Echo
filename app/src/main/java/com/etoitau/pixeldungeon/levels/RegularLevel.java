@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -280,8 +285,8 @@ public abstract class RegularLevel extends Level {
         for (int i = WIDTH + 1; i < LENGTH - WIDTH - 1; i++) {
             if (map[i] == Terrain.EMPTY && grass[i]) {
                 int count = 1;
-                for (int n : NEIGHBOURS8) {
-                    if (grass[i + n]) {
+                for (int cell: Level.aroundEight(i)) {
+                    if (grass[cell]) {
                         count++;
                     }
                 }
