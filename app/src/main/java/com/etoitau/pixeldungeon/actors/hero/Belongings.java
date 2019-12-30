@@ -31,6 +31,7 @@ import java.util.Stack;
 
 import com.etoitau.pixeldungeon.Badges;
 import com.etoitau.pixeldungeon.Dungeon;
+import com.etoitau.pixeldungeon.TimeMachine;
 import com.etoitau.pixeldungeon.items.Ankh;
 import com.etoitau.pixeldungeon.items.AnkhCracked;
 import com.etoitau.pixeldungeon.items.Item;
@@ -230,6 +231,9 @@ public class Belongings implements Iterable<Item> {
         } else if (ankhCracked != null) {
             ankhCracked.detach(backpack);
         }
+
+        // will turn off TimeMachine if no ankhs left, or replace lost AnkhTimer if there are
+        TimeMachine.updateStatus();
 
         // remove curses from equipped items
         if (weapon != null) {

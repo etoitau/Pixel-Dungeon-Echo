@@ -374,6 +374,8 @@ public class InterlevelScene extends PixelScene {
         TimeMachine.goBack();
         // start up dungeon in this state
         Dungeon.switchLevel(Dungeon.level, Level.resizingNeeded ? Dungeon.level.adjustPos(Dungeon.hero.pos) :Dungeon.hero.pos);
+        // get hero to same time as loaded mobs
+        Dungeon.hero.setTime(0);
     }
 
     @Override

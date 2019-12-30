@@ -39,6 +39,14 @@ public abstract class Actor implements Bundlable {
 
     private int id = 0;
 
+    public float getTime() {
+        return time;
+    }
+
+    public void setTime(float time) {
+        this.time = time;
+    }
+
     protected abstract boolean act();
 
     protected void spend(float time) {

@@ -95,6 +95,12 @@ public class Ankh extends Item {
     }
 
     @Override
+    protected void onDetach() {
+        super.onDetach();
+        TimeMachine.updateStatus();
+    }
+
+    @Override
     public int price() {
         return 50 * quantity;
     }

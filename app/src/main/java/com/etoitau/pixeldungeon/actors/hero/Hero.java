@@ -1361,7 +1361,6 @@ public class Hero extends Char {
 
         super.die(cause);
 
-        // todo find both types of ankh
         Ankh ankh = belongings.getItem(Ankh.class);
         if (ankh == null) {
             ankh = belongings.getItem((AnkhCracked.class));
@@ -1634,8 +1633,7 @@ public class Hero extends Char {
             Buff.prolong(this, Weakness.class, Weakness.duration(this));
             // big hit to hunger
             hunger.satisfy(-Hunger.STARVING);
-            // haunted
-//            Wraith.spawnAround(pos, 1);
+            // ghosts added in GameScene
         } else {
             // full health
             HP = HT;

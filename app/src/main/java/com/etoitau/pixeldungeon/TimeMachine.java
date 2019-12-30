@@ -74,9 +74,15 @@ public class TimeMachine {
     }
 
     public static void takeSnapshot() {
+        // remove old snapshots until not full anymore
         while (isFull()) {
             snapshots.poll();
         }
+
+        // prep for save
+        Actor.fixTime();
+
+        // save
         Bundle snapshot = new Bundle();
         snapshot.put(KEY_GAME, Dungeon.saveGameToBundle(false));
         snapshot.put(KEY_LEVEL, Dungeon.level);
@@ -106,6 +112,13 @@ public class TimeMachine {
             ankhToUse.usedTimeMachine();
         }
 
+        updateStatus();
+
+        // restart snapshot collection
+        snapshots.clear();
+    }
+
+    public static boolean updateStatus() {
         // check if have any ankh left, if not, shut down
         Ankh foundAnkh = Dungeon.hero.belongings.getItem(Ankh.class);
         if (foundAnkh == null) {
@@ -116,9 +129,7 @@ public class TimeMachine {
         } else {
             setTimer();
         }
-
-        // restart snapshot collection
-        snapshots.clear();
+        return isOn;
     }
 
     public static void restore(Bundle bundle) {
