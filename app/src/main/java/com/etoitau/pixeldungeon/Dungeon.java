@@ -396,6 +396,10 @@ public class Dungeon {
     }
 
     public static Bundle saveGameToBundle() {
+        return saveGameToBundle(true);
+    }
+
+    public static Bundle saveGameToBundle(boolean includeTimeMachine) {
         Bundle bundle = new Bundle();
 
         bundle.put(VERSION, Game.version);
@@ -439,7 +443,8 @@ public class Dungeon {
         Wand.save(bundle);
         Ring.save(bundle);
         Sign.save(bundle);
-        TimeMachine.save(bundle);
+        if (includeTimeMachine)
+            TimeMachine.save(bundle);
 
         Bundle badges = new Bundle();
         Badges.saveLocal(badges);
@@ -506,6 +511,10 @@ public class Dungeon {
     }
 
     public static void loadGameFromBundle(Bundle bundle, boolean fullLoad) {
+        loadGameFromBundle(bundle, fullLoad, true);
+    }
+
+    public static void loadGameFromBundle(Bundle bundle, boolean fullLoad, boolean includeTimeMachine) {
         Dungeon.challenges = bundle.getInt(CHALLENGES);
 
         Dungeon.level = null;
@@ -520,7 +529,8 @@ public class Dungeon {
         Wand.restore(bundle);
         Ring.restore(bundle);
         Sign.restore(bundle);
-        TimeMachine.restore(bundle);
+        if (includeTimeMachine)
+            TimeMachine.restore(bundle);
 
         potionOfStrength = bundle.getInt(POS);
         scrollsOfUpgrade = bundle.getInt(SOU);

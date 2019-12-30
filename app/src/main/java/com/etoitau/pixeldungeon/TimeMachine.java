@@ -78,7 +78,7 @@ public class TimeMachine {
             snapshots.poll();
         }
         Bundle snapshot = new Bundle();
-        snapshot.put(KEY_GAME, Dungeon.saveGameToBundle());
+        snapshot.put(KEY_GAME, Dungeon.saveGameToBundle(false));
         snapshot.put(KEY_LEVEL, Dungeon.level);
         snapshots.offer(snapshot);
     }
@@ -92,7 +92,7 @@ public class TimeMachine {
         // load game from snapshot
         Actor.clear();
         Bundle gameBundle = bundle.getBundle(KEY_GAME);
-        Dungeon.loadGameFromBundle(gameBundle, true);
+        Dungeon.loadGameFromBundle(gameBundle, true, false);
         Dungeon.level = (Level) bundle.get(KEY_LEVEL);
 
         // find ankh to use

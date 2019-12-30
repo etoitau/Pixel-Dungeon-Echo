@@ -1635,7 +1635,7 @@ public class Hero extends Char {
             // big hit to hunger
             hunger.satisfy(-Hunger.STARVING);
             // haunted
-            Wraith.spawnAround(pos, 1);
+//            Wraith.spawnAround(pos, 1);
         } else {
             // full health
             HP = HT;

@@ -1123,7 +1123,7 @@ public abstract class Level implements Bundlable {
             }
             return toReturn;
         } else {
-            for (int i = 0; toReturn.size() <= nToGet && i < cells.size(); i++) {
+            for (int i = 0; toReturn.size() < nToGet && i < cells.size(); i++) {
                 // keep trying until have spawned specified amount or run out of possible spots
                 if ((passable[cells.get(i)] || avoid[cells.get(i)]) && Actor.findChar(cells.get(i)) == null) {
                     toReturn.add(cells.get(i));
