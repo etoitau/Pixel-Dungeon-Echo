@@ -85,9 +85,10 @@ public class WndResurrect extends Window {
             protected void onClick() {
                 hide();
 
-                if (ankh != null)
-                    Statistics.ankhsUsed++;
+                // increment resurrections statistic
+                Statistics.ankhsUsed++;
 
+                // tell how to execute resurrection
                 if (ankh == null) {
                     InterlevelScene.mode = InterlevelScene.Mode.RESURRECT;
                 } else if (ankh.getClass() == Ankh.class) {
@@ -95,6 +96,8 @@ public class WndResurrect extends Window {
                 } else {
                     InterlevelScene.mode = InterlevelScene.Mode.RESURRECT_CRACKED;
                 }
+
+                // execute
                 Game.switchScene(InterlevelScene.class);
             }
         };
