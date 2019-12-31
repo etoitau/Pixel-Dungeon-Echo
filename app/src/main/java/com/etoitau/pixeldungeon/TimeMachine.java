@@ -119,14 +119,20 @@ public class TimeMachine {
     }
 
     public static boolean updateStatus() {
-        // check if have any ankh left, if not, shut down
+
+        // check if have any ankh left
         Ankh foundAnkh = Dungeon.hero.belongings.getItem(Ankh.class);
         if (foundAnkh == null) {
             foundAnkh = Dungeon.hero.belongings.getItem(AnkhCracked.class);
         }
+
         if (foundAnkh == null) {
+            // if no ankhs, shut down
             stopTimer();
         } else {
+            // if have ankhs, turn on (or check that it already is)
+            // set to be off to force check of timer
+            isOn = false;
             setTimer();
         }
         return isOn;
