@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -62,8 +67,8 @@ public class Skeleton extends Mob {
         super.die(cause);
 
         boolean heroKilled = false;
-        for (int i = 0; i < Level.NEIGHBOURS8.length; i++) {
-            Char ch = findChar(pos + Level.NEIGHBOURS8[i]);
+        for (int cell: Level.aroundEight(pos)) {
+            Char ch = findChar(cell);
             if (ch != null && ch.isAlive()) {
                 int damage = Math.max(0, damageRoll() - Random.IntRange(0, ch.dr() / 2));
                 if (ch == Dungeon.hero)

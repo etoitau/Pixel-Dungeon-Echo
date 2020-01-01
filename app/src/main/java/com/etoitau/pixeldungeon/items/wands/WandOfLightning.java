@@ -87,8 +87,8 @@ public class WandOfLightning extends Wand {
         points[nPoints++] = ch.pos;
 
         HashSet<Char> ns = new HashSet<Char>();
-        for (int i = 0; i < Level.NEIGHBOURS8.length; i++) {
-            Char n = Actor.findChar(ch.pos + Level.NEIGHBOURS8[i]);
+        for (int cell: Level.aroundEight(ch.pos)) {
+            Char n = Actor.findChar(cell);
             if (n != null && !affected.contains(n)) {
                 ns.add(n);
             }

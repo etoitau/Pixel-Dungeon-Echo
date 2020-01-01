@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -17,17 +22,15 @@
  */
 package com.etoitau.pixeldungeon.items.scrolls;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.watabau.noosa.audio.Sample;
 import com.etoitau.pixeldungeon.Assets;
-import com.etoitau.pixeldungeon.actors.Actor;
 import com.etoitau.pixeldungeon.actors.buffs.Invisibility;
 import com.etoitau.pixeldungeon.actors.mobs.npcs.MirrorImage;
 import com.etoitau.pixeldungeon.items.wands.WandOfBlink;
 import com.etoitau.pixeldungeon.levels.Level;
 import com.etoitau.pixeldungeon.scenes.GameScene;
-import com.watabau.utils.Random;
 
 public class ScrollOfMirrorImage extends Scroll {
 
@@ -40,29 +43,15 @@ public class ScrollOfMirrorImage extends Scroll {
     @Override
     protected void doRead() {
 
-        ArrayList<Integer> respawnPoints = new ArrayList<Integer>();
-
-        for (int i = 0; i < Level.NEIGHBOURS8.length; i++) {
-            int p = curUser.pos + Level.NEIGHBOURS8[i];
-            if (Actor.findChar(p) == null && (Level.passable[p] || Level.avoid[p])) {
-                respawnPoints.add(p);
-            }
-        }
-
-        int nImages = NIMAGES;
-        while (nImages > 0 && respawnPoints.size() > 0) {
-            int index = Random.index(respawnPoints);
-
+        List<Integer> respawnPoints = Level.aroundCell(curUser.pos,NIMAGES, Level.NEIGHBOURS8, true);
+        for (int point: respawnPoints) {
             MirrorImage mob = new MirrorImage();
             mob.duplicate(curUser);
             GameScene.add(mob);
-            WandOfBlink.appear(mob, respawnPoints.get(index));
-
-            respawnPoints.remove(index);
-            nImages--;
+            WandOfBlink.appear(mob, point);
         }
 
-        if (nImages < NIMAGES) {
+        if (respawnPoints.size() > 0) {
             setKnown();
         }
 

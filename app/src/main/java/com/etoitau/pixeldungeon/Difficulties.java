@@ -23,6 +23,8 @@
 package com.etoitau.pixeldungeon;
 
 
+import com.etoitau.pixeldungeon.items.Ankh;
+import com.etoitau.pixeldungeon.items.AnkhCracked;
 import com.etoitau.pixeldungeon.items.armor.PlateArmor;
 import com.etoitau.pixeldungeon.items.bags.PotionBelt;
 import com.etoitau.pixeldungeon.items.bags.ScrollHolder;
@@ -450,6 +452,8 @@ public enum Difficulties {
                 new SoulCrystal().identify().collect();
                 new SoulCrystal().identify().collect();
                 new SoulCrystal().identify().collect();
+                new Ankh().collect();
+                new Ankh().collect();
                 Dungeon.gold = 500;
                 break;
             case EASY:
@@ -459,6 +463,7 @@ public enum Difficulties {
                 new Food().identify().collect();
                 new SoulCrystal().identify().collect();
                 new SoulCrystal().identify().collect();
+                new Ankh().collect();
                 Dungeon.gold = 200;
                 break;
             case NORMAL:
@@ -481,12 +486,9 @@ public enum Difficulties {
                         new PotionOfHealing().identify().collect();
                         new Food().identify().collect();
                     }
-                    new WandOfAvalanche().identify().collect();
-                    new WandOfLightning().identify().collect();
-                    new WandOfDisintegration().identify().collect();
                     new WandOfFirebolt().identify().collect();
-                    new WandOfPoison().identify().collect();
-                    new WandOfMagicMissile().identify().collect();
+                    new Ankh().collect();
+                    new AnkhCracked().collect();
 
                 }
                 break;

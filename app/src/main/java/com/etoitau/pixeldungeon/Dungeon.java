@@ -124,6 +124,7 @@ public class Dungeon {
         Wand.initWoods();
         Ring.initGems();
         Sign.initSigns();
+        TimeMachine.reset();
 
         Statistics.reset();
         Journal.reset();
@@ -394,55 +395,67 @@ public class Dungeon {
         }
     }
 
+    public static Bundle saveGameToBundle() {
+        return saveGameToBundle(true);
+    }
+
+    public static Bundle saveGameToBundle(boolean includeTimeMachine) {
+        Bundle bundle = new Bundle();
+
+        bundle.put(VERSION, Game.version);
+        bundle.put(CHALLENGES, challenges);
+        bundle.put(HERO, hero);
+        bundle.put(GOLD, gold);
+        bundle.put(DEPTH, depth);
+
+        for (int d : droppedItems.keyArray()) {
+            bundle.put(String.format(DROPPED, d), droppedItems.get(d));
+        }
+
+        bundle.put(POS, potionOfStrength);
+        bundle.put(SOU, scrollsOfUpgrade);
+        bundle.put(SOE, scrollsOfEnchantment);
+        bundle.put(DV, dewVial);
+
+        int count = 0;
+        int ids[] = new int[chapters.size()];
+        for (Integer id : chapters) {
+            ids[count++] = id;
+        }
+        bundle.put(CHAPTERS, ids);
+
+        Bundle quests = new Bundle();
+        Ghost.Quest.storeInBundle(quests);
+        Wandmaker.Quest.storeInBundle(quests);
+        Blacksmith.Quest.storeInBundle(quests);
+        Imp.Quest.storeInBundle(quests);
+        bundle.put(QUESTS, quests);
+
+        Room.storeRoomsInBundle(bundle);
+
+        Statistics.storeInBundle(bundle);
+        Journal.storeInBundle(bundle);
+
+        QuickSlot.save(bundle);
+
+        Scroll.save(bundle);
+        Potion.save(bundle);
+        Wand.save(bundle);
+        Ring.save(bundle);
+        Sign.save(bundle);
+        if (includeTimeMachine)
+            TimeMachine.save(bundle);
+
+        Bundle badges = new Bundle();
+        Badges.saveLocal(badges);
+        bundle.put(BADGES, badges);
+
+        return bundle;
+    }
+
     public static void saveGame(String fileName) throws IOException {
         try {
-            Bundle bundle = new Bundle();
-
-            bundle.put(VERSION, Game.version);
-            bundle.put(CHALLENGES, challenges);
-            bundle.put(HERO, hero);
-            bundle.put(GOLD, gold);
-            bundle.put(DEPTH, depth);
-
-            for (int d : droppedItems.keyArray()) {
-                bundle.put(String.format(DROPPED, d), droppedItems.get(d));
-            }
-
-            bundle.put(POS, potionOfStrength);
-            bundle.put(SOU, scrollsOfUpgrade);
-            bundle.put(SOE, scrollsOfEnchantment);
-            bundle.put(DV, dewVial);
-
-            int count = 0;
-            int ids[] = new int[chapters.size()];
-            for (Integer id : chapters) {
-                ids[count++] = id;
-            }
-            bundle.put(CHAPTERS, ids);
-
-            Bundle quests = new Bundle();
-            Ghost.Quest.storeInBundle(quests);
-            Wandmaker.Quest.storeInBundle(quests);
-            Blacksmith.Quest.storeInBundle(quests);
-            Imp.Quest.storeInBundle(quests);
-            bundle.put(QUESTS, quests);
-
-            Room.storeRoomsInBundle(bundle);
-
-            Statistics.storeInBundle(bundle);
-            Journal.storeInBundle(bundle);
-
-            QuickSlot.save(bundle);
-
-            Scroll.save(bundle);
-            Potion.save(bundle);
-            Wand.save(bundle);
-            Ring.save(bundle);
-            Sign.save(bundle);
-
-            Bundle badges = new Bundle();
-            Badges.saveLocal(badges);
-            bundle.put(BADGES, badges);
+            Bundle bundle = saveGameToBundle();
 
             OutputStream output = Game.instance.openFileOutput(fileName, Game.MODE_PRIVATE);
             Bundle.write(bundle, output);
@@ -480,10 +493,12 @@ public class Dungeon {
         }
     }
 
+    // used in InterlevelSchene.restore()
     public static void loadGame(HeroClass cl) throws IOException {
         loadGame(gameFile(cl), true);
     }
 
+    // used by WndRanking
     public static void loadGame(String fileName) throws IOException {
         loadGame(fileName, false);
     }
@@ -492,6 +507,14 @@ public class Dungeon {
 
         Bundle bundle = gameBundle(fileName);
 
+        loadGameFromBundle(bundle, fullLoad);
+    }
+
+    public static void loadGameFromBundle(Bundle bundle, boolean fullLoad) {
+        loadGameFromBundle(bundle, fullLoad, true);
+    }
+
+    public static void loadGameFromBundle(Bundle bundle, boolean fullLoad, boolean includeTimeMachine) {
         Dungeon.challenges = bundle.getInt(CHALLENGES);
 
         Dungeon.level = null;
@@ -506,6 +529,8 @@ public class Dungeon {
         Wand.restore(bundle);
         Ring.restore(bundle);
         Sign.restore(bundle);
+        if (includeTimeMachine)
+            TimeMachine.restore(bundle);
 
         potionOfStrength = bundle.getInt(POS);
         scrollsOfUpgrade = bundle.getInt(SOU);
@@ -581,6 +606,10 @@ public class Dungeon {
         Bundle bundle = Bundle.read(input);
         input.close();
 
+        return loadLevelFromBundle(bundle);
+    }
+
+    public static Level loadLevelFromBundle(Bundle bundle) {
         return (Level) bundle.get("level");
     }
 

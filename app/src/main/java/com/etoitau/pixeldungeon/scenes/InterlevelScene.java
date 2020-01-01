@@ -25,6 +25,7 @@ package com.etoitau.pixeldungeon.scenes;
 import java.io.FileNotFoundException;
 
 import com.etoitau.pixeldungeon.BuildConfig;
+import com.etoitau.pixeldungeon.TimeMachine;
 import com.watabau.noosa.BitmapText;
 import com.watabau.noosa.Camera;
 import com.watabau.noosa.Game;
@@ -59,7 +60,18 @@ public class InterlevelScene extends PixelScene {
     public static Exception lastException = null;
 
     public enum Mode {
-        DESCEND, ASCEND, CONTINUE, RESURRECT, RESURRECT_ANKH, RETURN, FALL, NONE, TELEPORT, TELEPORT_BACK
+        DESCEND,
+        ASCEND,
+        CONTINUE,
+        RESURRECT,
+        RESURRECT_ANKH,
+        RESURRECT_CRACKED,
+        RETURN,
+        FALL,
+        NONE,
+        TELEPORT,
+        TELEPORT_BACK,
+        BACK_IN_TIME
     }
 
     public static Mode mode;
@@ -75,7 +87,6 @@ public class InterlevelScene extends PixelScene {
         FADE_IN, STATIC, FADE_OUT
     }
 
-    ;
     private Phase phase;
     private float timeLeft;
 
@@ -101,6 +112,7 @@ public class InterlevelScene extends PixelScene {
                 break;
             case RESURRECT:
             case RESURRECT_ANKH:
+            case RESURRECT_CRACKED:
                 text = TXT_RESURRECTING;
                 break;
             case RETURN:
@@ -144,10 +156,9 @@ public class InterlevelScene extends PixelScene {
                             restore();
                             break;
                         case RESURRECT:
-                            resurrect(false);
-                            break;
                         case RESURRECT_ANKH:
-                            resurrect(true);
+                        case RESURRECT_CRACKED:
+                            resurrect();
                             break;
                         case RETURN:
                             returnTo();
@@ -164,6 +175,9 @@ public class InterlevelScene extends PixelScene {
                             break;
                         case TELEPORT_BACK:
                             teleport_back();
+                            break;
+                        case BACK_IN_TIME:
+                            backInTime();
                             break;
                         default:
                     }
@@ -330,13 +344,13 @@ public class InterlevelScene extends PixelScene {
         }
     }
 
-    private void resurrect(boolean withAnkh) throws Exception {
+    private void resurrect() {
 
         Actor.fixTime();
 
         if (Dungeon.bossLevel()) {
-            // pass current depth to flush correct keys
-            Dungeon.hero.resurrect(Dungeon.depth, withAnkh);
+            // reset hero
+            Dungeon.hero.resurrect(mode);
             // then kick up to prev level
             Dungeon.depth--;
             // recreate fresh boss level
@@ -346,10 +360,22 @@ public class InterlevelScene extends PixelScene {
         } else {
             // refresh mobs, go to entrance
             Dungeon.resetLevel();
-            // pass -1 so keys aren't reset
-            Dungeon.hero.resurrect(-1, withAnkh);
+            // reset hero
+            Dungeon.hero.resurrect(mode);
         }
 
+    }
+
+    // Using ankh to go back in time
+    private void backInTime() {
+        Actor.clear();
+        GameLog.wipe();
+        // use TimeMachine to set Dungeon and level state to old snapshot
+        TimeMachine.goBack();
+        // start up dungeon in this state
+        Dungeon.switchLevel(Dungeon.level, Level.resizingNeeded ? Dungeon.level.adjustPos(Dungeon.hero.pos) :Dungeon.hero.pos);
+        // get hero to same time as loaded mobs
+        Dungeon.hero.setTime(0);
     }
 
     @Override

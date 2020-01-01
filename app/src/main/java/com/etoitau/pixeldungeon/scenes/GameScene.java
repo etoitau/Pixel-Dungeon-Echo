@@ -20,6 +20,10 @@ package com.etoitau.pixeldungeon.scenes;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.etoitau.pixeldungeon.actors.hero.Hero;
+import com.etoitau.pixeldungeon.actors.mobs.Wraith;
+import com.etoitau.pixeldungeon.effects.particles.ShadowParticle;
+import com.etoitau.pixeldungeon.items.EquipableItem;
 import com.watabau.noosa.Camera;
 import com.watabau.noosa.Game;
 import com.watabau.noosa.Group;
@@ -89,6 +93,10 @@ public class GameScene extends PixelScene {
 
     protected static final String TXT_WARN_DEGRADATION = "Your items will wear down with time. " +
             "You can disable item degradation in settings.";
+
+    protected static final String TXT_BACK_IN_TIME = "You jumped back in time!";
+    protected static final String TXT_RESURRECT = "A mystical force brought you back to life!";
+    protected static final String TXT_CRACKED_RESURRECT = "A cracked ankh brought you back, barely.";
 
     protected static final String TXT_FROST = "The portal spits you out in a cold domain...";
 
@@ -252,9 +260,22 @@ public class GameScene extends PixelScene {
         add(busy);
 
         switch (InterlevelScene.mode) {
+            case BACK_IN_TIME:
+                WandOfBlink.appear(Dungeon.hero, Dungeon.hero.pos);
+                new Flare(8, 32).color(0xAAFFA3, true).show(hero, 1f);
+                GLog.p(TXT_BACK_IN_TIME);
+                break;
             case RESURRECT:
+            case RESURRECT_ANKH:
                 WandOfBlink.appear(Dungeon.hero, Dungeon.level.entrance);
                 new Flare(8, 32).color(0xFFFF66, true).show(hero, 2f);
+                GLog.p(TXT_RESURRECT);
+                break;
+            case RESURRECT_CRACKED:
+                WandOfBlink.appear(Dungeon.hero, Dungeon.level.entrance);
+                new Flare(8, 24).color(0x67566F, false).show(hero, 2f);
+                Wraith.spawnAround(Dungeon.hero.pos, 1);
+                GLog.w(TXT_CRACKED_RESURRECT);
                 break;
             case RETURN:
                 WandOfBlink.appear(Dungeon.hero, Dungeon.hero.pos);

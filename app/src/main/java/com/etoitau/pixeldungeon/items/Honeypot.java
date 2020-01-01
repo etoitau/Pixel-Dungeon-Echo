@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -18,6 +23,7 @@
 package com.etoitau.pixeldungeon.items;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.watabau.noosa.audio.Sample;
 import com.watabau.noosa.tweeners.AlphaTweener;
@@ -84,17 +90,8 @@ public class Honeypot extends Item {
 
         int newPos = pos;
         if (Actor.findChar(pos) != null) {
-            ArrayList<Integer> candidates = new ArrayList<Integer>();
-            boolean[] passable = Level.passable;
-
-            for (int n : Level.NEIGHBOURS4) {
-                int c = pos + n;
-                if (passable[c] && Actor.findChar(c) == null) {
-                    candidates.add(c);
-                }
-            }
-
-            newPos = candidates.size() > 0 ? Random.element(candidates) : -1;
+            List<Integer> candidates = Level.aroundCell(pos, 1, Level.NEIGHBOURS4, true);
+            newPos = candidates.size() > 0 ? candidates.get(0) : -1;
         }
 
         if (newPos != -1) {

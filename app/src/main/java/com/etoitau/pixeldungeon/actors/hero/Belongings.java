@@ -31,7 +31,9 @@ import java.util.Stack;
 
 import com.etoitau.pixeldungeon.Badges;
 import com.etoitau.pixeldungeon.Dungeon;
+import com.etoitau.pixeldungeon.TimeMachine;
 import com.etoitau.pixeldungeon.items.Ankh;
+import com.etoitau.pixeldungeon.items.AnkhCracked;
 import com.etoitau.pixeldungeon.items.Item;
 import com.etoitau.pixeldungeon.items.KindOfWeapon;
 import com.etoitau.pixeldungeon.items.armor.Armor;
@@ -196,34 +198,42 @@ public class Belongings implements Iterable<Item> {
         return Random.element(backpack.items);
     }
 
-    public void resurrect(int depth, boolean withAnkh) {
+
+    public void resurrect() {
         Iterator<Item> it = backpack.iterator();
-        Stack<Item> toRemove = new Stack<>();
+        Ankh ankh = null;
+        AnkhCracked ankhCracked = null;
 
         while (it.hasNext()) {
             Item item = it.next();
-            if (!item.unique && !item.isEquipped(owner) && withAnkh) {
-                // if via ankh, lose your loot
-                toRemove.add(item);
-                //item.detachAll(backpack);
-            } else if (!withAnkh) {
-                // Char.die leads to buffs being removed, and wands charge via a buff
-                // but it doesn't clear the wand's Charger
-                if (item instanceof Wand) {
-                    Wand wand = (Wand) item;
-                    // clear Charger
-                    wand.stopCharging();
-                    // add new Charger and charging buff
-                    wand.charge(owner);
-                    // set wands to full charge
-                    wand.curCharges = wand.maxCharges;
-                }
+            if (item.getClass() == Ankh.class) {
+                ankh = (Ankh) item;
+            } else if (item.getClass() == AnkhCracked.class) {
+                ankhCracked = (AnkhCracked) item;
             }
+
+            // Char.die leads to buffs being removed, and wands charge via a buff
+            // but it doesn't clear the wand's Charger
+            if (item instanceof Wand) {
+                Wand wand = (Wand) item;
+                // clear Charger
+                wand.stopCharging();
+                // add new Charger and charging buff
+                wand.charge(owner);
+                // set wands to full charge
+                wand.curCharges = wand.maxCharges;
+            }
+
         }
 
-        while (!toRemove.isEmpty()) {
-            toRemove.pop().detachAll(backpack);
+        if (ankh != null) {
+            ankh.detach(backpack);
+        } else if (ankhCracked != null) {
+            ankhCracked.detach(backpack);
         }
+
+        // will turn off TimeMachine if no ankhs left, or replace lost AnkhTimer if there are
+        TimeMachine.updateStatus();
 
         // remove curses from equipped items
         if (weapon != null) {

@@ -32,6 +32,7 @@ public class GLog {
 
     public static Signal<String> update = new Signal<String>();
 
+    // white - info
     public static void i(String text, Object... args) {
 
         if (args.length > 0) {
@@ -42,18 +43,22 @@ public class GLog {
         update.dispatch(text);
     }
 
+    // green
     public static void p(String text, Object... args) {
         i(POSITIVE + text, args);
     }
 
+    // red - death, starving, injury, curse, etc
     public static void n(String text, Object... args) {
         i(NEGATIVE + text, args);
     }
 
+    // orange - debuffs and other negative but indirect things, hunger
     public static void w(String text, Object... args) {
         i(WARNING + text, args);
     }
 
+    // yellow
     public static void h(String text, Object... args) {
         i(HIGHLIGHT + text, args);
     }

@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -17,13 +22,10 @@
  */
 package com.etoitau.pixeldungeon.items;
 
-import android.util.Log;
-
 import com.watabau.noosa.audio.Sample;
 import com.watabau.noosa.tweeners.AlphaTweener;
 import com.etoitau.pixeldungeon.Assets;
 import com.etoitau.pixeldungeon.actors.Actor;
-import com.etoitau.pixeldungeon.actors.mobs.Mob;
 import com.etoitau.pixeldungeon.actors.mobs.npcs.SummonedPet;
 import com.etoitau.pixeldungeon.effects.Pushing;
 import com.etoitau.pixeldungeon.levels.Level;
@@ -31,11 +33,9 @@ import com.etoitau.pixeldungeon.scenes.GameScene;
 import com.etoitau.pixeldungeon.sprites.CharSprite;
 import com.etoitau.pixeldungeon.sprites.ItemSpriteSheet;
 import com.etoitau.pixeldungeon.sprites.RatSprite;
-import com.etoitau.pixeldungeon.utils.GLog;
 import com.watabau.utils.Bundle;
-import com.watabau.utils.Random;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class SoulCrystalFilled extends Item {
 
@@ -78,17 +78,8 @@ public class SoulCrystalFilled extends Item {
 
         int newPos = pos;
         if (Actor.findChar(pos) != null) {
-            ArrayList<Integer> candidates = new ArrayList<Integer>();
-            boolean[] passable = Level.passable;
-
-            for (int n : Level.NEIGHBOURS4) {
-                int c = pos + n;
-                if (passable[c] && Actor.findChar(c) == null) {
-                    candidates.add(c);
-                }
-            }
-
-            newPos = candidates.size() > 0 ? Random.element(candidates) : -1;
+            List<Integer> candidates = Level.aroundCell(pos, 1, Level.NEIGHBOURS4, true);
+            newPos = candidates.size() > 0 ? candidates.get(0) : -1;
         }
 
         if (newPos != -1) {

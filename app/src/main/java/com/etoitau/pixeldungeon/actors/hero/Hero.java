@@ -28,6 +28,8 @@ import java.util.Collections;
 import java.util.HashSet;
 
 import com.etoitau.pixeldungeon.PixelDungeon;
+import com.etoitau.pixeldungeon.actors.mobs.Wraith;
+import com.etoitau.pixeldungeon.items.AnkhCracked;
 import com.etoitau.pixeldungeon.items.rings.Ring;
 import com.etoitau.pixeldungeon.ui.HealthIndicatorManager;
 import com.watabau.noosa.Camera;
@@ -1359,17 +1361,15 @@ public class Hero extends Char {
 
         super.die(cause);
 
-        Ankh ankh = (Ankh) belongings.getItem(Ankh.class);
+        Ankh ankh = belongings.getItem(Ankh.class);
+        if (ankh == null) {
+            ankh = belongings.getItem((AnkhCracked.class));
+        }
 
         if (ankh != null) {
             // use ankh if player has one
-            if (Dungeon.depth == ColdGirl.FROST_DEPTH) {
-                GLog.n("The girl saps away the power of your Ankh... no coming back");
-                reallyDie(cause);
-            } else {
-                Dungeon.deleteGame(Dungeon.hero.heroClass, false);
-                GameScene.show(new WndResurrect(ankh, cause));
-            }
+            Dungeon.deleteGame(Dungeon.hero.heroClass, false);
+            GameScene.show(new WndResurrect(ankh, cause));
         } else if (!PixelDungeon.permadeath()) {
             // if not in permadeath mode, give option to continue
             Dungeon.deleteGame(Dungeon.hero.heroClass, false);
@@ -1410,13 +1410,11 @@ public class Hero extends Char {
         int pos = Dungeon.hero.pos;
 
         ArrayList<Integer> passable = new ArrayList<Integer>();
-        for (Integer ofs : Level.NEIGHBOURS8) {
-            int cell = pos + ofs;
+        for (Integer cell : Level.aroundEight(pos)) {
             if ((Level.passable[cell] || Level.avoid[cell]) && Dungeon.level.heaps.get(cell) == null) {
                 passable.add(cell);
             }
         }
-        Collections.shuffle(passable);
 
         ArrayList<Item> items = new ArrayList<Item>(Dungeon.hero.belongings.backpack.items);
         for (Integer cell : passable) {
@@ -1623,20 +1621,29 @@ public class Hero extends Char {
         return smthFound;
     }
 
-    public void resurrect(int resetLevel, boolean withAnkh) {
-        // full health
-        HP = HT;
-        if (withAnkh) {
-            // no gold
-            Dungeon.gold = 0;
-            // no experience progress
-            exp = 0;
+    public void resurrect(InterlevelScene.Mode mode) {
+        live();
+
+        Hunger hunger = buff(Hunger.class);
+
+        if (mode == InterlevelScene.Mode.RESURRECT_CRACKED) {
+            // not fully healed
+            HP = 3 * HT / 4;
+            // weakness debuff
+            Buff.prolong(this, Weakness.class, Weakness.duration(this));
+            // big hit to hunger
+            hunger.satisfy(-Hunger.STARVING);
+            // ghosts added in GameScene
+        } else {
+            // full health
+            HP = HT;
+            // no hunger
+            hunger.satisfy(Hunger.STARVING);
         }
 
         // empty backpack and keys and remove curses on equipped items
-        belongings.resurrect(resetLevel, withAnkh);
+        belongings.resurrect();
 
-        live();
     }
 
     @Override

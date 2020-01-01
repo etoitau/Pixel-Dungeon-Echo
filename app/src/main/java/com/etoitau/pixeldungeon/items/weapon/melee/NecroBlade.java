@@ -38,6 +38,7 @@ import com.watabau.utils.Bundle;
 import com.watabau.utils.Random;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NecroBlade extends MeleeWeapon {
 
@@ -92,16 +93,8 @@ public class NecroBlade extends MeleeWeapon {
             case AC_SUMMON:
                 int newPos = hero.pos;
                 if (Actor.findChar(newPos) != null) {
-                    ArrayList<Integer> candidates = new ArrayList<Integer>();
-                    boolean[] passable = Level.passable;
-
-                    for (int n : Level.NEIGHBOURS4) {
-                        int c = hero.pos + n;
-                        if (passable[c] && Actor.findChar(c) == null) {
-                            candidates.add(c);
-                        }
-                    }
-                    newPos = candidates.size() > 0 ? Random.element(candidates) : -1;
+                    List<Integer> candidates = Level.aroundCell(hero.pos, 1, Level.NEIGHBOURS4, true);
+                    newPos = candidates.size() > 0 ? candidates.get(0) : -1;
                 }
                 if (newPos != -1) {
                     updateCharge(-CHARGE_SUMMON);

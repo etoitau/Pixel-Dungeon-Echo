@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -56,8 +61,7 @@ public class Bomb extends Item {
             }
 
             boolean terrainAffected = false;
-            for (int n : Level.NEIGHBOURS9) {
-                int c = cell + n;
+            for (int c: Level.aroundNine(cell)) {
                 if (c >= 0 && c < Level.LENGTH) {
                     if (Dungeon.visible[c]) {
                         CellEmitter.get(c).burst(SmokeParticle.FACTORY, 4);

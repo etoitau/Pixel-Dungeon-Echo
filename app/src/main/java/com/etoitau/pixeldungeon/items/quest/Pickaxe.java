@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -89,9 +94,8 @@ public class Pickaxe extends Weapon {
                 return;
             }
 
-            for (int i = 0; i < Level.NEIGHBOURS8.length; i++) {
+            for (final int pos: Level.aroundEight(hero.pos)) {
 
-                final int pos = hero.pos + Level.NEIGHBOURS8[i];
                 if (Dungeon.level.map[pos] == Terrain.WALL_DECO) {
 
                     hero.spend(TIME_TO_MINE);

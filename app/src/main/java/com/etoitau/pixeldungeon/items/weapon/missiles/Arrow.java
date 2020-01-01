@@ -86,8 +86,7 @@ public class Arrow extends MissileWeapon {
                     }
 
                     boolean terrainAffected = false;
-                    for (int n : Level.NEIGHBOURS9) {
-                        int c = cell + n;
+                    for (int c: Level.aroundNine(cell)) {
                         if (c >= 0 && c < Level.LENGTH) {
                             if (Dungeon.visible[c]) {
                                 CellEmitter.get(c).burst(SmokeParticle.FACTORY, 4);

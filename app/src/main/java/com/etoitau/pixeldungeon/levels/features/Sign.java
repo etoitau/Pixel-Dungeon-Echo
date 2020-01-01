@@ -77,6 +77,8 @@ public class Sign {
             "Identify your potions and scrolls as soon as possible. Don't put it off to the moment " +
                     "when you actually need them.",
             "Being hungry doesn't hurt, but starving does hurt.",
+            "It's wise to keep one or two ankhs in your backpack. They can be used to go back in " +
+                    "time a short ways, or can resurrect you if you die.",
             "A surprise attack has a better chance to hit. For example, you can ambush your enemy " +
                     "behind a closed door when you know it is approaching.",
             "You can fill your dew vial by throwing it into a well of health.",
@@ -89,8 +91,7 @@ public class Sign {
     private static final String[] CAVE_SIGN = {
             "When you're attacked by several monsters at the same time, try to retreat behind a door.",
             "If you are burning, you can't put out the fire in the water while levitating.",
-            "There is no sense in possessing more than one Ankh at the same time, because you will " +
-                    "lose them upon resurrecting.",
+            "Trying to resurrect with a cracked ankh can have some unfortunate side effects.",
             "A scroll of upgrade or enchantment will also fix partially degraded item.",
             "If you have two of the same item, the blacksmith can upgrade the higher-level one.",
             "Picking on someone much lower level than you doesn't give you any experience."

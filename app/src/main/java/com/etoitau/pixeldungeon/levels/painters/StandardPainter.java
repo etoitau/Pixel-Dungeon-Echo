@@ -18,6 +18,7 @@
 package com.etoitau.pixeldungeon.levels.painters;
 
 import com.etoitau.pixeldungeon.Dungeon;
+import com.etoitau.pixeldungeon.items.Ankh;
 import com.etoitau.pixeldungeon.items.Generator;
 import com.etoitau.pixeldungeon.items.Gold;
 import com.etoitau.pixeldungeon.items.Heap;
@@ -126,7 +127,16 @@ public class StandardPainter extends Painter {
             int pos = w > h ?
                     room.left + 1 + shift + i * 2 + (room.top + 2 + Random.Int(h - 2)) * Level.WIDTH :
                     (room.left + 2 + Random.Int(w - 2)) + (room.top + 1 + shift + i * 2) * Level.WIDTH;
-            level.drop(i == index ? Generator.random() : new Gold(), pos).type = Heap.Type.TOMB;
+            // determine loot
+            Heap tomb;
+            if (i == index) {
+                // one has proper loot. If very lucky, an ankh
+                tomb = (Random.Float() > 0.95)? level.drop(new Ankh(), pos): level.drop(Generator.random(), pos);
+            } else {
+                // rest have one gold piece
+                tomb = level.drop(new Gold(), pos);
+            }
+            tomb.type = Heap.Type.TOMB;
         }
     }
 

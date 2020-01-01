@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -98,11 +103,14 @@ public class Wraith extends Mob {
     }
 
     public static void spawnAround(int pos) {
-        for (int n : Level.NEIGHBOURS4) {
-            int cell = pos + n;
-            if (Level.passable[cell] && Actor.findChar(cell) == null) {
-                spawnAt(cell);
-            }
+        spawnAround(pos, 4);
+    }
+
+    // spawn wraiths around the specified point at the four cardinal points.
+    // if quantity is less than 4, that many will be spawned ar random cardinal points
+    public static void spawnAround(int pos, int quantity) {
+        for (int cell: Level.aroundCell(pos, quantity, Level.NEIGHBOURS4, true)) {
+            spawnAt(cell);
         }
     }
 

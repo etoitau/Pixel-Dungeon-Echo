@@ -162,7 +162,7 @@ public class WndRanking extends WndTabbed {
 
         private static final String TXT_FOOD = "Food Eaten";
         private static final String TXT_ALCHEMY = "Potions Cooked";
-        private static final String TXT_ANKHS = "Ankhs Used";
+        private static final String TXT_ANKHS = "Resurrections";
 
         private static final String TXT_DIFF = "Difficulty";
 

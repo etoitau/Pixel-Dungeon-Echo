@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -17,14 +22,59 @@
  */
 package com.etoitau.pixeldungeon.items;
 
+import com.etoitau.pixeldungeon.Dungeon;
+import com.etoitau.pixeldungeon.TimeMachine;
+import com.etoitau.pixeldungeon.actors.hero.Hero;
+import com.etoitau.pixeldungeon.items.bags.Bag;
+import com.etoitau.pixeldungeon.scenes.InterlevelScene;
 import com.etoitau.pixeldungeon.sprites.ItemSpriteSheet;
+import com.watabau.noosa.Game;
+
+import java.util.ArrayList;
 
 public class Ankh extends Item {
+
+    public static final String AC_GO_BACK = "GO BACK";
 
     {
         stackable = true;
         name = "Ankh";
         image = ItemSpriteSheet.ANKH;
+    }
+
+    public void usedTimeMachine() {
+        detach(Dungeon.hero.belongings.backpack);
+        new AnkhCracked().collect();
+    }
+
+    @Override
+    public ArrayList<String> actions(Hero hero) {
+        ArrayList<String> actions = super.actions(hero);
+
+        if (TimeMachine.isFull()) {
+            actions.add(AC_GO_BACK);
+        }
+
+        return actions;
+    }
+
+    @Override
+    public boolean collect(Bag container) {
+        boolean collected = super.collect(container);
+        if (!collected) { return false; }
+
+        TimeMachine.setTimer();
+        return collected;
+    }
+
+    @Override
+    public void execute(final Hero hero, String action) {
+        if (action.equals(AC_GO_BACK)) {
+            InterlevelScene.mode = InterlevelScene.Mode.BACK_IN_TIME;
+            Game.switchScene(InterlevelScene.class);
+        } else {
+            super.execute(hero, action);
+        }
     }
 
     @Override
@@ -40,8 +90,14 @@ public class Ankh extends Item {
     @Override
     public String info() {
         return
-                "The ancient symbol of immortality grants an ability to return to life after death. " +
-                        "Upon resurrection all non-equipped items are lost.";
+                "This ancient artifact has power over life and time. " +
+                        "Use it to undo a mistake or even escape death.";
+    }
+
+    @Override
+    protected void onDetach() {
+        super.onDetach();
+        TimeMachine.updateStatus();
     }
 
     @Override

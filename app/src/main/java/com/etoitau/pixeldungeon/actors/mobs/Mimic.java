@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -141,15 +146,10 @@ public class Mimic extends Mob {
     public static Mimic spawnAt(int pos, List<Item> items) {
         Char ch = Actor.findChar(pos);
         if (ch != null) {
-            ArrayList<Integer> candidates = new ArrayList<Integer>();
-            for (int n : Level.NEIGHBOURS8) {
-                int cell = pos + n;
-                if ((Level.passable[cell] || Level.avoid[cell]) && Actor.findChar(cell) == null) {
-                    candidates.add(cell);
-                }
-            }
+            List<Integer> candidates = Level.aroundCell(pos, 1, Level.NEIGHBOURS8, true);
+
             if (candidates.size() > 0) {
-                int newPos = Random.element(candidates);
+                int newPos = candidates.get(0);
                 Actor.addDelayed(new Pushing(ch, ch.pos, newPos), -1);
 
                 ch.pos = newPos;
