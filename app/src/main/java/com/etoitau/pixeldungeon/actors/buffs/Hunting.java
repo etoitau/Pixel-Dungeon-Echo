@@ -29,8 +29,9 @@ import com.etoitau.pixeldungeon.utils.GLog;
 
 public class Hunting extends Buff {
 
-    private static final float BASE_COOLDOWN = 160;
-    private static final int BONUS_PER_LEVEL = 20;
+    // at level 1, 360 (time to starving). at level 3, 240 (about time to hungry)
+    private static final float BASE_COOLDOWN = 420;
+    private static final int BONUS_PER_LEVEL = 60;
 
 
     @Override
@@ -39,9 +40,8 @@ public class Hunting extends Buff {
 
             Hero hero = (Hero) target;
 
-            if (hero.heroSkills.passiveA3.hunting() < 1)// hunting is not active
-            {
-                spend(100);
+            if (hero.heroSkills.passiveA3.hunting() < 1) { // hunting is not active
+                spend(BASE_COOLDOWN);
                 return true;
             }
 
@@ -50,7 +50,7 @@ public class Hunting extends Buff {
             if (!steak.collect())
                 Dungeon.level.drop(steak, hero.pos).sprite.drop();
 
-            spend(BASE_COOLDOWN - BONUS_PER_LEVEL * hero.heroSkills.passiveA3.hunting());
+            spend(BASE_COOLDOWN - (BONUS_PER_LEVEL * hero.heroSkills.passiveA3.hunting()) );
 
         } else {
 

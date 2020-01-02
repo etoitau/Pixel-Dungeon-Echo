@@ -20,6 +20,7 @@ package com.etoitau.pixeldungeon.items.armor;
 import java.util.ArrayList;
 
 import com.etoitau.pixeldungeon.Badges;
+import com.etoitau.pixeldungeon.DegradationFilter;
 import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.actors.Char;
 import com.etoitau.pixeldungeon.actors.hero.Hero;
@@ -371,7 +372,8 @@ public class Armor extends EquipableItem {
         @SuppressWarnings("unchecked")
         public static Glyph random() {
             try {
-                return ((Class<Glyph>) glyphs[Random.chances(chances)]).newInstance();
+                Class<Glyph> glyph = (Class<Glyph>) glyphs[Random.chances(chances)];
+                return (DegradationFilter.filterGlyph(glyph)).newInstance();
             } catch (Exception e) {
                 return null;
             }

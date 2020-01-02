@@ -18,6 +18,7 @@
 package com.etoitau.pixeldungeon.items.weapon;
 
 import com.etoitau.pixeldungeon.Badges;
+import com.etoitau.pixeldungeon.DegradationFilter;
 import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.actors.Char;
 import com.etoitau.pixeldungeon.actors.hero.Hero;
@@ -261,7 +262,8 @@ abstract public class Weapon extends KindOfWeapon {
         @SuppressWarnings("unchecked")
         public static Enchantment random() {
             try {
-                return ((Class<Enchantment>) enchants[Random.chances(chances)]).newInstance();
+                Class<Enchantment> enchantment = (Class<Enchantment>) enchants[Random.chances(chances)];
+                return DegradationFilter.filterEnchantment(enchantment).newInstance();
             } catch (Exception e) {
                 return null;
             }

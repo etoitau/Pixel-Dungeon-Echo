@@ -327,7 +327,7 @@ public class WndBag extends WndTabbed {
         private Item item;
         private ColorBlock bg;
 
-        private ColorBlock durability[];
+        private ColorBlock durability[]; // todo stray color block bug
 
         public ItemButton(Item item) {
 
@@ -354,7 +354,7 @@ public class WndBag extends WndTabbed {
             bg.x = x;
             bg.y = y;
 
-            if (noDegrade == true)
+            if (noDegrade)
                 durability = null; // no durability
 
             if (durability != null) {
@@ -382,7 +382,8 @@ public class WndBag extends WndTabbed {
                     bg.ba = 0.1f;
                 }
 
-                if (lastBag.owner.isAlive() && item.isUpgradable() && item.levelKnown) {
+                // durability bars
+                if (!noDegrade && lastBag.owner.isAlive() && item.isUpgradable() && item.levelKnown) {
                     durability = new ColorBlock[NBARS];
                     int nBars = (int) GameMath.gate(0, Math.round((float) NBARS * item.durability() / item.maxDurability()), NBARS);
                     for (int i = 0; i < nBars; i++) {

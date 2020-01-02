@@ -34,6 +34,7 @@ import com.etoitau.pixeldungeon.items.food.Food;
 import com.etoitau.pixeldungeon.items.potions.PotionOfExperience;
 import com.etoitau.pixeldungeon.items.potions.PotionOfHealing;
 import com.etoitau.pixeldungeon.items.potions.PotionOfStrength;
+import com.etoitau.pixeldungeon.items.scrolls.ScrollOfEnchantment;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.etoitau.pixeldungeon.items.wands.WandOfAvalanche;
 import com.etoitau.pixeldungeon.items.wands.WandOfDisintegration;
@@ -479,6 +480,7 @@ public enum Difficulties {
                         new PotionOfExperience().identify().collect();
                         new PotionOfStrength().identify().collect();
                         new ScrollOfMagicMapping().identify().collect();
+                        new ScrollOfEnchantment().identify().collect();
                     }
                     new PlateArmor().identify().collect();
                     new WarHammer().identify().collect();

@@ -16,6 +16,25 @@ Developed by [Kyle Chatman](http://www.kchatman.com) under a GNU Public License.
 [https://play.google.com/store/apps/details?id=com.etoitau.pixeldungeon](https://play.google.com/store/apps/details?id=com.etoitau.pixeldungeon)
 
 ## Description of Changes
+
+### v. 1.1.0
+* Feature - Major change to how Ankhs work
+    * You can now use an ankh to travel back in time a short distance. On use, ankh degrades into a 
+    cracked ankh which can be used to time travel one more time.
+    * Both regular and cracked ankh can resurrect from dead, and inventory is not emptied.
+    * Resurrecting from a cracked ankh has some side effects. 
+* Tweaks and balancing
+    * Turned down mob death screams, added some new screams
+    * Nerfed Huntress Hunting skill
+    * Potion of Experience can overflow to next level 
+* Bug fixes
+    * Necroblade message even when full
+    * Ring addition - Two rings of same type weren't additive for some types (herbalism, elements, power)
+    * If degradation turned off, still get degradation-related enchantments and signs
+    * Double Strike double shout
+    * Graphical artifact in backpack when degradation turned off
+* Misc grammar/wording changes
+* Misc code refactoring/cleanup    
 ### v. 1.0.5
 * Bug fixes
     * Ankh not wiping out backpack

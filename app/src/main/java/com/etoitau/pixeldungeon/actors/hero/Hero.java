@@ -1468,7 +1468,6 @@ public class Hero extends Char {
 
         if (enemy.HP > 0) {
             sprite.attack(enemy.pos);
-            heroSkills.active1.castTextYell();
         } else {
             curAction = null;
             super.onAttackComplete();

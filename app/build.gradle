@@ -9,7 +9,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 29
         versionCode 6       // 5, 1.0.5, was released to prod 191220
-        versionName "1.0.6"
+        versionName "1.1.0"
     }
 
     buildTypes {

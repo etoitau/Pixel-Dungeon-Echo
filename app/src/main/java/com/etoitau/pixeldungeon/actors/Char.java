@@ -299,7 +299,6 @@ public abstract class Char extends Actor {
 //                enemy.damage(Dungeon.hero.heroSkills.active2.damageBonus(enemy.HP, true), this);
 
 
-
             // hear hit
             if (visibleFight) {
                 Sample.INSTANCE.play(Assets.SND_HIT, 1, 1, Random.Float(0.8f, 1.25f));
@@ -321,6 +320,7 @@ public abstract class Char extends Actor {
             if (this instanceof Hero && ((Hero) this).rangedWeapon == null && ((Hero) this).belongings.weapon instanceof DualSwords) {
                 if (enemy.isAlive()) {
                     if (((DualSwords) ((Hero) this).belongings.weapon).secondHit == false) {
+                        // if this is the first hit, can go again
                         ((DualSwords) ((Hero) this).belongings.weapon).secondHit = true;
                         attack(enemy);
                     } else

@@ -22,6 +22,7 @@
  */
 package com.etoitau.pixeldungeon.levels.features;
 
+import com.etoitau.pixeldungeon.DegradationFilter;
 import com.watabau.noosa.audio.Sample;
 import com.etoitau.pixeldungeon.Assets;
 import com.etoitau.pixeldungeon.Dungeon;
@@ -68,7 +69,9 @@ public class Sign {
             "Every dungeon is different. An indigo potion, or a holly wand, might not do what it " +
                     "did the last time you explored.",
             "Ration your food, there's not much to be found in the dungeon.",
-            "Items only start wearing out if they're level +1 or greater."
+            "Items only start wearing out if they're level +1 or greater.", // degredation
+            "Use your inspection tool to take a closer look at someone or something, or to search " +
+                    "an area for hidden doors or traps."
     };
     private static List<Integer> sewerIndexes;
 
@@ -92,15 +95,16 @@ public class Sign {
             "When you're attacked by several monsters at the same time, try to retreat behind a door.",
             "If you are burning, you can't put out the fire in the water while levitating.",
             "Trying to resurrect with a cracked ankh can have some unfortunate side effects.",
-            "A scroll of upgrade or enchantment will also fix partially degraded item.",
+            "A scroll of upgrade or enchantment will also fix a partially degraded item.", // degredation
             "If you have two of the same item, the blacksmith can upgrade the higher-level one.",
-            "Picking on someone much lower level than you doesn't give you any experience."
+            "Picking on someone much lower level than you doesn't give you any experience.",
+            "If you inspect a crystal chest you can get an idea of what is inside."
     };
     private static List<Integer> caveIndexes;
 
     private static final String[] CITY_SIGN = {
             "When you upgrade an enchanted weapon, there is a chance to destroy that enchantment.",
-            "Weapons and armors deteriorate faster than wands and rings, but there are more ways to fix them.",
+            "Weapons and armors deteriorate faster than wands and rings, but there are more ways to fix them.", // degredation
             "There is a powerful scroll that can only be obtained through sacrifice to the dungeon " +
                     "spirits. Look for a mysterious alter - the mark it gives spreads through violence.",
             "Wearing armour lighter than your strength makes it easier to dodge hits.",
@@ -108,6 +112,15 @@ public class Sign {
             "Make sure you find the ambitious imp. It's a valuable friend to have...",
             "Magical attacks are much harder to dodge than those from normal weapons."
     };
+
+    private static final String[] REPLACEMENT_SIGN = {
+            "They say members of the Thieves' Guild get steep discounts in dungeon shops. Shame " +
+                    "you're not a member.",
+            "Be careful using magic items around shopkeepers. They can be touchy about that sort of thing",
+            "There's a potion that can only be obtained via a Well of Transmutation. Look for the " +
+                    "well surrounded by butterflies."
+    };
+
     private static List<Integer> cityIndexes;
 
     private static final String TXT_BURN =
@@ -118,8 +131,16 @@ public class Sign {
     private static int randSeed = 1;
 
     public static void initSigns() {
+        addFilters();
+
         randSeed = Random.Int(217);
         getShuffle();
+    }
+
+    private static void addFilters() {
+        DegradationFilter.add(SEWER_SIGN[6], REPLACEMENT_SIGN[0]);
+        DegradationFilter.add(CAVE_SIGN[3], REPLACEMENT_SIGN[1]);
+        DegradationFilter.add(CITY_SIGN[1], REPLACEMENT_SIGN[2]);
     }
 
     private static void getShuffle() {
@@ -204,7 +225,7 @@ public class Sign {
         }
 
         if (signText != null) {
-            GameScene.show(new WndMessage(signText));
+            GameScene.show(new WndMessage(DegradationFilter.filterString(signText)));
         }
     }
 
