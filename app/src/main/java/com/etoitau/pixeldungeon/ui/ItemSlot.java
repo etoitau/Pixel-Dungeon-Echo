@@ -1,6 +1,16 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
+ *
+ * With content from:
+ *
+ * Shattered Pixel Dungeon
+ * Copyright (C) 2014-2019 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +27,11 @@
  */
 package com.etoitau.pixeldungeon.ui;
 
+import com.etoitau.pixeldungeon.Assets;
+import com.etoitau.pixeldungeon.items.potions.Potion;
+import com.etoitau.pixeldungeon.items.scrolls.Scroll;
 import com.watabau.noosa.BitmapText;
+import com.watabau.noosa.Image;
 import com.watabau.noosa.ui.Button;
 import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.items.Item;
@@ -39,9 +53,11 @@ public class ItemSlot extends Button {
     private static final float DISABLED = 0.3f;
 
     protected ItemSprite icon;
-    protected BitmapText topLeft;
-    protected BitmapText topRight;
-    protected BitmapText bottomRight;
+    protected BitmapText topLeft; // quantity
+    protected BitmapText topRight; // strength req
+    protected BitmapText bottomRight; // upgrade level
+    protected Image bottomRightIcon; // consumable type
+    protected boolean bottomRightIconVisible = true; // consumable icon visible
 
     private static final String TXT_STRENGTH = ":%d";
     private static final String TXT_TYPICAL_STR = "%d?";
@@ -127,64 +143,90 @@ public class ItemSlot extends Button {
             bottomRight.x = x + (width - bottomRight.width());
             bottomRight.y = y + (height - bottomRight.height());
         }
+
+        if (bottomRightIcon != null) {
+            bottomRightIcon.x = x + (width - bottomRightIcon.width()) -1;
+            bottomRightIcon.y = y + (height - bottomRightIcon.height());
+        }
     }
 
     public void item(Item item) {
-        if (item == null) {
+        if (bottomRightIcon != null){
+            remove(bottomRightIcon);
+            bottomRightIcon = null;
+        }
 
+        if (item == null) {
             active = false;
             icon.visible = topLeft.visible = topRight.visible = bottomRight.visible = false;
+            return;
 
         } else {
 
             active = true;
             icon.visible = topLeft.visible = topRight.visible = bottomRight.visible = true;
-
-            icon.view(item.image(), item.glowing());
-
-            topLeft.text(item.status());
-
-            boolean isArmor = item instanceof Armor;
-            boolean isWeapon = item instanceof Weapon;
-            if (isArmor || isWeapon) {
-
-                if (item.levelKnown || (isWeapon && !(item instanceof MeleeWeapon))) {
-
-                    int str = isArmor ? ((Armor) item).STR : ((Weapon) item).STR();
-                    topRight.text(Utils.format(TXT_STRENGTH, str));
-                    if (str > Dungeon.hero.STR()) {
-                        topRight.hardlight(DEGRADED);
-                    } else {
-                        topRight.resetColor();
-                    }
-
-                } else {
-
-                    topRight.text(Utils.format(TXT_TYPICAL_STR, isArmor ?
-                            ((Armor) item).typicalSTR() :
-                            ((MeleeWeapon) item).typicalSTR()));
-                    topRight.hardlight(WARNING);
-
-                }
-                topRight.measure();
-
-            } else {
-
-                topRight.text(null);
-
-            }
-
-            int level = item.visiblyUpgraded();
-            if (level != 0 || (item.cursed && item.cursedKnown)) {
-                bottomRight.text(item.levelKnown ? Utils.format(TXT_LEVEL, level) : TXT_CURSED);
-                bottomRight.measure();
-                bottomRight.hardlight(level > 0 ? (item.isBroken() ? WARNING : UPGRADED) : DEGRADED);
-            } else {
-                bottomRight.text(null);
-            }
-
-            layout();
         }
+
+        icon.view(item.image(), item.glowing());
+
+        topLeft.text(item.status());
+
+        boolean isArmor = item instanceof Armor;
+        boolean isWeapon = item instanceof Weapon;
+        if (isArmor || isWeapon) {
+
+            if (item.levelKnown || (isWeapon && !(item instanceof MeleeWeapon))) {
+
+                int str = isArmor ? ((Armor) item).STR : ((Weapon) item).STR();
+                topRight.text(Utils.format(TXT_STRENGTH, str));
+                if (str > Dungeon.hero.STR()) {
+                    topRight.hardlight(DEGRADED);
+                } else {
+                    topRight.resetColor();
+                }
+
+            } else {
+
+                topRight.text(Utils.format(TXT_TYPICAL_STR, isArmor ?
+                        ((Armor) item).typicalSTR() :
+                        ((MeleeWeapon) item).typicalSTR()));
+                topRight.hardlight(WARNING);
+
+            }
+            topRight.measure();
+
+        } else {
+
+            topRight.text(null);
+
+        }
+
+        int level = item.visiblyUpgraded();
+        boolean isScroll = item instanceof Scroll;
+        boolean isPotion = item instanceof Potion;
+
+        if (level != 0 || (item.cursed && item.cursedKnown)) {
+            bottomRight.text(item.levelKnown ? Utils.format(TXT_LEVEL, level) : TXT_CURSED);
+            bottomRight.measure();
+            bottomRight.hardlight(level > 0 ? (item.isBroken() ? WARNING : UPGRADED) : DEGRADED);
+        } else if (item.isIdentified() && (isScroll || isPotion)) {
+            bottomRight.text(null);
+            Integer iconInt = (isScroll)? Scroll.iconKey.get(item.getClass()): Potion.iconKey.get(item.getClass());
+            if (iconInt != null && bottomRightIconVisible) {
+                bottomRightIcon = new Image(Assets.CONS_ICONS);
+                int left = iconInt * 7;
+                int top = (isScroll)? 8: 0;
+                bottomRightIcon.frame(left, top, 7, 8);
+                add(bottomRightIcon);
+            }
+
+
+        } else {
+            bottomRight.text(null);
+        }
+
+        layout();
+
     }
 
     public void enable(boolean value) {
@@ -196,6 +238,7 @@ public class ItemSlot extends Button {
         topLeft.alpha(alpha);
         topRight.alpha(alpha);
         bottomRight.alpha(alpha);
+        if (bottomRightIcon != null) bottomRightIcon.alpha( alpha );
     }
 
     public void showParams(boolean value) {
@@ -206,5 +249,6 @@ public class ItemSlot extends Button {
             remove(topRight);
             remove(bottomRight);
         }
+        bottomRightIconVisible = value;
     }
 }

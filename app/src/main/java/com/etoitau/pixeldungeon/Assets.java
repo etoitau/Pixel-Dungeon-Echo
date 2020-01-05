@@ -30,6 +30,7 @@ public class Assets {
 
     public static final String CHROME = "chrome.png";
     public static final String ICONS = "icons.png";
+    public static final String CONS_ICONS = "consumable_icons.png";
     public static final String STATUS = "status_pane.png";
     public static final String STATUS_MISSION = "status_pane_mission.png";
     public static final String HP_BAR = "hp_bar.png";
@@ -121,6 +122,7 @@ public class Assets {
     public static final String SPELL_ICONS = "spell_icons.png";
 
     public static final String HERO_SKILL = "hero_skills.png";
+
     public static final String FONTS1X = "font1x.png";
     public static final String FONTS15X = "font15x.png";
     public static final String FONTS2X = "font2x.png";

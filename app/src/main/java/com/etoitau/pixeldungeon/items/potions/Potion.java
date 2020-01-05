@@ -19,6 +19,7 @@
 package com.etoitau.pixeldungeon.items.potions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import com.watabau.noosa.audio.Sample;
@@ -84,7 +85,26 @@ public class Potion extends Item {
             ItemSpriteSheet.POTION_BISTRE,
             ItemSpriteSheet.POTION_INDIGO,
             ItemSpriteSheet.POTION_SILVER,
-            ItemSpriteSheet.POTION_MANA};
+            ItemSpriteSheet.POTION_MANA
+    };
+
+    public static final HashMap<Class<?>, Integer> iconKey = new HashMap<Class<?>, Integer>() {
+        {
+            put(PotionOfExperience.class, 0);
+            put(PotionOfFrost.class, 1);
+            put(PotionOfMana.class, 2);
+            put(PotionOfHealing.class, 3);
+            put(PotionOfInvisibility.class, 4);
+            put(PotionOfLevitation.class, 5);
+            put(PotionOfLiquidFlame.class, 6);
+            put(PotionOfMindVision.class, 7);
+            put(PotionOfParalyticGas.class, 8);
+            put(PotionOfPurity.class, 9);
+            put(PotionOfStrength.class, 10);
+            put(PotionOfToxicGas.class, 11);
+            put(PotionOfMight.class, 12);
+        }
+    };
 
     private static ItemStatusHandler<Potion> handler;
 

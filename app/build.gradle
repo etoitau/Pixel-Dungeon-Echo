@@ -8,8 +8,8 @@ android {
         applicationId "com.etoitau.pixeldungeon"
         minSdkVersion 14
         targetSdkVersion 29
-        versionCode 6       // 5, 1.0.5, was released to prod 191220
-        versionName "1.1.0"
+        versionCode 7       // 6, 1.1.0, was released to prod 200104
+        versionName "1.1.1"
     }
 
     buildTypes {

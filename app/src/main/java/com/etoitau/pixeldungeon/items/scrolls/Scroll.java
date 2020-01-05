@@ -18,6 +18,7 @@
 package com.etoitau.pixeldungeon.items.scrolls;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import com.etoitau.pixeldungeon.Badges;
@@ -25,6 +26,19 @@ import com.etoitau.pixeldungeon.actors.buffs.Blindness;
 import com.etoitau.pixeldungeon.actors.hero.Hero;
 import com.etoitau.pixeldungeon.items.Item;
 import com.etoitau.pixeldungeon.items.ItemStatusHandler;
+import com.etoitau.pixeldungeon.items.potions.PotionOfExperience;
+import com.etoitau.pixeldungeon.items.potions.PotionOfFrost;
+import com.etoitau.pixeldungeon.items.potions.PotionOfHealing;
+import com.etoitau.pixeldungeon.items.potions.PotionOfInvisibility;
+import com.etoitau.pixeldungeon.items.potions.PotionOfLevitation;
+import com.etoitau.pixeldungeon.items.potions.PotionOfLiquidFlame;
+import com.etoitau.pixeldungeon.items.potions.PotionOfMana;
+import com.etoitau.pixeldungeon.items.potions.PotionOfMight;
+import com.etoitau.pixeldungeon.items.potions.PotionOfMindVision;
+import com.etoitau.pixeldungeon.items.potions.PotionOfParalyticGas;
+import com.etoitau.pixeldungeon.items.potions.PotionOfPurity;
+import com.etoitau.pixeldungeon.items.potions.PotionOfStrength;
+import com.etoitau.pixeldungeon.items.potions.PotionOfToxicGas;
 import com.etoitau.pixeldungeon.sprites.HeroSprite;
 import com.etoitau.pixeldungeon.sprites.ItemSpriteSheet;
 import com.etoitau.pixeldungeon.utils.GLog;
@@ -81,6 +95,24 @@ public abstract class Scroll extends Item {
             ItemSpriteSheet.SCROLL_SKILLPOINT,
             ItemSpriteSheet.SCROLL_FROST,
             ItemSpriteSheet.SCROLL_WIPE_OUT // + 6
+    };
+
+    public static final HashMap<Class<?>, Integer> iconKey = new HashMap<Class<?>, Integer>() {
+        {
+            put(ScrollOfIdentify.class, 0);
+            put(ScrollOfLullaby.class, 1);
+            put(ScrollOfMagicMapping.class, 2);
+            put(ScrollOfMirrorImage.class, 3);
+            put(ScrollOfPsionicBlast.class, 4);
+            put(ScrollOfChallenge.class, 5);
+            put(ScrollOfRecharging.class, 6);
+            put(ScrollOfRemoveCurse.class, 7);
+            put(ScrollOfTeleportation.class, 8);
+            put(ScrollOfTerror.class, 9);
+            // 10 not used
+            put(ScrollOfUpgrade.class, 11);
+            put(ScrollOfEnchantment.class, 12);
+        }
     };
 
     private static ItemStatusHandler<Scroll> handler;

@@ -31,10 +31,13 @@ import com.etoitau.pixeldungeon.items.bags.ScrollHolder;
 import com.etoitau.pixeldungeon.items.bags.SeedPouch;
 import com.etoitau.pixeldungeon.items.bags.WandHolster;
 import com.etoitau.pixeldungeon.items.food.Food;
+import com.etoitau.pixeldungeon.items.potions.Potion;
 import com.etoitau.pixeldungeon.items.potions.PotionOfExperience;
 import com.etoitau.pixeldungeon.items.potions.PotionOfHealing;
 import com.etoitau.pixeldungeon.items.potions.PotionOfStrength;
+import com.etoitau.pixeldungeon.items.scrolls.Scroll;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfEnchantment;
+import com.etoitau.pixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.etoitau.pixeldungeon.items.wands.WandOfAvalanche;
 import com.etoitau.pixeldungeon.items.wands.WandOfDisintegration;
@@ -476,12 +479,30 @@ public enum Difficulties {
                     new WandHolster().collect();
                     new SeedPouch().collect();
 
-                    for (int i = 0; i < 25; i++) {
-                        new PotionOfExperience().identify().collect();
-                        new PotionOfStrength().identify().collect();
-                        new ScrollOfMagicMapping().identify().collect();
-                        new ScrollOfEnchantment().identify().collect();
+                    for (int i = 0; i < 30; i++) {
+                        new ScrollOfIdentify().collect();
                     }
+                    try {
+                        for (Class scrollClass: Scroll.getUnknown()) {
+                            Scroll scroll = (Scroll) scrollClass.newInstance();
+                            scroll.collect();
+                        }
+                        for (Class potionClass: Potion.getUnknown()) {
+                            Potion potion = (Potion) potionClass.newInstance();
+                            potion.collect();
+                        }
+                    } catch (Exception e) {
+                        // do nothing
+                    }
+
+
+
+//                    for (int i = 0; i < 25; i++) {
+//                        new PotionOfExperience().identify().collect();
+//                        new PotionOfStrength().identify().collect();
+//                        new ScrollOfMagicMapping().identify().collect();
+//                        new ScrollOfEnchantment().identify().collect();
+//                    }
                     new PlateArmor().identify().collect();
                     new WarHammer().identify().collect();
                     for (int i = 0; i < 5; i++) {
