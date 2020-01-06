@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -18,6 +23,8 @@
 package com.etoitau.pixeldungeon.items.rings;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import com.etoitau.pixeldungeon.Badges;
 import com.etoitau.pixeldungeon.Dungeon;
@@ -80,8 +87,25 @@ public class Ring extends EquipableItem {
             ItemSpriteSheet.RING_EMERALD,
             ItemSpriteSheet.RING_SAPPHIRE,
             ItemSpriteSheet.RING_QUARTZ,
-            ItemSpriteSheet.RING_AGATE};
+            ItemSpriteSheet.RING_AGATE
+    };
 
+    public static final HashMap<Class<?>, Integer> iconKey = new HashMap<Class<?>, Integer>() {
+        {
+            put(RingOfAccuracy.class, 0);
+            put(RingOfDetection.class, 1);
+            put(RingOfElements.class, 2);
+            put(RingOfEvasion.class, 3);
+            put(RingOfHaggler.class, 4);
+            put(RingOfHaste.class, 5);
+            put(RingOfHerbalism.class, 6);
+            put(RingOfMending.class, 7);
+            put(RingOfPower.class, 8);
+            put(RingOfSatiety.class, 9);
+            put(RingOfShadows.class, 10);
+            put(RingOfThorns.class, 11);
+        }
+    };
     private static ItemStatusHandler<Ring> handler;
 
     private String gem;
@@ -316,6 +340,10 @@ public class Ring extends EquipableItem {
 
     public static boolean allKnown() {
         return handler.known().size() == rings.length - 2;
+    }
+
+    public static HashSet<Class<? extends Ring>> getUnknown() {
+        return handler.unknown();
     }
 
     @Override

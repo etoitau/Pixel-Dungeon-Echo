@@ -29,7 +29,9 @@ package com.etoitau.pixeldungeon.ui;
 
 import com.etoitau.pixeldungeon.Assets;
 import com.etoitau.pixeldungeon.items.potions.Potion;
+import com.etoitau.pixeldungeon.items.rings.Ring;
 import com.etoitau.pixeldungeon.items.scrolls.Scroll;
+import com.etoitau.pixeldungeon.items.wands.Wand;
 import com.watabau.noosa.BitmapText;
 import com.watabau.noosa.Image;
 import com.watabau.noosa.ui.Button;
@@ -142,6 +144,11 @@ public class ItemSlot extends Button {
         if (bottomRight != null) {
             bottomRight.x = x + (width - bottomRight.width());
             bottomRight.y = y + (height - bottomRight.height());
+
+            if (bottomRightIcon != null) {
+                // if both bottom right text and icon, shift text over
+                bottomRight.x -= bottomRightIcon.width() + 2;
+            }
         }
 
         if (bottomRightIcon != null) {
@@ -173,6 +180,11 @@ public class ItemSlot extends Button {
 
         boolean isArmor = item instanceof Armor;
         boolean isWeapon = item instanceof Weapon;
+        boolean isScroll = item instanceof Scroll;
+        boolean isPotion = item instanceof Potion;
+        boolean isRing = item instanceof Ring;
+        boolean isWand = item instanceof Wand;
+
         if (isArmor || isWeapon) {
 
             if (item.levelKnown || (isWeapon && !(item instanceof MeleeWeapon))) {
@@ -202,25 +214,39 @@ public class ItemSlot extends Button {
         }
 
         int level = item.visiblyUpgraded();
-        boolean isScroll = item instanceof Scroll;
-        boolean isPotion = item instanceof Potion;
 
         if (level != 0 || (item.cursed && item.cursedKnown)) {
             bottomRight.text(item.levelKnown ? Utils.format(TXT_LEVEL, level) : TXT_CURSED);
             bottomRight.measure();
             bottomRight.hardlight(level > 0 ? (item.isBroken() ? WARNING : UPGRADED) : DEGRADED);
-        } else if (item.isIdentified() && (isScroll || isPotion)) {
+        } else {
             bottomRight.text(null);
-            Integer iconInt = (isScroll)? Scroll.iconKey.get(item.getClass()): Potion.iconKey.get(item.getClass());
-            if (iconInt != null && bottomRightIconVisible) {
-                bottomRightIcon = new Image(Assets.CONS_ICONS);
-                int left = iconInt * 7;
-                int top = (isScroll)? 8: 0;
-                bottomRightIcon.frame(left, top, 7, 8);
-                add(bottomRightIcon);
+        }
+
+        if (item.isIdentified()) {
+            Integer iconInt = null, top = null;
+
+            if (isPotion) {
+                iconInt = Potion.iconKey.get(item.getClass());
+                top = 0;
+                bottomRight.text(null);
+            } else if (isScroll) {
+                iconInt = Scroll.iconKey.get(item.getClass());
+                top = 8;
+                bottomRight.text(null);
+            } else if (isWand) {
+                iconInt = Wand.iconKey.get(item.getClass());
+                top = 16;
+            } else if (isRing) {
+                iconInt = Ring.iconKey.get(item.getClass());
+                top = 24;
             }
 
-
+            if (iconInt != null && bottomRightIconVisible) {
+                bottomRightIcon = new Image(Assets.SUB_ICONS);
+                bottomRightIcon.frame(iconInt * 7, top, 7, 8);
+                add(bottomRightIcon);
+            }
         } else {
             bottomRight.text(null);
         }

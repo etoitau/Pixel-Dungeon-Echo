@@ -16,6 +16,9 @@ Developed by [Kyle Chatman](http://www.kchatman.com) under a GNU Public License.
 [https://play.google.com/store/apps/details?id=com.etoitau.pixeldungeon](https://play.google.com/store/apps/details?id=com.etoitau.pixeldungeon)
 
 ## Description of Changes
+### v. 1.1.1
+* UI 
+    * Added subscript icons for identified wands, rings, potions, scrolls
 
 ### v. 1.1.0
 * Feature - Major change to how Ankhs work

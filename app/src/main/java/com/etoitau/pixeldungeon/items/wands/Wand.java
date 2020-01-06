@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -18,6 +23,8 @@
 package com.etoitau.pixeldungeon.items.wands;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import com.watabau.noosa.audio.Sample;
 import com.etoitau.pixeldungeon.Assets;
@@ -101,7 +108,26 @@ public abstract class Wand extends KindOfWeapon {
             ItemSpriteSheet.WAND_BAMBOO,
             ItemSpriteSheet.WAND_PURPLEHEART,
             ItemSpriteSheet.WAND_OAK,
-            ItemSpriteSheet.WAND_BIRCH};
+            ItemSpriteSheet.WAND_BIRCH
+    };
+
+    public static final HashMap<Class<?>, Integer> iconKey = new HashMap<Class<?>, Integer>() {
+        {
+            put(WandOfAvalanche.class, 0);
+            put(WandOfDisintegration.class, 1);
+            put(WandOfMagicMissile.class, 2);
+            put(WandOfFirebolt.class, 3);
+            put(WandOfLightning.class, 4);
+            put(WandOfPoison.class, 5);
+            put(WandOfAmok.class, 6);
+            put(WandOfBlink.class, 7);
+            put(WandOfFlock.class, 8);
+            put(WandOfRegrowth.class, 9);
+            put(WandOfSlowness.class, 10);
+            put(WandOfTeleportation.class, 11);
+            put(WandOfReach.class, 12);
+        }
+    };
 
     private static ItemStatusHandler<Wand> handler;
 
@@ -378,6 +404,10 @@ public abstract class Wand extends KindOfWeapon {
 
     public static boolean allKnown() {
         return handler.known().size() == wands.length;
+    }
+
+    public static HashSet<Class<? extends Wand>> getUnknown() {
+        return handler.unknown();
     }
 
     @Override

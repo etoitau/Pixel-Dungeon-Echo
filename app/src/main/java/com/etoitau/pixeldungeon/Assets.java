@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -30,7 +35,7 @@ public class Assets {
 
     public static final String CHROME = "chrome.png";
     public static final String ICONS = "icons.png";
-    public static final String CONS_ICONS = "consumable_icons.png";
+    public static final String SUB_ICONS = "subscript_icons.png";
     public static final String STATUS = "status_pane.png";
     public static final String STATUS_MISSION = "status_pane_mission.png";
     public static final String HP_BAR = "hp_bar.png";

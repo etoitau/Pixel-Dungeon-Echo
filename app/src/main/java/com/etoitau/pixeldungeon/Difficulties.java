@@ -35,10 +35,14 @@ import com.etoitau.pixeldungeon.items.potions.Potion;
 import com.etoitau.pixeldungeon.items.potions.PotionOfExperience;
 import com.etoitau.pixeldungeon.items.potions.PotionOfHealing;
 import com.etoitau.pixeldungeon.items.potions.PotionOfStrength;
+import com.etoitau.pixeldungeon.items.rings.Ring;
 import com.etoitau.pixeldungeon.items.scrolls.Scroll;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfEnchantment;
+import com.etoitau.pixeldungeon.items.scrolls.ScrollOfFrostLevel;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfMagicMapping;
+import com.etoitau.pixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.etoitau.pixeldungeon.items.wands.Wand;
 import com.etoitau.pixeldungeon.items.wands.WandOfAvalanche;
 import com.etoitau.pixeldungeon.items.wands.WandOfDisintegration;
 import com.etoitau.pixeldungeon.items.wands.WandOfFirebolt;
@@ -479,17 +483,31 @@ public enum Difficulties {
                     new WandHolster().collect();
                     new SeedPouch().collect();
 
-                    for (int i = 0; i < 30; i++) {
+                    for (int i = 0; i < 12; i++) {
+                        new ScrollOfUpgrade().identify().collect();
+                    }
+
+                    for (int i = 0; i < 60; i++) {
                         new ScrollOfIdentify().collect();
                     }
+
                     try {
                         for (Class scrollClass: Scroll.getUnknown()) {
                             Scroll scroll = (Scroll) scrollClass.newInstance();
-                            scroll.collect();
+                            if (!(scroll instanceof ScrollOfFrostLevel))
+                                scroll.identify().collect();
                         }
                         for (Class potionClass: Potion.getUnknown()) {
                             Potion potion = (Potion) potionClass.newInstance();
-                            potion.collect();
+                            potion.identify().collect();
+                        }
+                        for (Class ringClass: Ring.getUnknown()) {
+                            Ring ring = (Ring) ringClass.newInstance();
+                            ring.identify().collect();
+                        }
+                        for (Class wandClass: Wand.getUnknown()) {
+                            Wand wand = (Wand) wandClass.newInstance();
+                            wand.identify().collect();
                         }
                     } catch (Exception e) {
                         // do nothing
@@ -509,7 +527,7 @@ public enum Difficulties {
                         new PotionOfHealing().identify().collect();
                         new Food().identify().collect();
                     }
-                    new WandOfFirebolt().identify().collect();
+                    //new WandOfFirebolt().identify().collect();
                     new Ankh().collect();
                     new AnkhCracked().collect();
 
