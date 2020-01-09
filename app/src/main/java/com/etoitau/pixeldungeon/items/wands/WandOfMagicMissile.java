@@ -114,7 +114,7 @@ public class WandOfMagicMissile extends Wand {
     }
 
     @Override
-    protected boolean isKnown() {
+    public boolean isKnown() {
         return true;
     }
 

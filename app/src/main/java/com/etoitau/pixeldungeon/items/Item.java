@@ -114,7 +114,9 @@ public class Item implements Bundlable {
         ArrayList<String> actions = new ArrayList<String>();
         actions.add(AC_DROP);
         actions.add(AC_THROW);
-        if (hero.pos == Dungeon.level.storage && this != hero.belongings.weapon && this != hero.belongings.armor && this != hero.belongings.ring1 && this != hero.belongings.ring2 && this != hero.belongings.bow)
+        if (hero.pos == Dungeon.level.storage && this != hero.belongings.weapon
+                && this != hero.belongings.armor && this != hero.belongings.ring1
+                && this != hero.belongings.ring2 && this != hero.belongings.bow)
             actions.add(AC_STORE);
         return actions;
     }
@@ -596,7 +598,7 @@ public class Item implements Bundlable {
     public void cast(final Hero user, int dst) {
         final int cell;
         int skip = 0;
-        if (Dungeon.hero.heroSkills.passiveB3.passThroughTargets(false) > 0) {
+        if (this instanceof MissileWeapon && Dungeon.hero.heroSkills.passiveB3.passThroughTargets(false) > 0) {
             // if have iron tip ability
             // get number of mobs to pass through
             skip = Dungeon.hero.heroSkills.passiveB3.passThroughTargets(true);

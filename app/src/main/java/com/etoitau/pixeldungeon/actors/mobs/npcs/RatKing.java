@@ -21,15 +21,57 @@ import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.actors.Char;
 import com.etoitau.pixeldungeon.actors.buffs.Buff;
 
+import com.etoitau.pixeldungeon.items.food.Food;
+import com.etoitau.pixeldungeon.items.food.Pasty;
+import com.etoitau.pixeldungeon.sprites.CharSprite;
 import com.etoitau.pixeldungeon.sprites.RatKingSprite;
+import com.etoitau.pixeldungeon.utils.GLog;
+import com.watabau.utils.Bundle;
+import com.watabau.utils.Random;
 
 public class RatKing extends NPC {
+
+    private final String KEY_FED = "fed";
+    private boolean fed = false;
+
+    private final String TXT_FAVORITE = "My favorite!";
+    private final String TXT_APPROVES = "It's Majesty, the Rat King approves of your tribute and " +
+            "taught you a new skill";
+    private final String TXT_POOR = "Poor fare for a king...";
+    private final String TXT_ATE = "Rat King ate your food.";
+    private final String TXT_NOT_SLEEPING = "I'm not sleeping!";
+    private final String TXT_MORE = "Does my loyal subject have another offering?";
+    private final String TXT_NONSENSE = "What is it? I have no time for this nonsense. " +
+            "My kingdom won't rule itself!";
+    private final String TXT_HINT = "Such impudence! Not even bearing gifts!";
+    private final String TXT_DESCRIPTION = "This rat is a little bigger than a regular marsupial " +
+            "rat and it's wearing a tiny crown on its head.";
 
     {
         name = "rat king";
         spriteClass = RatKingSprite.class;
 
-        state = SLEEPEING;
+        state = SLEEPING;
+    }
+
+    public void feed(Food food) {
+        sprite.turnTo(pos, Dungeon.hero.pos);
+
+        if (food instanceof Pasty) {
+            this.sprite.showStatus(CharSprite.NEUTRAL, TXT_FAVORITE);
+
+            if (!fed) {
+                fed = true;
+                GLog.p(TXT_APPROVES);
+                Dungeon.hero.heroSkills.unlockSkill();
+                state = FOLLOWING;
+            }
+        } else {
+            this.sprite.showStatus(CharSprite.NEUTRAL, TXT_POOR);
+            GLog.w(TXT_ATE);
+            state = WANDERING;
+        }
+
     }
 
     @Override
@@ -39,7 +81,7 @@ public class RatKing extends NPC {
 
     @Override
     public float speed() {
-        return 2f;
+        return fed? 1f: 2f;
     }
 
     @Override
@@ -63,19 +105,47 @@ public class RatKing extends NPC {
     @Override
     public void interact() {
         sprite.turnTo(pos, Dungeon.hero.pos);
-        if (state == SLEEPEING) {
+        if (state == SLEEPING) {
             notice();
-            yell("I'm not sleeping!");
+            yell(TXT_NOT_SLEEPING);
             state = WANDERING;
+        } else if (fed) {
+            yell(TXT_MORE, true);
+        } else if (Random.Float() > 0.2) {
+            yell(TXT_NONSENSE);
         } else {
-            yell("What is it? I have no time for this nonsense. My kingdom won't rule itself!");
+            yell(TXT_HINT);
         }
     }
 
     @Override
     public String description() {
-        return
-                "This rat is a little bigger than a regular marsupial rat " +
-                        "and it's wearing a tiny crown on its head.";
+        return TXT_DESCRIPTION;
+    }
+
+    @Override
+    public void storeInBundle(Bundle bundle) {
+
+        super.storeInBundle(bundle);
+
+        bundle.put(KEY_FED, fed);
+    }
+
+    @Override
+    public void restoreFromBundle(Bundle bundle) {
+
+        super.restoreFromBundle(bundle);
+
+        if (bundle.contains(KEY_FED)) {
+            fed = bundle.getBoolean(KEY_FED);
+        } else {
+            fed = false;
+        }
+
+    }
+
+    @Override
+    protected AiState defaultAwakeState() {
+        return FOLLOWING;
     }
 }

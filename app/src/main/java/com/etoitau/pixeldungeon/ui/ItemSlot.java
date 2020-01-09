@@ -223,7 +223,7 @@ public class ItemSlot extends Button {
             bottomRight.text(null);
         }
 
-        if (item.isIdentified()) {
+        if (item.isIdentified() || (isWand && ((Wand) item).isKnown())) {
             Integer iconInt = null, top = null;
 
             if (isPotion) {

@@ -317,7 +317,7 @@ public class SurfaceScene extends PixelScene {
         private Animation jump;
 
         public Pet() {
-            super(Assets.PET);
+            super(Dungeon.hero.heroSkills.skillUnlocked? Assets.RATKING: Assets.PET);
 
             TextureFilm frames = new TextureFilm(texture, 16, 16);
 

@@ -31,9 +31,11 @@ import com.etoitau.pixeldungeon.items.bags.ScrollHolder;
 import com.etoitau.pixeldungeon.items.bags.SeedPouch;
 import com.etoitau.pixeldungeon.items.bags.WandHolster;
 import com.etoitau.pixeldungeon.items.food.Food;
+import com.etoitau.pixeldungeon.items.food.Pasty;
 import com.etoitau.pixeldungeon.items.potions.Potion;
 import com.etoitau.pixeldungeon.items.potions.PotionOfExperience;
 import com.etoitau.pixeldungeon.items.potions.PotionOfHealing;
+import com.etoitau.pixeldungeon.items.potions.PotionOfMight;
 import com.etoitau.pixeldungeon.items.potions.PotionOfStrength;
 import com.etoitau.pixeldungeon.items.rings.Ring;
 import com.etoitau.pixeldungeon.items.scrolls.Scroll;
@@ -42,6 +44,7 @@ import com.etoitau.pixeldungeon.items.scrolls.ScrollOfFrostLevel;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.etoitau.pixeldungeon.items.scrolls.ScrollOfWipeOut;
 import com.etoitau.pixeldungeon.items.wands.Wand;
 import com.etoitau.pixeldungeon.items.wands.WandOfAvalanche;
 import com.etoitau.pixeldungeon.items.wands.WandOfDisintegration;
@@ -49,6 +52,7 @@ import com.etoitau.pixeldungeon.items.wands.WandOfFirebolt;
 import com.etoitau.pixeldungeon.items.wands.WandOfLightning;
 import com.etoitau.pixeldungeon.items.wands.WandOfMagicMissile;
 import com.etoitau.pixeldungeon.items.wands.WandOfPoison;
+import com.etoitau.pixeldungeon.items.wands.WandOfSlowness;
 import com.etoitau.pixeldungeon.items.weapon.melee.WarHammer;
 import com.etoitau.pixeldungeon.items.weapon.missiles.SoulCrystal;
 
@@ -485,51 +489,51 @@ public enum Difficulties {
 
                     for (int i = 0; i < 12; i++) {
                         new ScrollOfUpgrade().identify().collect();
+                        new PotionOfMight().identify().collect();
                     }
 
-                    for (int i = 0; i < 60; i++) {
-                        new ScrollOfIdentify().collect();
+                    for (int i = 0; i < 6; i++) {
+                        new ScrollOfIdentify().identify().collect();
+                        new ScrollOfWipeOut().collect();
+                        new ScrollOfEnchantment().identify().collect();
                     }
 
-                    try {
-                        for (Class scrollClass: Scroll.getUnknown()) {
-                            Scroll scroll = (Scroll) scrollClass.newInstance();
-                            if (!(scroll instanceof ScrollOfFrostLevel))
-                                scroll.identify().collect();
-                        }
-                        for (Class potionClass: Potion.getUnknown()) {
-                            Potion potion = (Potion) potionClass.newInstance();
-                            potion.identify().collect();
-                        }
-                        for (Class ringClass: Ring.getUnknown()) {
-                            Ring ring = (Ring) ringClass.newInstance();
-                            ring.identify().collect();
-                        }
-                        for (Class wandClass: Wand.getUnknown()) {
-                            Wand wand = (Wand) wandClass.newInstance();
-                            wand.identify().collect();
-                        }
-                    } catch (Exception e) {
-                        // do nothing
+                    for (int i = 0; i < 25; i++) {
+                        new PotionOfExperience().identify().collect();
+                        new ScrollOfMagicMapping().identify().collect();
                     }
 
-
-
-//                    for (int i = 0; i < 25; i++) {
-//                        new PotionOfExperience().identify().collect();
-//                        new PotionOfStrength().identify().collect();
-//                        new ScrollOfMagicMapping().identify().collect();
-//                        new ScrollOfEnchantment().identify().collect();
+//                    try {
+//                        for (Class scrollClass: Scroll.getUnknown()) {
+//                            Scroll scroll = (Scroll) scrollClass.newInstance();
+//                            if (!(scroll instanceof ScrollOfFrostLevel))
+//                                scroll.identify().collect();
+//                        }
+//                        for (Class potionClass: Potion.getUnknown()) {
+//                            Potion potion = (Potion) potionClass.newInstance();
+//                            potion.identify().collect();
+//                        }
+//                        for (Class ringClass: Ring.getUnknown()) {
+//                            Ring ring = (Ring) ringClass.newInstance();
+//                            ring.identify().collect();
+//                        }
+//                        for (Class wandClass: Wand.getUnknown()) {
+//                            Wand wand = (Wand) wandClass.newInstance();
+//                            wand.identify().collect();
+//                        }
+//                    } catch (Exception e) {
+//                        // do nothing
 //                    }
+
                     new PlateArmor().identify().collect();
                     new WarHammer().identify().collect();
                     for (int i = 0; i < 5; i++) {
                         new PotionOfHealing().identify().collect();
-                        new Food().identify().collect();
+                        new Pasty().collect();
                     }
-                    //new WandOfFirebolt().identify().collect();
+                    new WandOfFirebolt().identify().collect();
+                    new WandOfSlowness().collect();
                     new Ankh().collect();
-                    new AnkhCracked().collect();
 
                 }
                 break;

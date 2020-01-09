@@ -61,12 +61,14 @@ public abstract class Mob extends Char {
     protected static final String TXT_EXP = "%+dEXP";
     protected static final String TXT_EXP_CHAMP = "%+dEXP (Champion killed!)";
 
-    public AiState SLEEPEING = new Sleeping();
+    public AiState SLEEPING = new Sleeping();
     public AiState HUNTING = new Hunting();
     public AiState WANDERING = new Wandering();
+    public AiState FOLLOWING = new Following();
     public AiState FLEEING = new Fleeing();
     public AiState PASSIVE = new Passive();
-    public AiState state = SLEEPEING;
+
+    public AiState state = SLEEPING;
 
     public Class<? extends CharSprite> spriteClass;
 
@@ -95,10 +97,12 @@ public abstract class Mob extends Char {
 
         super.storeInBundle(bundle);
 
-        if (state == SLEEPEING) {
+        if (state == SLEEPING) {
             bundle.put(STATE, Sleeping.TAG);
         } else if (state == WANDERING) {
             bundle.put(STATE, Wandering.TAG);
+        } else if (state == FOLLOWING) {
+            bundle.put(STATE, Following.TAG);
         } else if (state == HUNTING) {
             bundle.put(STATE, Hunting.TAG);
         } else if (state == FLEEING) {
@@ -116,9 +120,11 @@ public abstract class Mob extends Char {
 
         String state = bundle.getString(STATE);
         if (state.equals(Sleeping.TAG)) {
-            this.state = SLEEPEING;
+            this.state = SLEEPING;
         } else if (state.equals(Wandering.TAG)) {
             this.state = WANDERING;
+        } else if (state.equals(Following.TAG)) {
+            this.state = FOLLOWING;
         } else if (state.equals(Hunting.TAG)) {
             this.state = HUNTING;
         } else if (state.equals(Fleeing.TAG)) {
@@ -218,7 +224,7 @@ public abstract class Mob extends Char {
             if (sprite != null) {
                 new Flare(4, 32).color(0x44ffff, true).show(sprite, 2f);
             }
-            state = SLEEPEING;
+            state = SLEEPING;
             postpone(Sleep.SWS);
         }
     }
@@ -334,7 +340,7 @@ public abstract class Mob extends Char {
 
         Terror.recover(this);
 
-        if (state == SLEEPEING) {
+        if (state == SLEEPING) {
             state = WANDERING;
         }
         alerted = true;
@@ -496,13 +502,25 @@ public abstract class Mob extends Char {
     }
 
     public void yell(String str) {
-        GLog.n("%s: \"%s\" ", name, str);
+        yell(str, false);
+    }
+
+    public void yell(String str, boolean positive) {
+        if (positive) {
+            GLog.p("%s: \"%s\" ", name, str);
+        } else {
+            GLog.n("%s: \"%s\" ", name, str);
+        }
     }
 
     public interface AiState {
         public boolean act(boolean enemyInFOV, boolean justAlerted);
 
         public String status();
+    }
+
+    protected AiState defaultAwakeState() {
+        return WANDERING;
     }
 
     public class Sleeping implements AiState {
@@ -582,6 +600,42 @@ public abstract class Mob extends Char {
         }
     }
 
+    public class Following implements AiState {
+
+        public static final String TAG = "FOLLOWING";
+
+        @Override
+        public boolean act(boolean enemyInFOV, boolean justAlerted) {
+            if (enemyInFOV) {
+
+                enemySeen = true;
+
+                notice();
+                state = HUNTING;
+                target = enemy.pos;
+
+            } else {
+
+                enemySeen = false;
+
+                int oldPos = pos;
+                if (getCloser(Dungeon.hero.pos)) {
+                    spend(1 / speed());
+                    return moveSprite(oldPos, pos);
+                } else {
+                    spend(TICK);
+                }
+
+            }
+            return true;
+        }
+
+        @Override
+        public String status() {
+            return Utils.format("This %s is following", name);
+        }
+    }
+
     private class Hunting implements AiState {
 
         public static final String TAG = "HUNTING";
@@ -608,7 +662,7 @@ public abstract class Mob extends Char {
                 } else {
 
                     spend(TICK);
-                    state = WANDERING;
+                    state = defaultAwakeState();
                     target = Dungeon.level.randomDestination();
                     return true;
                 }

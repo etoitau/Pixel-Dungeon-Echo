@@ -17,7 +17,11 @@
  */
 package com.etoitau.pixeldungeon.items.food;
 
+import com.etoitau.pixeldungeon.actors.Actor;
+import com.etoitau.pixeldungeon.actors.Char;
 import com.etoitau.pixeldungeon.actors.buffs.Hunger;
+import com.etoitau.pixeldungeon.actors.mobs.npcs.RatKing;
+import com.etoitau.pixeldungeon.scenes.CellSelector;
 import com.etoitau.pixeldungeon.sprites.ItemSpriteSheet;
 
 public class Pasty extends Food {
@@ -26,6 +30,8 @@ public class Pasty extends Food {
         name = "pasty";
         image = ItemSpriteSheet.PASTY;
         energy = Hunger.STARVING; // 360
+
+
     }
 
     @Override
@@ -37,4 +43,6 @@ public class Pasty extends Food {
     public int price() {
         return 20 * quantity;
     }
+
+
 }

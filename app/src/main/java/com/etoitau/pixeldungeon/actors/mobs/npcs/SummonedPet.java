@@ -129,10 +129,8 @@ public class SummonedPet extends NPC {
 
         viewDistance = 4;
 
-        WANDERING = new Wandering();
-
         flying = false;
-        state = WANDERING;
+        state = FOLLOWING;
     }
 
     private int level;
@@ -279,6 +277,11 @@ public class SummonedPet extends NPC {
         }
     }
 
+    @Override
+    protected AiState defaultAwakeState() {
+        return FOLLOWING;
+    }
+
 
     protected Char chooseEnemy() {
 
@@ -316,40 +319,6 @@ public class SummonedPet extends NPC {
         return IMMUNITIES;
     }
 
-
-    private class Wandering implements AiState {
-
-        @Override
-        public boolean act(boolean enemyInFOV, boolean justAlerted) {
-            if (enemyInFOV) {
-
-                enemySeen = true;
-
-                notice();
-                state = HUNTING;
-                target = enemy.pos;
-
-            } else {
-
-                enemySeen = false;
-
-                int oldPos = pos;
-                if (getCloser(Dungeon.hero.pos)) {
-                    spend(1 / speed());
-                    return moveSprite(oldPos, pos);
-                } else {
-                    spend(TICK);
-                }
-
-            }
-            return true;
-        }
-
-        @Override
-        public String status() {
-            return Utils.format("This %s is wandering", name);
-        }
-    }
 
     @Override
     public void interact() {
