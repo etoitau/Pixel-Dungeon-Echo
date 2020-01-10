@@ -19,6 +19,11 @@ Developed by [Kyle Chatman](http://www.kchatman.com) under a GNU Public License.
 ### v. 1.1.1
 * UI 
     * Added subscript icons for identified wands, rings, potions, scrolls
+* Feature
+    * A bonus skill can be unlocked for each class by discovering an in-game secret
+* Bug fixes
+    * Iron tip skill being applied to any item
+* Misc code refactoring/cleanup
 
 ### v. 1.1.0
 * Feature - Major change to how Ankhs work
