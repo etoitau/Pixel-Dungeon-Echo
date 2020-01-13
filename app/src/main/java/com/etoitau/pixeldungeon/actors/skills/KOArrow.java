@@ -23,11 +23,7 @@ public class KOArrow extends PassiveSkillB2 {
     @Override
     public boolean goToSleep() {
         if (level < 1) { return false; }
-        if (Random.Int(100) < 10 * level) {
-            castTextYell();
-            return true;
-        }
-        return false;
+        return (Random.Int(100) < 10 * level);
     }
 
 
@@ -39,7 +35,7 @@ public class KOArrow extends PassiveSkillB2 {
 
     @Override
     public String info() {
-        return "A chance to knock out a target with a arrow attacks.\n"
+        return "Chance to put a target to sleep with an arrow attack.\n"
                 + costUpgradeInfo();
     }
 

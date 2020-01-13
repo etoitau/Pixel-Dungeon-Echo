@@ -23,6 +23,7 @@
 package com.etoitau.pixeldungeon;
 
 
+import com.etoitau.pixeldungeon.actors.hero.Hero;
 import com.etoitau.pixeldungeon.items.Ankh;
 import com.etoitau.pixeldungeon.items.AnkhCracked;
 import com.etoitau.pixeldungeon.items.armor.PlateArmor;
@@ -477,65 +478,6 @@ public enum Difficulties {
                 new SoulCrystal().identify().collect();
                 new Ankh().collect();
                 Dungeon.gold = 200;
-                break;
-            case NORMAL:
-                // god mode for debugging
-                if (BuildConfig.DEBUG) {
-
-                    new PotionBelt().collect();
-                    new ScrollHolder().collect();
-                    new WandHolster().collect();
-                    new SeedPouch().collect();
-
-                    for (int i = 0; i < 12; i++) {
-                        new ScrollOfUpgrade().identify().collect();
-                        new PotionOfMight().identify().collect();
-                    }
-
-                    for (int i = 0; i < 6; i++) {
-                        new ScrollOfIdentify().identify().collect();
-                        new ScrollOfWipeOut().collect();
-                        new ScrollOfEnchantment().identify().collect();
-                    }
-
-                    for (int i = 0; i < 25; i++) {
-                        new PotionOfExperience().identify().collect();
-                        new ScrollOfMagicMapping().identify().collect();
-                    }
-
-//                    try {
-//                        for (Class scrollClass: Scroll.getUnknown()) {
-//                            Scroll scroll = (Scroll) scrollClass.newInstance();
-//                            if (!(scroll instanceof ScrollOfFrostLevel))
-//                                scroll.identify().collect();
-//                        }
-//                        for (Class potionClass: Potion.getUnknown()) {
-//                            Potion potion = (Potion) potionClass.newInstance();
-//                            potion.identify().collect();
-//                        }
-//                        for (Class ringClass: Ring.getUnknown()) {
-//                            Ring ring = (Ring) ringClass.newInstance();
-//                            ring.identify().collect();
-//                        }
-//                        for (Class wandClass: Wand.getUnknown()) {
-//                            Wand wand = (Wand) wandClass.newInstance();
-//                            wand.identify().collect();
-//                        }
-//                    } catch (Exception e) {
-//                        // do nothing
-//                    }
-
-                    new PlateArmor().identify().collect();
-                    new WarHammer().identify().collect();
-                    for (int i = 0; i < 5; i++) {
-                        new PotionOfHealing().identify().collect();
-                        new Pasty().collect();
-                    }
-                    new WandOfFirebolt().identify().collect();
-                    new WandOfSlowness().collect();
-                    new Ankh().collect();
-
-                }
                 break;
 
         }

@@ -124,6 +124,7 @@ public abstract class Mob extends Char {
         super.restoreFromBundle(bundle);
 
         String state = bundle.getString(STATE);
+
         if (state.equals(Sleeping.TAG)) {
             this.state = SLEEPING;
         } else if (state.equals(Wandering.TAG)) {

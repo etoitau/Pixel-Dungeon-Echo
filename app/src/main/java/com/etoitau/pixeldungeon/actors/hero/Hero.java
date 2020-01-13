@@ -1024,7 +1024,8 @@ public class Hero extends Char {
         // KO Arrow
         if (heroSkills.passiveB2.goToSleep()
                 && rangedWeapon != null && rangedWeapon instanceof Arrow
-                && enemy instanceof Mob && !(Bestiary.isBoss(enemy)) && !(enemy instanceof NPC) ) {
+                && enemy instanceof Mob && !(Bestiary.isBoss(enemy)) && !(enemy instanceof NPC)) {
+            heroSkills.passiveB2.castTextYell();
             Buff.affect(enemy, Sleep.class);
             return -1;
         }

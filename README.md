@@ -6,6 +6,8 @@ Thanks also to [mdsimmo](https://github.com/mdsimmo/pixel-dungeon) for setting u
 
 And to [Nathan Wolfe](https://github.com/nathbenjwolf) for the Potion Belt pull request on Vanilla which was useful in adding it here.
 
+And to [00-Evan](https://github.com/00-Evan/) for some icons and code related to consumables.
+
 ## License
 Developed by [Kyle Chatman](http://www.kchatman.com) under a GNU Public License. See LICENSE.txt
 

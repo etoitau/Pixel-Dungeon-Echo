@@ -24,9 +24,11 @@ package com.etoitau.pixeldungeon.items.food;
 
 import java.util.ArrayList;
 
+import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.actors.Actor;
 import com.etoitau.pixeldungeon.actors.Char;
 import com.etoitau.pixeldungeon.actors.mobs.npcs.RatKing;
+import com.etoitau.pixeldungeon.items.Heap;
 import com.etoitau.pixeldungeon.scenes.CellSelector;
 import com.watabau.noosa.audio.Sample;
 import com.etoitau.pixeldungeon.Assets;
@@ -55,24 +57,37 @@ public class Food extends Item {
         name = "ration of food";
         image = ItemSpriteSheet.RATION;
 
-        thrower = new CellSelector.Listener() {
-            @Override
-            public void onSelect(Integer target) {
-                if (target != null) {
-                    Char thrownAt = Actor.findChar(target);
-                    if (thrownAt instanceof RatKing) {
-                        ((RatKing) thrownAt).feed((Food) curItem);
-                    } else {
-                        curItem.cast(curUser, target);
-                    }
-                }
-            }
+//        thrower = new CellSelector.Listener() {
+//            @Override
+//            public void onSelect(Integer target) {
+//                if (target != null) {
+//                    Char thrownAt = Actor.findChar(target);
+//                    if (thrownAt instanceof RatKing) {
+//                        ((RatKing) thrownAt).feed((Food) curItem);
+//                        curItem.cast(curUser, target);
+//                    } else {
+//                        curItem.cast(curUser, target);
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public String prompt() {
+//                return "Choose direction of throw";
+//            }
+//        };
+    }
 
-            @Override
-            public String prompt() {
-                return "Choose direction of throw";
-            }
-        };
+    @Override
+    protected void onThrow(int cell) {
+
+        Char thrownAt = Actor.findChar(cell);
+        if (thrownAt instanceof RatKing) {
+            ((RatKing) thrownAt).feed((Food) curItem);
+        } else {
+            super.onThrow(cell);
+        }
+
     }
 
     @Override

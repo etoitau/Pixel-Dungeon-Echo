@@ -19,6 +19,27 @@ package com.etoitau.pixeldungeon.windows;
 
 import java.io.IOException;
 
+import com.etoitau.pixeldungeon.BuildConfig;
+import com.etoitau.pixeldungeon.actors.hero.Hero;
+import com.etoitau.pixeldungeon.items.Ankh;
+import com.etoitau.pixeldungeon.items.armor.PlateArmor;
+import com.etoitau.pixeldungeon.items.bags.PotionBelt;
+import com.etoitau.pixeldungeon.items.bags.ScrollHolder;
+import com.etoitau.pixeldungeon.items.bags.SeedPouch;
+import com.etoitau.pixeldungeon.items.bags.WandHolster;
+import com.etoitau.pixeldungeon.items.food.Pasty;
+import com.etoitau.pixeldungeon.items.potions.Potion;
+import com.etoitau.pixeldungeon.items.potions.PotionOfExperience;
+import com.etoitau.pixeldungeon.items.potions.PotionOfHealing;
+import com.etoitau.pixeldungeon.items.potions.PotionOfMight;
+import com.etoitau.pixeldungeon.items.scrolls.ScrollOfEnchantment;
+import com.etoitau.pixeldungeon.items.scrolls.ScrollOfIdentify;
+import com.etoitau.pixeldungeon.items.scrolls.ScrollOfMagicMapping;
+import com.etoitau.pixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.etoitau.pixeldungeon.items.scrolls.ScrollOfWipeOut;
+import com.etoitau.pixeldungeon.items.wands.WandOfFirebolt;
+import com.etoitau.pixeldungeon.items.wands.WandOfSlowness;
+import com.etoitau.pixeldungeon.items.weapon.melee.WarHammer;
 import com.watabau.noosa.Game;
 import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.PixelDungeon;
@@ -109,6 +130,79 @@ public class WndGame extends Window {
                     }
                 }
         );
+
+
+        // Debug God Mode
+        if (BuildConfig.DEBUG) {
+            addButton(new RedButton("Skip Level") {
+                @Override
+                protected void onClick() {
+                    InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
+                    Game.switchScene(InterlevelScene.class);
+                }
+            });
+            addButton(new RedButton("God Mode") {
+                @Override
+                protected void onClick() {
+                    Hero hero = Dungeon.hero;
+
+                    new PotionBelt().collect();
+                    new ScrollHolder().collect();
+                    new WandHolster().collect();
+                    new SeedPouch().collect();
+
+                    for (int i = 0; i < 12; i++) {
+                        new ScrollOfUpgrade().identify().collect();
+                        new PotionOfMight().execute(hero, Potion.AC_DRINK);;
+                    }
+
+                    for (int i = 0; i < 6; i++) {
+                        new ScrollOfIdentify().identify().collect();
+                        new ScrollOfWipeOut().collect();
+                        new ScrollOfEnchantment().identify().collect();
+                    }
+
+                    for (int i = 0; i < 25; i++) {
+                        new PotionOfExperience().execute(hero, Potion.AC_DRINK);
+                        new ScrollOfMagicMapping().identify().collect();
+                    }
+
+//                    try {
+//                        for (Class scrollClass: Scroll.getUnknown()) {
+//                            Scroll scroll = (Scroll) scrollClass.newInstance();
+//                            if (!(scroll instanceof ScrollOfFrostLevel))
+//                                scroll.identify().collect();
+//                        }
+//                        for (Class potionClass: Potion.getUnknown()) {
+//                            Potion potion = (Potion) potionClass.newInstance();
+//                            potion.identify().collect();
+//                        }
+//                        for (Class ringClass: Ring.getUnknown()) {
+//                            Ring ring = (Ring) ringClass.newInstance();
+//                            ring.identify().collect();
+//                        }
+//                        for (Class wandClass: Wand.getUnknown()) {
+//                            Wand wand = (Wand) wandClass.newInstance();
+//                            wand.identify().collect();
+//                        }
+//                    } catch (Exception e) {
+//                        // do nothing
+//                    }
+
+                    new PlateArmor().identify().collect();
+                    new WarHammer().identify().collect();
+                    for (int i = 0; i < 5; i++) {
+                        new PotionOfHealing().identify().collect();
+                        new Pasty().collect();
+                    }
+                    new WandOfFirebolt().identify().collect();
+                    new WandOfSlowness().identify().collect();
+                    new Ankh().collect();
+
+                }
+            });
+        }
+
 
         addButton(new RedButton(TXT_RETURN) {
             @Override
