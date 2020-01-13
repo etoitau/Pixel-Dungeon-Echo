@@ -37,6 +37,7 @@ import com.etoitau.pixeldungeon.actors.buffs.Amok;
 import com.etoitau.pixeldungeon.actors.buffs.Buff;
 import com.etoitau.pixeldungeon.actors.buffs.Burning;
 import com.etoitau.pixeldungeon.actors.buffs.Charm;
+import com.etoitau.pixeldungeon.actors.buffs.Invisibility;
 import com.etoitau.pixeldungeon.actors.buffs.Ooze;
 import com.etoitau.pixeldungeon.actors.buffs.Poison;
 import com.etoitau.pixeldungeon.actors.buffs.Sleep;
@@ -46,6 +47,7 @@ import com.etoitau.pixeldungeon.effects.Pushing;
 import com.etoitau.pixeldungeon.effects.particles.ShadowParticle;
 import com.etoitau.pixeldungeon.items.keys.SkeletonKey;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfPsionicBlast;
+import com.etoitau.pixeldungeon.items.wands.WandOfTeleportation;
 import com.etoitau.pixeldungeon.items.weapon.enchantments.Death;
 import com.etoitau.pixeldungeon.levels.Level;
 import com.etoitau.pixeldungeon.mechanics.Ballistica;
@@ -60,6 +62,7 @@ import com.etoitau.pixeldungeon.utils.Utils;
 import com.watabau.utils.Random;
 
 public class Yog extends Mob {
+    private int jumpsLeft = 2;
 
     {
         name = Dungeon.depth == Statistics.deepestFloor ? "Yog-Dzewa" : "echo of Yog-Dzewa";
@@ -86,6 +89,40 @@ public class Yog extends Mob {
         super();
     }
 
+    @Override
+    protected boolean act() {
+        super.act();
+
+        boolean percieve = Random.Float() > 0.5;
+        boolean spawn = Random.Float() > 0.67;
+
+
+        if (percieve) {
+            if (Dungeon.hero.invisible > 0) {
+                yell("You cannot hide. I see all", false);
+                enemySeen = true;
+
+
+                Buff buff = Dungeon.hero.buff(Invisibility.class);
+                if (buff != null) {
+                    Dungeon.hero.remove(buff);
+                }
+            }
+
+            for (Mob mob : Dungeon.level.mobs) {
+                if (mob instanceof BurningFist || mob instanceof RottingFist || mob instanceof Larva) {
+                    mob.beckon(Dungeon.hero.pos);
+                }
+            }
+        }
+
+        if (spawn) {
+            spawnLarva();
+        }
+
+        return true;
+    }
+
     public void spawnFists() {
         RottingFist fist1 = new RottingFist();
         BurningFist fist2 = new BurningFist();
@@ -108,26 +145,7 @@ public class Yog extends Mob {
         GameScene.add(fist2);
     }
 
-    @Override
-    public void damage(int dmg, Object src) {
-
-        if (fistsCount > 0) {
-
-            for (Mob mob : Dungeon.level.mobs) {
-                if (mob instanceof BurningFist || mob instanceof RottingFist) {
-                    mob.beckon(pos);
-                }
-            }
-
-            dmg >>= fistsCount;
-        }
-
-        super.damage(dmg, src);
-    }
-
-    @Override
-    public int defenseProc(Char enemy, int damage) {
-
+    private void spawnLarva() {
         List<Integer> spawnPoints = Level.aroundCell(pos, 1, Level.NEIGHBOURS8, true);
 
         if (spawnPoints.size() > 0) {
@@ -137,6 +155,38 @@ public class Yog extends Mob {
             GameScene.add(larva);
             Actor.addDelayed(new Pushing(larva, pos, larva.pos), -1);
         }
+    }
+
+
+
+    @Override
+    public void damage(int dmg, Object src) {
+        // if below a certain level of health, may teleport away
+        if(Random.Float() > 0.5 && (jumpsLeft == 2 && HP < HT * 0.667) || (jumpsLeft == 1 && HP < 0.333)) {
+            WandOfTeleportation.teleportChar(this);
+            jumpsLeft--;
+        }
+
+        // beckon fists to help defend eye
+        if (fistsCount > 0) {
+
+            for (Mob mob : Dungeon.level.mobs) {
+                if (mob instanceof BurningFist || mob instanceof RottingFist) {
+                    mob.beckon(pos);
+                }
+            }
+
+            // damage greatly reduced if fists are still in play
+            dmg >>= fistsCount;
+        }
+
+        super.damage(dmg, src);
+    }
+
+    @Override
+    public int defenseProc(Char enemy, int damage) {
+
+        spawnLarva();
 
         return super.defenseProc(enemy, damage);
     }
