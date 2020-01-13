@@ -43,12 +43,15 @@ import com.etoitau.pixeldungeon.actors.buffs.Poison;
 import com.etoitau.pixeldungeon.actors.buffs.Sleep;
 import com.etoitau.pixeldungeon.actors.buffs.Terror;
 import com.etoitau.pixeldungeon.actors.buffs.Vertigo;
+import com.etoitau.pixeldungeon.actors.hero.Hero;
 import com.etoitau.pixeldungeon.effects.Pushing;
 import com.etoitau.pixeldungeon.effects.particles.ShadowParticle;
 import com.etoitau.pixeldungeon.items.keys.SkeletonKey;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfPsionicBlast;
+import com.etoitau.pixeldungeon.items.wands.WandOfBlink;
 import com.etoitau.pixeldungeon.items.wands.WandOfTeleportation;
 import com.etoitau.pixeldungeon.items.weapon.enchantments.Death;
+import com.etoitau.pixeldungeon.levels.HallsBossLevel;
 import com.etoitau.pixeldungeon.levels.Level;
 import com.etoitau.pixeldungeon.mechanics.Ballistica;
 import com.etoitau.pixeldungeon.scenes.GameScene;
@@ -62,13 +65,13 @@ import com.etoitau.pixeldungeon.utils.Utils;
 import com.watabau.utils.Random;
 
 public class Yog extends Mob {
-    private int jumpsLeft = 2;
+    private int banishHerosLeft = 2;
 
     {
         name = Dungeon.depth == Statistics.deepestFloor ? "Yog-Dzewa" : "echo of Yog-Dzewa";
         spriteClass = YogSprite.class;
 
-        HP = HT = 300;
+        HT = 300;
 
         EXP = 50;
 
@@ -158,13 +161,41 @@ public class Yog extends Mob {
     }
 
 
+    private void banishHero() {
+        // send hero away
+        Hero hero = Dungeon.hero;
+        int cell;
+        // how far is hero from Yog now
+        int prevDistance = Level.distance(pos, hero.pos);
+
+        // get random points until one is farther than current
+        do {
+            cell = ((HallsBossLevel)Dungeon.level).randomRespawnCellYog();
+        } while (Level.distance(pos, cell) < prevDistance);
+
+        // send hero there
+        WandOfBlink.appear(hero, cell);
+        Dungeon.level.press(pos, hero);
+        Dungeon.observe();
+
+        if (banishHerosLeft > 1) {
+            yell("Begone, pest.", false);
+        } else {
+            yell( "Flee, mortal.", false);
+        }
+
+        banishHerosLeft--;
+    }
 
     @Override
     public void damage(int dmg, Object src) {
+        boolean coinToss = Random.Float() > 0.5;
         // if below a certain level of health, may teleport away
-        if(Random.Float() > 0.5 && (jumpsLeft == 2 && HP < HT * 0.667) || (jumpsLeft == 1 && HP < 0.333)) {
-            WandOfTeleportation.teleportChar(this);
-            jumpsLeft--;
+        if(coinToss) {
+            if ((banishHerosLeft == 2 && HP < HT * 0.667) ||
+                    (banishHerosLeft == 1 && HP < HT * 0.333)) {
+                banishHero();
+            }
         }
 
         // beckon fists to help defend eye

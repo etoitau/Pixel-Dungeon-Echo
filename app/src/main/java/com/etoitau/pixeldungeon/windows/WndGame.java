@@ -31,14 +31,18 @@ import com.etoitau.pixeldungeon.items.food.Pasty;
 import com.etoitau.pixeldungeon.items.potions.Potion;
 import com.etoitau.pixeldungeon.items.potions.PotionOfExperience;
 import com.etoitau.pixeldungeon.items.potions.PotionOfHealing;
+import com.etoitau.pixeldungeon.items.potions.PotionOfInvisibility;
 import com.etoitau.pixeldungeon.items.potions.PotionOfMight;
+import com.etoitau.pixeldungeon.items.potions.PotionOfMindVision;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfEnchantment;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfMagicMapping;
+import com.etoitau.pixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfWipeOut;
 import com.etoitau.pixeldungeon.items.wands.WandOfFirebolt;
 import com.etoitau.pixeldungeon.items.wands.WandOfSlowness;
+import com.etoitau.pixeldungeon.items.wands.WandOfTeleportation;
 import com.etoitau.pixeldungeon.items.weapon.melee.WarHammer;
 import com.watabau.noosa.Game;
 import com.etoitau.pixeldungeon.Dungeon;
@@ -160,6 +164,9 @@ public class WndGame extends Window {
                         new ScrollOfIdentify().identify().collect();
                         new ScrollOfWipeOut().collect();
                         new ScrollOfEnchantment().identify().collect();
+                        new ScrollOfTeleportation().identify().collect();
+                        new PotionOfInvisibility().identify().collect();
+                        new PotionOfMindVision().identify().collect();
                     }
 
                     for (int i = 0; i < 25; i++) {
@@ -197,6 +204,7 @@ public class WndGame extends Window {
                     }
                     new WandOfFirebolt().identify().collect();
                     new WandOfSlowness().identify().collect();
+                    new WandOfTeleportation().identify().collect();
                     new Ankh().collect();
 
                 }

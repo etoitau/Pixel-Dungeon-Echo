@@ -45,13 +45,15 @@ public class WandOfTeleportation extends Wand {
 
         Char ch = Actor.findChar(cell);
 
-        if (ch == curUser) {
-
-            setKnown();
-            ScrollOfTeleportation.teleportHero(curUser);
-
-        } else if (ch != null) {
+        if (ch != null) {
             teleportChar(ch);
+        } else {
+            GLog.i("nothing happened");
+        }
+
+        if (ch == curUser) {
+            setKnown();
+        }
 
 //            int count = 10;
 //            int pos;
@@ -75,11 +77,7 @@ public class WandOfTeleportation extends Wand {
 //
 //            }
 
-        } else {
 
-            GLog.i("nothing happened");
-
-        }
     }
 
     protected void fx(int cell, Callback callback) {
