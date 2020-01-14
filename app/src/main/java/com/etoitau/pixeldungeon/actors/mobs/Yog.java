@@ -62,10 +62,10 @@ import com.etoitau.pixeldungeon.sprites.RottingFistSprite;
 import com.etoitau.pixeldungeon.sprites.YogSprite;
 import com.etoitau.pixeldungeon.utils.GLog;
 import com.etoitau.pixeldungeon.utils.Utils;
+import com.watabau.utils.Bundle;
 import com.watabau.utils.Random;
 
 public class Yog extends Mob {
-    private int banishHerosLeft = 2;
 
     {
         name = Dungeon.depth == Statistics.deepestFloor ? "Yog-Dzewa" : "echo of Yog-Dzewa";
@@ -96,11 +96,11 @@ public class Yog extends Mob {
     protected boolean act() {
         super.act();
 
-        boolean percieve = Random.Float() > 0.5;
-        boolean spawn = Random.Float() > 0.67;
+        boolean perceive = Random.Float() > 0.5;
+        boolean spawn = Random.Float() > 0.85;
 
 
-        if (percieve) {
+        if (perceive) {
             if (Dungeon.hero.invisible > 0) {
                 yell("You cannot hide. I see all", false);
                 enemySeen = true;
@@ -108,13 +108,13 @@ public class Yog extends Mob {
 
                 Buff buff = Dungeon.hero.buff(Invisibility.class);
                 if (buff != null) {
-                    Dungeon.hero.remove(buff);
+                    buff.detach();
                 }
             }
 
             for (Mob mob : Dungeon.level.mobs) {
-                if (mob instanceof BurningFist || mob instanceof RottingFist || mob instanceof Larva) {
-                    mob.beckon(Dungeon.hero.pos);
+                if (mob instanceof YogFist || mob instanceof Larva) {
+                    mob.target = Dungeon.hero.pos;
                 }
             }
         }
@@ -174,44 +174,56 @@ public class Yog extends Mob {
         } while (Level.distance(pos, cell) < prevDistance);
 
         // send hero there
+        teleportHero(cell);
+
+        yell("Begone, pest.", false);
+
+    }
+
+    private boolean summonHero() {
+        int tempPos = Level.closeToCell(pos);
+        if (tempPos == -1) {
+            // if somehow nowhere valid to move hero to,
+            // don't teleport, but let calling func think it did
+            return true;
+        }
+        int closeDist = Level.distance(pos, tempPos);
+        int currentDist = Level.distance(pos, Dungeon.hero.pos);
+        if (currentDist > 1 && closeDist < currentDist) {
+            teleportHero(tempPos);
+            yell("Come, coward.", false);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void teleportHero(int cell) {
+        Hero hero = Dungeon.hero;
+        // send hero there
         WandOfBlink.appear(hero, cell);
         Dungeon.level.press(pos, hero);
         Dungeon.observe();
-
-        if (banishHerosLeft > 1) {
-            yell("Begone, pest.", false);
-        } else {
-            yell( "Flee, mortal.", false);
-        }
-
-        banishHerosLeft--;
     }
 
     @Override
     public void damage(int dmg, Object src) {
-        boolean coinToss = Random.Float() > 0.5;
-        // if below a certain level of health, may teleport away
-        if(coinToss) {
-            if ((banishHerosLeft == 2 && HP < HT * 0.667) ||
-                    (banishHerosLeft == 1 && HP < HT * 0.333)) {
-                banishHero();
-            }
-        }
+        int beforeHP = HP;
 
-        // beckon fists to help defend eye
         if (fistsCount > 0) {
-
-            for (Mob mob : Dungeon.level.mobs) {
-                if (mob instanceof BurningFist || mob instanceof RottingFist) {
-                    mob.beckon(pos);
-                }
-            }
-
             // damage greatly reduced if fists are still in play
             dmg >>= fistsCount;
         }
 
         super.damage(dmg, src);
+
+        // if cross a threshold of health, teleport hero
+        if ((HP < HT * 0.667 && beforeHP >= HT * 0.667) ||
+                (HP < HT * 0.333 && beforeHP >= HT * 0.333)) {
+            if (!summonHero()) {
+                banishHero();
+            }
+        }
     }
 
     @Override
@@ -231,7 +243,7 @@ public class Yog extends Mob {
     public void die(Object cause) {
 
         for (Mob mob : (Iterable<Mob>) Dungeon.level.mobs.clone()) {
-            if (mob instanceof BurningFist || mob instanceof RottingFist) {
+            if (mob instanceof YogFist) {
                 mob.die(cause);
             }
         }
@@ -274,25 +286,20 @@ public class Yog extends Mob {
         return IMMUNITIES;
     }
 
-    public static class RottingFist extends Mob {
+    public static class YogFist extends Mob {
 
-        private static final int REGENERATION = 4;
+        public boolean canSwap;
+        private static final String KEY_SWAP = "canSwap";
 
-        {
-            name = "rotting fist";
-            spriteClass = RottingFistSprite.class;
-
-            HP = HT = 300;
-            defenseSkill = 25;
-
-            EXP = 0;
-
-            state = WANDERING;
-        }
-
-        public RottingFist() {
+        public YogFist() {
             super();
             fistsCount++;
+        }
+
+        @Override
+        public boolean act() {
+            canSwap = true;
+            return super.act();
         }
 
         @Override
@@ -307,40 +314,8 @@ public class Yog extends Mob {
         }
 
         @Override
-        public int damageRoll() {
-            return Random.NormalIntRange(24, 36);
-        }
-
-        @Override
         public int dr() {
             return 15;
-        }
-
-        @Override
-        public int attackProc(Char enemy, int damage) {
-            if (Random.Int(3) == 0) {
-                Buff.affect(enemy, Ooze.class);
-                enemy.sprite.burst(0xFF000000, 5);
-            }
-
-            return damage;
-        }
-
-        @Override
-        public boolean act() {
-
-            if (Level.water[pos] && HP < HT) {
-                sprite.emitter().burst(ShadowParticle.UP, 2);
-                HP += REGENERATION;
-            }
-
-            return super.act();
-        }
-
-        @Override
-        public String description() {
-            return TXT_DESC;
-
         }
 
         private static final HashSet<Class<?>> RESISTANCES = new HashSet<Class<?>>();
@@ -362,17 +337,86 @@ public class Yog extends Mob {
             IMMUNITIES.add(Amok.class);
             IMMUNITIES.add(Sleep.class);
             IMMUNITIES.add(Terror.class);
-            IMMUNITIES.add(Poison.class);
-            IMMUNITIES.add(Vertigo.class);
         }
 
         @Override
         public HashSet<Class<?>> immunities() {
             return IMMUNITIES;
         }
+
+        @Override
+        public void storeInBundle(Bundle bundle) {
+            super.storeInBundle(bundle);
+            bundle.put(KEY_SWAP, canSwap);
+        }
+
+        @Override
+        public void restoreFromBundle(Bundle bundle) {
+            super.restoreFromBundle(bundle);
+            if (bundle.contains(KEY_SWAP)) {
+                canSwap = bundle.getBoolean(KEY_SWAP);
+            } else {
+                canSwap = true;
+            }
+        }
     }
 
-    public static class BurningFist extends Mob {
+
+    public static class RottingFist extends YogFist {
+
+        private static final int REGENERATION = 4;
+
+        {
+            name = "rotting fist";
+            spriteClass = RottingFistSprite.class;
+
+            HP = HT = 300;
+            defenseSkill = 25;
+
+            EXP = 0;
+
+            state = WANDERING;
+        }
+
+        static {
+            IMMUNITIES.add(Poison.class);
+            IMMUNITIES.add(Vertigo.class);
+        }
+
+
+        @Override
+        public int damageRoll() {
+            return Random.NormalIntRange(24, 36);
+        }
+
+
+        @Override
+        public int attackProc(Char enemy, int damage) {
+            if (Random.Int(3) == 0) {
+                Buff.affect(enemy, Ooze.class);
+                enemy.sprite.burst(0xFF000000, 5);
+            }
+
+            return damage;
+        }
+
+        @Override
+        public boolean act() {
+            if (Level.water[pos] && HP < HT) {
+                sprite.emitter().burst(ShadowParticle.UP, 2);
+                HP += REGENERATION;
+            }
+
+            return super.act();
+        }
+
+        @Override
+        public String description() {
+            return TXT_DESC;
+        }
+    }
+
+    public static class BurningFist extends YogFist {
 
         {
             name = "burning fist";
@@ -386,30 +430,13 @@ public class Yog extends Mob {
             state = WANDERING;
         }
 
-        public BurningFist() {
-            super();
-            fistsCount++;
-        }
-
-        @Override
-        public void die(Object cause) {
-            super.die(cause);
-            fistsCount--;
-        }
-
-        @Override
-        public int attackSkill(Char target) {
-            return 36;
+        static {
+            IMMUNITIES.add(Burning.class);
         }
 
         @Override
         public int damageRoll() {
             return Random.NormalIntRange(20, 32);
-        }
-
-        @Override
-        public int dr() {
-            return 15;
         }
 
         @Override
@@ -449,6 +476,7 @@ public class Yog extends Mob {
 
         @Override
         public boolean act() {
+
             for (int cell: Level.aroundNine(pos)) {
                 GameScene.add(Blob.seed(cell, 2, Fire.class));
             }
@@ -462,32 +490,6 @@ public class Yog extends Mob {
 
         }
 
-        private static final HashSet<Class<?>> RESISTANCES = new HashSet<Class<?>>();
-
-        static {
-            RESISTANCES.add(ToxicGas.class);
-            RESISTANCES.add(Death.class);
-            RESISTANCES.add(ScrollOfPsionicBlast.class);
-        }
-
-        @Override
-        public HashSet<Class<?>> resistances() {
-            return RESISTANCES;
-        }
-
-        private static final HashSet<Class<?>> IMMUNITIES = new HashSet<Class<?>>();
-
-        static {
-            IMMUNITIES.add(Amok.class);
-            IMMUNITIES.add(Sleep.class);
-            IMMUNITIES.add(Terror.class);
-            IMMUNITIES.add(Burning.class);
-        }
-
-        @Override
-        public HashSet<Class<?>> immunities() {
-            return IMMUNITIES;
-        }
     }
 
     public static class Larva extends Mob {
@@ -522,7 +524,43 @@ public class Yog extends Mob {
         @Override
         public String description() {
             return TXT_DESC;
-
         }
+
+        @Override
+        public boolean act() {
+            if (Level.adjacent(pos, Dungeon.hero.pos)) {
+                for (int cell: Level.aroundEight(pos)) {
+                    Char ch = Actor.findChar(cell);
+                    if (ch instanceof YogFist) {
+                        if (!Level.adjacent(ch.pos, Dungeon.hero.pos)) {
+                            if (swapWith((YogFist) ch)) {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            return super.act();
+        }
+
+        private boolean swapWith(YogFist fist) {
+            if (!fist.canSwap) {
+                return false;
+            }
+            fist.canSwap = false;
+
+            int larvaePos = pos;
+
+            moveSprite(pos, fist.pos);
+            move(fist.pos);
+
+            fist.sprite.move(fist.pos, larvaePos);
+            fist.move(larvaePos);
+
+            this.spend(1 / this.speed());
+
+            return true;
+        }
+
     }
 }
