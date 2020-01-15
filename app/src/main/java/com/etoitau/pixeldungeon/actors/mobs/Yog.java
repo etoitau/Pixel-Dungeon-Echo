@@ -39,6 +39,7 @@ import com.etoitau.pixeldungeon.actors.buffs.Burning;
 import com.etoitau.pixeldungeon.actors.buffs.Charm;
 import com.etoitau.pixeldungeon.actors.buffs.Invisibility;
 import com.etoitau.pixeldungeon.actors.buffs.Ooze;
+import com.etoitau.pixeldungeon.actors.buffs.Paralysis;
 import com.etoitau.pixeldungeon.actors.buffs.Poison;
 import com.etoitau.pixeldungeon.actors.buffs.Sleep;
 import com.etoitau.pixeldungeon.actors.buffs.Terror;
@@ -279,6 +280,7 @@ public class Yog extends Mob {
         IMMUNITIES.add(Burning.class);
         IMMUNITIES.add(ToxicGas.class);
         IMMUNITIES.add(ScrollOfPsionicBlast.class);
+        IMMUNITIES.add(Paralysis.class);
     }
 
     @Override
@@ -290,6 +292,15 @@ public class Yog extends Mob {
 
         public boolean canSwap;
         private static final String KEY_SWAP = "canSwap";
+
+        {
+            defenseSkill = 25;
+
+            EXP = 0;
+
+            HUNTING = new Hunting();
+            state = WANDERING;
+        }
 
         public YogFist() {
             super();
@@ -337,6 +348,7 @@ public class Yog extends Mob {
             IMMUNITIES.add(Amok.class);
             IMMUNITIES.add(Sleep.class);
             IMMUNITIES.add(Terror.class);
+            IMMUNITIES.add(Paralysis.class);
         }
 
         @Override
@@ -359,6 +371,44 @@ public class Yog extends Mob {
                 canSwap = true;
             }
         }
+
+        private class Hunting implements AiState {
+
+            public static final String TAG = "HUNTING";
+
+            @Override
+            public boolean act(boolean enemyInFOV, boolean justAlerted) {
+                enemySeen = enemyInFOV;
+                if (enemyInFOV && canAttack(enemy)) {
+
+                    return doAttack(enemy);
+
+                } else {
+
+                    if (enemyInFOV) {
+                        target = enemy.pos;
+                    }
+
+                    int oldPos = pos;
+                    if (target != -1 && getCloser(target) || getCloser(Level.closeToCell(target))) {
+                        // if have target and valid route to target and get closer or get closer to point near target
+                        spend(1 / speed());
+                        return moveSprite(oldPos, pos);
+                    } else {
+                        // if don't have target, or can't find valid route
+                        spend(TICK);
+                        state = defaultAwakeState();
+                        target = Dungeon.level.randomDestination();
+                        return true;
+                    }
+                }
+            }
+
+            @Override
+            public String status() {
+                return Utils.format("This %s is hunting", name);
+            }
+        }
     }
 
 
@@ -371,11 +421,6 @@ public class Yog extends Mob {
             spriteClass = RottingFistSprite.class;
 
             HP = HT = 300;
-            defenseSkill = 25;
-
-            EXP = 0;
-
-            state = WANDERING;
         }
 
         static {
@@ -423,11 +468,6 @@ public class Yog extends Mob {
             spriteClass = BurningFistSprite.class;
 
             HP = HT = 200;
-            defenseSkill = 25;
-
-            EXP = 0;
-
-            state = WANDERING;
         }
 
         static {
@@ -563,4 +603,6 @@ public class Yog extends Mob {
         }
 
     }
+
+
 }
