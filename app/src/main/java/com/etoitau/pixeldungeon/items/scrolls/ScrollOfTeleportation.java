@@ -17,6 +17,8 @@
  */
 package com.etoitau.pixeldungeon.items.scrolls;
 
+import com.etoitau.pixeldungeon.actors.Char;
+import com.etoitau.pixeldungeon.items.wands.WandOfTeleportation;
 import com.watabau.noosa.audio.Sample;
 import com.etoitau.pixeldungeon.Assets;
 import com.etoitau.pixeldungeon.Dungeon;
@@ -27,11 +29,11 @@ import com.etoitau.pixeldungeon.utils.GLog;
 
 public class ScrollOfTeleportation extends Scroll {
 
-    public static final String TXT_TELEPORTED =
-            "In a blink of an eye you were teleported to another location of the level.";
-
-    public static final String TXT_NO_TELEPORT =
-            "Strong magic aura of this place prevents you from teleporting!";
+//    public static final String TXT_TELEPORTED =
+//            "In a blink of an eye you were teleported to another location of the level.";
+//
+//    public static final String TXT_NO_TELEPORT =
+//            "Strong magic aura of this place prevents you from teleporting!";
 
     {
         name = "Scroll of Teleportation";
@@ -43,37 +45,37 @@ public class ScrollOfTeleportation extends Scroll {
         Sample.INSTANCE.play(Assets.SND_READ);
         Invisibility.dispel();
 
-        teleportHero(curUser);
+        WandOfTeleportation.teleportChar(curUser);
         setKnown();
 
         readAnimation();
     }
 
-    public static void teleportHero(Hero hero) {
-
-        int count = 10;
-        int pos;
-        do {
-            pos = Dungeon.level.randomRespawnCell();
-            if (count-- <= 0) {
-                break;
-            }
-        } while (pos == -1);
-
-        if (pos == -1) {
-
-            GLog.w(TXT_NO_TELEPORT);
-
-        } else {
-
-            WandOfBlink.appear(hero, pos);
-            Dungeon.level.press(pos, hero);
-            Dungeon.observe();
-
-            GLog.i(TXT_TELEPORTED);
-
-        }
-    }
+//    public static void teleportHero(Char hero) {
+//
+//        int count = 10;
+//        int pos;
+//        do {
+//            pos = Dungeon.level.randomRespawnCell();
+//            if (count-- <= 0) {
+//                break;
+//            }
+//        } while (pos == -1);
+//
+//        if (pos == -1) {
+//
+//            GLog.w(TXT_NO_TELEPORT);
+//
+//        } else {
+//
+//            WandOfBlink.appear(hero, pos);
+//            Dungeon.level.press(pos, hero);
+//            Dungeon.observe();
+//
+//            GLog.i(TXT_TELEPORTED);
+//
+//        }
+//    }
 
     @Override
     public String desc() {

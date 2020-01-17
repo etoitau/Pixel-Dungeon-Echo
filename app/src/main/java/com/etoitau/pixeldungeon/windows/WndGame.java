@@ -22,6 +22,7 @@ import java.io.IOException;
 import com.etoitau.pixeldungeon.BuildConfig;
 import com.etoitau.pixeldungeon.actors.hero.Hero;
 import com.etoitau.pixeldungeon.items.Ankh;
+import com.etoitau.pixeldungeon.items.armor.Armor;
 import com.etoitau.pixeldungeon.items.armor.PlateArmor;
 import com.etoitau.pixeldungeon.items.bags.PotionBelt;
 import com.etoitau.pixeldungeon.items.bags.ScrollHolder;
@@ -31,15 +32,23 @@ import com.etoitau.pixeldungeon.items.food.Pasty;
 import com.etoitau.pixeldungeon.items.potions.Potion;
 import com.etoitau.pixeldungeon.items.potions.PotionOfExperience;
 import com.etoitau.pixeldungeon.items.potions.PotionOfHealing;
+import com.etoitau.pixeldungeon.items.potions.PotionOfInvisibility;
 import com.etoitau.pixeldungeon.items.potions.PotionOfMight;
+import com.etoitau.pixeldungeon.items.potions.PotionOfMindVision;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfEnchantment;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfMagicMapping;
+import com.etoitau.pixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfWipeOut;
+import com.etoitau.pixeldungeon.items.wands.Wand;
+import com.etoitau.pixeldungeon.items.wands.WandOfBlink;
 import com.etoitau.pixeldungeon.items.wands.WandOfFirebolt;
 import com.etoitau.pixeldungeon.items.wands.WandOfSlowness;
+import com.etoitau.pixeldungeon.items.wands.WandOfTeleportation;
+import com.etoitau.pixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.etoitau.pixeldungeon.items.weapon.melee.WarHammer;
+import com.etoitau.pixeldungeon.items.weapon.missiles.BombArrow;
 import com.watabau.noosa.Game;
 import com.etoitau.pixeldungeon.Dungeon;
 import com.etoitau.pixeldungeon.PixelDungeon;
@@ -153,13 +162,18 @@ public class WndGame extends Window {
 
                     for (int i = 0; i < 12; i++) {
                         new ScrollOfUpgrade().identify().collect();
-                        new PotionOfMight().execute(hero, Potion.AC_DRINK);;
+                        new PotionOfMight().execute(hero, Potion.AC_DRINK);
+                        new BombArrow().collect();
                     }
 
                     for (int i = 0; i < 6; i++) {
                         new ScrollOfIdentify().identify().collect();
                         new ScrollOfWipeOut().collect();
                         new ScrollOfEnchantment().identify().collect();
+                        new ScrollOfTeleportation().identify().collect();
+                        new PotionOfInvisibility().identify().collect();
+                        new PotionOfMindVision().identify().collect();
+                        new Ankh().collect();
                     }
 
                     for (int i = 0; i < 25; i++) {
@@ -189,15 +203,30 @@ public class WndGame extends Window {
 //                        // do nothing
 //                    }
 
-                    new PlateArmor().identify().collect();
-                    new WarHammer().identify().collect();
+                    Armor armor = new PlateArmor();
+                    armor.identify().collect();
+                    for (int i = 0; i < 6; i++) {
+                        armor.upgrade();
+                    }
+                    MeleeWeapon weapon = new WarHammer();
+                    weapon.identify().collect();
+                    for (int i = 0; i < 6; i++) {
+                        weapon.upgrade();
+                    }
+
                     for (int i = 0; i < 5; i++) {
                         new PotionOfHealing().identify().collect();
                         new Pasty().collect();
                     }
                     new WandOfFirebolt().identify().collect();
                     new WandOfSlowness().identify().collect();
-                    new Ankh().collect();
+                    new WandOfTeleportation().identify().collect();
+                    Wand wand = new WandOfBlink();
+                    wand.identify().collect();
+                    for (int i = 0; i < 4; i++) {
+                        wand.upgrade();
+                    }
+
 
                 }
             });

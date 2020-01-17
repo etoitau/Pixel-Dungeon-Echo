@@ -98,7 +98,12 @@ public enum Rankings {
     }
 
     private int score(boolean win) {
-        return (Statistics.goldCollected + Dungeon.hero.lvl * Statistics.deepestFloor * 100) * (win ? 2 : 1);
+        int score = 0;
+        score += Statistics.goldCollected;
+        score += Dungeon.hero.lvl * Statistics.deepestFloor * 100;
+        score *= win ? 2 : 1;
+        score *= (1 + Difficulties.getRankedValue(Dungeon.currentDifficulty));
+        return score;
     }
 
     private static final String RECORDS = "records";

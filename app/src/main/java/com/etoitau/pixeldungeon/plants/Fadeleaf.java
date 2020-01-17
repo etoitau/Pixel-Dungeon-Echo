@@ -25,6 +25,8 @@ import com.etoitau.pixeldungeon.effects.CellEmitter;
 import com.etoitau.pixeldungeon.effects.Speck;
 import com.etoitau.pixeldungeon.items.potions.PotionOfMindVision;
 import com.etoitau.pixeldungeon.items.scrolls.ScrollOfTeleportation;
+import com.etoitau.pixeldungeon.items.wands.Wand;
+import com.etoitau.pixeldungeon.items.wands.WandOfTeleportation;
 import com.etoitau.pixeldungeon.sprites.ItemSpriteSheet;
 
 public class Fadeleaf extends Plant {
@@ -42,31 +44,7 @@ public class Fadeleaf extends Plant {
     public void activate(Char ch) {
         super.activate(ch);
 
-        if (ch instanceof Hero) {
-
-            ScrollOfTeleportation.teleportHero((Hero) ch);
-            ((Hero) ch).curAction = null;
-
-        } else if (ch instanceof Mob) {
-
-            int count = 10;
-            int newPos;
-            do {
-                newPos = Dungeon.level.randomRespawnCell();
-                if (count-- <= 0) {
-                    break;
-                }
-            } while (newPos == -1);
-
-            if (newPos != -1) {
-
-                ch.pos = newPos;
-                ch.sprite.place(ch.pos);
-                ch.sprite.visible = Dungeon.visible[pos];
-
-            }
-
-        }
+        WandOfTeleportation.teleportChar(ch);
 
         if (Dungeon.visible[pos]) {
             CellEmitter.get(pos).start(Speck.factory(Speck.LIGHT), 0.2f, 3);

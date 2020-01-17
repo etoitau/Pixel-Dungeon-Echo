@@ -530,15 +530,31 @@ public enum Difficulties {
     public static int getNormalizedDifficulty(int diff) {
         switch (diff) {
             case 0:
-                return 6;
+                return 6; // supereasy
             case 1:
-                return 1;
+                return 1; // easy
             case 2:
-                return 0;
+                return 0; // normal
             case 3:
-                return 2;
+                return 2; // hard
             default:
+                return 0; // normal
+        }
+    }
+
+    // convert difficulty enum to sortable value
+    public static int getRankedValue(Difficulties diff) {
+        switch (diff) {
+            case SUPEREASY:
                 return 0;
+            case EASY:
+                return 1;
+            case NORMAL:
+                return 2;
+            case HARD:
+                return 3;
+            default:
+                return 2;
         }
     }
 

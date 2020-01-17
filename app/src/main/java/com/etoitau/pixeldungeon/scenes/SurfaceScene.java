@@ -167,7 +167,7 @@ public class SurfaceScene extends PixelScene {
 
         RedButton gameOver = new RedButton("Game Over") {
             protected void onClick() {
-                Game.switchScene(TitleScene.class);
+                Game.switchScene(RankingsScene.class);
             }
         };
         gameOver.setSize(SKY_WIDTH - FRAME_MARGIN_X * 2, BUTTON_HEIGHT);

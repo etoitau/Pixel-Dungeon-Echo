@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Stack;
 
 import com.watabau.noosa.Scene;
 import com.watabau.noosa.audio.Sample;
@@ -1125,7 +1126,7 @@ public abstract class Level implements Bundlable {
         } else {
             for (int i = 0; toReturn.size() < nToGet && i < cells.size(); i++) {
                 // keep trying until have spawned specified amount or run out of possible spots
-                if ((passable[cells.get(i)] || avoid[cells.get(i)]) && Actor.findChar(cells.get(i)) == null) {
+                if (validSpawnCell(cells.get(i))) {
                     toReturn.add(cells.get(i));
                 }
             }
@@ -1163,5 +1164,97 @@ public abstract class Level implements Bundlable {
 
     public static List<Integer> aroundNine(int pos, int nToGet) {
         return aroundCell(pos, nToGet, NEIGHBOURS9, false);
+    }
+
+    public static Integer closeToCell(int pos) {
+        Integer[] xy = cellToXY(pos);
+        Stack<Integer> toCheck = new Stack<>();
+
+        int maxXOffset = Math.max(WIDTH - xy[0], xy[0]) - 1;
+        int maxYOffset = Math.max(HEIGHT - xy[1], xy[1]);
+        int maxDist = Math.max(maxXOffset, maxYOffset);
+        for (int dist = 1; dist < maxDist; dist++) {
+            // for each distance from pos
+
+            // build list of cells at dist, four sides of box
+            int x, y;
+            // x values need to be within xLeft to xRight
+            int xLeft = Math.max(0, xy[0] - dist);
+            int xRight = Math.min(WIDTH, xy[0] + dist);
+            // y values need to be witin yTop to yBot
+            int yTop = Math.max(0, xy[1] - dist);
+            int yBot = Math.min(HEIGHT, xy[1] + dist);
+
+            // bottom side of box
+            y = xy[1] + dist;
+            if (y < HEIGHT) {
+                for (x = xLeft; x <= xRight; x++) {
+                    toCheck.push(xyToCell(x, y));
+                }
+            }
+
+            // top side of box
+            y = xy[1] - dist;
+            if (y > 0) {
+                for (x = xLeft; x <= xRight; x++) {
+                    toCheck.push(xyToCell(x, y));
+                }
+            }
+
+            // right side of box
+            x = xy[0] + dist;
+            if (x < WIDTH) {
+                for (y = yTop; y <= yBot; y++) {
+                    toCheck.push(xyToCell(x, y));
+                }
+            }
+
+            // left side of box
+            x = xy[0] - dist;
+            if (x > 0) {
+                for (y = yTop; y <= yBot; y++) {
+                    toCheck.push(xyToCell(x, y));
+                }
+            }
+
+            // shuffle to check randomly
+            Collections.shuffle(toCheck);
+
+            int nextPos;
+            // check them
+            while (!toCheck.isEmpty()) {
+                nextPos = toCheck.pop();
+                if (validSpawnCell(nextPos)) {
+                    return nextPos;
+                }
+            }
+
+        }
+
+        return -1;
+
+    }
+
+    public static boolean validSpawnCell(int cell) {
+        return cell < LENGTH && (passable[cell] || avoid[cell]) && Actor.findChar(cell) == null;
+    }
+
+    public static boolean validSpawnCell(int x, int y) {
+        if (x < WIDTH && y < HEIGHT) {
+            return validSpawnCell(xyToCell(x, y));
+        } else {
+            return false;
+        }
+    }
+
+    public static Integer xyToCell(int x, int y) {
+        return y * WIDTH + x;
+    }
+
+    public static Integer[] cellToXY(int cell) {
+        Integer[] xy = new Integer[2];
+        xy[0] = cell % WIDTH;
+        xy[1] = cell / WIDTH;
+        return xy;
     }
 }

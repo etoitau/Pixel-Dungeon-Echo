@@ -147,7 +147,7 @@ public class WndRanking extends WndTabbed {
 
         private static final int GAP = 4;
 
-        private static final String TXT_TITLE = "Level %d %s (SPD)";
+        private static final String TXT_TITLE = "Level %d %s";
 
         private static final String TXT_CHALLENGES = "Challenges";
 

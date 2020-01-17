@@ -17,6 +17,7 @@
  */
 package com.etoitau.pixeldungeon.items.wands;
 
+import com.etoitau.pixeldungeon.actors.hero.Hero;
 import com.watabau.noosa.audio.Sample;
 import com.etoitau.pixeldungeon.Assets;
 import com.etoitau.pixeldungeon.Dungeon;
@@ -29,6 +30,12 @@ import com.watabau.utils.Callback;
 
 public class WandOfTeleportation extends Wand {
 
+    private static final String TXT_TELEPORTED =
+            "In a blink of an eye you were teleported to another location of the level.";
+
+    private static final String TXT_NO_TELEPORT =
+            "Strong magic aura of this place prevents you from teleporting!";
+
     {
         name = "Wand of Teleportation";
     }
@@ -38,45 +45,68 @@ public class WandOfTeleportation extends Wand {
 
         Char ch = Actor.findChar(cell);
 
-        if (ch == curUser) {
-
-            setKnown();
-            ScrollOfTeleportation.teleportHero(curUser);
-
-        } else if (ch != null) {
-
-            int count = 10;
-            int pos;
-            do {
-                pos = Dungeon.level.randomRespawnCell();
-                if (count-- <= 0) {
-                    break;
-                }
-            } while (pos == -1);
-
-            if (pos == -1) {
-
-                GLog.w(ScrollOfTeleportation.TXT_NO_TELEPORT);
-
-            } else {
-
-                ch.pos = pos;
-                ch.sprite.place(ch.pos);
-                ch.sprite.visible = Dungeon.visible[pos];
-                GLog.i(curUser.name + " teleported " + ch.name + " to somewhere");
-
-            }
-
+        if (ch != null) {
+            teleportChar(ch);
         } else {
-
             GLog.i("nothing happened");
-
         }
+
+        if (ch == curUser) {
+            setKnown();
+        }
+
+//            int count = 10;
+//            int pos;
+//            do {
+//                pos = Dungeon.level.randomRespawnCell();
+//                if (count-- <= 0) {
+//                    break;
+//                }
+//            } while (pos == -1);
+//
+//            if (pos == -1) {
+//
+//                GLog.w(ScrollOfTeleportation.TXT_NO_TELEPORT);
+//
+//            } else {
+//
+//                ch.pos = pos;
+//                ch.sprite.place(ch.pos);
+//                ch.sprite.visible = Dungeon.visible[pos];
+//                GLog.i(curUser.name + " teleported " + ch.name + " to somewhere");
+//
+//            }
+
+
     }
 
     protected void fx(int cell, Callback callback) {
         MagicMissile.coldLight(curUser.sprite.parent, curUser.pos, cell, callback);
         Sample.INSTANCE.play(Assets.SND_ZAP);
+    }
+
+    public static void teleportChar(Char ch) {
+
+        // randomRespawnCell will give a valid open space unless overloaded by boss level to return -1
+        int pos = Dungeon.level.randomRespawnCell();
+
+        if (pos == -1) {
+            GLog.w(TXT_NO_TELEPORT);
+        } else {
+            WandOfBlink.appear(ch, pos);
+            Dungeon.level.press(pos, ch);
+
+            if (ch instanceof Hero) {
+                Dungeon.observe();
+                GLog.i(TXT_TELEPORTED);
+            } else {
+                //ch.pos = pos;
+                //ch.sprite.place(ch.pos);
+                ch.sprite.visible = Dungeon.visible[pos];
+                GLog.i(curUser.name + " teleported " + ch.name + " to somewhere");
+            }
+        }
+
     }
 
     @Override
