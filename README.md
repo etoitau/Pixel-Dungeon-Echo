@@ -18,6 +18,20 @@ Developed by [Kyle Chatman](http://www.kchatman.com) under a GNU Public License.
 [https://play.google.com/store/apps/details?id=com.etoitau.pixeldungeon](https://play.google.com/store/apps/details?id=com.etoitau.pixeldungeon)
 
 ## Description of Changes
+### v. 1.1.5
+* Feature - Yog gains some new abilities:
+    * Can dispel your invisibility
+    * Yog and fists immune to paralysis
+    * Can alert fists and larva to your location
+    * Can teleport hero to or away from it as desired two times
+    * Steady trickle of larva, not just when damaged
+    * Fists can wade through larva to get to you
+* Bug fixes
+    * Part of bonus skill secret not working properly
+    * KO arrow shout sometimes happens when it's not being used
+* Added debugging tools
+* Misc code refactoring/updating
+    
 ### v. 1.1.1
 * UI 
     * Added subscript icons for identified wands, rings, potions, scrolls
