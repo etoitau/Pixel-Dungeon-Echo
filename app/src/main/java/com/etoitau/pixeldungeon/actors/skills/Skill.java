@@ -43,6 +43,7 @@ public class Skill {
     public static final String AC_CAST = "Cast";
 
     public static final String SKILL_LEVEL = "LEVEL";
+    private static final String IS_ACTIVE = "isActive";
 
     public String tag = "";
 
@@ -269,9 +270,16 @@ public class Skill {
 
     public void storeInBundle(Bundle bundle) {
         bundle.put(SKILL_LEVEL + " " + tag, level); // e.g. Rampage could be key: "LEVEL A3" and value: 2
+        bundle.put(IS_ACTIVE + " " + tag, active); // is this skill currently active
     }
 
     public void restoreInBundle(Bundle bundle) {
         level = bundle.getInt(SKILL_LEVEL + " " + tag);
+        String activeKey = IS_ACTIVE + " " + tag;
+        if (bundle.contains(activeKey)) {
+            active = bundle.getBoolean(activeKey);
+        } else {
+            active = false;
+        }
     }
 }

@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019-2020 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -19,27 +24,26 @@ package com.etoitau.pixeldungeon.effects;
 
 import android.opengl.GLES20;
 
-import com.watabau.noosa.Game;
 import com.etoitau.pixeldungeon.sprites.CharSprite;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public class ChampWhiteHalo extends Halo {
+public class ChampHalo extends Halo {
 
     private CharSprite target;
 
-    private float phase = 0;
-
-    static final int RED = 0xb70202;
-    static final int YELLOW = 0xe4ff00;
-    static final int WHITE = 0xffffff;
-    static final int BLACK = 0x000000;
+    public static final int RED = 0xb70202;
+    public static final int YELLOW = 0xe4ff00;
+    public static final int WHITE = 0xffffff;
+    public static final int BLACK = 0xcccccc;
 
 
-    public ChampWhiteHalo(CharSprite sprite) {
-        super(20, WHITE, 0.25f);
+    public ChampHalo(CharSprite sprite, int color) {
+        super(20, color, 0.25f);
         target = sprite;
-        am = 0;
+        visible = target.visible; // only show halo if champ is visible
+        scale.set(radius / RADIUS);
+        am = brightness;
     }
 
 
@@ -47,20 +51,7 @@ public class ChampWhiteHalo extends Halo {
     public void update() {
         super.update();
 
-        if (phase < 0) {
-            if ((phase += Game.elapsed) >= 0) {
-                killAndErase();
-            } else {
-                scale.set((2 + phase) * radius / RADIUS);
-                am = -phase * brightness;
-            }
-        } else if (phase < 1) {
-            if ((phase += Game.elapsed) >= 1) {
-                phase = 1;
-            }
-            scale.set(phase * radius / RADIUS);
-            am = phase * brightness;
-        }
+        visible = target.visible; // only show halo if champ is visible
 
         point(target.x + target.width / 2, target.y + target.height / 2);
     }
@@ -73,6 +64,6 @@ public class ChampWhiteHalo extends Halo {
     }
 
     public void putOut() {
-        phase = -1;
+        killAndErase();
     }
 }

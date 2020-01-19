@@ -35,7 +35,6 @@ import com.etoitau.pixeldungeon.actors.buffs.Amok;
 import com.etoitau.pixeldungeon.actors.buffs.Bleeding;
 import com.etoitau.pixeldungeon.actors.buffs.Buff;
 import com.etoitau.pixeldungeon.actors.buffs.Burning;
-import com.etoitau.pixeldungeon.actors.buffs.Champ;
 import com.etoitau.pixeldungeon.actors.buffs.Charm;
 import com.etoitau.pixeldungeon.actors.buffs.Vertigo;
 import com.etoitau.pixeldungeon.actors.buffs.Cripple;
@@ -189,6 +188,7 @@ public abstract class Char extends Actor {
         bundle.put(TAG_MP, MP);
         bundle.put(TAG_MT, MMP);
         bundle.put(BUFFS, buffs);
+        // todo add champ or check for buff?
     }
 
     @Override
@@ -601,21 +601,21 @@ public abstract class Char extends Actor {
                 sprite.add(CharSprite.State.LEVITATING);
             } else if (buff instanceof Frost) {
                 sprite.add(CharSprite.State.FROZEN);
-            } else if (buff instanceof Champ) {
-                switch (((Champ) buff).type) {
-                    case Champ.CHAMP_VAMPERIC:
-                        sprite.add(CharSprite.State.CHAMPRED);
-                        break;
-                    case Champ.CHAMP_CHIEF:
-                        sprite.add(CharSprite.State.CHAMPWHITE);
-                        break;
-                    case Champ.CHAMP_CURSED:
-                        sprite.add(CharSprite.State.CHAMPBLACK);
-                        break;
-                    case Champ.CHAMP_FOUL:
-                        sprite.add(CharSprite.State.CHAMPYELLOW);
-                        break;
-                }
+//            } else if (buff instanceof Champ) {
+//                switch (((Champ) buff).type) {
+//                    case Champ.CHAMP_VAMPERIC:
+//                        sprite.add(CharSprite.State.CHAMPRED);
+//                        break;
+//                    case Champ.CHAMP_CHIEF:
+//                        sprite.add(CharSprite.State.CHAMPWHITE);
+//                        break;
+//                    case Champ.CHAMP_CURSED:
+//                        sprite.add(CharSprite.State.CHAMPBLACK);
+//                        break;
+//                    case Champ.CHAMP_FOUL:
+//                        sprite.add(CharSprite.State.CHAMPYELLOW);
+//                        break;
+//                }
             } else if (buff instanceof Invisibility) {
                 if (!(buff instanceof Shadows)) {
                     sprite.showStatus(CharSprite.POSITIVE, "invisible");

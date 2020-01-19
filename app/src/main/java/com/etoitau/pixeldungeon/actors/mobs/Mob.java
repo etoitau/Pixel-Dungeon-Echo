@@ -144,9 +144,16 @@ public abstract class Mob extends Char {
 
     public CharSprite sprite() {
         CharSprite sprite = null;
+        // create sprite
         try {
             sprite = spriteClass.newInstance();
         } catch (Exception e) {
+        }
+
+        // if champ, add appropriate halo
+        if (champ > 0 && sprite != null) {
+            Champ champ = buff(Champ.class);
+            champ.spriteChanges(sprite);
         }
         return sprite;
     }

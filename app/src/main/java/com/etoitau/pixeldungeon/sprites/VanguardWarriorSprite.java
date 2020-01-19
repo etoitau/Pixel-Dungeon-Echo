@@ -65,7 +65,7 @@ public class VanguardWarriorSprite extends MobSprite {
             return;
 
         hasHalo = true;
-        add(State.ARCHERMAIDEN);
+        //add(State.ARCHERMAIDEN);
         GameScene.effect(halo = new ArcherMaidenHalo(this));
     }
 }

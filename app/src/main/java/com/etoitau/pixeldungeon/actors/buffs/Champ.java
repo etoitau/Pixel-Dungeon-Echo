@@ -22,8 +22,9 @@
  */
 package com.etoitau.pixeldungeon.actors.buffs;
 
-import com.etoitau.pixeldungeon.Dungeon;
+import com.etoitau.pixeldungeon.actors.Char;
 import com.etoitau.pixeldungeon.actors.mobs.Mob;
+import com.etoitau.pixeldungeon.effects.ChampHalo;
 import com.etoitau.pixeldungeon.sprites.CharSprite;
 import com.watabau.utils.Bundle;
 import com.watabau.utils.Random;
@@ -38,18 +39,31 @@ public class Champ extends Buff {
     public static final int CHAMP_FOUL = 3;
     public static final int CHAMP_VAMPERIC = 4;
 
-    public int type = Random.Int(1, 5);
+    private Integer[] types = new Integer[]{CHAMP_CHIEF, CHAMP_CURSED, CHAMP_FOUL, CHAMP_VAMPERIC};
+
+    public int type = Random.element(types);
 
     private boolean bonusApplied = false;
 
-    private boolean haloApplied = false;
+
+    @Override
+    public boolean attachTo(Char target) {
+        boolean toReturn = super.attachTo(target);
+
+        if (!bonusApplied) {
+            permanentChanges();
+        }
+
+        toRestore();
+
+        return toReturn;
+    }
 
     @Override
     public void storeInBundle(Bundle bundle) {
         super.storeInBundle(bundle);
         bundle.put(TYPE, type);
         bundle.put(BONUS_APPLIED, bonusApplied);
-
     }
 
     @Override
@@ -62,108 +76,75 @@ public class Champ extends Buff {
     @Override
     public boolean act() {
 
-        if (!bonusApplied) {
-
-            bonusApplied = true;
-            haloApplied = true;
-
-            type = Random.Int(1, 5);
-
-            this.target.champ = type;
-
-            switch (type) {
-                case 5:
-                    type = CHAMP_VAMPERIC;
-                case CHAMP_VAMPERIC: //red
-                    this.target.name = "Vampiric " + this.target.name;
-                    this.target.HT *= 1.5;
-                    this.target.HP = this.target.HT;
-                    ((Mob) this.target).defenseSkill *= 1.1;
-                    if (target.sprite != null) {
-                        if (target.sprite.champRedHalo == null)
-                            target.sprite.add(CharSprite.State.CHAMPRED);
-                    }
-                    break;
-                case CHAMP_CHIEF: //white
-                    this.target.name = "Chief " + this.target.name;
-                    this.target.HT *= 2;
-                    this.target.HP = this.target.HT;
-                    ((Mob) this.target).defenseSkill *= 1.3;
-                    if (target.sprite != null) {
-                        if (target.sprite.champWhiteHalo == null)
-                            target.sprite.add(CharSprite.State.CHAMPWHITE);
-                    }
-                    break;
-                case CHAMP_CURSED: //black
-                    this.target.name = "Cursed " + this.target.name;
-                    this.target.HT *= 1.5;
-                    this.target.HP = this.target.HT;
-                    ((Mob) this.target).defenseSkill *= 1.15;
-                    if (target.sprite != null) {
-                        if (target.sprite.champBlackHalo == null)
-                            target.sprite.add(CharSprite.State.CHAMPBLACK);
-                    }
-                    break;
-                case CHAMP_FOUL: //yellow
-                    this.target.name = "Foul " + this.target.name;
-                    this.target.HT *= 1.5;
-                    this.target.HP = this.target.HT;
-                    ((Mob) this.target).defenseSkill *= 1.2;
-                    if (target.sprite != null) {
-                        if (target.sprite.champYellowHalo == null)
-                            target.sprite.add(CharSprite.State.CHAMPYELLOW);
-                    }
-                    break;
-
-            }
-        } else if (haloApplied == false) {
-            haloApplied = true;
-            switch (type) {
-                case CHAMP_VAMPERIC: //red
-                    this.target.name = "Vampiric " + this.target.name;
-                    ((Mob) this.target).defenseSkill *= 1.1;
-                    if (target.sprite != null) {
-                        if (target.sprite.champRedHalo == null)
-                            target.sprite.add(CharSprite.State.CHAMPRED);
-                    }
-                    break;
-                case CHAMP_CHIEF: //white
-                    this.target.name = "Chief " + this.target.name;
-                    ((Mob) this.target).defenseSkill *= 1.3;
-                    if (target.sprite != null) {
-                        if (target.sprite.champWhiteHalo == null)
-                            target.sprite.add(CharSprite.State.CHAMPWHITE);
-                    }
-                    break;
-                case CHAMP_CURSED: //black
-                    this.target.name = "Cursed " + this.target.name;
-                    ((Mob) this.target).defenseSkill *= 1.15;
-                    if (target.sprite != null) {
-                        if (target.sprite.champBlackHalo == null)
-                            target.sprite.add(CharSprite.State.CHAMPBLACK);
-                    }
-                    break;
-                case CHAMP_FOUL: //yellow
-                    ((Mob) this.target).defenseSkill *= 1.2;
-                    if (target.sprite != null) {
-                        if (target.sprite.champYellowHalo == null)
-                            target.sprite.add(CharSprite.State.CHAMPYELLOW);
-                    }
-                    break;
-
-            }
-        }
-
         spend(TICK);
-        if (target.isAlive()) {
 
-
-        } else {
-
+        if (!target.isAlive()) {
             detach();
-
         }
-
         return true;
+    }
+
+    private void permanentChanges() {
+        // only make these changes once, they'll be saved in mob's bundle
+        bonusApplied = true;
+
+        switch (type) {
+            case CHAMP_VAMPERIC:
+            case CHAMP_CURSED:
+            case CHAMP_FOUL:
+                this.target.HT *= 1.5;
+                this.target.HP = this.target.HT;
+                break;
+            case CHAMP_CHIEF:
+                this.target.HT *= 2;
+                this.target.HP = this.target.HT;
+                break;
+        }
+    }
+
+    // called by Mob.sprite()
+    public void spriteChanges(CharSprite sprite) {
+        // add halo to sprite
+        if (sprite.champHalo == null) {
+            switch (type) {
+                case CHAMP_VAMPERIC: //red
+                    sprite.champHalo = new ChampHalo(sprite, ChampHalo.RED);
+                    break;
+                case CHAMP_CHIEF: //white
+                    sprite.champHalo = new ChampHalo(sprite, ChampHalo.WHITE);
+                    break;
+                case CHAMP_CURSED: //black
+                    sprite.champHalo = new ChampHalo(sprite, ChampHalo.BLACK);
+                    break;
+                case CHAMP_FOUL: //yellow
+                    sprite.champHalo = new ChampHalo(sprite, ChampHalo.YELLOW);
+                    break;
+            }
+        }
+        sprite.add(CharSprite.State.CHAMP);
+    }
+
+    private void toRestore() {
+        // these are not stored in mob's bundle, restore them
+        this.target.champ = type;
+
+        switch (type) {
+            case CHAMP_VAMPERIC: //red
+                this.target.name = "Vampiric " + this.target.name;
+                ((Mob) this.target).defenseSkill *= 1.1;
+                break;
+            case CHAMP_CHIEF: //white
+                this.target.name = "Chief " + this.target.name;
+                ((Mob) this.target).defenseSkill *= 1.3;
+                break;
+            case CHAMP_CURSED: //black
+                this.target.name = "Cursed " + this.target.name;
+                ((Mob) this.target).defenseSkill *= 1.15;
+                break;
+            case CHAMP_FOUL: //yellow
+                this.target.name = "Foul " + this.target.name;
+                ((Mob) this.target).defenseSkill *= 1.2;
+                break;
+        }
     }
 }

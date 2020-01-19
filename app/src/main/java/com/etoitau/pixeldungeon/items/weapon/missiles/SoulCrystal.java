@@ -19,6 +19,7 @@ package com.etoitau.pixeldungeon.items.weapon.missiles;
 
 import android.graphics.Color;
 
+import com.etoitau.pixeldungeon.actors.Char;
 import com.watabau.noosa.audio.Sample;
 import com.etoitau.pixeldungeon.Assets;
 import com.etoitau.pixeldungeon.Dungeon;
@@ -79,13 +80,20 @@ public class SoulCrystal extends MissileWeapon {
 
     @Override
     protected void onThrow(int cell) {
-        if (Actor.findChar(cell) != null && Actor.findChar(cell) instanceof Mob && (!(Actor.findChar(cell) instanceof NPC) || Actor.findChar(cell) instanceof SummonedPet) && Actor.findChar(cell).champ == -1 && !Bestiary.isBoss(Actor.findChar(cell)) && (Random.Int(10, 20) > Actor.findChar(cell).HP || Actor.findChar(cell) instanceof SummonedPet)) {
-            Actor.findChar(cell).sprite.emitter().burst(ShadowParticle.CURSE, 6);
+        Char ch = Actor.findChar(cell);
+        if (ch instanceof Mob
+                && (ch instanceof SummonedPet
+                || (!(ch instanceof NPC) && ch.champ == -1 && !Bestiary.isBoss(ch)
+                    && Random.Int(10, 20) > ch.HP))) {
+            ch.sprite.emitter().burst(ShadowParticle.CURSE, 6);
             Sample.INSTANCE.play(Assets.SND_CURSED);
-            GLog.p("Captured " + Actor.findChar(cell).name + "!");
-            SoulCrystalFilled crystal = new SoulCrystalFilled(((Mob) Actor.findChar(cell)).spriteClass, Actor.findChar(cell).HT, ((Mob) Actor.findChar(cell)).defenseSkill, Actor.findChar(cell).name);
+            GLog.p("Captured " + ch.name + "!");
+            SoulCrystalFilled crystal = new SoulCrystalFilled(
+                    ((Mob) ch).spriteClass,
+                    ch.HT, ((Mob) ch).defenseSkill,
+                    ch.name);
             Dungeon.level.drop(crystal, cell).sprite.drop();
-            Actor.findChar(cell).damage(Actor.findChar(cell).HP, Dungeon.hero);
+            ch.damage(ch.HP, Dungeon.hero);
 
         } else if (Dungeon.visible[cell]) {
             GLog.i("The " + name + " shatters");

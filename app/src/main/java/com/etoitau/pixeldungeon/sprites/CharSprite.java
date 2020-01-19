@@ -1,4 +1,9 @@
 /*
+ * Pixel Dungeon Echo
+ * Copyright (C) 2019-2020 Kyle Chatman
+ *
+ * Based on:
+ *
  * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
@@ -17,6 +22,7 @@
  */
 package com.etoitau.pixeldungeon.sprites;
 
+import com.etoitau.pixeldungeon.effects.ChampHalo;
 import com.watabau.noosa.Game;
 import com.watabau.noosa.MovieClip;
 import com.watabau.noosa.Visual;
@@ -27,11 +33,6 @@ import com.watabau.noosa.tweeners.Tweener;
 import com.etoitau.pixeldungeon.Assets;
 import com.etoitau.pixeldungeon.DungeonTilemap;
 import com.etoitau.pixeldungeon.actors.Char;
-import com.etoitau.pixeldungeon.effects.ArcherMaidenHalo;
-import com.etoitau.pixeldungeon.effects.ChampBlackHalo;
-import com.etoitau.pixeldungeon.effects.ChampRedHalo;
-import com.etoitau.pixeldungeon.effects.ChampWhiteHalo;
-import com.etoitau.pixeldungeon.effects.ChampYellowHalo;
 import com.etoitau.pixeldungeon.effects.EmoIcon;
 import com.etoitau.pixeldungeon.effects.FloatingText;
 import com.etoitau.pixeldungeon.effects.IceBlock;
@@ -47,6 +48,7 @@ import com.watabau.utils.Callback;
 import com.watabau.utils.PointF;
 import com.watabau.utils.Random;
 
+
 public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip.Listener {
 
     public static final int DEFAULT = 0xFFFFFF;
@@ -59,8 +61,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
     private static final float FLASH_INTERVAL = 0.05f;
 
     public enum State {
-        BURNING, LEVITATING, INVISIBLE, PARALYSED, FROZEN, ILLUMINATED, CHAMPRED,
-        CHAMPBLACK, CHAMPWHITE, CHAMPYELLOW, ARCHERMAIDEN
+        BURNING, LEVITATING, INVISIBLE, PARALYSED, FROZEN, ILLUMINATED, CHAMP
     }
 
     protected Animation idle;
@@ -80,11 +81,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
     protected IceBlock iceBlock;
     protected TorchHalo halo;
 
-    public ChampRedHalo champRedHalo;
-    public ChampYellowHalo champYellowHalo;
-    public ChampBlackHalo champBlackHalo;
-    public ChampWhiteHalo champWhiteHalo;
-    public ArcherMaidenHalo archerMaidenHalo;
+    public ChampHalo champHalo;
 
     protected EmoIcon emo;
 
@@ -125,14 +122,8 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
     }
 
     public void NotAChamp() {
-        if (champRedHalo != null)
-            champRedHalo.putOut();
-        if (champYellowHalo != null)
-            champYellowHalo.putOut();
-        if (champBlackHalo != null)
-            champBlackHalo.putOut();
-        if (champWhiteHalo != null)
-            champWhiteHalo.putOut();
+        if (champHalo != null)
+            champHalo.putOut();
     }
 
     public void place(int cell) {
@@ -299,20 +290,8 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
             case ILLUMINATED:
                 GameScene.effect(halo = new TorchHalo(this));
                 break;
-            case CHAMPRED:
-                GameScene.effect(champRedHalo = new ChampRedHalo(this));
-                break;
-            case CHAMPWHITE:
-                GameScene.effect(champWhiteHalo = new ChampWhiteHalo(this));
-                break;
-            case CHAMPBLACK:
-                GameScene.effect(champBlackHalo = new ChampBlackHalo(this));
-                break;
-            case CHAMPYELLOW:
-                GameScene.effect(champYellowHalo = new ChampYellowHalo(this));
-                break;
-            case ARCHERMAIDEN:
-                // GameScene.effect( champYellowHalo = new ChampYellowHalo( this ) );
+            case CHAMP:
+                GameScene.effect(champHalo);
                 break;
         }
     }
@@ -349,6 +328,10 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
                     halo.putOut();
                 }
                 break;
+            case CHAMP:
+                if (champHalo != null) {
+                    champHalo.putOut();
+                }
         }
     }
 
