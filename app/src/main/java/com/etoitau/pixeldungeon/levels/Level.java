@@ -396,12 +396,12 @@ public abstract class Level implements Bundlable {
                     mob.state = mob.WANDERING;
                     mob.pos = randomRespawnCell();
                     if (Dungeon.hero.isAlive() && mob.pos != -1) {
-                        GameScene.add(mob);
                         if (Random.Int(10) < Dungeon.currentDifficulty.championChance())
                             Buff.affect(mob, Champ.class);
                         if (Statistics.amuletObtained) {
                             mob.beckon(Dungeon.hero.pos);
                         }
+                        GameScene.add(mob);
                     }
                 }
                 spend(Dungeon.nightMode || Statistics.amuletObtained ? TIME_TO_RESPAWN / 2 : TIME_TO_RESPAWN);

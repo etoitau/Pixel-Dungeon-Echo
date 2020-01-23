@@ -61,6 +61,8 @@ public class Ghost extends NPC {
 
         flying = true;
 
+        screams = false;
+
         state = WANDERING;
     }
 

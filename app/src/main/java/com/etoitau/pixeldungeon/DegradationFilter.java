@@ -31,12 +31,8 @@ import java.util.Map;
 public class DegradationFilter {
 
     private static Map<Object, Object> filterMap = new HashMap<>();
-//    private static Map<String, String> stringFilter = new HashMap<>();
-//    private static Map<Class<Weapon.Enchantment>, Class<Weapon.Enchantment>> enchantmentFilter = new HashMap<>();
-//    private static Map<Class<Armor.Glyph>, Class<Armor.Glyph>> glyphFilter = new HashMap<>();
 
     static {
-        // enchantmentFilter.put((Weapon.Enchantment) Tempering.class, Instability.class);
         filterMap.put(Tempering.class, Instability.class);
         filterMap.put(AutoRepair.class, Metabolism.class);
     }
@@ -54,7 +50,6 @@ public class DegradationFilter {
 
     public static DegradationFilter add(String toReplace, String withThis) {
         filterMap.put(toReplace, withThis);
-        //stringFilter.put(toReplace, withThis);
         return get();
     }
 

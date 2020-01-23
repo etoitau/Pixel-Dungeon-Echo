@@ -160,6 +160,7 @@ public class Sign {
         } else {
             randSeed = 1;
         }
+        addFilters();
         getShuffle();
     }
 
