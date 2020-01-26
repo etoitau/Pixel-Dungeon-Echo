@@ -18,6 +18,12 @@ Developed by [Kyle Chatman](http://www.kchatman.com) under a GNU Public License.
 [https://play.google.com/store/apps/details?id=com.etoitau.pixeldungeon](https://play.google.com/store/apps/details?id=com.etoitau.pixeldungeon)
 
 ## Description of Changes
+### v. 1.1.6
+* Bug Fixes
+    * Champion halo visibility
+    * Sad ghost mob scream
+    * Persistence of sign response to degradation setting
+    
 ### v. 1.1.5
 * Feature - Yog gains some new abilities:
     * Can dispel your invisibility
