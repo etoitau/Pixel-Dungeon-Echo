@@ -65,7 +65,8 @@ public class TimeMachine {
     }
 
     public static void stopTimer() {
-        timer.detach();
+        if (timer != null)
+            timer.detach();
         isOn = false;
     }
 
