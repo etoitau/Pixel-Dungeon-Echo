@@ -29,7 +29,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashSet;
 
 import com.etoitau.pixeldungeon.levels.features.Sign;
@@ -348,6 +347,8 @@ public class Dungeon {
     private static final String RN_GAME_FILE = "ranger.dat";
     private static final String RN_DEPTH_FILE = "ranger%d.dat";
 
+    private static final String BACKUP_GAME_FILE = "backup.dat";
+
     private static final String DUMMY_GAME_FILE = "dummygame.dat";
     private static final String DUMMY_DEPTH_FILE = "dummydepth%d.dat";
     private static final String VERSION = "version";
@@ -481,6 +482,7 @@ public class Dungeon {
 
             Actor.fixTime();
             saveGame(gameFile(hero.heroClass));
+            saveGame(BACKUP_GAME_FILE);
             saveLevel();
 
             GamesInProgress.set(hero.heroClass, depth, hero.lvl, challenges != 0);
@@ -491,6 +493,10 @@ public class Dungeon {
             Hero.reallyDie(WndResurrect.causeOfDeath);
 
         }
+    }
+
+    public static void loadBackupGame() throws IOException {
+        loadGame(BACKUP_GAME_FILE, true);
     }
 
     // used in InterlevelSchene.restore()
@@ -538,7 +544,7 @@ public class Dungeon {
         dewVial = bundle.getBoolean(DV);
 
         if (fullLoad) {
-            chapters = new HashSet<Integer>();
+            chapters = new HashSet<>();
             int ids[] = bundle.getIntArray(CHAPTERS);
             if (ids != null) {
                 for (int id : ids) {

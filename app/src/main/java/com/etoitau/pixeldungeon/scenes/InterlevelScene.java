@@ -23,6 +23,8 @@
 package com.etoitau.pixeldungeon.scenes;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import com.etoitau.pixeldungeon.BuildConfig;
 import com.etoitau.pixeldungeon.TimeMachine;
@@ -332,9 +334,13 @@ public class InterlevelScene extends PixelScene {
     private void restore() throws Exception {
 
         Actor.fixTime();
-
         GameLog.wipe();
-        Dungeon.loadGame(StartScene.curClass);
+        try {
+            Dungeon.loadGame(StartScene.curClass);
+            assert (Dungeon.hero != null);
+        } catch (AssertionError e) {
+            Dungeon.loadBackupGame();
+        }
         if (Dungeon.depth == -1) {
             Dungeon.depth = Statistics.deepestFloor;
             Dungeon.switchLevel(Dungeon.loadLevel(StartScene.curClass), -1);
