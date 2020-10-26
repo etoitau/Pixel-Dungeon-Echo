@@ -24,6 +24,7 @@ package com.etoitau.pixeldungeon;
 
 import android.util.Log;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -347,7 +348,8 @@ public class Dungeon {
     private static final String RN_GAME_FILE = "ranger.dat";
     private static final String RN_DEPTH_FILE = "ranger%d.dat";
 
-    private static final String BACKUP_GAME_FILE = "backup.dat";
+    private static final String BACKUP_GAME_FILE = "backup%s.dat";
+    private static final String BACKUP_DEPTH_FILE = "backup%s%d.dat";
 
     private static final String DUMMY_GAME_FILE = "dummygame.dat";
     private static final String DUMMY_DEPTH_FILE = "dummydepth%d.dat";
@@ -469,34 +471,37 @@ public class Dungeon {
     }
 
     public static void saveLevel() throws IOException {
+        saveLevel(Utils.format(depthFile(hero.heroClass), depth));
+    }
+
+    public static void saveLevel(String file) throws IOException {
         Bundle bundle = new Bundle();
         bundle.put(LEVEL, level);
 
-        OutputStream output = Game.instance.openFileOutput(Utils.format(depthFile(hero.heroClass), depth), Game.MODE_PRIVATE);
+        OutputStream output = Game.instance.openFileOutput(file, Game.MODE_PRIVATE);
         Bundle.write(bundle, output);
         output.close();
     }
 
     public static void saveAll() throws IOException {
         if (hero.isAlive()) {
-
             Actor.fixTime();
             saveGame(gameFile(hero.heroClass));
-            saveGame(BACKUP_GAME_FILE);
             saveLevel();
-
             GamesInProgress.set(hero.heroClass, depth, hero.lvl, challenges != 0);
-
         } else if (WndResurrect.instance != null) {
-
             WndResurrect.instance.hide();
             Hero.reallyDie(WndResurrect.causeOfDeath);
-
         }
     }
 
-    public static void loadBackupGame() throws IOException {
-        loadGame(BACKUP_GAME_FILE, true);
+    public static void saveBackup(HeroClass heroClass) throws IOException {
+        saveGame(Utils.format(BACKUP_GAME_FILE, heroClass.title()));
+        saveLevel(Utils.format(BACKUP_DEPTH_FILE, heroClass.title(), depth));
+    }
+
+    public static void loadBackupGame(HeroClass heroClass) throws IOException {
+        loadGame(Utils.format(BACKUP_GAME_FILE, heroClass.title()), true);
     }
 
     // used in InterlevelSchene.restore()
@@ -604,15 +609,22 @@ public class Dungeon {
     }
 
     public static Level loadLevel(HeroClass cl) throws IOException {
+        return loadLevel(Utils.format(depthFile(cl), depth));
+    }
 
+    public static Level loadLevel(String file) throws IOException {
         Dungeon.level = null;
         Actor.clear();
 
-        InputStream input = Game.instance.openFileInput(Utils.format(depthFile(cl), depth));
+        InputStream input = Game.instance.openFileInput(file);
         Bundle bundle = Bundle.read(input);
         input.close();
 
         return loadLevelFromBundle(bundle);
+    }
+
+    public static Level loadBackupLevel(HeroClass heroClass) throws IOException {
+        return loadLevel(Utils.format(BACKUP_DEPTH_FILE, heroClass.title(), depth));
     }
 
     public static Level loadLevelFromBundle(Bundle bundle) {

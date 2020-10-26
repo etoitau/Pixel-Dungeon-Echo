@@ -332,21 +332,34 @@ public class InterlevelScene extends PixelScene {
     }
 
     private void restore() throws Exception {
-
+        if (StartScene.curClass == null) {
+            Game.switchScene(StartScene.class);
+            return;
+        }
         Actor.fixTime();
         GameLog.wipe();
         try {
             Dungeon.loadGame(StartScene.curClass);
-            assert (Dungeon.hero != null);
-        } catch (AssertionError e) {
-            Dungeon.loadBackupGame();
-        }
-        if (Dungeon.depth == -1) {
-            Dungeon.depth = Statistics.deepestFloor;
-            Dungeon.switchLevel(Dungeon.loadLevel(StartScene.curClass), -1);
-        } else {
-            Level level = Dungeon.loadLevel(StartScene.curClass);
-            Dungeon.switchLevel(level, Level.resizingNeeded ? level.adjustPos(Dungeon.hero.pos) : Dungeon.hero.pos);
+            if (Dungeon.depth == -1) {
+                Dungeon.depth = Statistics.deepestFloor;
+                Dungeon.switchLevel(Dungeon.loadLevel(StartScene.curClass), -1);
+            } else {
+                Level level = Dungeon.loadLevel(StartScene.curClass);
+                Dungeon.switchLevel(level, Level.resizingNeeded ? level.adjustPos(Dungeon.hero.pos) : Dungeon.hero.pos);
+            }
+            // If load is successful, set as new backup
+            Dungeon.saveBackup(StartScene.curClass);
+        } catch (Exception e) {
+            // Load failed, try again with backup of last successful load
+            Dungeon.loadBackupGame(StartScene.curClass);
+            StartScene.curClass = Dungeon.hero.heroClass;
+            if (Dungeon.depth == -1) {
+                Dungeon.depth = Statistics.deepestFloor;
+                Dungeon.switchLevel(Dungeon.loadBackupLevel(StartScene.curClass), -1);
+            } else {
+                Level level = Dungeon.loadBackupLevel(StartScene.curClass);
+                Dungeon.switchLevel(level, Dungeon.hero.pos);
+            }
         }
     }
 
